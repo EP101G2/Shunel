@@ -9,36 +9,29 @@
     <fragment
         android:id="@+id/fragment"
         android:name="com.ed.shunel.Fragment2"
-<<<<<<< HEAD
         android:label="fragment_2"
+        tools:layout="@layout/fragment_2">
 
-
-
-        tools:layout="@layout/fragment_2" >
-=======
-        android:label="fragment_2">
-
->>>>>>> 4395c38302fcc4d890254ff257fbebd718c5e2d2
         <action
             android:id="@+id/action_fragment2_to_sam"
             app:destination="@id/sam" />
     </fragment>
 
-<!--    -->
+    <!--    -->
     <fragment
         android:id="@+id/sam"
         android:name="com.ed.shunel.Sam"
         android:label="fragment_sam"
-        tools:layout="@layout/fragment_sam" >
-    <action
+        tools:layout="@layout/fragment_sam">
+        <action
             android:id="@+id/action_fragment_to_fragment_PopularProduct"
             app:destination="@id/fragment_PopularProduct" />
-</fragment>
+    </fragment>
     <fragment
         android:id="@+id/fragment_PopularProduct"
         android:name="com.ed.shunel.Fragment_PopularProduct"
         android:label="fragment__popular_product"
-        tools:layout="@layout/fragment__popular_product" >
+        tools:layout="@layout/fragment__popular_product">
         <action
             android:id="@+id/action_fragment_PopularProduct_to_fragment_product"
             app:destination="@id/fragment_product" />
@@ -48,21 +41,15 @@
         android:name="com.ed.shunel.Fragment_product"
         android:label="fragment_product"
 
-        tools:layout="@layout/fragment_product" >
+        tools:layout="@layout/fragment_product">
         <action
             android:id="@+id/action_fragment_product_to_notice_Fragment"
             app:destination="@id/notice_Fragment" />
     </fragment>
-<<<<<<< HEAD
 
-        tools:layout="@layout/fragment_product" />
-
+  
 
 
-        tools:layout="@layout/fragment_2" />
-=======
-
->>>>>>> 4395c38302fcc4d890254ff257fbebd718c5e2d2
     <fragment
         android:id="@+id/notice_Fragment"
         android:name="com.ed.shunel.Notice_Fragment"
