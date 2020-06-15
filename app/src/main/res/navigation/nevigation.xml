@@ -9,7 +9,7 @@
         android:id="@+id/fragment"
         android:name="com.ed.shunel.Fragment2"
         android:label="fragment_2"
-<<<<<<< HEAD
+
         tools:layout="@layout/fragment_2" >
         <action
             android:id="@+id/action_fragment_to_fragment_PopularProduct"
@@ -29,8 +29,7 @@
         android:name="com.ed.shunel.Fragment_product"
         android:label="fragment_product"
         tools:layout="@layout/fragment_product" />
-=======
-        tools:layout="@layout/fragment_2" />
+
     <fragment
         android:id="@+id/notice_Fragment"
         android:name="com.ed.shunel.Notice_Fragment"
