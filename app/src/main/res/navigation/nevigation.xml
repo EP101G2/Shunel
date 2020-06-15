@@ -19,6 +19,8 @@
             android:id="@+id/action_fragment2_to_sam"
             app:destination="@id/sam" />
     </fragment>
+
+<!--    -->
     <fragment
         android:id="@+id/sam"
         android:name="com.ed.shunel.Sam"
@@ -41,9 +43,22 @@
         android:id="@+id/fragment_product"
         android:name="com.ed.shunel.Fragment_product"
         android:label="fragment_product"
+<<<<<<< HEAD
+        tools:layout="@layout/fragment_product" >
+        <action
+            android:id="@+id/action_fragment_product_to_notice_Fragment"
+            app:destination="@id/notice_Fragment" />
+    </fragment>
+=======
         tools:layout="@layout/fragment_product" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+
+=======
+>>>>>>> 7c25a7d76498a38b19fb6ef62559b31d43d2f945
+>>>>>>> 463b2ebeeb2c541170828f4a86adef6187b63d9b
         tools:layout="@layout/fragment_2" />
 >>>>>>> 470100114b5e65fb980c9736587dd3a261f5772f
     <fragment
