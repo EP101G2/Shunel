@@ -1,0 +1,2 @@
+rootProject.name='Shunel'
+include ':app'
