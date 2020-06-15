@@ -3,15 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nevigation"
-    app:startDestination="@id/fragment">
+    app:startDestination="@id/fragment"
+    tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/fragment"
         android:name="com.ed.shunel.Fragment2"
         android:label="fragment_2"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 470100114b5e65fb980c9736587dd3a261f5772f
         tools:layout="@layout/fragment_2" >
         <action
+            android:id="@+id/action_fragment2_to_sam"
+            app:destination="@id/sam" />
+    </fragment>
+    <fragment
+        android:id="@+id/sam"
+        android:name="com.ed.shunel.Sam"
+        android:label="fragment_sam"
+        tools:layout="@layout/fragment_sam" >
+    <action
             android:id="@+id/action_fragment_to_fragment_PopularProduct"
             app:destination="@id/fragment_PopularProduct" />
 </fragment>
@@ -29,10 +42,17 @@
         android:name="com.ed.shunel.Fragment_product"
         android:label="fragment_product"
         tools:layout="@layout/fragment_product" />
+<<<<<<< HEAD
+=======
+        tools:layout="@layout/fragment_2" />
+>>>>>>> 470100114b5e65fb980c9736587dd3a261f5772f
     <fragment
         android:id="@+id/notice_Fragment"
         android:name="com.ed.shunel.Notice_Fragment"
         android:label="fragment_notice_"
         tools:layout="@layout/fragment_notice_" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> 470100114b5e65fb980c9736587dd3a261f5772f
 </navigation>
