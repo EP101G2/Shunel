@@ -3,19 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nevigation"
-    app:startDestination="@id/fragment"
+    app:startDestination="@id/sam"
     tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/fragment"
         android:name="com.ed.shunel.Fragment2"
-<<<<<<< HEAD
         android:label="fragment_2" >
-=======
-        android:label="fragment_2"
-        tools:layout="@layout/fragment_2">
->>>>>>> 432a1f6125bff06aab5c06a02ea9eb85a7fe0b3d
-
         <action
             android:id="@+id/action_fragment2_to_sam"
             app:destination="@id/sam" />
@@ -44,12 +38,9 @@
         android:id="@+id/fragment_product"
         android:name="com.ed.shunel.Fragment_product"
         android:label="fragment_product"
-<<<<<<< HEAD
-        tools:layout="@layout/fragment_product" />
+        tools:layout="@layout/fragment_product" >
 
-=======
 
-        tools:layout="@layout/fragment_product">
         <action
             android:id="@+id/action_fragment_product_to_notice_Fragment"
             app:destination="@id/notice_Fragment" />
@@ -58,7 +49,6 @@
   
 
 
->>>>>>> 432a1f6125bff06aab5c06a02ea9eb85a7fe0b3d
     <fragment
         android:id="@+id/notice_Fragment"
         android:name="com.ed.shunel.Notice_Fragment"

@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="首頁" />
-    <item android:title="通知" />
-    <item android:title="購物車" />
-    <item android:title="會員專區" />
+
+    <item
+        android:id="@+id/sam"
+        android:title="首頁" />
+    <item
+        android:id="@+id/notice_Fragment"
+        android:title="通知" />
+    <item
+        android:id="@id/fragment_product"
+        android:title="購物車" />
+
 </menu>
