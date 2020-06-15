@@ -9,12 +9,8 @@
     <fragment
         android:id="@+id/fragment"
         android:name="com.ed.shunel.Fragment2"
-        android:label="fragment_2"
-<<<<<<< HEAD
+        android:label="fragment_2" >
 
-=======
->>>>>>> 470100114b5e65fb980c9736587dd3a261f5772f
-        tools:layout="@layout/fragment_2" >
         <action
             android:id="@+id/action_fragment2_to_sam"
             app:destination="@id/sam" />
@@ -42,11 +38,7 @@
         android:name="com.ed.shunel.Fragment_product"
         android:label="fragment_product"
         tools:layout="@layout/fragment_product" />
-<<<<<<< HEAD
 
-=======
-        tools:layout="@layout/fragment_2" />
->>>>>>> 470100114b5e65fb980c9736587dd3a261f5772f
     <fragment
         android:id="@+id/notice_Fragment"
         android:name="com.ed.shunel.Notice_Fragment"
