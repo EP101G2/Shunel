@@ -9,6 +9,7 @@
         android:id="@+id/fragment2"
         android:name="com.ed.shunel.Fragment2"
         android:label="fragment_2"
+<<<<<<< HEAD
         tools:layout="@layout/fragment_2" >
         <action
             android:id="@+id/action_fragment2_to_sam"
@@ -19,4 +20,12 @@
         android:name="com.ed.shunel.Sam"
         android:label="fragment_sam"
         tools:layout="@layout/fragment_sam" />
+=======
+        tools:layout="@layout/fragment_2" />
+    <fragment
+        android:id="@+id/notice_Fragment"
+        android:name="com.ed.shunel.Notice_Fragment"
+        android:label="fragment_notice_"
+        tools:layout="@layout/fragment_notice_" />
+>>>>>>> 6262048263530ecaac997324eed471f69599e1e1
 </navigation>
