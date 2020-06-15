@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nevigation"
+    app:startDestination="@id/fragment">
+
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.ed.shunel.Fragment2"
+        android:label="fragment_2"
+        tools:layout="@layout/fragment_2" >
+        <action
+            android:id="@+id/action_fragment_to_fragment_PopularProduct"
+            app:destination="@id/fragment_PopularProduct" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_PopularProduct"
+        android:name="com.ed.shunel.Fragment_PopularProduct"
+        android:label="fragment__popular_product"
+        tools:layout="@layout/fragment__popular_product" >
+        <action
+            android:id="@+id/action_fragment_PopularProduct_to_fragment_product"
+            app:destination="@id/fragment_product" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_product"
+        android:name="com.ed.shunel.Fragment_product"
+        android:label="fragment_product"
+        tools:layout="@layout/fragment_product" />
+</navigation>
