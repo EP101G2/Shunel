@@ -3,13 +3,25 @@
 
 
     <item
-        android:id="@+id/sam"
-        android:title="首頁" />
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home_icon"
+        android:title="首頁"
+        />
     <item
-        android:id="@+id/notice_Fragment"
+        android:id="@+id/noticeFragment"
+        android:icon="@drawable/notice_icon"
         android:title="通知" />
     <item
-        android:id="@id/fragment_product"
+        android:id="@id/shoppingcartFragment"
+        android:icon="@drawable/shoppingcart_icon"
         android:title="購物車" />
+
+    <item
+        android:id="@id/memberFragment"
+        android:title="會員中心"
+        android:icon="@drawable/member_icon"
+
+        />
+
 
 </menu>

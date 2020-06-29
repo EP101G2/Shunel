@@ -3,56 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nevigation"
-    app:startDestination="@id/sam"
-    tools:ignore="UnusedNavigation">
-
+    tools:ignore="UnusedNavigation"
+    app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/fragment"
-        android:name="com.ed.shunel.Fragment2"
-        android:label="fragment_2" >
-        <action
-            android:id="@+id/action_fragment2_to_sam"
-            app:destination="@id/sam" />
-    </fragment>
-
-    <!--    -->
+        android:id="@+id/homeFragment"
+        android:name="com.ed.shunel.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/sam"
-        android:name="com.ed.shunel.Sam"
-        android:label="fragment_sam"
-        tools:layout="@layout/fragment_sam">
-        <action
-            android:id="@+id/action_fragment_to_fragment_PopularProduct"
-            app:destination="@id/fragment_PopularProduct" />
-    </fragment>
+        android:id="@+id/noticeFragment"
+        android:name="com.ed.shunel.NoticeFragment"
+        android:label="fragment_notice"
+        tools:layout="@layout/fragment_notice" />
     <fragment
-        android:id="@+id/fragment_PopularProduct"
-        android:name="com.ed.shunel.Fragment_PopularProduct"
-        android:label="fragment__popular_product"
-        tools:layout="@layout/fragment__popular_product">
-        <action
-            android:id="@+id/action_fragment_PopularProduct_to_fragment_product"
-            app:destination="@id/fragment_product" />
-    </fragment>
+        android:id="@+id/shoppingcartFragment"
+        android:name="com.ed.shunel.ShoppingcartFragment"
+        android:label="fragment_shoppingcart"
+        tools:layout="@layout/fragment_shoppingcart" />
     <fragment
-        android:id="@+id/fragment_product"
-        android:name="com.ed.shunel.Fragment_product"
-        android:label="fragment_product"
-        tools:layout="@layout/fragment_product" >
-
-
-        <action
-            android:id="@+id/action_fragment_product_to_notice_Fragment"
-            app:destination="@id/notice_Fragment" />
-    </fragment>
-
-  
-
-
-    <fragment
-        android:id="@+id/notice_Fragment"
-        android:name="com.ed.shunel.Notice_Fragment"
-        android:label="fragment_notice_"
-        tools:layout="@layout/fragment_notice_" />
-
+        android:id="@+id/memberFragment"
+        android:name="com.ed.shunel.MemberFragment"
+        android:label="fragment_member"
+        tools:layout="@layout/fragment_member" />
 </navigation>
