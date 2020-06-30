@@ -3,4 +3,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- 建立標籤字串-->
+    <string name="Popular_product">Popular product</string>
+    <string name="Promotion">Promotion</string>
+    <string name="All">All</string>
+    <string name="Perfume_necklace">Perfume Necklace</string>
+    <string name="Fragrance_earrings">Fragrance Earrings</string>
+    <string name="Necklace">Necklace</string>
+    <string name="Earrings">Earrings</string>
 </resources>
