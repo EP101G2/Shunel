@@ -25,4 +25,9 @@
         android:name="com.ed.shunel.MemberFragment"
         android:label="fragment_member"
         tools:layout="@layout/fragment_member" />
+    <fragment
+        android:id="@+id/labelFragment"
+        android:name="com.ed.shunel.LabelFragment"
+        android:label="fragment_label"
+        tools:layout="@layout/fragment_label" />
 </navigation>
