@@ -67,6 +67,7 @@
 
             <Button
                 android:id="@+id/btSpc"
+                android:background="#FFFFFF"
                 android:layout_width="365dp"
                 android:layout_height="56dp"
                 android:paddingLeft="20dp"
@@ -91,6 +92,7 @@
 
             <Button
                 android:id="@+id/btVer"
+                android:background="#FFFFFF"
                 android:layout_width="365dp"
                 android:layout_height="56dp"
                 android:paddingLeft="20dp"
