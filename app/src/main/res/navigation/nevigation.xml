@@ -29,6 +29,9 @@
 
             android:id="@+id/action_memberFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_settingFragment2"
+            app:destination="@id/settingFragment2" />
 
     </fragment>
     <fragment
@@ -42,4 +45,9 @@
         android:name="com.ed.shunel.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/settingFragment2"
+        android:name="com.ed.shunel.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 </navigation>
