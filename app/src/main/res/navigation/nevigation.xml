@@ -24,10 +24,19 @@
         android:id="@+id/memberFragment"
         android:name="com.ed.shunel.MemberFragment"
         android:label="fragment_member"
-        tools:layout="@layout/fragment_member" />
+        tools:layout="@layout/fragment_member" >
+        <action
+            android:id="@+id/action_memberFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/labelFragment"
         android:name="com.ed.shunel.LabelFragment"
         android:label="fragment_label"
         tools:layout="@layout/fragment_label" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ed.shunel.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

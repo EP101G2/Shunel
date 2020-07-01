@@ -22,7 +22,7 @@
         android:title="購物車" />
 
     <item
-        android:id="@id/memberFragment"
+        android:id="@+id/memberFragment"
         android:title="會員中心"
         android:icon="@drawable/member_icon"
 
