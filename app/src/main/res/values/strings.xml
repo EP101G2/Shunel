@@ -12,4 +12,10 @@
     <string name="Fragrance_earrings">香氛耳環</string>
     <string name="Necklace">項鍊</string>
     <string name="Earrings">耳環</string>
+    <string name="pushOnOff">推播通知</string>
+    <string name="modify_information">資料修改</string>
+    <string name="app_specification">APP規範</string>
+    <string name="APP_version">App版本</string>
+    <string name="sign_out">登出</string>
+    <string name="setting">設定</string>
 </resources>
