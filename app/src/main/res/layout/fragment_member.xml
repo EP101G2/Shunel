@@ -97,7 +97,7 @@
                 android:layout_gravity="center|left"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/photos_pink" />
+                android:background="@drawable/chatboxes_pink" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                 android:layout_gravity="center|left"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/heart_full" />
+                android:background="@drawable/order_pink" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
                 android:layout_gravity="center|left"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/photos_pink" />
+                android:background="@drawable/history" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
                 android:layout_gravity="center|left"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/photos_pink" />
+                android:background="@drawable/settings_pink" />
 
             <TextView
                 android:layout_width="wrap_content"
