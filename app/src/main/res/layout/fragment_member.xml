@@ -63,27 +63,7 @@
         app:layout_constraintTop_toTopOf="@+id/view3">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|left"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/photos_pink" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginLeft="60dp"
-                android:gravity="center|left"
-                android:text="@string/history"
-                android:textSize="20sp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
+            android:id="@+id/cvLike"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -107,6 +87,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -128,6 +109,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvOrderlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -149,8 +131,9 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvHistory"
             android:layout_width="match_parent"
-            android:layout_height="48dp" >
+            android:layout_height="wrap_content">
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -166,6 +149,28 @@
                 android:layout_marginLeft="60dp"
                 android:gravity="center|left"
                 android:text="@string/history"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvSetting"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/photos_pink" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:gravity="center|left"
+                android:text="@string/setting"
                 android:textSize="20sp" />
         </androidx.cardview.widget.CardView>
 
