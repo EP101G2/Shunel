@@ -12,6 +12,7 @@
     <string name="Fragrance_earrings">香氛耳環</string>
     <string name="Necklace">項鍊</string>
     <string name="Earrings">耳環</string>
+
     <string name="typename">請輸入文字</string>
     <string name="typepassword">請輸入密碼</string>
     <string name="confirmpassword">請再次輸入密碼</string>
@@ -20,5 +21,11 @@
     <string name="chat">提問</string>
     <string name="orderlist">訂單詳情</string>
     <string name="history">瀏覽紀錄</string>
+
+    <string name="pushOnOff"> 推播通知</string>
+    <string name="modify_information">資料修改</string>
+    <string name="app_specification">APP規範</string>
+    <string name="APP_version">App版本</string>
+    <string name="sign_out">登出</string>
     <string name="setting">設定</string>
 </resources>
