@@ -6,14 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.ed.shunel.bean.Shopping_Cart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ShoppingcartFragment extends Fragment {
     private static final String TAG="TAG_ShoppingcartFragment";
     private Activity activity;
     private RecyclerView rv_Shopping_Cart;
-    private List<Shopping_Cart> shopping_cartList;
+    private List<Product> shopping_cartList;
     public ShoppingcartFragment() {
         // Required empty public constructor
     }
@@ -77,11 +78,14 @@ public class ShoppingcartFragment extends Fragment {
 
     }
 
-    private List<Shopping_Cart> getDate() {
+    private List<Product> getDate() {
 
-        List<Shopping_Cart> shoppingCarts = new ArrayList<>();
-        shoppingCarts.add(new Shopping_Cart(01,01,1));
-        shoppingCarts.add(new Shopping_Cart(02,04,1));
+        List<Product> shoppingCarts = new ArrayList<>();
+        shoppingCarts.add(new Product(1,"測試","黑色",203,"內容",1,1));
+        shoppingCarts.add(new Product(1,"測試","黑色",203,"內容",1,1));
+        shoppingCarts.add(new Product(1,"測試","黑色",203,"內容",1,1));
+        shoppingCarts.add(new Product(1,"測試","黑色",203,"內容",1,1));
+        shoppingCarts.add(new Product(1,"測試","黑色",203,"內容",1,1));
 
 
         return shoppingCarts;
@@ -96,11 +100,11 @@ public class ShoppingcartFragment extends Fragment {
 
     }
 
-    private class shopp_cart_adprer extends RecyclerView.Adapter {
+    private class shopp_cart_adprer extends RecyclerView.Adapter <shopp_cart_adprer.Myviewholder>{
         Context context;
-        List<Shopping_Cart> shopping_cartList;
+        List<Product> shopping_cartList;
 
-        public shopp_cart_adprer(Context context, List<Shopping_Cart> shopping_cartList) {
+        public shopp_cart_adprer(Context context, List<Product> shopping_cartList) {
             this.context=context;
             this.shopping_cartList=shopping_cartList;
 
@@ -108,20 +112,48 @@ public class ShoppingcartFragment extends Fragment {
 
         @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view= LayoutInflater.from(context).inflate(R.layout.fragment_shoppingcart_itemview,parent,false);
 
-//            return new Myviewholder(view);
+            return new Myviewholder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
+
+            Product product = shopping_cartList.get(position);
+            holder.tv_Name.setText(product.getProduct_Name());
 
         }
 
         @Override
         public int getItemCount() {
             return shopping_cartList.size();
+        }
+
+        private class Myviewholder extends RecyclerView.ViewHolder {
+            CheckBox checkBox;
+            ImageView iv_Prouct;
+            TextView tv_Name;
+            TextView tv_specification;
+            TextView tv_Price;
+            TextView tv_Add;
+            TextView tv_Count;
+            TextView tv_Less;
+
+
+            public Myviewholder(View view) {
+                super(view);
+                checkBox=view.findViewById(R.id.checkBox);
+                iv_Prouct=view.findViewById(R.id.iv_Prouct);
+                tv_Name=view.findViewById(R.id.tv_Name);
+                tv_specification=view.findViewById(R.id.tv_specification);
+                tv_Price=view.findViewById(R.id.tv_Price);
+                tv_Add= view.findViewById(R.id.tv_Add);
+                tv_Count = view.findViewById(R.id.tv_Count);
+                tv_Less = view.findViewById(R.id.tv_Less);
+
+            }
         }
     }
 }

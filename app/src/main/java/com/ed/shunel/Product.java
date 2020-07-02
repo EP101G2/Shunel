@@ -28,8 +28,16 @@ public class Product implements Serializable {
         this.prouct_Price = prouct_Price;
         this.img = img;
     }
-
-
+    //測試購物車的假資料 jack
+    public Product(int prouct_ID, String prouct_Name, String prouct_Color, int prouct_Price, String prouct_Ditail, int prouct_Category_ID, int prouct_Status) {
+        this.prouct_ID = prouct_ID;
+        this.prouct_Name = prouct_Name;
+        this.prouct_Color = prouct_Color;
+        this.prouct_Price = prouct_Price;
+        this.prouct_Ditail = prouct_Ditail;
+        this.prouct_Category_ID = prouct_Category_ID;
+        this.prouct_Status = prouct_Status;
+    }
 
     public Product(int prouct_ID, String prouct_Name, String prouct_Color, int prouct_Price, String prouct_Ditail,
                    int prouct_Category_ID, int prouct_Status, Timestamp prouct_MODIFY_DATE) {
