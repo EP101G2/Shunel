@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:id="@+id/btSpc"
                 android:layout_width="365dp"
                 android:layout_height="56dp"
@@ -93,7 +93,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:id="@+id/btVer"
                 android:layout_width="365dp"
                 android:layout_height="56dp"
