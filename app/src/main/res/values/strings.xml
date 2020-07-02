@@ -28,13 +28,4 @@
     <string name="APP_version">App版本</string>
     <string name="sign_out">登出</string>
     <string name="setting">設定</string>
-    <string name="typephonenumber">請輸入手機號碼</string>
-    <string name="retypePassword">請再次輸入密碼</string>
-    <string name="register">5j4hk4</string>
-    <string name="registerNow">立即註冊</string>
-    <string name="forgetPassword">忘記密碼</string>
-    <string name="sendVCode">寄送驗證碼</string>
-    <string name="typeNewPassword">請輸入新密碼</string>
-    <string name="typeNewPassword2">請再次輸入新密碼</string>
-    <string name="send">送出</string>
 </resources>
