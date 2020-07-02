@@ -9,13 +9,19 @@ import com.ed.shunel.LabelFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
     private static final int CARD_ITEM_SIZE = 7;
+
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
-    @NonNull @Override public Fragment createFragment(int position) {
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
         return LabelFragment.newInstance(position);
     }
-    @Override public int getItemCount() {
+
+    @Override
+    public int getItemCount() {
         return CARD_ITEM_SIZE;
     }
 }
