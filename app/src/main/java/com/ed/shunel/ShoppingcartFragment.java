@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,13 +97,21 @@ public class ShoppingcartFragment extends Fragment {
     }
 
     private class shopp_cart_adprer extends RecyclerView.Adapter {
-        public shopp_cart_adprer(Activity activity, List<Shopping_Cart> shopping_cartList) {
+        Context context;
+        List<Shopping_Cart> shopping_cartList;
+
+        public shopp_cart_adprer(Context context, List<Shopping_Cart> shopping_cartList) {
+            this.context=context;
+            this.shopping_cartList=shopping_cartList;
+
         }
 
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return null;
+            View view= LayoutInflater.from(context).inflate(R.layout.fragment_shoppingcart_itemview,parent,false);
+
+//            return new Myviewholder(view);
         }
 
         @Override
@@ -112,7 +121,7 @@ public class ShoppingcartFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 0;
+            return shopping_cartList.size();
         }
     }
 }
