@@ -28,9 +28,6 @@ public class HomeFragment extends Fragment {
     ViewPager2 viewPager;
     private int[] label={R.string.Popular_product,R.string.Promotion,R.string.All,R.string.Perfume_necklace,R.string.Fragrance_earrings,R.string.Necklace,R.string.Earrings};
 
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +55,13 @@ public class HomeFragment extends Fragment {
                 new TabLayoutMediator.TabConfigurationStrategy() {
                     @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                         tab.setText(label[position]);
+
                     }
                 }).attach();
+
+
+
+
         viewPager.setPageTransformer(new ZoomOutPageTransformer());
     }
 

@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.ed.shunel.AllProductFragment;
 import com.ed.shunel.LabelFragment;
+import com.ed.shunel.NoticeFragment;
+import com.ed.shunel.SettingFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
     private static final int CARD_ITEM_SIZE = 7;
@@ -14,14 +17,26 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         super(fragmentActivity);
     }
 
-    @NonNull
-    @Override
-    public Fragment createFragment(int position) {
-        return LabelFragment.newInstance(position);
-    }
-
     @Override
     public int getItemCount() {
         return CARD_ITEM_SIZE;
     }
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+
+        switch (position){
+            case 0:
+                return new NoticeFragment() ;
+            case 1:
+                return new SettingFragment();
+            case 2:
+                return new AllProductFragment();
+        }
+
+
+        return LabelFragment.newInstance(position);
+    }
+
 }
