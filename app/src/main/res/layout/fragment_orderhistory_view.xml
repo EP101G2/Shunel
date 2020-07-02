@@ -25,7 +25,8 @@
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            tools:srcCompat="@drawable/heart_empty" />
+            tools:srcCompat="@drawable/heart_empty"
+            android:layout_marginLeft="16dp" />
 
         <TextView
             android:id="@+id/tvOrderNumText"
@@ -37,7 +38,9 @@
             android:text="@string/textOrderNumText"
             android:textColor="#707070"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic"/>
+            app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="72dp" />
 
         <TextView
             android:id="@+id/tvOrderNum"
@@ -47,7 +50,8 @@
             android:layout_marginTop="16dp"
             android:text="@string/textOrderNum"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/tvOrderNumText" />
+            app:layout_constraintStart_toEndOf="@+id/tvOrderNumText"
+            android:layout_marginLeft="152dp" />
 
         <TextView
             android:id="@+id/tvOrderStatusText"
@@ -57,7 +61,8 @@
             android:layout_marginTop="40dp"
             android:text="@string/textOrderStatusText"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic"/>
+            app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic"
+            android:layout_marginLeft="72dp" />
 
         <TextView
             android:id="@+id/tvOrderStatus"
