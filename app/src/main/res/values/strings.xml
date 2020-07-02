@@ -28,4 +28,32 @@
     <string name="APP_version">App版本</string>
     <string name="sign_out">登出</string>
     <string name="setting">設定</string>
+
+    <string name="typephonenumber">請輸入手機號碼</string>
+    <string name="retypePassword">請再次輸入密碼</string>
+    <string name="register">5j4hk4</string>
+    <string name="registerNow">立即註冊</string>
+    <string name="forgetPassword">忘記密碼</string>
+    <string name="sendVCode">寄送驗證碼</string>
+    <string name="typeNewPassword">請輸入新密碼</string>
+    <string name="typeNewPassword2">請再次輸入新密碼</string>
+    <string name="send">送出</string>
+
+
+   
+    <string name="tvOrderHisTitle">訂購記錄</string>
+    <string name="textOrderNumText">訂單編號：</string>
+    <string name="textOrderStatusText">訂購狀態：</string>
+    <string name="textNotYetDelivered">未出貨</string>
+    <string name="textDelivered">已出貨</string>
+    <string name="textReceived">已送達</string>
+    <string name="textCanceled">已取消</string>
+    <string name="textRefunds">已退貨</string>
+    <string name="textOrderNum" />
+    <string name="textOrderStatus" />
+    <string name="textTotalPriceText">總金額：</string>
+
+    <string name="news">最新消息</string>
+    <string name="Notice">通知</string>
+
 </resources>

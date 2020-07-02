@@ -51,8 +51,27 @@
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
     <fragment
+
         android:id="@+id/allProductFragment"
         android:name="com.ed.shunel.AllProductFragment"
         android:label="fragment_all_product"
         tools:layout="@layout/fragment_all_product" />
+
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.ed.shunel.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/forgetpasswordFragment"
+        android:name="com.ed.shunel.ForgetpasswordFragment"
+        android:label="fragment_forgetpassword"
+        tools:layout="@layout/fragment_forgetpassword" />
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.ed.shunel.ResetPasswordFragment"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" />
+
 </navigation>
