@@ -29,7 +29,7 @@
     <string name="sign_out">登出</string>
     <string name="setting">設定</string>
 
-    <string name="app_name">訂單詳情</string>
+   
     <string name="tvOrderHisTitle">訂購記錄</string>
     <string name="textOrderNumText">訂單編號：</string>
     <string name="textOrderStatusText">訂購狀態：</string>
