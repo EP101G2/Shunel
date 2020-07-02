@@ -43,7 +43,7 @@
             android:orientation="horizontal"
             android:scrollbars="none">
 
-            <Button
+            <TextView
                 android:id="@+id/btModify"
                 android:layout_width="365dp"
                 android:layout_height="56dp"
