@@ -41,4 +41,6 @@
     <string name="textOrderNum" />
     <string name="textOrderStatus" />
     <string name="textTotalPriceText">總金額：</string>
+    <string name="news">最新消息</string>
+    <string name="Notice">通知</string>
 </resources>
