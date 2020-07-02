@@ -52,11 +52,12 @@
     <string name="textOrderNum" />
     <string name="textOrderStatus" />
     <string name="textTotalPriceText">總金額：</string>
-<<<<<<< HEAD
-=======
 
->>>>>>> 63b99a8954b548476a19fba57726f462d8724ce4
     <string name="news">最新消息</string>
     <string name="Notice">通知</string>
+    <string name="Shoppingcart">購物車</string>
+    <string name="product_Name">產品名稱</string>
+    <string name="tv_specification">規格</string>
+    <string name="tv_Price">價格</string>
 
 </resources>
