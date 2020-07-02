@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,7 @@ public class LabelFragment extends Fragment {
 
     private static final String ARG_COUNT = "param1";
     private Integer counter;
-    private int[] label={R.string.Popular_product,R.string.Promotion,R.string.All,R.string.Perfume_necklace,R.string.Fragrance_earrings,R.string.Necklace,R.string.Earrings};
+//    private int[] label={R.string.Popular_product,R.string.Promotion,R.string.All,R.string.Perfume_necklace,R.string.Fragrance_earrings,R.string.Necklace,R.string.Earrings};
     private Activity activity;
 
 
@@ -63,7 +64,7 @@ public class LabelFragment extends Fragment {
 
 
 //        view.setTooltipText(ContextCompat.);
-        view.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.ic_launcher_background));
+        view.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.ic_launcher_foreground));
 //        view.setTooltipText();
 //        view.setBackgroundColor(ContextCompat.getColor(getContext(), label[counter]));
 //        TextView textViewCounter = view.findViewById(R.id.tv_test);
