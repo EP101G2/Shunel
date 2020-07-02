@@ -30,8 +30,8 @@
 
         <Switch
             android:id="@+id/swPush"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_width="411dp"
+            android:layout_height="50dp"
             android:paddingLeft="20dp"
             android:text="@string/pushOnOff"
             android:textColor="#707070"
@@ -55,12 +55,13 @@
                 android:textSize="20dp" />
 
             <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="51dp"
-                android:layout_height="21dp"
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/nextpage" />
+                android:src="@drawable/arrow_forward_pink" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -80,12 +81,13 @@
                 android:textSize="20dp" />
 
             <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="56dp"
-                android:layout_height="21dp"
-                android:layout_gravity="center|left"
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/nextpage" />
+                android:src="@drawable/arrow_forward_pink" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -105,12 +107,13 @@
                 android:textSize="20dp" />
 
             <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="56dp"
-                android:layout_height="21dp"
-                android:layout_gravity="center|left"
+                android:id="@+id/imageView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/nextpage" />
+                android:src="@drawable/arrow_forward_pink" />
+
         </LinearLayout>
 
     </LinearLayout>

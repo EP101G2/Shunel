@@ -28,7 +28,7 @@
     <string name="APP_version">App版本</string>
     <string name="sign_out">登出</string>
     <string name="setting">設定</string>
-<<<<<<< HEAD
+
     <string name="typephonenumber">請輸入手機號碼</string>
     <string name="retypePassword">請再次輸入密碼</string>
     <string name="register">5j4hk4</string>
@@ -52,10 +52,8 @@
     <string name="textOrderNum" />
     <string name="textOrderStatus" />
     <string name="textTotalPriceText">總金額：</string>
-<<<<<<< HEAD
+
     <string name="news">最新消息</string>
     <string name="Notice">通知</string>
-=======
->>>>>>> a49434dfec7bda2bce786e55a3526263ad79f36e
->>>>>>> 928d5f2fd490442f3313c9507a198b9879a39573
+
 </resources>
