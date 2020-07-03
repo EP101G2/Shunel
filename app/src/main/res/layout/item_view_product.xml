@@ -8,24 +8,26 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     app:cardCornerRadius="4dp">
+<!--
+
+    cardCornerRadius 修改四角圓弧
+-->
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
 
         android:id="@+id/cardView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       >
-<!--        android:layout_marginStart="1dp"-->
-<!--        android:layout_marginLeft="1dp"-->
-<!--        android:layout_marginEnd="1dp"-->
-<!--        android:layout_marginRight="1dp"-->
+        android:layout_height="wrap_content">
+
 
 
         <ImageView
             android:id="@+id/ivcardIMG"
-            android:layout_width="167dp"
-            android:layout_height="153dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_popup_sync" />
