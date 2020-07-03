@@ -28,7 +28,7 @@
     <string name="APP_version">App版本</string>
     <string name="sign_out">登出</string>
     <string name="setting">設定</string>
-<<<<<<< HEAD
+
     <string name="typephonenumber">請輸入手機號碼</string>
     <string name="retypePassword">請再次輸入密碼</string>
     <string name="register">5j4hk4</string>
@@ -38,7 +38,6 @@
     <string name="typeNewPassword">請輸入新密碼</string>
     <string name="typeNewPassword2">請再次輸入新密碼</string>
     <string name="send">送出</string>
-=======
 
    
     <string name="tvOrderHisTitle">訂購記錄</string>
@@ -52,5 +51,14 @@
     <string name="textOrderNum" />
     <string name="textOrderStatus" />
     <string name="textTotalPriceText">總金額：</string>
->>>>>>> a49434dfec7bda2bce786e55a3526263ad79f36e
+    <string name="textVCode">驗證碼輸入</string>
+    <string name="textVCodeMessage">您的帳號可能存在安全風險。為了確保為您本人操作，請先輸入手機收到之安全驗證碼。</string>
+    <string name="textYes">確認</string>
+    <string name="textNo">取消</string>
+    <string name="textPhonenumberEmpty">電話為空值</string>
+    <string name="textPasswordEmpty">密碼為空值</string>
+    <string name="textPhonenumberOrPasswordEmpty">電話或密碼為空值</string>
+    <string name="textLogin">登入</string>
+
+
 </resources>

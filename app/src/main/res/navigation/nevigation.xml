@@ -26,10 +26,6 @@
         android:label="fragment_member"
         tools:layout="@layout/fragment_member" >
         <action
-
-            android:id="@+id/action_memberFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
             android:id="@+id/action_memberFragment_to_settingFragment2"
             app:destination="@id/settingFragment2" />
 
@@ -44,7 +40,11 @@
         android:id="@+id/loginFragment"
         android:name="com.ed.shunel.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment2"
         android:name="com.ed.shunel.SettingFragment"
