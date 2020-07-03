@@ -40,7 +40,6 @@
     <string name="send">送出</string>
 
 
-   
     <string name="tvOrderHisTitle">訂購記錄</string>
     <string name="textOrderNumText">訂單編號：</string>
     <string name="textOrderStatusText">訂購狀態：</string>
@@ -59,5 +58,6 @@
     <string name="product_Name">產品名稱</string>
     <string name="tv_specification">規格</string>
     <string name="tv_Price">價格</string>
+    <string name="tvbuy">直接購買</string>
 
 </resources>

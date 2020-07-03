@@ -7,14 +7,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="10dp">
 <!--
-
     cardCornerRadius 修改四角圓弧
 -->
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
 
 
