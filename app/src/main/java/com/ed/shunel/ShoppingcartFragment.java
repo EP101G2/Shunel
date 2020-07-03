@@ -2,6 +2,7 @@ package com.ed.shunel;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,19 +11,24 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -37,6 +43,8 @@ public class ShoppingcartFragment extends Fragment {
     private shopp_cart_adprer shopp_cart_adprer;
     private Button btn_next;
     private CheckBox checkbox_all;
+    private boolean isSelect = false;//全选按钮的状态
+    private List<Product>listdatas=new ArrayList<>();
 
     public ShoppingcartFragment() {
         // Required empty public constructor
@@ -82,10 +90,50 @@ public class ShoppingcartFragment extends Fragment {
         rv_Shopping_Cart.setAdapter(shopp_cart_adprer);
 
 
+        checkbox_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isSelect){
+                    isSelect=true;//全选
+//                    adapter.All();
+                    shopp_cart_adprer.All();
+//                    checkbox_all.setText("取消全");
+                }else{
+                    isSelect=false;//取消全选
+//                    adapter.neverall();
+                    shopp_cart_adprer.All();
+//                    checkbox_all.setText("全选");
+                }
+
+            }
+        });
+
 
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String  content="";
+                listdatas.clear();
+                Map<Integer, Boolean> map = shopp_cart_adprer.getMap();
+                for (int i = 0; i <shopping_cartList.size(); i++) {
+                    if (map.get(i)){
+                        listdatas.add(shopping_cartList.get(i));
+                    }
+                }
+                for (int j = 0; j <listdatas.size() ; j++) {
+                    content+=listdatas.get(j)+",";
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                if (content.length() == 0) {
+                    builder.setMessage(R.string.Nodata);
+                    builder.create().show();
+                } else {
+                   Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment);
+                }
+
+
+
 
             }
         });
@@ -127,10 +175,20 @@ public class ShoppingcartFragment extends Fragment {
     private class shopp_cart_adprer extends RecyclerView.Adapter<shopp_cart_adprer.Myviewholder> {
         Context context;
         List<Product> shopping_cartList;
+        private HashMap<Integer, Boolean> maps = new HashMap<Integer, Boolean>();//多选
 
         public shopp_cart_adprer(Context context, List<Product> shopping_cartList) {
             this.context = context;
             this.shopping_cartList = shopping_cartList;
+            initMap();
+        }
+
+        private void initMap() {
+
+            for (int i = 0; i <shopping_cartList.size() ; i++) {
+                maps.put(i,false);   //每一次进入列表页面  都是未选中状态
+            }
+
 
         }
 
@@ -143,13 +201,79 @@ public class ShoppingcartFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
+        public void onBindViewHolder(@NonNull Myviewholder holder, final int position) {
 
             Product product = shopping_cartList.get(position);
             holder.tv_Name.setText(product.getProduct_Name());
 
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Navigation.findNavController(v).navigate(R.id.productDetailFragment);
+                }
+            });
+
+            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    maps.put(position, isChecked);
+                }
+            });
+
+            if (maps.get(position) == null) {
+                maps.put(position, false);
+            }
+            //没有设置tag之前会有item重复选框出现，设置tag之后，此问题解决
+            holder.checkBox.setChecked(maps.get(position));
+
 
         }
+
+
+
+        //全选方法
+        public void All() {
+            Set<Map.Entry<Integer, Boolean>> entries = maps.entrySet();
+            boolean shouldall = false;
+            for (Map.Entry<Integer, Boolean> entry : entries) {
+                Boolean value = entry.getValue();
+                if (!value) {
+                    shouldall = true;
+                    break;
+                }
+            }
+            for (Map.Entry<Integer, Boolean> entry : entries) {
+                entry.setValue(shouldall);
+            }
+            notifyDataSetChanged();
+        }
+
+        //反选
+        public void neverall() {
+            Set<Map.Entry<Integer, Boolean>> entries = maps.entrySet();
+            for (Map.Entry<Integer, Boolean> entry : entries) {
+                entry.setValue(!entry.getValue());
+            }
+            notifyDataSetChanged();
+        }
+        //多选
+        public void MultiSelection(int position) {
+            //对当前状态取反
+            if (maps.get(position)) {
+                maps.put(position, false);
+            } else {
+                maps.put(position, true);
+            }
+            notifyItemChanged(position);
+        }
+
+        //获取最终的map存储数据
+        public Map<Integer, Boolean> getMap() {
+            return maps;
+        }
+
+
+
 
         @Override
         public int getItemCount() {

@@ -70,5 +70,9 @@
     <string name="default_data">預設</string>
     <string name="buyer_Address">地址:</string>
     <string name="new_address">新增地址</string>
+    <string name="buyer_add_name">ex:王小明</string>
+    <string name="buyer_add_phone">ex:0911111111</string>
+    <string name="buy_confirm">新增</string>
+    <string name="Nodata">購物車沒有東西～～</string>
 
 </resources>
