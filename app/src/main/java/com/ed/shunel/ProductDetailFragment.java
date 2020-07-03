@@ -42,12 +42,7 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ivCart = view.findViewById(R.id.ivCart);
-        ivCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.shoppingcartFragment);
-            }
-        });
+
+
     }
 }
