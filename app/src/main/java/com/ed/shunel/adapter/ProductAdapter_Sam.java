@@ -13,16 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ed.shunel.Product;
 import com.ed.shunel.R;
+import com.ed.shunel.Task.Common;
+import com.ed.shunel.Task.ImageTask;
 
 import java.util.List;
 
 public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.Myviewholder>{
     private Context context;
-    private List<Product> list;
+    private List<Product> products;
+    private ImageTask productimageTask;
+    private int imageSize;
 
     public ProductAdapter_Sam(Context context, List list) {
         this.context = context;
-        this.list = list;
+        this.products = list;
+        imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
     }
 
     @NonNull
@@ -34,11 +39,18 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
 
     @Override
     public void onBindViewHolder(@NonNull Myviewholder myviewholder, int position) {
+        final Product product = products.get(position);
+        String url = Common.URL_SERVER + "BookServlet";
+        int id_product = product.getProduct_ID();
+        productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
+        productimageTask.execute();
 
-        Product product = list.get(position);
-        myviewholder.tvname.setText(product.getProduct_Name());
-//        myviewholder.tvPrice.setText(product.getProduct_Price());
-        myviewholder.ivcardIMG.setImageResource(product.getImg());
+
+
+        myviewholder.tvname.setText(products.get(position).getProduct_Name());
+        myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
+
+//        myviewholder.ivcardIMG.setImageResource(product.getImg());
 
         myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +68,7 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return products.size();
     }
 
 

@@ -52,12 +52,25 @@
     <string name="textOrderStatus" />
     <string name="textTotalPriceText">總金額：</string>
 
+    <string name="textVCode">驗證碼輸入</string>
+    <string name="textVCodeMessage">您的帳號可能存在安全風險。為了確保為您本人操作，請先輸入手機收到之安全驗證碼。</string>
+    <string name="textYes">確認</string>
+    <string name="textNo">取消</string>
+    <string name="textPhonenumberEmpty">電話為空值</string>
+    <string name="textPasswordEmpty">密碼為空值</string>
+    <string name="textPhonenumberOrPasswordEmpty">電話或密碼為空值</string>
+    <string name="textLogin">登入</string>
+
     <string name="news">最新消息</string>
     <string name="Notice">通知</string>
     <string name="Shoppingcart">購物車</string>
     <string name="product_Name">產品名稱</string>
     <string name="tv_specification">規格</string>
     <string name="tv_Price">價格</string>
+    <string name="Search">搜尋</string>
+    <string name="searchPrompt">請輸入您想搜尋的商品</string>
+    <string name="searchHistory">搜尋紀錄</string >
+    <string name="clearSearch">清除搜尋紀錄</string>
     <string name="tvbuy">直接購買</string>
 
     <string name="nextpage">下一頁</string>
@@ -74,5 +87,6 @@
     <string name="buyer_add_phone">ex:0911111111</string>
     <string name="buy_confirm">新增</string>
     <string name="Nodata">購物車沒有東西～～</string>
+
 
 </resources>

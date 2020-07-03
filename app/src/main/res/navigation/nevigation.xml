@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nevigation"
-    tools:ignore="UnusedNavigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/homeFragment"
+    tools:ignore="UnusedNavigation">
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ed.shunel.HomeFragment"
@@ -19,7 +19,7 @@
         android:id="@+id/shoppingcartFragment"
         android:name="com.ed.shunel.ShoppingcartFragment"
         android:label="fragment_shoppingcart"
-        tools:layout="@layout/fragment_shoppingcart" >
+        tools:layout="@layout/fragment_shoppingcart">
         <action
             android:id="@+id/action_shoppingcartFragment_to_buyerFragment"
             app:destination="@id/buyerFragment" />
@@ -28,11 +28,7 @@
         android:id="@+id/memberFragment"
         android:name="com.ed.shunel.MemberFragment"
         android:label="fragment_member"
-        tools:layout="@layout/fragment_member" >
-        <action
-
-            android:id="@+id/action_memberFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+        tools:layout="@layout/fragment_member">
         <action
             android:id="@+id/action_memberFragment_to_settingFragment2"
             app:destination="@id/settingFragment2" />
@@ -48,7 +44,11 @@
         android:id="@+id/loginFragment"
         android:name="com.ed.shunel.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment2"
         android:name="com.ed.shunel.SettingFragment"
@@ -79,10 +79,19 @@
         tools:layout="@layout/fragment_reset_password" />
     <fragment
 
+
         android:id="@+id/buyerFragment"
         android:name="com.ed.shunel.BuyerFragment"
         android:label="fragment_buyer"
         tools:layout="@layout/fragment_buyer" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.ed.shunel.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+
+
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.ed.shunel.ProductDetailFragment"

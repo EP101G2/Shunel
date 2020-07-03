@@ -30,9 +30,8 @@ public class AllProductFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Product> list;
 
-    private CommonTask bookGetAllTask;
-    private CommonTask bookDeleteTask;
-    private ImageTask bookImageTask;
+
+
 
     public AllProductFragment() {
         // Required empty public constructor
@@ -53,9 +52,10 @@ public class AllProductFragment extends Fragment {
      //假資料
         list=new ArrayList<>();
 
-        list.add(new Product("test",1000,R.drawable.add));
-        list.add(new Product("test",1000,R.drawable.add));
-        list.add(new Product("test",1000,R.drawable.add));
+//        list.add(new Product("test",1000,R.drawable.add));
+//        list.add(new Product("test",1000,R.drawable.add));
+//        list.add(new Product("test",1000,R.drawable.add));
+
         return inflater.inflate(R.layout.fragment_all_product, container, false);
     }
 

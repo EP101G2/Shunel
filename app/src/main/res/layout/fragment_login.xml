@@ -47,7 +47,7 @@
         android:background="#FADDE6"
         android:text="@string/login"
         android:textColor="#707070"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/btFacebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
         app:layout_constraintVertical_bias="0.737" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btFacebook"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="24dp"
@@ -63,12 +63,12 @@
         android:layout_marginBottom="100dp"
         android:background="@drawable/facebook"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/btGoogle"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btGoogle"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="100dp"
@@ -76,10 +76,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button2" />
+        app:layout_constraintStart_toEndOf="@+id/btFacebook" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/tvRegisterNow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btLogin" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/tvForgetPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -99,4 +99,14 @@
         android:text="@string/forgetPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btLogin" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTypePassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

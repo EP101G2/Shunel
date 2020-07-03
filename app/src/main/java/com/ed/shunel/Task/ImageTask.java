@@ -21,7 +21,7 @@ import java.net.URL;
 public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
     private final static String TAG = "ImageTask";
     private String url;
-    private int isbn, imageSize;
+    private int id_product, imageSize;
     /* ImageTask的屬性strong參照到SpotListFragment內的imageView不好，
         會導致SpotListFragment進入背景時imageView被參照而無法被釋放，
         而且imageView會參照到Context，也會導致Activity無法被回收。
@@ -29,14 +29,14 @@ public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
     private WeakReference<ImageView> imageViewWeakReference;
 
     // 取單張圖片
-    public ImageTask(String url, int isbn, int imageSize) {
-        this(url, isbn, imageSize, null);
+    public ImageTask(String url, int id_product, int imageSize) {
+        this(url, id_product, imageSize, null);
     }
 
     // 取完圖片後使用傳入的ImageView顯示，適用於顯示多張圖片
-    public ImageTask(String url, int isbn, int imageSize, ImageView imageView) {
+    public ImageTask(String url, int id_product, int imageSize, ImageView imageView) {
         this.url = url;
-        this.isbn = isbn;
+        this.id_product = id_product;
         this.imageSize = imageSize;
         this.imageViewWeakReference = new WeakReference<>(imageView);
     }
@@ -48,7 +48,7 @@ public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getImage");
-        jsonObject.addProperty("id", isbn);
+        jsonObject.addProperty("id", id_product);
         jsonObject.addProperty("imageSize", imageSize);
         return getRemoteImage(url, jsonObject.toString());
     }
