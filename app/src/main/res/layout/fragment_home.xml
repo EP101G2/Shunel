@@ -11,10 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:background="@drawable/appbar"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <View
         android:id="@+id/view2"
         android:layout_width="125dp"
@@ -27,7 +25,6 @@
         app:layout_constraintEnd_toStartOf="@+id/searchView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="49dp"
