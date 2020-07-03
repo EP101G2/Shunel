@@ -17,8 +17,10 @@ import android.view.ViewGroup;
 
 public class MemberFragment extends Fragment {
 
-  private CardView cvSetting;
+  private CardView cvLike,cvChat,cvOrderlist,cvHistory,cvSetting;
 private Activity activity;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,12 @@ private Activity activity;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        cvLike=view.findViewById(R.id.cvLike);
+        cvChat=view.findViewById(R.id.cvChat);
+        cvOrderlist=view.findViewById(R.id.cvOrderlist);
+        cvHistory=view.findViewById(R.id.cvHistory);
         cvSetting=view.findViewById(R.id.cvSetting);
+
         cvSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
