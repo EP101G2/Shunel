@@ -73,5 +73,10 @@
         android:name="com.ed.shunel.ResetPasswordFragment"
         android:label="fragment_reset_password"
         tools:layout="@layout/fragment_reset_password" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.ed.shunel.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 
 </navigation>
