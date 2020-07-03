@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.adapter.ProductAdapter_Sam;
 
 import java.util.ArrayList;
@@ -27,6 +29,10 @@ public class AllProductFragment extends Fragment {
     private Activity activity;
     private RecyclerView recyclerView;
     private List<Product> list;
+
+    private CommonTask bookGetAllTask;
+    private CommonTask bookDeleteTask;
+    private ImageTask bookImageTask;
 
     public AllProductFragment() {
         // Required empty public constructor
@@ -60,6 +66,9 @@ public class AllProductFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         recyclerView.setAdapter(new ProductAdapter_Sam(getContext(),list));
        // recyclerView.addItemDecoration(new SpacesItemDecoration(0));
+
+
+
     }
 
 
