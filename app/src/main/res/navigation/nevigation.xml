@@ -74,16 +74,15 @@
         android:label="fragment_reset_password"
         tools:layout="@layout/fragment_reset_password" />
     <fragment
-<<<<<<< HEAD
         android:id="@+id/searchFragment"
         android:name="com.ed.shunel.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
-=======
+
+    <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.ed.shunel.ProductDetailFragment"
         android:label="fragment_product_detail"
         tools:layout="@layout/fragment_product_detail" />
->>>>>>> 6e891c185823902ce9ff5ad005bdc2ca88065f98
 
 </navigation>
