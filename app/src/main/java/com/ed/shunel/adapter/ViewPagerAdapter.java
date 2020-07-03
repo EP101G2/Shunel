@@ -28,7 +28,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
         switch (position){
             case 0:
-                return new NoticeFragment() ;
+                return new AllProductFragment() ;
             case 1:
                 return new SettingFragment();
             case 2:

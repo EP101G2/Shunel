@@ -59,9 +59,7 @@ public class AllProductFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         recyclerView.setAdapter(new ProductAdapter_Sam(getContext(),list));
-        recyclerView.addItemDecoration(new SpacesItemDecoration(0));
-
-
+       // recyclerView.addItemDecoration(new SpacesItemDecoration(0));
     }
 
 
