@@ -19,7 +19,11 @@
         android:id="@+id/shoppingcartFragment"
         android:name="com.ed.shunel.ShoppingcartFragment"
         android:label="fragment_shoppingcart"
-        tools:layout="@layout/fragment_shoppingcart" />
+        tools:layout="@layout/fragment_shoppingcart" >
+        <action
+            android:id="@+id/action_shoppingcartFragment_to_buyerFragment"
+            app:destination="@id/buyerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/memberFragment"
         android:name="com.ed.shunel.MemberFragment"
@@ -73,5 +77,10 @@
         android:name="com.ed.shunel.ResetPasswordFragment"
         android:label="fragment_reset_password"
         tools:layout="@layout/fragment_reset_password" />
+    <fragment
+        android:id="@+id/buyerFragment"
+        android:name="com.ed.shunel.BuyerFragment"
+        android:label="fragment_buyer"
+        tools:layout="@layout/fragment_buyer" />
 
 </navigation>
