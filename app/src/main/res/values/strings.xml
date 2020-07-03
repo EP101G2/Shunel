@@ -58,6 +58,8 @@
     <string name="product_Name">產品名稱</string>
     <string name="tv_specification">規格</string>
     <string name="tv_Price">價格</string>
+    <string name="tvbuy">直接購買</string>
+
     <string name="nextpage">下一頁</string>
     <string name="chekall">全選</string>
     <string name="buyer_Info">購買人資訊</string>
