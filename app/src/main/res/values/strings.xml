@@ -60,4 +60,7 @@
     <string name="tv_Price">價格</string>
     <string name="tvbuy">直接購買</string>
 
+    <string name="nextpage">下一頁</string>
+    <string name="chekall">全選</string>
+
 </resources>

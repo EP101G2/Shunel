@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -33,6 +35,8 @@ public class ShoppingcartFragment extends Fragment {
     private RecyclerView rv_Shopping_Cart;
     private List<Product> shopping_cartList;
     private shopp_cart_adprer shopp_cart_adprer;
+    private Button btn_next;
+    private CheckBox checkbox_all;
 
     public ShoppingcartFragment() {
         // Required empty public constructor
@@ -78,6 +82,17 @@ public class ShoppingcartFragment extends Fragment {
         rv_Shopping_Cart.setAdapter(shopp_cart_adprer);
 
 
+
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+//        checkbox_all.set
+
+
     }
 
     private void initData() {
@@ -89,11 +104,11 @@ public class ShoppingcartFragment extends Fragment {
     private List<Product> getDate() {
 
         List<Product> shoppingCarts = new ArrayList<>();
-        shoppingCarts.add(new Product(1, "測試", "黑色", 203, "內容", 1, 1));
-        shoppingCarts.add(new Product(1, "測試", "黑色", 203, "內容", 1, 1));
-        shoppingCarts.add(new Product(1, "測試", "黑色", 203, "內容", 1, 1));
-        shoppingCarts.add(new Product(1, "測試", "黑色", 203, "內容", 1, 1));
-        shoppingCarts.add(new Product(1, "測試", "黑色", 203, "內容", 1, 1));
+        shoppingCarts.add(new Product(1, "測試1", "黑色", 203, "內容", 1, 1));
+        shoppingCarts.add(new Product(2, "測試2", "黑色", 203, "內容", 1, 1));
+        shoppingCarts.add(new Product(1, "測試3", "黑色", 203, "內容", 1, 1));
+        shoppingCarts.add(new Product(1, "測試4", "黑色", 203, "內容", 1, 1));
+        shoppingCarts.add(new Product(1, "測試5", "黑色", 203, "內容", 1, 1));
 
 
         return shoppingCarts;
@@ -101,6 +116,8 @@ public class ShoppingcartFragment extends Fragment {
 
     private void findViews(View view) {
 
+        checkbox_all=view.findViewById(R.id.checkox_all);
+        btn_next=view.findViewById(R.id.btn_next);
         rv_Shopping_Cart = view.findViewById(R.id.rv_Shopping_Cart);
         rv_Shopping_Cart.setLayoutManager(new LinearLayoutManager(activity));
 
@@ -176,7 +193,11 @@ public class ShoppingcartFragment extends Fragment {
     ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
+
+            Collections.swap(shopping_cartList, viewHolder.getAdapterPosition(), target
+                    .getAdapterPosition());
+            return true;
+//            return false;
         }
 
         @Override
@@ -185,6 +206,60 @@ public class ShoppingcartFragment extends Fragment {
             shopp_cart_adprer.notifyDataSetChanged();
 
         }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder
+                viewHolder) {
+            // 拖拽的標記，這裏允許上下左右四個方向
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT |
+                    ItemTouchHelper.RIGHT;
+            // 滑動的標記，這裏允許左右滑動
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        /*
+               這個方法會在某個Item被拖動和移動的時候回調，這裏我們用來播放動畫，當viewHolder不為空時為選中狀態
+               否則為釋放狀態
+            */
+        @Override
+        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+            super.onSelectedChanged(viewHolder, actionState);
+//            if (viewHolder != null) {
+//                vh = viewHolder;
+//                pickUpAnimation(viewHolder.itemView);
+//            } else {
+//                if (vh != null) {
+//                    putDownAnimation(vh.itemView);
+//                }
+//            }
+        }
+
+        /*
+       當onMove返回true時調用
+    */
+        @Override
+        public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int
+                fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
+            super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
+            // 移動完成後刷新列表
+            shopp_cart_adprer.notifyItemMoved(viewHolder.getAdapterPosition(), target
+                    .getAdapterPosition());
+        }
+
+
+
+
     };
 
 
