@@ -3,6 +3,9 @@ package com.ed.shunel;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,12 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.ed.shunel.Task.CommonTask;
-import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.adapter.ProductAdapter_Sam;
 
 import java.util.ArrayList;
@@ -51,7 +48,7 @@ public class AllProductFragment extends Fragment {
         // Inflate the layout for this fragment
      //假資料
         list=new ArrayList<>();
-
+//
 //        list.add(new Product("test",1000,R.drawable.add));
 //        list.add(new Product("test",1000,R.drawable.add));
 //        list.add(new Product("test",1000,R.drawable.add));
