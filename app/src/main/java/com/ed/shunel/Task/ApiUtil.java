@@ -1,12 +1,16 @@
-package tech.cherri.googlepayexample;
+package com.ed.shunel.Task;
 
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+//第三方支付
 public class ApiUtil {
     private static final String TAG = "TAG_ApiUtil";
+
+
 
     // 開啟MyTask (AsyncTask) 將交易資訊送至TapPay測試區
     public static String generatePayByPrimeCURLForSandBox(String prime, String partnerKey, String merchantId) {
@@ -32,7 +36,7 @@ public class ApiUtil {
         }
         // TapPay測試區網址
         String url = Common.TAPPAY_DOMAIN_SANDBOX + Common.TAPPAY_PAY_BY_PRIME_URL;
-        MyTask myTask = new MyTask(url, paymentJO.toString(), partnerKey);
+        GoogleTask myTask = new GoogleTask(url, paymentJO.toString(), partnerKey);
         String result = "";
         try {
             result = myTask.execute().get();

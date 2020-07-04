@@ -1,4 +1,4 @@
-package tech.cherri.googlepayexample;
+package com.ed.shunel.Task;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,11 +12,11 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-class MyTask extends AsyncTask<String, Integer, String> {
+class GoogleTask extends AsyncTask<String, Integer, String> {
     private final static String TAG = "TAG_MyTask";
     private String url, outStr, apiKey;
 
-    MyTask(String url, String outStr, String apiKey) {
+    GoogleTask(String url, String outStr, String apiKey) {
         this.url = url;
         this.outStr = outStr;
         this.apiKey = apiKey;

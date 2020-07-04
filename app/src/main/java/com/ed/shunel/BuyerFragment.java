@@ -211,7 +211,6 @@ public class BuyerFragment extends Fragment {
                 tv_Add = view.findViewById(R.id.tv_Add);
                 tv_Count = view.findViewById(R.id.tv_Count);
                 tv_Less = view.findViewById(R.id.tv_Less);
-
                 checkBox = view.findViewById(R.id.checkBox);
 
             }

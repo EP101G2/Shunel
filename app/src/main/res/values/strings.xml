@@ -101,6 +101,24 @@
     <string name="buyer_add_phone">ex:0911111111</string>
     <string name="buy_confirm">新增</string>
     <string name="Nodata">購物車沒有東西～～</string>
+    <string name="buyer_Info_Delivery">付款方式</string>
 
+    <string name="textConfirmPay">確認付款</string>
+    <string name="textCannotUseGPay">Cannot use Google Pay</string>
+<!--    <string name="textCanceled">Canceled by the user.</string>-->
+
+
+
+    <!-- 填上TapPay Portal上註冊的資料 -->
+    <!-- 開發者 > 應用程式 -->
+    <string name="TapPay_AppID">17100</string>
+    <string name="TapPay_AppKey">app_7WA1h08hDCJc5KNYZ2OeSYRraNFc20dNNA7GIkC0v7tAZnoSg7Y8EsKCinew</string>
+
+    <!-- 帳戶資訊 -->
+    <string name="TapPay_PartnerKey">partner_ky2g17lc28c95O6LCU0SU5vXjBs3FBmbSF3eKN4FqLEwviun4GK2K8M7</string>
+
+    <!-- 商家管理 -->
+    <string name="TapPay_MerchantName">TW_TAISHIN</string>
+    <string name="TapPay_MerchantID">j4688821105_TAISHIN</string>
 
 </resources>
