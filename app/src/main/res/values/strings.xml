@@ -40,7 +40,7 @@
     <string name="send">送出</string>
 
 
-    <string name="tvOrderHisTitle">訂購記錄</string>
+    <string name="tvOrderHisTitle">訂單詳情</string>
     <string name="textOrderNumText">訂單編號：</string>
     <string name="textOrderStatusText">訂購狀態：</string>
     <string name="textNotYetDelivered">未出貨</string>
@@ -50,7 +50,21 @@
     <string name="textRefunds">已退貨</string>
     <string name="textOrderNum" />
     <string name="textOrderStatus" />
-    <string name="textTotalPriceText">總金額：</string>
+    <string name="textTotalPriceText">總金額：$</string>
+    <string name="textTotalPrice" />
+    <string name="textReceivePersonT">收貨人資料：</string>
+    <string name="textNameT">姓名：</string>
+    <string name="textReceiverTitle">收件人資料：</string>
+    <string name="textName" />
+    <string name="textHint">null</string>
+    <string name="textOrderId" />
+    <string name="textPhoneNumT">手機：</string>
+    <string name="textPhoneNum" />
+    <string name="textOrderDAddressT">地址：</string>
+    <string name="textAddress" />
+    <string name="textProductName" />
+    <string name="textProductPriceT">售價：</string>
+    <string name="textProductPrice" />
 
     <string name="textVCode">驗證碼輸入</string>
     <string name="textVCodeMessage">您的帳號可能存在安全風險。為了確保為您本人操作，請先輸入手機收到之安全驗證碼。</string>
@@ -75,6 +89,18 @@
 
     <string name="nextpage">下一頁</string>
     <string name="chekall">全選</string>
+    <string name="buyer_Info">購買人資訊</string>
+    <string name="payvoid">付款資訊</string>
+    <string name="default_Address">預設地址</string>
+    <string name="buyer_name">姓名:</string>
+    <string name="buyer_phone">電話:</string>
+    <string name="default_data">預設</string>
+    <string name="buyer_Address">地址:</string>
+    <string name="new_address">新增地址</string>
+    <string name="buyer_add_name">ex:王小明</string>
+    <string name="buyer_add_phone">ex:0911111111</string>
+    <string name="buy_confirm">新增</string>
+    <string name="Nodata">購物車沒有東西～～</string>
 
 
 </resources>
