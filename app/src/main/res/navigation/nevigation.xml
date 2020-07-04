@@ -90,11 +90,7 @@
         android:name="com.ed.shunel.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
-<<<<<<< HEAD
-=======
 
-
->>>>>>> e2d02d2664866afa48e7ee4c158dccc382c018b1
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.ed.shunel.ProductDetailFragment"
