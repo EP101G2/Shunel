@@ -68,6 +68,8 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
 
     @Override
     public int getItemCount() {
+
+
         return products.size();
     }
 
