@@ -101,6 +101,8 @@
     <string name="buyer_add_phone">ex:0911111111</string>
     <string name="buy_confirm">新增</string>
     <string name="Nodata">購物車沒有東西～～</string>
+    <string name="textNoNetwork">沒有網路連線</string>
+    <string name="textnofound">查無資料</string>
 
 
 </resources>

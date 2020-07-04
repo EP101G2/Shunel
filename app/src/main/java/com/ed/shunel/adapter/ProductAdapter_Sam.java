@@ -24,9 +24,9 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
     private ImageTask productimageTask;
     private int imageSize;
 
-    public ProductAdapter_Sam(Context context, List list) {
+    public ProductAdapter_Sam(Context context, List<Product> products) {
         this.context = context;
-        this.products = list;
+        this.products = products;
         imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
     }
 
@@ -40,11 +40,10 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
     @Override
     public void onBindViewHolder(@NonNull Myviewholder myviewholder, int position) {
         final Product product = products.get(position);
-        String url = Common.URL_SERVER + "BookServlet";
+        String url = Common.URL_SERVER + "Shunel_Web";
         int id_product = product.getProduct_ID();
         productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
-        productimageTask.execute();
-
+//        productimageTask.execute();
 
 
         myviewholder.tvname.setText(products.get(position).getProduct_Name());
@@ -68,10 +67,12 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return products == null ? 0 : products.size();
     }
 
-
+    public void setProducts(List<Product> product) {
+        this.products = product;
+    }
 
     class Myviewholder extends RecyclerView.ViewHolder{
         private ImageView ivcardIMG;
