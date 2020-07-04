@@ -40,7 +40,7 @@ public class ShoppingcartFragment extends Fragment {
     private Activity activity;
     private RecyclerView rv_Shopping_Cart;
     private List<Product> shopping_cartList;
-    private shopp_cart_adprer shopp_cart_adprer;
+    private shopp_cart_adapter shopp_cart_adapter;
     private Button btn_next;
     private CheckBox checkbox_all;
     private boolean isSelect = false;//全选按钮的状态
@@ -84,10 +84,10 @@ public class ShoppingcartFragment extends Fragment {
 
     private void setLinstener() {
 
-        shopp_cart_adprer = new shopp_cart_adprer(activity, shopping_cartList);
+        shopp_cart_adapter = new shopp_cart_adapter(activity, shopping_cartList);
         new ItemTouchHelper(item).attachToRecyclerView(rv_Shopping_Cart);
 //        rv_Shopping_Cart.setAdapter(new shopp_cart_adprer(activity,shopping_cartList));
-        rv_Shopping_Cart.setAdapter(shopp_cart_adprer);
+        rv_Shopping_Cart.setAdapter(shopp_cart_adapter);
 
 
         checkbox_all.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +96,12 @@ public class ShoppingcartFragment extends Fragment {
                 if (!isSelect){
                     isSelect=true;//全选
 //                    adapter.All();
-                    shopp_cart_adprer.All();
+                    shopp_cart_adapter.All();
 //                    checkbox_all.setText("取消全");
                 }else{
                     isSelect=false;//取消全选
 //                    adapter.neverall();
-                    shopp_cart_adprer.All();
+                    shopp_cart_adapter.All();
 //                    checkbox_all.setText("全选");
                 }
 
@@ -115,7 +115,7 @@ public class ShoppingcartFragment extends Fragment {
 
                 String  content="";
                 listdatas.clear();
-                Map<Integer, Boolean> map = shopp_cart_adprer.getMap();
+                Map<Integer, Boolean> map = shopp_cart_adapter.getMap();
                 for (int i = 0; i <shopping_cartList.size(); i++) {
                     if (map.get(i)){
                         listdatas.add(shopping_cartList.get(i));
@@ -172,12 +172,12 @@ public class ShoppingcartFragment extends Fragment {
 
     }
 
-    private class shopp_cart_adprer extends RecyclerView.Adapter<shopp_cart_adprer.Myviewholder> {
+    private class shopp_cart_adapter extends RecyclerView.Adapter<shopp_cart_adapter.Myviewholder> {
         Context context;
         List<Product> shopping_cartList;
         private HashMap<Integer, Boolean> maps = new HashMap<Integer, Boolean>();//多选
 
-        public shopp_cart_adprer(Context context, List<Product> shopping_cartList) {
+        public shopp_cart_adapter(Context context, List<Product> shopping_cartList) {
             this.context = context;
             this.shopping_cartList = shopping_cartList;
             initMap();
@@ -327,7 +327,7 @@ public class ShoppingcartFragment extends Fragment {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             shopping_cartList.remove(viewHolder.getAdapterPosition());
-            shopp_cart_adprer.notifyDataSetChanged();
+            shopp_cart_adapter.notifyDataSetChanged();
 
         }
 
@@ -377,7 +377,7 @@ public class ShoppingcartFragment extends Fragment {
                 fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
             super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
             // 移動完成後刷新列表
-            shopp_cart_adprer.notifyItemMoved(viewHolder.getAdapterPosition(), target
+            shopp_cart_adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target
                     .getAdapterPosition());
         }
 
