@@ -38,16 +38,7 @@ public class MemberFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        View view1 =View.inflate(R.layout.fragment_login,null);
-
-
-
-//        View mview = view.inflater.inflate(R.layout.fragment_login,null);
-//        if (!login) {
-//            Intent intent = new Intent(activity,LoginFragment.class);
-//            startActivity(intent);
-//        }
-
+//
 
 
 

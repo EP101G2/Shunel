@@ -3,6 +3,9 @@ package com.ed.shunel;
 import android.app.Activity;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.view.ViewGroup;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+
 import com.ed.shunel.adapter.ProductAdapter_Sam;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -60,12 +65,8 @@ public class AllProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-     //假資料
- //       product =new ArrayList<>();
 
-//        list.add(new Product("test",1000,R.drawable.add));
-//        list.add(new Product("test",1000,R.drawable.add));
-//        list.add(new Product("test",1000,R.drawable.add));
+
 
         return inflater.inflate(R.layout.fragment_all_product, container, false);
     }

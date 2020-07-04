@@ -90,7 +90,11 @@
         android:id="@+id/buyerFragment"
         android:name="com.ed.shunel.BuyerFragment"
         android:label="fragment_buyer"
-        tools:layout="@layout/fragment_buyer" />
+        tools:layout="@layout/fragment_buyer" >
+        <action
+            android:id="@+id/action_buyerFragment_to_deliveryFragment"
+            app:destination="@id/deliveryFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/searchFragment"
@@ -108,6 +112,11 @@
         android:name="com.ed.shunel.OrderListFragment"
         android:label="fragment_order_list"
         tools:layout="@layout/fragment_order_list" />
+    <fragment
+        android:id="@+id/deliveryFragment"
+        android:name="com.ed.shunel.DeliveryFragment"
+        android:label="fragment_delivery"
+        tools:layout="@layout/fragment_delivery" />
 
 
 </navigation>
