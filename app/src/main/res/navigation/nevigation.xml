@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_memberFragment_to_settingFragment2"
             app:destination="@id/settingFragment2" />
+        <action
+            android:id="@+id/action_memberFragment_to_orderListFragment2"
+            app:destination="@id/orderListFragment2" />
 
     </fragment>
     <fragment
@@ -101,6 +104,11 @@
         android:name="com.ed.shunel.ProductDetailFragment"
         android:label="fragment_product_detail"
         tools:layout="@layout/fragment_product_detail" />
+    <fragment
+        android:id="@+id/orderListFragment2"
+        android:name="com.ed.shunel.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" />
 
 
 </navigation>
