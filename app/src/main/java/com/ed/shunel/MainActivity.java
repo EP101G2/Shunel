@@ -6,9 +6,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
-
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+//import com.facebook.FacebookSdk;
+//import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

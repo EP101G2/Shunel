@@ -102,7 +102,6 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
 
-
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.ed.shunel.ProductDetailFragment"
