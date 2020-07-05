@@ -19,7 +19,7 @@ import tech.cherri.tpdirect.api.TPDCard;
  */
 public class Common {
     private static final String TAG = "TAG_Common";
-    //    public static String URL_SERVER = "http://192.168.196.189:8080/Spot_MySQL_Web/";
+
     public static String URL_SERVER = "http://10.0.2.2:8080/Shunel_Web/";
 
 
