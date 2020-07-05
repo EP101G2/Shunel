@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 
 /**
@@ -23,6 +24,9 @@ public class NoticeFragment extends Fragment {
     private Activity activity;
     private RecyclerView rvNotice;
     private RecyclerView rvNews;
+    private SearchView searchView;
+    private NoticeAdapter noticeAdapter;
+    private NewsAdapter newsAdapter;
 
 
     public NoticeFragment() {
@@ -64,6 +68,8 @@ public class NoticeFragment extends Fragment {
 
         rvNotice = view.findViewById(R.id.rvNotice);
         rvNotice.setLayoutManager(new LinearLayoutManager(activity));
+
+        searchView =view.findViewById(R.id.searchView);
     }
 
     private void initData() {
@@ -78,4 +84,10 @@ public class NoticeFragment extends Fragment {
     }
 
 
+    private class NoticeAdapter {
+
+    }
+
+    private class NewsAdapter {
+    }
 }
