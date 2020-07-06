@@ -83,5 +83,17 @@ public class ProductDetailFragment extends Fragment {
     }
 
     private void setLinstener() {
+
+
+
+        iv_Shoppcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
+
     }
 }
