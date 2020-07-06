@@ -76,6 +76,9 @@ public class DeliveryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         handleViews(view);
 
+
+        Log.d(TAG, "SDK version is " + TPDSetup.getVersion());
+
         // 使用TPDSetup設定環境。每個設定值出處參看strings.xml
         TPDSetup.initInstance(getActivity(),
                 Integer.parseInt(getString(R.string.TapPay_AppID)),
@@ -136,6 +139,7 @@ public class DeliveryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // 跳出user資訊視窗讓user確認，確認後會呼叫onActivityResult()
+                Log.i(TAG,"btbuy1");
                 tpdGooglePay.requestPayment(TransactionInfo.newBuilder()
                         .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
                         // 消費總金額
@@ -146,7 +150,19 @@ public class DeliveryFragment extends Fragment {
             }
         });
 
+        tvPaymentInfo = view.findViewById(R.id.tvPaymentInfo);
 
+        btConfirm = view.findViewById(R.id.btConfirm);
+        btConfirm.setEnabled(false);
+        btConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPrimeFromTapPay(paymentData);
+            }
+        });
+
+
+        tvResult = view.findViewById(R.id.tvResult);
     }
 
 
@@ -182,6 +198,7 @@ public class DeliveryFragment extends Fragment {
             }
         }
     }
+
 
     private void showPaymentInfo(PaymentData paymentData) {
 

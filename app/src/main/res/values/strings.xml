@@ -121,5 +121,7 @@
     <!-- 商家管理 -->
     <string name="TapPay_MerchantName">TW_TAISHIN</string>
     <string name="TapPay_MerchantID">j4688821105_TAISHIN</string>
+    <string name="textNoFound">NoFound</string>
+    <string name="Fail">添加失敗</string>
 
 </resources>
