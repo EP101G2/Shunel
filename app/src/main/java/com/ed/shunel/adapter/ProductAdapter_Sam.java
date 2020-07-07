@@ -25,6 +25,7 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
     private ImageTask productimageTask;
     private int imageSize;
 
+    
     public ProductAdapter_Sam(Context context, List<Product> products) {
         this.context = context;
         this.products = products;
@@ -44,13 +45,11 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
         String url = Common.URL_SERVER + "Prouct_Servlet";
         int id_product = product.getProduct_ID();
         productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
-//        productimageTask.execute();
+        productimageTask.execute();
 
 
         myviewholder.tvname.setText(products.get(position).getProduct_Name());
         myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
-
-//        myviewholder.ivcardIMG.setImageResource(product.getImg());
 
         myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

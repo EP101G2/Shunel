@@ -1,6 +1,10 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+
+import android.graphics.Rect;
+import android.nfc.Tag;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,8 +62,6 @@ public class AllProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-
-
         return inflater.inflate(R.layout.fragment_all_product, container, false);
     }
 
@@ -67,11 +69,10 @@ public class AllProductFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),6));
-        recyclerView.setAdapter(new ProductAdapter_Sam(getContext(), product));
 
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        recyclerView.setAdapter(new ProductAdapter_Sam(getContext(), product));
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         product = getProduct();
         showBooks(product);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -84,12 +85,6 @@ public class AllProductFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
-
-       // recyclerView.addItemDecoration(new SpacesItemDecoration(0));
-
-
-
     }
 
 
@@ -131,34 +126,4 @@ public class AllProductFragment extends Fragment {
 
         }
     }
-
-
-
-
-
-
-
-//    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-//        private int space;
-//
-//        public SpacesItemDecoration(int space) {
-//            this.space = space;
-//        }
-//
-//        @Override
-//        public void getItemOffsets(Rect outRect, View view,
-//                                   RecyclerView parent, RecyclerView.State state) {
-//            outRect.left = space;
-//            outRect.right = space;
-//            outRect.bottom = space;
-//
-//            // Add top margin only for the first item to avoid double space between items
-//            if (parent.getChildLayoutPosition(view) == 0) {
-//                outRect.top = space;
-//            } else {
-//                outRect.top = 0;
-//            }
-//        }
-//    }
-
 }
