@@ -70,31 +70,21 @@ public class AllProductFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerView);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),6));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         recyclerView.setAdapter(new ProductAdapter_Sam(getContext(), product));
-//        recyclerView.addItemDecoration(new SpacesItemDecoration(2));
-
-      // swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         product = getProduct();
         showBooks(product);
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                //讀取的圈圈 動畫
-//                swipeRefreshLayout.setRefreshing(true);
-//                showBooks(product);
-//                //直到讀取完 結束
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
-
-
-       // recyclerView.addItemDecoration(new SpacesItemDecoration(0));
-
-
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //讀取的圈圈 動畫
+                swipeRefreshLayout.setRefreshing(true);
+                showBooks(product);
+                //直到讀取完 結束
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
 
@@ -136,34 +126,4 @@ public class AllProductFragment extends Fragment {
 
         }
     }
-
-
-
-
-
-
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space;
-            outRect.right = space;
-            outRect.bottom = space;
-
-            // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildLayoutPosition(view) == 0) {
-                outRect.top = space;
-            } else {
-                outRect.top = 0;
-            }
-        }
-    }
-
 }
