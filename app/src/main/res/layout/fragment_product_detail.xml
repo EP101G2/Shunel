@@ -65,8 +65,8 @@
 
     <ImageView
         android:id="@+id/iv_Prouduct"
-        android:layout_width="420dp"
-        android:layout_height="333dp"
+        android:layout_width="429dp"
+        android:layout_height="215dp"
         android:src="@drawable/testproductimage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -101,7 +101,8 @@
         android:layout_marginLeft="50dp"
         android:src="@drawable/cart_chosen"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Like"
-        app:layout_constraintStart_toEndOf="@+id/iv_Like" />
+        app:layout_constraintStart_toEndOf="@+id/iv_Like"
+        app:layout_constraintTop_toTopOf="@+id/iv_Like" />
 
     <TextView
         android:id="@+id/tv_Buy"
@@ -112,7 +113,9 @@
         android:text="@string/tvbuy"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Shoppcard"
-        app:layout_constraintStart_toEndOf="@+id/iv_Shoppcard" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_Dital"
+        app:layout_constraintStart_toEndOf="@+id/iv_Shoppcard"
+        app:layout_constraintTop_toTopOf="@+id/iv_Like" />
 
     <Spinner
         android:id="@+id/sp_Color"
@@ -126,6 +129,7 @@
         android:id="@+id/sp_Amount"
         android:layout_width="121dp"
         android:layout_height="39dp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_Like"
         app:layout_constraintEnd_toStartOf="@+id/sp_Color"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_Dital"

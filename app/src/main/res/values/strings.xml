@@ -127,5 +127,6 @@
     <string name="TapPay_MerchantID">j4688821105_TAISHIN</string>
     <string name="textNoFound">NoFound</string>
     <string name="Fail">添加失敗</string>
+    <string name="textNoNetwork">無網路</string>
 
 </resources>

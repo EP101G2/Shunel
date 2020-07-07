@@ -2,7 +2,6 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -10,37 +9,27 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.User_Account;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-
 
 import java.util.Locale;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 public class LoginFragment extends Fragment {
@@ -51,7 +40,7 @@ public class LoginFragment extends Fragment {
     private TextView tvRegisterNow, tvForgetPassword, tvMessage;
     private SharedPreferences preferences;
     private CommonTask loginTask;
-    private String id,password;
+    private String id, password;
 
     final String INITIALIZED = "initialized";
     Boolean user_first;
@@ -62,7 +51,6 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-
 
 
 //
@@ -118,8 +106,8 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                 id = etTypeId.getText().toString();
-                 password = etTypePassword.getText().toString();
+                id = etTypeId.getText().toString();
+                password = etTypePassword.getText().toString();
 
                 if (networkConnected()) {
                     String url = Common.URL_SERVER + "Uesr_Account_Servlet";                           //connect servlet(eclipse)
@@ -140,14 +128,14 @@ public class LoginFragment extends Fragment {
                     String message = jsonObject.get("message").getAsString();
                     switch (result) {
                         case "fail":
-                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                             break;
                         case "success":
                             String userJstr = jsonObject2.get("user").getAsString();
                             User_Account user_account = gson.fromJson(userJstr, User_Account.class);
                             savePreferences();
-                            Bundle bundle=new Bundle();
-                            bundle.putSerializable("User",user_account);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("User", user_account);
                             Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
                             break;
                     }
@@ -195,11 +183,12 @@ public class LoginFragment extends Fragment {
     private void showToast(Context context, int messageId) {
         Toast.makeText(context, messageId, Toast.LENGTH_SHORT).show();
     }
+
     private void savePreferences() {
 
         preferences.edit()
-                .putString("id",id )
-                .putString("password",password)
+                .putString("id", id)
+                .putString("password", password)
                 .apply();
     }
 }
