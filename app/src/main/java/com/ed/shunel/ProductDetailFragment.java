@@ -18,6 +18,7 @@ import androidx.navigation.Navigation;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.bean.Shopping_Cart;
 import com.google.gson.JsonObject;
 
 
@@ -35,6 +36,8 @@ public class ProductDetailFragment extends Fragment {
     private TextView tvPdPrice;
     private Spinner sp_Color;
     private Product product;
+    private Shopping_Cart shopping_cart;
+//    private
     private CommonTask addTask;
 
 
@@ -121,8 +124,7 @@ public class ProductDetailFragment extends Fragment {
                     String url = Common.URL_SERVER + "Prouct_Servlet";
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("action", "addShop");
-                    jsonObject.addProperty("product_ID", product.getProduct_ID());
-
+                    jsonObject.addProperty("addID", product.getProduct_ID());
                     int count = 0;
 
                     try {
