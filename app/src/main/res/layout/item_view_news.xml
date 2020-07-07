@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="205dp"
+                android:layout_marginLeft="200dp"
                 app:srcCompat="@drawable/arrow_forward_pink" />
 
         </LinearLayout>
