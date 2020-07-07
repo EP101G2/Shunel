@@ -2,20 +2,16 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.MenuView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -30,8 +26,8 @@ public class NoticeFragment extends Fragment {
     private SearchView searchView;
     private NoticeAdapter noticeAdapter;
     private NewsAdapter newsAdapter;
-    private List<NoticeList> btNoticeList;
-    private List<NewsList> newsLists;
+//    private List<NoticeList> btNoticeList;
+//    private List<NewsList> newsLists;
 
 
     public NoticeFragment() {
@@ -85,7 +81,7 @@ public class NoticeFragment extends Fragment {
 
     private void setLinstener() {
 
-        noticeAdapter = new NoticeAdapter(activity,noticeAdapter);
+//        noticeAdapter = new NoticeAdapter(activity,noticeAdapter);
 
 
 
