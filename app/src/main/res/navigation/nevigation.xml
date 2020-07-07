@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_memberFragment_to_settingFragment2"
             app:destination="@id/settingFragment2" />
+        <action
+            android:id="@+id/action_memberFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
 
     </fragment>
     <fragment
@@ -41,6 +44,9 @@
         android:name="com.ed.shunel.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
         <action
             android:id="@+id/action_loginFragment_to_memberFragment"
             app:destination="@id/memberFragment" />
@@ -78,6 +84,8 @@
         android:name="com.ed.shunel.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+
+    <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.ed.shunel.ProductDetailFragment"
         android:label="fragment_product_detail"

@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +21,15 @@ public class MemberFragment extends Fragment {
 
   private CardView cvLike,cvChat,cvOrderlist,cvHistory,cvSetting;
 private Activity activity;
+    private View view;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity=getActivity();
+//        final NavController navController = Navigation.findNavController(view);
+
     }
 
     @Override
@@ -43,6 +48,12 @@ private Activity activity;
         cvOrderlist=view.findViewById(R.id.cvOrderlist);
         cvHistory=view.findViewById(R.id.cvHistory);
         cvSetting=view.findViewById(R.id.cvSetting);
+
+        Log.e("TAG","123");
+        if( MainActivity.preferences.getString("id","").equals("")){
+            Log.e("TAG","1234");
+            Navigation.findNavController(view).navigate(R.id.action_memberFragment_to_loginFragment);
+        }
 
         cvSetting.setOnClickListener(new View.OnClickListener() {
             @Override

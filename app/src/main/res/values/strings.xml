@@ -75,6 +75,7 @@
 
     <string name="nextpage">下一頁</string>
     <string name="chekall">全選</string>
+    <string name="textNoNetwork">沒有網路</string>
 
 
 </resources>
