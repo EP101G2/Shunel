@@ -8,10 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
+import com.ed.shunel.Task.Common;
+import com.ed.shunel.Task.CommonTask;
+import com.google.gson.JsonObject;
 
 
 /**
@@ -24,9 +31,12 @@ public class ProductDetailFragment extends Fragment {
     private ImageView iv_Shoppcard;
     private TextView tv_Buy;
     private TextView tv_Dital;
-    private TextView tvProductName;
-    private TextView tvProductPrice;
+    private TextView tvPdName;
+    private TextView tvPdPrice;
     private Spinner sp_Color;
+    private Product product;
+    private CommonTask addTask;
+
 
     public ProductDetailFragment() {
         // Required empty public constructor
@@ -34,8 +44,9 @@ public class ProductDetailFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        activity = getActivity();
         super.onCreate(savedInstanceState);
+        activity = getActivity();
+
     }
 
     @Override
@@ -63,25 +74,77 @@ public class ProductDetailFragment extends Fragment {
 
     private void findViews(View view) {
 
-        iv_Prouduct=view.findViewById(R.id.iv_Prouct);
-        iv_Like=view.findViewById(R.id.iv_Like);
-        iv_Shoppcard=view.findViewById(R.id.iv_Shoppcard);
-        tv_Buy=view.findViewById(R.id.tv_Buy);
-        tv_Dital=view.findViewById(R.id.tv_Dital);
-        tvProductName=view.findViewById(R.id.tvProductName);
-        tvProductPrice=view.findViewById(R.id.tvProductPrice);
-        sp_Color=view.findViewById(R.id.sp_Color);
+        iv_Prouduct = view.findViewById(R.id.iv_Prouct);
+        iv_Like = view.findViewById(R.id.iv_Like);
+        iv_Shoppcard = view.findViewById(R.id.iv_Shoppcard);
+        tv_Buy = view.findViewById(R.id.tv_Buy);
+        tv_Dital = view.findViewById(R.id.tv_Dital);
+        tvPdName = view.findViewById(R.id.tvPdName);
+        tvPdPrice = view.findViewById(R.id.tvPdPrice);
+        sp_Color = view.findViewById(R.id.sp_Color);
 
 
+        final NavController navController = Navigation.findNavController(view);
+        Bundle bundle = getArguments();
+        if (bundle == null || bundle.getSerializable("product") == null) {
+            Common.showToast(activity, R.string.textNoFound);
+            navController.popBackStack();
+            return;
+        }
+
+
+        product = (Product) bundle.getSerializable("product");
+
+        tvPdName.setText(product.getProduct_Name());
+        tvPdPrice.setText(String.valueOf(product.getProduct_Price()));
+        tv_Dital.setText(product.getProduct_Ditail());
+//
 
     }
 
     private void initData() {
+
+
     }
 
     private void setSystemServices() {
     }
 
     private void setLinstener() {
+
+
+        iv_Shoppcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//            Product product =
+                if (Common.networkConnected(activity)) {
+                    String url = Common.URL_SERVER + "Prouct_Servlet";
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "addShop");
+                    jsonObject.addProperty("product_ID", product.getProduct_ID());
+
+                    int count = 0;
+
+                    try {
+                        addTask = new CommonTask(url, jsonObject.toString());
+                        String result = addTask.execute().get();
+                        count = Integer.parseInt(result);
+                        Toast.makeText(activity,result,Toast.LENGTH_SHORT).show();
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if (count == 0){
+                        Toast.makeText(activity,R.string.Fail,Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+            }
+        });
+
+
     }
 }
