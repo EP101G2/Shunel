@@ -25,6 +25,7 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
     private ImageTask productimageTask;
     private int imageSize;
 
+    
     public ProductAdapter_Sam(Context context, List<Product> products) {
         this.context = context;
         this.products = products;
