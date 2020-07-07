@@ -120,25 +120,39 @@ public class LoginFragment extends Fragment {
                     String jsonIn = "";
                     try {
                         jsonIn = loginTask.execute().get();
+
                     } catch (Exception e) {
                         Log.e(TAG, e.toString());
                     }
                     JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-                    String result = jsonObject2.get("result").getAsString();
-                    switch (result) {
-                        case "fail":
+//                    Log.i(TAG,jsonObject2.toString());
 
-                            Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
+                    String result = null;
+                    String userJstr = null;
 
-                        case "success":
-                            String userJstr = jsonObject2.get("user").getAsString();
-                            User_Account user_account = gson.fromJson(userJstr, User_Account.class);
-                            savePreferences();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("User", user_account);
-                            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
-                            break;
+                    if (result!=null){
+                        result = jsonObject2.get("result").getAsString();
+                        switch (result) {
+                            case "fail":
+
+                                Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
+
+                            case "success":
+
+                                if (userJstr !=null){
+                                    userJstr = jsonObject2.get("user").getAsString();
+
+                                    User_Account user_account = gson.fromJson(userJstr, User_Account.class);
+                                    savePreferences();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("User", user_account);
+                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
+                                }
+
+                                break;
+                        }
                     }
+
                 } else {
                     showToast(activity, R.string.textNoNetwork);
                 }
