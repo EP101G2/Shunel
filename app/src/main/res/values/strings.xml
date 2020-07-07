@@ -89,9 +89,9 @@
 
     <string name="nextpage">下一頁</string>
     <string name="chekall">全選</string>
-<<<<<<< HEAD
+
     <string name="textNoNetwork">沒有網路</string>
-=======
+
     <string name="buyer_Info">購買人資訊</string>
     <string name="payvoid">付款資訊</string>
     <string name="default_Address">預設地址</string>
@@ -107,7 +107,7 @@
     <string name="buyer_Info_Delivery">付款方式</string>
     <string name="textNoNetwork">沒有網路連線</string>
     <string name="textnofound">查無資料</string>
->>>>>>> b689665d98fa13933ea2ae07fe53d6529b1bd7bd
+
 
     <string name="textConfirmPay">確認付款</string>
     <string name="textCannotUseGPay">Cannot use Google Pay</string>
