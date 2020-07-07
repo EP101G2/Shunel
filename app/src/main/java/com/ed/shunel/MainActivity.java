@@ -1,18 +1,18 @@
 package com.ed.shunel;
 
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.SharedPreferences;
-import android.os.Bundle;
-
 import com.ed.shunel.cache.MemoryCache;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+//import com.facebook.FacebookSdk;
+//import com.facebook.appevents.AppEventsLogger;
 
 public class MainActivity extends AppCompatActivity {
 

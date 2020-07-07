@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +66,10 @@ private Activity activity;
 
         Log.e("TAG","123");
         if( MainActivity.preferences.getString("id","").equals("")){
-            Log.e("TAG","1234");
-            Navigation.findNavController(view).navigate(R.id.action_memberFragment_to_loginFragment);
+//            Intent intent=new Intent();
+//            intent.setClass(getActivity(),LoginFragment.class);
+//            startActivity(intent);
+           Navigation.findNavController(view).navigate(R.id.action_memberFragment_to_loginFragment);
         }
 
         cvSetting.setOnClickListener(new View.OnClickListener() {
