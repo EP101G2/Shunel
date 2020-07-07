@@ -2,7 +2,6 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -38,7 +37,6 @@ public class LoginFragment extends Fragment {
     private EditText etTypeId, etTypePassword;
     private Button btLogin, btFacebook, btGoogle;
     private TextView tvRegisterNow, tvForgetPassword, tvMessage;
-    private SharedPreferences preferences;
     private CommonTask loginTask;
     private String id, password;
 
@@ -127,11 +125,12 @@ public class LoginFragment extends Fragment {
                     JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
 //                    Log.i(TAG,jsonObject2.toString());
 
-                    String result = null;
-                    String userJstr = null;
 
-                    if (result!=null){
-                        result = jsonObject2.get("result").getAsString();
+
+
+
+                        String result =   jsonObject2.get("result").getAsString();
+                        Log.i(TAG,result);
                         switch (result) {
                             case "fail":
 
@@ -139,19 +138,18 @@ public class LoginFragment extends Fragment {
 
                             case "success":
 
-                                if (userJstr !=null){
-                                    userJstr = jsonObject2.get("user").getAsString();
+
+                                   String userJstr = jsonObject2.get("user").getAsString();
 
                                     User_Account user_account = gson.fromJson(userJstr, User_Account.class);
                                     savePreferences();
                                     Bundle bundle = new Bundle();
                                     bundle.putSerializable("User", user_account);
                                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
-                                }
 
                                 break;
                         }
-                    }
+
 
                 } else {
                     showToast(activity, R.string.textNoNetwork);
@@ -200,7 +198,7 @@ public class LoginFragment extends Fragment {
 
     private void savePreferences() {
 
-        preferences.edit()
+        MainActivity.preferences.edit()
                 .putString("id", id)
                 .putString("password", password)
                 .apply();
