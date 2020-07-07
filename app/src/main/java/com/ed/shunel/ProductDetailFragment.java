@@ -2,9 +2,13 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,13 +23,19 @@ import androidx.navigation.Navigation;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.Shopping_Cart;
+import com.ed.shunel.bean.User_Account;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProductDetailFragment extends Fragment {
+    private final static String TAG="ProductDetailFragment";
     private Activity activity;
     private ImageView iv_Prouduct;
     private ImageView iv_Like;
@@ -35,10 +45,15 @@ public class ProductDetailFragment extends Fragment {
     private TextView tvPdName;
     private TextView tvPdPrice;
     private Spinner sp_Color;
+    private Spinner sp_Amount;
     private Product product;
     private Shopping_Cart shopping_cart;
-//    private
+    private User_Account user_account;
+    private int select_Amount = 0;
     private CommonTask addTask;
+    //    private int[] sp= {1,2,3,4,5,6,7,8,9,10};
+    private ArrayAdapter<Integer> adapter;
+    private List<Integer> list = new ArrayList<Integer>();
 
 
     public ProductDetailFragment() {
@@ -85,6 +100,7 @@ public class ProductDetailFragment extends Fragment {
         tvPdName = view.findViewById(R.id.tvPdName);
         tvPdPrice = view.findViewById(R.id.tvPdPrice);
         sp_Color = view.findViewById(R.id.sp_Color);
+        sp_Amount = view.findViewById(R.id.sp_Amount);
 
 
         final NavController navController = Navigation.findNavController(view);
@@ -103,10 +119,30 @@ public class ProductDetailFragment extends Fragment {
         tv_Dital.setText(product.getProduct_Ditail());
 //
 
+
+//        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(activity, layout.simple_spinner_item, sp);
+
     }
 
     private void initData() {
 
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+        list.add(6);
+        list.add(7);
+        list.add(8);
+        list.add(9);
+        list.add(10);
+
+        //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
+        adapter = new ArrayAdapter<Integer>(activity, android.R.layout.simple_spinner_item, list);
+        //第三步：为适配器设置下拉列表下拉时的菜单样式。
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //第四步：将适配器添加到下拉列表上
+        sp_Amount.setAdapter(adapter);
 
     }
 
@@ -116,35 +152,88 @@ public class ProductDetailFragment extends Fragment {
     private void setLinstener() {
 
 
+        sp_Amount.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                /* 将所选mySpinner 的值带入myTextView 中*/
+                int selecte = adapter.getItem(arg2);
+                select_Amount = selecte;
+                Log.e("---------------", String.valueOf(selecte));
+                /* 将mySpinner 显示*/
+                arg0.setVisibility(View.VISIBLE);
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+//                myTextView.setText("NONE");
+                arg0.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        /*下拉菜单弹出的内容选项触屏事件处理*/
+        sp_Amount.setOnTouchListener(new Spinner.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                /**
+                 *
+                 */
+                return false;
+            }
+        });
+
+        /*下拉菜单弹出的内容选项焦点改变事件处理*/
+        sp_Amount.setOnFocusChangeListener(new Spinner.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                // TODO Auto-generated method stub
+            }
+        });
+
         iv_Shoppcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //            Product product =
                 if (Common.networkConnected(activity)) {
-                    String url = Common.URL_SERVER + "Prouct_Servlet";
-                    JsonObject jsonObject = new JsonObject();
-                    jsonObject.addProperty("action", "addShop");
-                    jsonObject.addProperty("addID", product.getProduct_ID());
-                    int count = 0;
-
-                    try {
-                        addTask = new CommonTask(url, jsonObject.toString());
-                        String result = addTask.execute().get();
-                        count = Integer.parseInt(result);
-                        Toast.makeText(activity,result,Toast.LENGTH_SHORT).show();
 
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    if (MainActivity.preferences.getString("id", "").equals("")) {
 
-                    if (count == 0){
-                        Toast.makeText(activity,R.string.Fail,Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(v).navigate(R.id.loginFragment);
+                        Toast.makeText(activity,"請登入",Toast.LENGTH_LONG).show();
+
+                    } else {
+                        int account = Integer.parseInt(MainActivity.preferences.getString("id", ""));
+                        String url = Common.URL_SERVER + "Prouct_Servlet";
+                        JsonObject jsonObject = new JsonObject();
+                        Shopping_Cart shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), select_Amount);
+                        jsonObject.addProperty("action", "addShop");
+                        jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
+
+                        int count = 0;
+
+                        try {
+                            addTask = new CommonTask(url, jsonObject.toString());
+
+                            String result = addTask.execute().get();
+                            Log.i(TAG,result);
+                            count = Integer.parseInt(result);
+                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        if (count == 0) {
+                            Toast.makeText(activity, R.string.Fail, Toast.LENGTH_SHORT).show();
+                        }
                     }
 
 
                 }
             }
+
+
         });
 
 
