@@ -30,8 +30,8 @@ public class NoticeFragment extends Fragment {
     private SearchView searchView;
     private NoticeAdapter noticeAdapter;
     private NewsAdapter newsAdapter;
-    private List<NoticeList> btNoticeList;
-    private List<NewsList> newsLists;
+//    private List<NoticeList> btNoticeList;
+//    private List<NewsList> newsLists;
 
 
     public NoticeFragment() {
@@ -85,7 +85,7 @@ public class NoticeFragment extends Fragment {
 
     private void setLinstener() {
 
-        noticeAdapter = new NoticeAdapter(activity,noticeAdapter);
+//        noticeAdapter = new NoticeAdapter(activity,noticeAdapter);
 
 
 

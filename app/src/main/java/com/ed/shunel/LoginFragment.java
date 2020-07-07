@@ -136,11 +136,10 @@ public class LoginFragment extends Fragment {
                         Log.e(TAG, e.toString());
                     }
                     JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-                    String result = jsonObject.get("result").getAsString();
-                    String message = jsonObject.get("message").getAsString();
+                    String result = jsonObject2.get("result").getAsString();
                     switch (result) {
                         case "fail":
-                            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
                             break;
                         case "success":
                             String userJstr = jsonObject2.get("user").getAsString();
