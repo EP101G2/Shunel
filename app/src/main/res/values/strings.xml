@@ -89,6 +89,9 @@
 
     <string name="nextpage">下一頁</string>
     <string name="chekall">全選</string>
+
+
+
     <string name="buyer_Info">購買人資訊</string>
     <string name="payvoid">付款資訊</string>
     <string name="default_Address">預設地址</string>
@@ -104,6 +107,7 @@
     <string name="buyer_Info_Delivery">付款方式</string>
     <string name="textNoNetwork">沒有網路連線</string>
     <string name="textnofound">查無資料</string>
+
 
     <string name="textConfirmPay">確認付款</string>
     <string name="textCannotUseGPay">Cannot use Google Pay</string>
@@ -121,5 +125,7 @@
     <!-- 商家管理 -->
     <string name="TapPay_MerchantName">TW_TAISHIN</string>
     <string name="TapPay_MerchantID">j4688821105_TAISHIN</string>
+    <string name="textNoFound">NoFound</string>
+    <string name="Fail">添加失敗</string>
 
 </resources>

@@ -1,9 +1,12 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+
 import android.graphics.Rect;
 import android.nfc.Tag;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +19,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
-
 import com.ed.shunel.adapter.ProductAdapter_Sam;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -74,7 +69,9 @@ public class AllProductFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerView);
+
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),6));
         recyclerView.setAdapter(new ProductAdapter_Sam(getContext(), product));
 //        recyclerView.addItemDecoration(new SpacesItemDecoration(2));
 

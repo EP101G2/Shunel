@@ -29,7 +29,8 @@
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="#string/facebook_app_id"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

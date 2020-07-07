@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+
+import java.util.List;
 
 
 /**
@@ -27,6 +30,8 @@ public class NoticeFragment extends Fragment {
     private SearchView searchView;
     private NoticeAdapter noticeAdapter;
     private NewsAdapter newsAdapter;
+//    private List<NoticeList> btNoticeList;
+//    private List<NewsList> newsLists;
 
 
     public NoticeFragment() {
@@ -80,12 +85,33 @@ public class NoticeFragment extends Fragment {
 
     private void setLinstener() {
 
+//        noticeAdapter = new NoticeAdapter(activity,noticeAdapter);
+
+
+
+
+
 
     }
 
 
-    private class NoticeAdapter {
+    private class NoticeAdapter extends RecyclerView.Adapter{
 
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return null;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
     }
 
     private class NewsAdapter {

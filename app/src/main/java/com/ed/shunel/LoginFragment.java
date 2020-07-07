@@ -14,6 +14,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -24,7 +25,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ed.shunel.Task.Common;
+import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.bean.User_Account;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
@@ -41,22 +46,27 @@ import static android.content.Context.MODE_PRIVATE;
 public class LoginFragment extends Fragment {
     private final static String TAG = "TAG_LoginFragment";
     private Activity activity;
-    private EditText etTypePhonenumber, etTypePassword;
+    private EditText etTypeId, etTypePassword;
     private Button btLogin, btFacebook, btGoogle;
     private TextView tvRegisterNow, tvForgetPassword, tvMessage;
     private SharedPreferences preferences;
-    //    private CommonTask loginTask;
+    private CommonTask loginTask;
+    private String id,password;
+
     final String INITIALIZED = "initialized";
     Boolean user_first;
+    private View view;
 
-    String phonenum1 = null;
-    String phonenum2 = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-        //   AppEventsLogger.activateApp(getA);
+
+
+
+//
+//        AppEventsLogger.activateApp(getA);
 //        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//move the title
 //
 //        setting=getSharedPreferences("setting", 0);//開啟Preferences,名稱為setting,如果存在則開啟它,否則建立新的Preferences
@@ -70,7 +80,7 @@ public class LoginFragment extends Fragment {
 //        }else{
 //
 ////如果不是第一次登入,直接跳轉到下一個介面
-//            Intent intent=new Intent(this, MainActivity.class);
+//            Intent intent=new Intent(this, activity.class);
 //            startActivity(intent);
 //            finish();
 //        }
@@ -92,10 +102,10 @@ public class LoginFragment extends Fragment {
 
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etTypePhonenumber = view.findViewById(R.id.etTypePhonenumber);
+        etTypeId = view.findViewById(R.id.etTypePhonenumber);
         etTypePassword = view.findViewById(R.id.etTypePassword);
         btLogin = view.findViewById(R.id.btLogin);
         btFacebook = view.findViewById(R.id.btFacebook);
@@ -104,50 +114,51 @@ public class LoginFragment extends Fragment {
         tvForgetPassword = view.findViewById(R.id.tvForgetPassword);
         tvMessage = view.findViewById(R.id.tvMessage);
 
+        btLogin.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                 id = etTypeId.getText().toString();
+                 password = etTypePassword.getText().toString();
+
+                if (networkConnected()) {
+                    String url = Common.URL_SERVER + "Uesr_Account_Servlet";                           //connect servlet(eclipse)
+                    Gson gson = new Gson();
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "getLogin");
+                    jsonObject.addProperty("id", id);
+                    jsonObject.addProperty("password", password);
+                    loginTask = new CommonTask(url, jsonObject.toString());
+                    String jsonIn = "";
+                    try {
+                        jsonIn = loginTask.execute().get();
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+                    JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
+                    String result = jsonObject2.get("result").getAsString();
+                    switch (result) {
+                        case "fail":
+                            Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
+                            break;
+                        case "success":
+                            String userJstr = jsonObject2.get("user").getAsString();
+                            User_Account user_account = gson.fromJson(userJstr, User_Account.class);
+                            savePreferences();
+                            Bundle bundle=new Bundle();
+                            bundle.putSerializable("User",user_account);
+                            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
+                            break;
+                    }
+                } else {
+                    showToast(activity, R.string.textNoNetwork);
+                }
+            }
+        });
+    }
 
 //        preferences = activity.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE);
 //        loadPreferences();
-
-
-//        btLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String number = etTypePhonenumber.getText().toString();
-//                String password = etTypePassword.getText().toString();
-//                Bundle bundle = new Bundle();
-//                bundle.putString("number", number);
-//                bundle.putString("password", password);
-//                if (networkConnected()) {
-//                    String url = Common.URL + "LoginServlet";
-//                    Gson gson = new Gson();
-//                    loginTask = new CommonTask(url, gson.toJson(user));
-//                    String jsonIn = "";
-//                    try {
-//                        jsonIn = loginTask.execute().get();
-//                    } catch (Exception e) {
-//                        Log.e(TAG, e.toString());
-//                    }
-//                    JsonObject jsonObject = gson.fromJson(jsonIn, JsonObject.class);
-//                    int resultCode = jsonObject.get("resultCode").getAsInt();
-//                    String name = jsonObject.get("name").getAsString();
-//                    switch (resultCode) {
-//                        case 0:
-//                            textView.setText(R.string.textUserInvalid);
-//                            break;
-//                        case 1:
-//                            StringBuilder text = new StringBuilder();
-//                            text.append(getString(R.string.textWelcomeBack))
-//                                    .append(", ")
-//                                    .append(name);
-//                            textView.setText(text);
-//                            break;
-//                    }
-//                } else {
-//                    showToast(activity, R.string.textNoNetwork);
-//                }
-//            }
-//        });
-    }
 
 
     // 檢查是否有網路連線
@@ -180,15 +191,17 @@ public class LoginFragment extends Fragment {
         return false;
     }
 
+    private void showToast(Context context, int messageId) {
+        Toast.makeText(context, messageId, Toast.LENGTH_SHORT).show();
+    }
+    private void savePreferences() {
+
+        preferences.edit()
+                .putString("id",id )
+                .putString("password",password)
+                .apply();
+    }
 }
-
-
-
-
-
-
-
-
 
 
 //                if (number.isEmpty()) {

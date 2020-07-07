@@ -31,6 +31,7 @@
             <include
                 android:id="@+id/btBuy"
                 layout="@layout/gpay_button"
+
                 android:layout_width="230dp"
                 android:layout_height="48sp"
                 android:layout_below="@id/totalAmountTV"
