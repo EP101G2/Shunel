@@ -114,16 +114,6 @@ public class LoginFragment extends Fragment {
         tvForgetPassword = view.findViewById(R.id.tvForgetPassword);
         tvMessage = view.findViewById(R.id.tvMessage);
 
-
-        final NavController navController = Navigation.findNavController(view);
-        Log.d(TAG,"123");
-        if( !MainActivity.preferences.getString("id","").equals("")){
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
-        }
-
-
-
-
         btLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
