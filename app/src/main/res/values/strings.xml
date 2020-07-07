@@ -128,5 +128,6 @@
     <string name="textNoFound">NoFound</string>
     <string name="Fail">添加失敗</string>
     <string name="textNoNetwork">無網路</string>
+    <string name="logout">登出</string>
 
 </resources>
