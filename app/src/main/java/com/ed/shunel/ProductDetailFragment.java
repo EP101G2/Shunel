@@ -24,6 +24,7 @@ import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.ed.shunel.bean.User_Account;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ProductDetailFragment extends Fragment {
+    private final static String TAG="ProductDetailFragment";
     private Activity activity;
     private ImageView iv_Prouduct;
     private ImageView iv_Like;
@@ -205,15 +207,17 @@ public class ProductDetailFragment extends Fragment {
                         JsonObject jsonObject = new JsonObject();
                         Shopping_Cart shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), select_Amount);
                         jsonObject.addProperty("action", "addShop");
-                        jsonObject.addProperty("ProductID", product.getProduct_ID());
+                        jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
 
                         int count = 0;
 
                         try {
                             addTask = new CommonTask(url, jsonObject.toString());
+
                             String result = addTask.execute().get();
+                            Log.i(TAG,result);
                             count = Integer.parseInt(result);
-                            Toast.makeText(activity, result, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
 
 
                         } catch (Exception e) {

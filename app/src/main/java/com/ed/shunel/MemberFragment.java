@@ -82,7 +82,12 @@ public class MemberFragment extends Fragment {
     }
 
     private void Logout() {
-        MainActivity.preferences.edit().clear().commit();
+
+
+
+        MainActivity.preferences.edit().clear().apply();
+
+//        if (MainActivity.preferences.edit())
 
 
     }

@@ -1,7 +1,6 @@
 package com.ed.shunel;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,32 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-<<<<<<< HEAD
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.TextView;
-
-import com.ed.shunel.Task.Common;
-import com.ed.shunel.Task.CommonTask;
-import com.ed.shunel.bean.Notice;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
-
-=======
->>>>>>> 481ee856bdb281a06172f8c9205b6e9d2b9e8a8e
 
 /**
  * A simple {@link Fragment} subclass.
  */
-<<<<<<< HEAD
+
 //public class NoticeFragment<layoutInflater> extends Fragment {
 //
 //    private static final String TAG = "TAG_NoticeFragment";
@@ -180,7 +158,7 @@ import java.util.List;
 //    private class NewsAdapter {
 //    }
 //}
-=======
+
 public class NoticeFragment extends Fragment {
 
     private static final String TAG = "TAG_NoticeFragment";
@@ -277,4 +255,3 @@ public class NoticeFragment extends Fragment {
     private class NewsAdapter {
     }
 }
->>>>>>> 481ee856bdb281a06172f8c9205b6e9d2b9e8a8e

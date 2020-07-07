@@ -192,6 +192,8 @@ public class LoginFragment extends Fragment {
 
     private void savePreferences() {
 
+
+
         MainActivity.preferences.edit()
                 .putString("id", id)
                 .putString("password", password)
