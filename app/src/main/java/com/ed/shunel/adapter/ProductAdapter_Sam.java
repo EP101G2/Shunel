@@ -1,6 +1,7 @@
 package com.ed.shunel.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,33 +19,32 @@ import com.ed.shunel.Task.ImageTask;
 
 import java.util.List;
 
-public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.Myviewholder>{
+public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.Myviewholder> {
     private Context context;
     private List<Product> products;
     private ImageTask productimageTask;
     private int imageSize;
 
-    public ProductAdapter_Sam(Context context, List list) {
+    public ProductAdapter_Sam(Context context, List<Product> products) {
         this.context = context;
-        this.products = list;
+        this.products = products;
         imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
     }
 
     @NonNull
     @Override
     public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View view= LayoutInflater.from(context).inflate(R.layout.item_view_product,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_view_product, parent, false);
         return new Myviewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Myviewholder myviewholder, int position) {
         final Product product = products.get(position);
-        String url = Common.URL_SERVER + "BookServlet";
+        String url = Common.URL_SERVER + "Prouct_Servlet";
         int id_product = product.getProduct_ID();
         productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
-        productimageTask.execute();
-
+//        productimageTask.execute();
 
 
         myviewholder.tvname.setText(products.get(position).getProduct_Name());
@@ -55,28 +55,32 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
         myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.productDetailFragment);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("product", product);
+                Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
             }
         });
-
 
 
     }
 
     @NonNull
-
-
     @Override
     public int getItemCount() {
-        return products.size();
+
+        return products == null ? 0 : products.size();
+
+
     }
 
+    public void setProducts(List<Product> product) {
+        this.products = product;
+    }
 
-
-    class Myviewholder extends RecyclerView.ViewHolder{
+    class Myviewholder extends RecyclerView.ViewHolder {
         private ImageView ivcardIMG;
-        private TextView tvname,tvPrice;
-
+        private TextView tvname, tvPrice;
 
 
         public Myviewholder(@NonNull View itemView) {

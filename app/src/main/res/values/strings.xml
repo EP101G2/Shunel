@@ -40,7 +40,7 @@
     <string name="send">送出</string>
 
 
-    <string name="tvOrderHisTitle">訂購記錄</string>
+    <string name="tvOrderHisTitle">訂單詳情</string>
     <string name="textOrderNumText">訂單編號：</string>
     <string name="textOrderStatusText">訂購狀態：</string>
     <string name="textNotYetDelivered">未出貨</string>
@@ -50,7 +50,21 @@
     <string name="textRefunds">已退貨</string>
     <string name="textOrderNum" />
     <string name="textOrderStatus" />
-    <string name="textTotalPriceText">總金額：</string>
+    <string name="textTotalPriceText">總金額：$</string>
+    <string name="textTotalPrice" />
+    <string name="textReceivePersonT">收貨人資料：</string>
+    <string name="textNameT">姓名：</string>
+    <string name="textReceiverTitle">收件人資料：</string>
+    <string name="textName" />
+    <string name="textHint">null</string>
+    <string name="textOrderId" />
+    <string name="textPhoneNumT">手機：</string>
+    <string name="textPhoneNum" />
+    <string name="textOrderDAddressT">地址：</string>
+    <string name="textAddress" />
+    <string name="textProductName" />
+    <string name="textProductPriceT">售價：</string>
+    <string name="textProductPrice" />
 
     <string name="textVCode">驗證碼輸入</string>
     <string name="textVCodeMessage">您的帳號可能存在安全風險。為了確保為您本人操作，請先輸入手機收到之安全驗證碼。</string>
@@ -69,13 +83,49 @@
     <string name="tv_Price">價格</string>
     <string name="Search">搜尋</string>
     <string name="searchPrompt">請輸入您想搜尋的商品</string>
-    <string name="searchHistory">搜尋紀錄</string >
+    <string name="searchHistory">搜尋紀錄</string>
     <string name="clearSearch">清除搜尋紀錄</string>
     <string name="tvbuy">直接購買</string>
 
     <string name="nextpage">下一頁</string>
     <string name="chekall">全選</string>
+<<<<<<< HEAD
     <string name="textNoNetwork">沒有網路</string>
+=======
+    <string name="buyer_Info">購買人資訊</string>
+    <string name="payvoid">付款資訊</string>
+    <string name="default_Address">預設地址</string>
+    <string name="buyer_name">姓名:</string>
+    <string name="buyer_phone">電話:</string>
+    <string name="default_data">預設</string>
+    <string name="buyer_Address">地址:</string>
+    <string name="new_address">新增地址</string>
+    <string name="buyer_add_name">ex:王小明</string>
+    <string name="buyer_add_phone">ex:0911111111</string>
+    <string name="buy_confirm">新增</string>
+    <string name="Nodata">購物車沒有東西～～</string>
+    <string name="buyer_Info_Delivery">付款方式</string>
+    <string name="textNoNetwork">沒有網路連線</string>
+    <string name="textnofound">查無資料</string>
+>>>>>>> b689665d98fa13933ea2ae07fe53d6529b1bd7bd
 
+    <string name="textConfirmPay">確認付款</string>
+    <string name="textCannotUseGPay">Cannot use Google Pay</string>
+
+
+
+    <!-- 填上TapPay Portal上註冊的資料 -->
+    <!-- 開發者 > 應用程式 -->
+    <string name="TapPay_AppID">17100</string>
+    <string name="TapPay_AppKey">app_7WA1h08hDCJc5KNYZ2OeSYRraNFc20dNNA7GIkC0v7tAZnoSg7Y8EsKCinew</string>
+
+    <!-- 帳戶資訊 -->
+    <string name="TapPay_PartnerKey">partner_ky2g17lc28c95O6LCU0SU5vXjBs3FBmbSF3eKN4FqLEwviun4GK2K8M7</string>
+
+    <!-- 商家管理 -->
+    <string name="TapPay_MerchantName">TW_TAISHIN</string>
+    <string name="TapPay_MerchantID">j4688821105_TAISHIN</string>
+    <string name="textNoFound">NoFound</string>
+    <string name="Fail">添加失敗</string>
 
 </resources>
