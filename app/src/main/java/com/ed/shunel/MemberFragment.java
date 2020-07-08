@@ -80,7 +80,14 @@ public class MemberFragment extends Fragment {
                 Logout();
             }
         });
-        
+
+
+        cvChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.chatFragment);
+            }
+        });
 
     }
 

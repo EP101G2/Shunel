@@ -58,10 +58,16 @@
         android:id="@+id/tvPdPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="208dp"
+        android:layout_marginRight="208dp"
         android:text="TextView"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_Dital"
-        app:layout_constraintTop_toTopOf="@+id/tvPdName" />
+        app:layout_constraintBottom_toTopOf="@+id/tv_Dital"
+        app:layout_constraintEnd_toEndOf="@+id/tvPdName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvPdName"
+        app:layout_constraintTop_toBottomOf="@+id/tvPdName" />
 
     <ImageView
         android:id="@+id/iv_Prouduct"
@@ -77,7 +83,7 @@
         android:id="@+id/tv_Dital"
         android:layout_width="349dp"
         android:layout_height="81dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="120dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/tvPdName"
         app:layout_constraintTop_toBottomOf="@+id/tvPdName" />
@@ -118,21 +124,27 @@
         app:layout_constraintTop_toTopOf="@+id/iv_Like" />
 
     <Spinner
-        android:id="@+id/sp_Color"
-        android:layout_width="121dp"
-        android:layout_height="39dp"
-        app:layout_constraintBottom_toBottomOf="@+id/sp_Amount"
-        app:layout_constraintEnd_toEndOf="@+id/tv_Dital"
-        app:layout_constraintTop_toTopOf="@+id/sp_Amount" />
-
-    <Spinner
         android:id="@+id/sp_Amount"
         android:layout_width="121dp"
         android:layout_height="39dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginLeft="228dp"
         app:layout_constraintBottom_toTopOf="@+id/iv_Like"
-        app:layout_constraintEnd_toStartOf="@+id/sp_Color"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_Dital"
-        app:layout_constraintTop_toBottomOf="@+id/tv_Dital" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_Dital"
+        app:layout_constraintVertical_bias="0.262" />
+
+    <TextView
+        android:id="@+id/tvColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvPdPrice"
+        app:layout_constraintEnd_toEndOf="@+id/tvPdName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvPdName"
+        app:layout_constraintTop_toBottomOf="@+id/tvPdName"
+        app:layout_constraintVertical_bias="0.583" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
