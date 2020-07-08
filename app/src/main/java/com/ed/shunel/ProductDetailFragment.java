@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ProductDetailFragment extends Fragment {
-    private final static String TAG="ProductDetailFragment";
+    private final static String TAG = "ProductDetailFragment";
     private Activity activity;
     private ImageView iv_Prouduct;
     private ImageView iv_Like;
@@ -197,8 +198,11 @@ public class ProductDetailFragment extends Fragment {
 
                     if (MainActivity.preferences.getString("id", "").equals("")) {
 
-                        Navigation.findNavController(v).navigate(R.id.loginFragment);
-                        Toast.makeText(activity,"請登入",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent();
+                        intent.setClass(activity, LoginActivity.class);
+                        startActivity(intent);
+
+
 
                     } else {
                         int account = Integer.parseInt(MainActivity.preferences.getString("id", ""));
@@ -214,7 +218,7 @@ public class ProductDetailFragment extends Fragment {
                             addTask = new CommonTask(url, jsonObject.toString());
 
                             String result = addTask.execute().get();
-                            Log.i(TAG,result);
+                            Log.i(TAG, result);
                             count = Integer.parseInt(result);
                             Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
 

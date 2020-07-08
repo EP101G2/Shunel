@@ -15,12 +15,13 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity android:name=".PayActivity">
+        <activity android:name=".LoginActivity">
 
 
 
 
         </activity>
+        <activity android:name=".PayActivity"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
