@@ -123,12 +123,6 @@ public class LoginFragment extends Fragment {
                         Log.e(TAG, e.toString());
                     }
                     JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-//                    Log.i(TAG,jsonObject2.toString());
-
-
-
-
-
                         String result =   jsonObject2.get("result").getAsString();
                         Log.i(TAG,result);
                         switch (result) {
