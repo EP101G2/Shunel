@@ -91,7 +91,6 @@
     <string name="chekall">全選</string>
 
 
-
     <string name="buyer_Info">購買人資訊</string>
     <string name="payvoid">付款資訊</string>
     <string name="default_Address">預設地址</string>
@@ -113,7 +112,6 @@
     <string name="textCannotUseGPay">Cannot use Google Pay</string>
 
 
-
     <!-- 填上TapPay Portal上註冊的資料 -->
     <!-- 開發者 > 應用程式 -->
     <string name="TapPay_AppID">17100</string>
@@ -128,5 +126,8 @@
     <string name="textNoFound">NoFound</string>
     <string name="Fail">添加失敗</string>
     <string name="textNoNetwork">無網路</string>
+    <string name="logout">登出</string>
+    <string name="textDeleteFail">移除失敗</string>
+    <string name="textDeleteSuccess">移除成功</string>
 
 </resources>

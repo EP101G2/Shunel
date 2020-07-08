@@ -23,6 +23,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ed.shunel.Task.Common;
+import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.bean.Shopping_Cart;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,15 +44,22 @@ import java.util.Set;
  */
 public class ShoppingcartFragment extends Fragment {
 
-    private static final String TAG = "TAG_ShoppingcartFragment";
+    private final static String TAG = "TAG_ShoppingcartFragment";
     private Activity activity;
     private RecyclerView rv_Shopping_Cart;
-    private List<Product> shopping_cartList;
+    private List<Shopping_Cart> shopping_cartList;
     private shopp_cart_adapter shopp_cart_adapter;
     private Button btn_next;
     private CheckBox checkbox_all;
     private boolean isSelect = false;//全选按钮的状态
-    private List<Product>listdatas=new ArrayList<>();
+    private List<Shopping_Cart> listdatas = new ArrayList<Shopping_Cart>();
+//    private List<Shopping_Cart> cartList;
+
+    private CommonTask shopGetall;
+
+
+    //    test
+    private List<Product> productList;
 
     public ShoppingcartFragment() {
         // Required empty public constructor
@@ -83,7 +98,7 @@ public class ShoppingcartFragment extends Fragment {
     }
 
     private void setLinstener() {
-
+        //bug
         shopp_cart_adapter = new shopp_cart_adapter(activity, shopping_cartList);
         new ItemTouchHelper(item).attachToRecyclerView(rv_Shopping_Cart);
 //        rv_Shopping_Cart.setAdapter(new shopp_cart_adprer(activity,shopping_cartList));
@@ -93,13 +108,13 @@ public class ShoppingcartFragment extends Fragment {
         checkbox_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isSelect){
-                    isSelect=true;//全选
+                if (!isSelect) {
+                    isSelect = true;//全选
 //                    adapter.All();
                     shopp_cart_adapter.All();
 //                    checkbox_all.setText("取消全");
-                }else{
-                    isSelect=false;//取消全选
+                } else {
+                    isSelect = false;//取消全选
 //                    adapter.neverall();
                     shopp_cart_adapter.All();
 //                    checkbox_all.setText("全选");
@@ -113,32 +128,28 @@ public class ShoppingcartFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String  content="";
+                String content = "";
                 listdatas.clear();
                 Map<Integer, Boolean> map = shopp_cart_adapter.getMap();
-                for (int i = 0; i <shopping_cartList.size(); i++) {
-                    if (map.get(i)){
+                for (int i = 0; i < shopping_cartList.size(); i++) {
+                    if (map.get(i)) {
                         listdatas.add(shopping_cartList.get(i));
                     }
                 }
-                for (int j = 0; j <listdatas.size() ; j++) {
-                    content+=listdatas.get(j)+",";
+                for (int j = 0; j < listdatas.size(); j++) {
+                    content += listdatas.get(j) + ",";
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 if (content.length() == 0) {
                     builder.setMessage(R.string.Nodata);
                     builder.create().show();
                 } else {
-                   Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment);
+                    Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment);
                 }
-
-
 
 
             }
         });
-
-//        checkbox_all.set
 
 
     }
@@ -146,26 +157,68 @@ public class ShoppingcartFragment extends Fragment {
     private void initData() {
 
         shopping_cartList = getDate();
+        productList = getProduct();
 
     }
 
-    private List<Product> getDate() {
+    private List<Product> getProduct() {
+        List<Product> shoppingCarts = null;
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getAllShop");
+            String jsonOut = jsonObject.toString();
+            shopGetall = new CommonTask(url, jsonOut);
+            try {
+                String jsonIn = shopGetall.execute().get();
+                Type listType = new TypeToken<List<Shopping_Cart>>() {
+                }.getType();
+                shoppingCarts = new Gson().fromJson(jsonIn, listType);
+//                Log.i();
 
-        List<Product> shoppingCarts = new ArrayList<>();
-        shoppingCarts.add(new Product(1, "測試1", "黑色", 203, "內容", 1, 1));
-        shoppingCarts.add(new Product(2, "測試2", "黑色", 203, "內容", 1, 1));
-        shoppingCarts.add(new Product(1, "測試3", "黑色", 203, "內容", 1, 1));
-        shoppingCarts.add(new Product(1, "測試4", "黑色", 203, "內容", 1, 1));
-        shoppingCarts.add(new Product(1, "測試5", "黑色", 203, "內容", 1, 1));
-
-
+            } catch (Exception e) {
+                e.printStackTrace();
+//                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
         return shoppingCarts;
+
+
+    }
+
+    private List<Shopping_Cart> getDate() {
+
+        List<Shopping_Cart> shoppingCarts = null;
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getAllShop");
+//            jsonObject.addProperty("shoppingCarts",new Gson().toJson(shoppingCarts));
+            String jsonOut = jsonObject.toString();
+            shopGetall = new CommonTask(url, jsonOut);
+
+            try {
+                String jsonIn = shopGetall.execute().get();
+                Type listType = new TypeToken<List<Shopping_Cart>>() {
+                }.getType();
+                shoppingCarts = new Gson().fromJson(jsonIn, listType);
+            } catch (Exception e) {
+                e.printStackTrace();
+//                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        return shoppingCarts;
+
     }
 
     private void findViews(View view) {
 
-        checkbox_all=view.findViewById(R.id.checkox_all);
-        btn_next=view.findViewById(R.id.btn_next);
+        checkbox_all = view.findViewById(R.id.checkox_all);
+        btn_next = view.findViewById(R.id.btn_next);
         rv_Shopping_Cart = view.findViewById(R.id.rv_Shopping_Cart);
         rv_Shopping_Cart.setLayoutManager(new LinearLayoutManager(activity));
 
@@ -174,10 +227,10 @@ public class ShoppingcartFragment extends Fragment {
 
     private class shopp_cart_adapter extends RecyclerView.Adapter<shopp_cart_adapter.Myviewholder> {
         Context context;
-        List<Product> shopping_cartList;
+        List<Shopping_Cart> shopping_cartList;
         private HashMap<Integer, Boolean> maps = new HashMap<Integer, Boolean>();//多选
 
-        public shopp_cart_adapter(Context context, List<Product> shopping_cartList) {
+        public shopp_cart_adapter(Context context, List<Shopping_Cart> shopping_cartList) {
             this.context = context;
             this.shopping_cartList = shopping_cartList;
             initMap();
@@ -185,8 +238,8 @@ public class ShoppingcartFragment extends Fragment {
 
         private void initMap() {
 
-            for (int i = 0; i <shopping_cartList.size() ; i++) {
-                maps.put(i,false);   //每一次进入列表页面  都是未选中状态
+            for (int i = 0; i < shopping_cartList.size(); i++) {
+                maps.put(i, false);   //每一次进入列表页面  都是未选中状态
             }
 
 
@@ -203,8 +256,8 @@ public class ShoppingcartFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, final int position) {
 
-            Product product = shopping_cartList.get(position);
-            holder.tv_Name.setText(product.getProduct_Name());
+            Shopping_Cart shoppingCart = shopping_cartList.get(position);
+//            holder.tv_Name.setText(shoppingCart.getProduct_ID());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -228,7 +281,6 @@ public class ShoppingcartFragment extends Fragment {
 
 
         }
-
 
 
         //全选方法
@@ -256,6 +308,7 @@ public class ShoppingcartFragment extends Fragment {
             }
             notifyDataSetChanged();
         }
+
         //多选
         public void MultiSelection(int position) {
             //对当前状态取反
@@ -271,8 +324,6 @@ public class ShoppingcartFragment extends Fragment {
         public Map<Integer, Boolean> getMap() {
             return maps;
         }
-
-
 
 
         @Override
@@ -326,8 +377,35 @@ public class ShoppingcartFragment extends Fragment {
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            shopping_cartList.remove(viewHolder.getAdapterPosition());
-            shopp_cart_adapter.notifyDataSetChanged();
+
+            if (Common.networkConnected(activity)) {
+                String url = Common.URL_SERVER + "Prouct_Servlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "shopDelete");
+//                jsonObject.addProperty("shopId", );
+                int count = 0;
+                try {
+                    shopGetall= new CommonTask(url, jsonObject.toString());
+                    String result = shopGetall.execute().get();
+                    count = Integer.parseInt(result);
+                } catch (Exception e) {
+//                    Log.e(TAG, e.toString());
+                }
+                if (count == 0) {
+                    Common.showToast(activity, R.string.textDeleteFail);
+                } else {
+                    shopping_cartList.remove(viewHolder.getAbsoluteAdapterPosition());
+                    shopp_cart_adapter.notifyDataSetChanged();
+//                    SpotAdapter.this.notifyDataSetChanged();
+                    // 外面spots也必須移除選取的spot
+//                    SpotListFragment.this.spots.remove(spot);
+                    Common.showToast(activity, R.string.textDeleteSuccess);
+                }
+            } else {
+                Common.showToast(activity, R.string.textNoNetwork);
+            }
+//            shopping_cartList.remove(viewHolder.getAdapterPosition());
+//
 
         }
 
@@ -380,8 +458,6 @@ public class ShoppingcartFragment extends Fragment {
             shopp_cart_adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target
                     .getAdapterPosition());
         }
-
-
 
 
     };

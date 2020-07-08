@@ -123,26 +123,27 @@ public class LoginFragment extends Fragment {
                         Log.e(TAG, e.toString());
                     }
                     JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-                        String result =   jsonObject2.get("result").getAsString();
-                        Log.i(TAG,result);
-                        switch (result) {
-                            case "fail":
 
-                                Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
+                    String result = jsonObject2.get("result").getAsString();
+                    Log.i(TAG, result);
+                    switch (result) {
+                        case "fail":
 
-                            case "success":
+                            Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
+
+                        case "success":
 
 
-                                   String userJstr = jsonObject2.get("user").getAsString();
+                            String userJstr = jsonObject2.get("user").getAsString();
 
-                                    User_Account user_account = gson.fromJson(userJstr, User_Account.class);
-                                    savePreferences();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable("User", user_account);
-                                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
+                            User_Account user_account = gson.fromJson(userJstr, User_Account.class);
+                            savePreferences();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("User", user_account);
+                            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
 
-                                break;
-                        }
+                            break;
+                    }
 
 
                 } else {
@@ -191,6 +192,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void savePreferences() {
+
+
 
         MainActivity.preferences.edit()
                 .putString("id", id)
