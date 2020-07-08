@@ -90,7 +90,7 @@ public class ShoppingcartFragment extends Fragment {
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
         setSystemServices();
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
-        setLinstener();
+//        setLinstener();
 
     }
 
@@ -233,7 +233,7 @@ public class ShoppingcartFragment extends Fragment {
         public shopp_cart_adapter(Context context, List<Shopping_Cart> shopping_cartList) {
             this.context = context;
             this.shopping_cartList = shopping_cartList;
-            initMap();
+//            initMap();
         }
 
         private void initMap() {

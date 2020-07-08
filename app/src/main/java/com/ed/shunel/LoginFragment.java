@@ -134,7 +134,7 @@ public class LoginFragment extends Fragment {
                         case "fail":
 
                             Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
-
+                            break;
 
 
                         case "success":
