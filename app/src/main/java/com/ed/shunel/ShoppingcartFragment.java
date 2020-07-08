@@ -54,6 +54,7 @@ public class ShoppingcartFragment extends Fragment {
     private boolean isSelect = false;//全选按钮的状态
     private List<Shopping_Cart> listdatas = new ArrayList<Shopping_Cart>();
 //    private List<Shopping_Cart> cartList;
+    private TextView tv_Total;
 
     private CommonTask shopGetall;
 
@@ -90,7 +91,7 @@ public class ShoppingcartFragment extends Fragment {
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
         setSystemServices();
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
-//        setLinstener();
+        setLinstener();
 
     }
 
@@ -157,7 +158,7 @@ public class ShoppingcartFragment extends Fragment {
     private void initData() {
 
         shopping_cartList = getDate();
-        productList = getProduct();
+//        productList = getProduct();
 
     }
 
@@ -219,6 +220,7 @@ public class ShoppingcartFragment extends Fragment {
 
         checkbox_all = view.findViewById(R.id.checkox_all);
         btn_next = view.findViewById(R.id.btn_next);
+        tv_Total=view.findViewById(R.id.tv_Total);
         rv_Shopping_Cart = view.findViewById(R.id.rv_Shopping_Cart);
         rv_Shopping_Cart.setLayoutManager(new LinearLayoutManager(activity));
 
@@ -233,7 +235,7 @@ public class ShoppingcartFragment extends Fragment {
         public shopp_cart_adapter(Context context, List<Shopping_Cart> shopping_cartList) {
             this.context = context;
             this.shopping_cartList = shopping_cartList;
-//            initMap();
+            initMap();
         }
 
         private void initMap() {
@@ -254,10 +256,14 @@ public class ShoppingcartFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull Myviewholder holder, final int position) {
+        public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
 
             Shopping_Cart shoppingCart = shopping_cartList.get(position);
 //            holder.tv_Name.setText(shoppingCart.getProduct_ID());
+
+            holder.tv_Name.setText(shoppingCart.getProduct_Name());
+            holder.tv_Count.setText(shoppingCart.getAmount());
+            holder.tv_specification.setText(shoppingCart.getColor());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -270,6 +276,11 @@ public class ShoppingcartFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     maps.put(position, isChecked);
+//                    int sum=0;
+//                    for (int i = 0 ; i<=maps.size();++){
+//                        sum=Integer.parseInt(holder.tv_Count.getText().toString());
+//                        sum+=sum;
+//                    }
                 }
             });
 
@@ -337,9 +348,9 @@ public class ShoppingcartFragment extends Fragment {
             TextView tv_Name;
             TextView tv_specification;
             TextView tv_Price;
-            TextView tv_Add;
+            Button bt_Add;
             TextView tv_Count;
-            TextView tv_Less;
+            Button bt_Less;
 
 
             public Myviewholder(View view) {
@@ -349,9 +360,9 @@ public class ShoppingcartFragment extends Fragment {
                 tv_Name = view.findViewById(R.id.tv_Name);
                 tv_specification = view.findViewById(R.id.tv_specification);
                 tv_Price = view.findViewById(R.id.tv_Price);
-                tv_Add = view.findViewById(R.id.tv_Add);
+                bt_Add = view.findViewById(R.id.btAdd);
                 tv_Count = view.findViewById(R.id.tv_Count);
-                tv_Less = view.findViewById(R.id.tv_Less);
+                bt_Less = view.findViewById(R.id.btLess);
 
             }
         }
@@ -375,14 +386,16 @@ public class ShoppingcartFragment extends Fragment {
 //            return false;
         }
 
+
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
             if (Common.networkConnected(activity)) {
+                Shopping_Cart shoppingCart = shopping_cartList.get(direction);
                 String url = Common.URL_SERVER + "Prouct_Servlet";
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "shopDelete");
-//                jsonObject.addProperty("shopId", );
+                jsonObject.addProperty("shopId", shoppingCart.getProduct_ID());
                 int count = 0;
                 try {
                     shopGetall= new CommonTask(url, jsonObject.toString());
