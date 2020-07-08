@@ -44,10 +44,10 @@ import java.util.Set;
  */
 public class ShoppingcartFragment extends Fragment {
 
-    private static final String TAG = "TAG_ShoppingcartFragment";
+    private final static String TAG = "TAG_ShoppingcartFragment";
     private Activity activity;
     private RecyclerView rv_Shopping_Cart;
-    private  List<Shopping_Cart> shopping_cartList;
+    private List<Shopping_Cart> shopping_cartList;
     private shopp_cart_adapter shopp_cart_adapter;
     private Button btn_next;
     private CheckBox checkbox_all;
@@ -58,8 +58,7 @@ public class ShoppingcartFragment extends Fragment {
     private CommonTask shopGetall;
 
 
-
-//    test
+    //    test
     private List<Product> productList;
 
     public ShoppingcartFragment() {
@@ -99,7 +98,7 @@ public class ShoppingcartFragment extends Fragment {
     }
 
     private void setLinstener() {
-
+        //bug
         shopp_cart_adapter = new shopp_cart_adapter(activity, shopping_cartList);
         new ItemTouchHelper(item).attachToRecyclerView(rv_Shopping_Cart);
 //        rv_Shopping_Cart.setAdapter(new shopp_cart_adprer(activity,shopping_cartList));
@@ -174,7 +173,9 @@ public class ShoppingcartFragment extends Fragment {
                 String jsonIn = shopGetall.execute().get();
                 Type listType = new TypeToken<List<Shopping_Cart>>() {
                 }.getType();
-                shoppingCarts= new Gson().fromJson(jsonIn, listType);
+                shoppingCarts = new Gson().fromJson(jsonIn, listType);
+//                Log.i();
+
             } catch (Exception e) {
                 e.printStackTrace();
 //                Log.e(TAG, e.toString());
@@ -190,18 +191,19 @@ public class ShoppingcartFragment extends Fragment {
     private List<Shopping_Cart> getDate() {
 
         List<Shopping_Cart> shoppingCarts = null;
-
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAllShop");
+//            jsonObject.addProperty("shoppingCarts",new Gson().toJson(shoppingCarts));
             String jsonOut = jsonObject.toString();
             shopGetall = new CommonTask(url, jsonOut);
+
             try {
                 String jsonIn = shopGetall.execute().get();
                 Type listType = new TypeToken<List<Shopping_Cart>>() {
                 }.getType();
-                shoppingCarts= new Gson().fromJson(jsonIn, listType);
+                shoppingCarts = new Gson().fromJson(jsonIn, listType);
             } catch (Exception e) {
                 e.printStackTrace();
 //                Log.e(TAG, e.toString());
@@ -255,7 +257,7 @@ public class ShoppingcartFragment extends Fragment {
         public void onBindViewHolder(@NonNull Myviewholder holder, final int position) {
 
             Shopping_Cart shoppingCart = shopping_cartList.get(position);
-            holder.tv_Name.setText(shoppingCart.getProduct_ID());
+//            holder.tv_Name.setText(shoppingCart.getProduct_ID());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -375,8 +377,35 @@ public class ShoppingcartFragment extends Fragment {
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            shopping_cartList.remove(viewHolder.getAdapterPosition());
-            shopp_cart_adapter.notifyDataSetChanged();
+
+            if (Common.networkConnected(activity)) {
+                String url = Common.URL_SERVER + "Prouct_Servlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "shopDelete");
+//                jsonObject.addProperty("shopId", );
+                int count = 0;
+                try {
+                    shopGetall= new CommonTask(url, jsonObject.toString());
+                    String result = shopGetall.execute().get();
+                    count = Integer.parseInt(result);
+                } catch (Exception e) {
+//                    Log.e(TAG, e.toString());
+                }
+                if (count == 0) {
+                    Common.showToast(activity, R.string.textDeleteFail);
+                } else {
+                    shopping_cartList.remove(viewHolder.getAbsoluteAdapterPosition());
+                    shopp_cart_adapter.notifyDataSetChanged();
+//                    SpotAdapter.this.notifyDataSetChanged();
+                    // 外面spots也必須移除選取的spot
+//                    SpotListFragment.this.spots.remove(spot);
+                    Common.showToast(activity, R.string.textDeleteSuccess);
+                }
+            } else {
+                Common.showToast(activity, R.string.textNoNetwork);
+            }
+//            shopping_cartList.remove(viewHolder.getAdapterPosition());
+//
 
         }
 

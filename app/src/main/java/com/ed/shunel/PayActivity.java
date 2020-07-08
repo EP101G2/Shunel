@@ -5,16 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ed.shunel.Task.ApiUtil;
 import com.google.android.gms.common.api.Status;
@@ -38,13 +34,9 @@ import tech.cherri.tpdirect.callback.TPDTokenSuccessCallback;
 
 import static com.ed.shunel.Task.Common.CARD_TYPES;
 
+public class PayActivity extends AppCompatActivity {
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class DeliveryFragment extends Fragment {
-
-    private static final String TAG = "DeliveryFragment";
+    private static final String TAG = "PayActivity";
     private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 101;
     private Activity activity;
     private TPDGooglePay tpdGooglePay;
@@ -54,51 +46,26 @@ public class DeliveryFragment extends Fragment {
     private PaymentData paymentData;
     private Button btConfirm;
 
-    public DeliveryFragment() {
-        // Required empty public constructor
-    }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = getActivity();
-    }
+        setContentView(R.layout.activity_pay);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_delivery, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        handleViews(view);
-
-
-        Log.d(TAG, "SDK version is " + TPDSetup.getVersion());
+        handleViews();
 
         // 使用TPDSetup設定環境。每個設定值出處參看strings.xml
-        TPDSetup.initInstance(getActivity(),
+        TPDSetup.initInstance(getApplicationContext(),
                 Integer.parseInt(getString(R.string.TapPay_AppID)),
                 getString(R.string.TapPay_AppKey),
                 TPDServerType.Sandbox);
 
 
 
-
-//        TPDSetup.initInstance(getApplicationContext(),
-//                Integer.parseInt(getString(R.string.TapPay_AppID)),
-//                getString(R.string.TapPay_AppKey),
-//                TPDServerType.Sandbox);
-
         prepareGooglePay();
-
     }
 
-    private void prepareGooglePay() {
-
+    public void prepareGooglePay() {
         TPDMerchant tpdMerchant = new TPDMerchant();
         // 設定商店名稱
         tpdMerchant.setMerchantName(getString(R.string.TapPay_MerchantName));
@@ -113,7 +80,7 @@ public class DeliveryFragment extends Fragment {
         // 不需要Email
         tpdConsumer.setEmailRequired(false);
 
-        tpdGooglePay = new TPDGooglePay(activity, tpdMerchant, tpdConsumer);
+        tpdGooglePay = new TPDGooglePay(this, tpdMerchant, tpdConsumer);
         // 檢查user裝置是否支援Google Pay
         tpdGooglePay.isGooglePayAvailable(new TPDGooglePayListener() {
             @Override
@@ -126,20 +93,16 @@ public class DeliveryFragment extends Fragment {
                 }
             }
         });
-
-
     }
 
-    private void handleViews(View view) {
 
-
-        btBuy = view.findViewById(R.id.btBuy);
+    private void handleViews() {
+        btBuy = findViewById(R.id.btBuy);
         btBuy.setEnabled(false);
         btBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 跳出user資訊視窗讓user確認，確認後會呼叫onActivityResult()
-                Log.i(TAG,"btbuy1");
                 tpdGooglePay.requestPayment(TransactionInfo.newBuilder()
                         .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
                         // 消費總金額
@@ -150,9 +113,9 @@ public class DeliveryFragment extends Fragment {
             }
         });
 
-        tvPaymentInfo = view.findViewById(R.id.tvPaymentInfo);
+        tvPaymentInfo = findViewById(R.id.tvPaymentInfo);
 
-        btConfirm = view.findViewById(R.id.btConfirm);
+        btConfirm = findViewById(R.id.btConfirm);
         btConfirm.setEnabled(false);
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,50 +125,43 @@ public class DeliveryFragment extends Fragment {
         });
 
 
-        tvResult = view.findViewById(R.id.tvResult);
-
-
-
-
+        tvResult = findViewById(R.id.tvResult);
     }
 
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
-//            switch (resultCode) {
-//                case Activity.RESULT_OK:
-//                    btConfirm.setEnabled(true);
-//                    // 取得支付資訊
-//                    paymentData = PaymentData.getFromIntent(data);
-//                    if (paymentData != null) {
-//                        showPaymentInfo(paymentData);
-//                    }
-//                    break;
-//                case Activity.RESULT_CANCELED:
-//                    btConfirm.setEnabled(false);
-//                    tvResult.setText(R.string.textCanceled);
-//                    break;
-//                case AutoResolveHelper.RESULT_ERROR:
-//                    btConfirm.setEnabled(false);
-//                    Status status = AutoResolveHelper.getStatusFromIntent(data);
-//                    if (status != null) {
-//                        String text = "status code: " + status.getStatusCode() +
-//                                " , message: " + status.getStatusMessage();
-//                        Log.d(TAG, text);
-//                        tvResult.setText(text);
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    btConfirm.setEnabled(true);
+                    // 取得支付資訊
+                    paymentData = PaymentData.getFromIntent(data);
+                    if (paymentData != null) {
+                        showPaymentInfo(paymentData);
+                    }
+                    break;
+                case Activity.RESULT_CANCELED:
+                    btConfirm.setEnabled(false);
+                    tvResult.setText(R.string.textCanceled);
+                    break;
+                case AutoResolveHelper.RESULT_ERROR:
+                    btConfirm.setEnabled(false);
+                    Status status = AutoResolveHelper.getStatusFromIntent(data);
+                    if (status != null) {
+                        String text = "status code: " + status.getStatusCode() +
+                                " , message: " + status.getStatusMessage();
+                        Log.d(TAG, text);
+                        tvResult.setText(text);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     private void showPaymentInfo(PaymentData paymentData) {
-
         try {
             JSONObject paymentDataJO = new JSONObject(paymentData.toJson());
             String cardDescription = paymentDataJO.getJSONObject("paymentMethodData").getString
@@ -215,7 +171,6 @@ public class DeliveryFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
 
     private void getPrimeFromTapPay(PaymentData paymentData) {
         showProgressDialog();
@@ -255,18 +210,18 @@ public class DeliveryFragment extends Fragment {
                 });
     }
 
+
+
     public ProgressDialog mProgressDialog;
 
-    private void showProgressDialog() {
+    protected void showProgressDialog() {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(activity);
+            mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Loading...");
         }
 
         mProgressDialog.show();
-
-
     }
 
     protected void hideProgressDialog() {
@@ -274,38 +229,4 @@ public class DeliveryFragment extends Fragment {
             mProgressDialog.dismiss();
         }
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
-            switch (resultCode) {
-                case Activity.RESULT_OK:
-                    btConfirm.setEnabled(true);
-                    // 取得支付資訊
-                    paymentData = PaymentData.getFromIntent(data);
-                    if (paymentData != null) {
-                        showPaymentInfo(paymentData);
-                    }
-                    break;
-                case Activity.RESULT_CANCELED:
-                    btConfirm.setEnabled(false);
-                    tvResult.setText(R.string.textCanceled);
-                    break;
-                case AutoResolveHelper.RESULT_ERROR:
-                    btConfirm.setEnabled(false);
-                    Status status = AutoResolveHelper.getStatusFromIntent(data);
-                    if (status != null) {
-                        String text = "status code: " + status.getStatusCode() +
-                                " , message: " + status.getStatusMessage();
-                        Log.d(TAG, text);
-                        tvResult.setText(text);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
 }
