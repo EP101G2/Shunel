@@ -60,7 +60,7 @@ public class MemberFragment extends Fragment {
 //            Intent intent=new Intent();
 //            intent.setClass(getActivity(),LoginFragment.class);
 //            startActivity(intent);
-            Navigation.findNavController(view).navigate(R.id.action_memberFragment_to_loginFragment);
+            Navigation.findNavController(view).navigate(R.id.action_memberFragment_to_login_Fragment);
         }
 
         cvSetting.setOnClickListener(new View.OnClickListener() {

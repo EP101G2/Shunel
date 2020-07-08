@@ -152,7 +152,7 @@ public class LoginFragment extends Fragment {
                                 intent.setClass(activity,MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
                                 startActivity(intent);  //啟動跳頁動作
 
-                                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
+//                                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
                             }
                             break;
                     }
