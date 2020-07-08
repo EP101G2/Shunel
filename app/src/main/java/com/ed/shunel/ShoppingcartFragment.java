@@ -87,6 +87,7 @@ public class ShoppingcartFragment extends Fragment {
 
         findViews(view);
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
+        shopping_cartList = getDate();
         initData();
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
         setSystemServices();
@@ -157,7 +158,7 @@ public class ShoppingcartFragment extends Fragment {
 
     private void initData() {
 
-        shopping_cartList = getDate();
+
 //        productList = getProduct();
 
     }
@@ -171,11 +172,13 @@ public class ShoppingcartFragment extends Fragment {
             String jsonOut = jsonObject.toString();
             shopGetall = new CommonTask(url, jsonOut);
             try {
+
                 String jsonIn = shopGetall.execute().get();
                 Type listType = new TypeToken<List<Shopping_Cart>>() {
                 }.getType();
+
                 shoppingCarts = new Gson().fromJson(jsonIn, listType);
-//                Log.i();
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -184,6 +187,8 @@ public class ShoppingcartFragment extends Fragment {
         } else {
             Common.showToast(activity, R.string.textNoNetwork);
         }
+
+
         return shoppingCarts;
 
 
@@ -193,18 +198,23 @@ public class ShoppingcartFragment extends Fragment {
 
         List<Shopping_Cart> shoppingCarts = null;
         if (Common.networkConnected(activity)) {
+
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAllShop");
-//            jsonObject.addProperty("shoppingCarts",new Gson().toJson(shoppingCarts));
             String jsonOut = jsonObject.toString();
             shopGetall = new CommonTask(url, jsonOut);
 
             try {
                 String jsonIn = shopGetall.execute().get();
+
+//                shoppingCarts = new Gson().fromJson(jsonIn,Shopping_Cart.class);
+
+
                 Type listType = new TypeToken<List<Shopping_Cart>>() {
                 }.getType();
                 shoppingCarts = new Gson().fromJson(jsonIn, listType);
+
             } catch (Exception e) {
                 e.printStackTrace();
 //                Log.e(TAG, e.toString());
@@ -235,7 +245,7 @@ public class ShoppingcartFragment extends Fragment {
         public shopp_cart_adapter(Context context, List<Shopping_Cart> shopping_cartList) {
             this.context = context;
             this.shopping_cartList = shopping_cartList;
-            initMap();
+//            initMap();
         }
 
         private void initMap() {
@@ -261,9 +271,9 @@ public class ShoppingcartFragment extends Fragment {
             Shopping_Cart shoppingCart = shopping_cartList.get(position);
 //            holder.tv_Name.setText(shoppingCart.getProduct_ID());
 
-            holder.tv_Name.setText(shoppingCart.getProduct_Name());
-            holder.tv_Count.setText(shoppingCart.getAmount());
-            holder.tv_specification.setText(shoppingCart.getColor());
+//            holder.tv_Name.setText(shoppingCart.getProduct_Name());
+//            holder.tv_Count.setText(shoppingCart.getAmount());
+//            holder.tv_specification.setText(shoppingCart.getColor());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -339,7 +349,7 @@ public class ShoppingcartFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return shopping_cartList.size();
+            return shopping_cartList==null?0:shopping_cartList.size();
         }
 
         private class Myviewholder extends RecyclerView.ViewHolder {

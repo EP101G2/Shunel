@@ -3,7 +3,7 @@ package com.ed.shunel.bean;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Shopping_Cart implements Serializable {
+public class Shopping_Cart implements Serializable{
 
     // 宣告區
     private String account_ID; // PK FK

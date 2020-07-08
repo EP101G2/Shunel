@@ -122,12 +122,15 @@
             android:id="@+id/btAdd"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
             android:layout_weight="1"
             android:background="#f2f1f1"
             android:text="+"
             app:layout_constraintBottom_toBottomOf="@+id/tv_Count"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_Count"
-            tools:layout_editor_absoluteX="365dp" />
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
