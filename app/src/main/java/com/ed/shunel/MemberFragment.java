@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,7 +61,9 @@ public class MemberFragment extends Fragment {
 //            Intent intent=new Intent();
 //            intent.setClass(getActivity(),LoginFragment.class);
 //            startActivity(intent);
-            Navigation.findNavController(view).navigate(R.id.action_memberFragment_to_login_Fragment);
+            Intent intent= new Intent();
+            intent.setClass(activity,LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
+            startActivity(intent);
         }
 
         cvSetting.setOnClickListener(new View.OnClickListener() {
