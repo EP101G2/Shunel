@@ -32,7 +32,7 @@ import com.google.gson.JsonObject;
 import java.util.Locale;
 
 
-public class Login_Fragment extends Fragment {
+public class LoginFragment extends Fragment {
     private final static String TAG = "TAG_LoginFragment";
     private Activity activity;
     private EditText etTypeId, etTypePassword;
@@ -111,19 +111,22 @@ public class Login_Fragment extends Fragment {
                 if (networkConnected()) {
                     String url = Common.URL_SERVER + "Uesr_Account_Servlet";                           //connect servlet(eclipse)
                     Gson gson = new Gson();
+
+
+
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("action", "getLogin");
                     jsonObject.addProperty("id", id);
                     jsonObject.addProperty("password", password);
-                    loginTask = new CommonTask(url, jsonObject.toString());
-                    String jsonIn = "";
+                    loginTask = new CommonTask(url, jsonObject.toString());  //jsonObject.toString()=jsonin(servelt)
+                    String AndroidJsonIn = "";
                     try {
-                        jsonIn = loginTask.execute().get();
+                        AndroidJsonIn = loginTask.execute().get();  //execute不會ＲＥＴＵＲＮ東西。ＧＥＴ會等收到東西在執行
 
                     } catch (Exception e) {
                         Log.e(TAG, e.toString());
                     }
-                    JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
+                    JsonObject jsonObject2 = gson.fromJson(AndroidJsonIn, JsonObject.class);  //解開第一層
 
                     String result = jsonObject2.get("result").getAsString();
                     Log.i(TAG, result);
@@ -131,23 +134,25 @@ public class Login_Fragment extends Fragment {
                         case "fail":
 
                             Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
+                            break;
 
 
-                                break;
                         case "success":
 
 
                             String userJstr = jsonObject2.get("user").getAsString();
                             if(userJstr != null) {
-                                User_Account user_account = gson.fromJson(userJstr, User_Account.class);
+                                User_Account user_account = gson.fromJson(userJstr, User_Account.class);  //第二層
                                 savePreferences();
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("User", user_account);
+
                                 Intent intent= new Intent();
                                 intent.putExtras(bundle);
-                                intent.setClass(activity,LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
+                                intent.setClass(activity,MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
                                 startActivity(intent);  //啟動跳頁動作
 
+//                                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_memberFragment);
                             }
                             break;
                     }
@@ -201,7 +206,8 @@ public class Login_Fragment extends Fragment {
     private void savePreferences() {
 
 
-        LoginActivity.preferences.edit()
+
+        MainActivity.preferences.edit()
                 .putString("id", id)
                 .putString("password", password)
                 .apply();
@@ -251,5 +257,4 @@ public class Login_Fragment extends Fragment {
 //        finish();
 //    }
 //}
-
 

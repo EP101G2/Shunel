@@ -3,57 +3,82 @@ package com.ed.shunel.bean;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Shopping_Cart implements Serializable {
+public class Shopping_Cart implements Serializable{
 
-    //宣告區
-    private int Account_ID; //PK FK
-    private int Product_ID; //PK FK
-    private int Shopping_Cart_Amount;
-    private Timestamp Shopping_Cart_Modify_Date;
+    // 宣告區
+    private String account_ID; // PK FK
+    private int product_ID; // PK FK
+    private String product_Name;
+    private int amount;
+    private String color;
+    private int price;
+    private Timestamp MODIFY_DATE;
 
-
-    public Shopping_Cart(int account_ID, int product_ID, int shopping_Cart_Amount) {
-        Account_ID = account_ID;
-        Product_ID = product_ID;
-        Shopping_Cart_Amount = shopping_Cart_Amount;
+    public Shopping_Cart(String account_ID, int product_ID, String product_Name, int amount, String color, int price,
+                         Timestamp mODIFY_DATE) {
+        super();
+        this.account_ID = account_ID;
+        this.product_ID = product_ID;
+        this.product_Name = product_Name;
+        this.amount = amount;
+        this.color = color;
+        this.price = price;
+        MODIFY_DATE = mODIFY_DATE;
     }
 
-    public Shopping_Cart(int account_ID, int product_ID, int shopping_Cart_Amount, Timestamp shopping_Cart_Modify_Date) {
-        Account_ID = account_ID;
-        Product_ID = product_ID;
-        Shopping_Cart_Amount = shopping_Cart_Amount;
-        Shopping_Cart_Modify_Date = shopping_Cart_Modify_Date;
+    public String getAccount_ID() {
+        return account_ID;
     }
 
-    public int getAccount_ID() {
-        return Account_ID;
-    }
-
-    public void setAccount_ID(int account_ID) {
-        Account_ID = account_ID;
+    public void setAccount_ID(String account_ID) {
+        this.account_ID = account_ID;
     }
 
     public int getProduct_ID() {
-        return Product_ID;
+        return product_ID;
     }
 
     public void setProduct_ID(int product_ID) {
-        Product_ID = product_ID;
+        this.product_ID = product_ID;
     }
 
-    public int getShopping_Cart_Amount() {
-        return Shopping_Cart_Amount;
+    public String getProduct_Name() {
+        return product_Name;
     }
 
-    public void setShopping_Cart_Amount(int shopping_Cart_Amount) {
-        Shopping_Cart_Amount = shopping_Cart_Amount;
+    public void setProduct_Name(String product_Name) {
+        this.product_Name = product_Name;
     }
 
-    public Timestamp getShopping_Cart_Modify_Date() {
-        return Shopping_Cart_Modify_Date;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setShopping_Cart_Modify_Date(Timestamp shopping_Cart_Modify_Date) {
-        Shopping_Cart_Modify_Date = shopping_Cart_Modify_Date;
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Timestamp getMODIFY_DATE() {
+        return MODIFY_DATE;
+    }
+
+    public void setMODIFY_DATE(Timestamp mODIFY_DATE) {
+        MODIFY_DATE = mODIFY_DATE;
     }
 }
