@@ -233,7 +233,7 @@ public class ProductDetailFragment extends Fragment {
 
 
                         Log.i(TAG,"333");
-                        String account =MainActivity.preferences.getString("id", "G"); //取值取不到
+                        String account =MainActivity.preferences.getString("id", ""); //取值取不到
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
                         Shopping_Cart shopping_cart = new Shopping_Cart(account,product.getProduct_ID(),product.getProduct_Name(),select_Amount,product.getProduct_Color(),product.getProduct_Price(),product.getProduct_MODIFY_DATE());
@@ -259,7 +259,7 @@ public class ProductDetailFragment extends Fragment {
                         if (count == 0) {
                             Toast.makeText(activity, R.string.Fail, Toast.LENGTH_SHORT).show();
                         }
-//                    }
+                    }
 
 
                 }
