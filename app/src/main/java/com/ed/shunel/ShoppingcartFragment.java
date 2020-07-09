@@ -59,7 +59,7 @@ public class ShoppingcartFragment extends Fragment {
     private TextView tv_Total;
 
     private CommonTask shopGetall;
-    private int sum = 0;
+    private int totalPrice = 0;
 
     //    test
     private List<Product> productList;
@@ -92,10 +92,11 @@ public class ShoppingcartFragment extends Fragment {
 
         initData();
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
+
         setSystemServices();
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
         setLinstener();
-
+        tv_Total.setText("總計"+totalPrice);
     }
 
     private void setSystemServices() {
@@ -233,6 +234,7 @@ public class ShoppingcartFragment extends Fragment {
         rv_Shopping_Cart.setLayoutManager(new LinearLayoutManager(activity));
 
 
+
     }
 
     private class shopp_cart_adapter extends RecyclerView.Adapter<shopp_cart_adapter.Myviewholder> {
@@ -312,8 +314,12 @@ public class ShoppingcartFragment extends Fragment {
             }
             //没有设置tag之前会有item重复选框出现，设置tag之后，此问题解决
             holder.checkBox.setChecked(maps.get(position));
-
-
+            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int price = Integer.parseInt()
+                }
+            });
         }
 
 
