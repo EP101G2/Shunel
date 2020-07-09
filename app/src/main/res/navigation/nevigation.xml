@@ -67,11 +67,6 @@
 
 
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.ed.shunel.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
-    <fragment
         android:id="@+id/forgetpasswordFragment"
         android:name="com.ed.shunel.ForgetpasswordFragment"
         android:label="fragment_forgetpassword"

@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -89,13 +91,24 @@ public class MemberFragment extends Fragment {
             }
         });
 
+
+        btn_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 效果與手機上的Back按鍵相同
+                Navigation.findNavController(v).popBackStack();
+                MainActivity.preferences.edit().clear().apply();
+            }
+        });
+
     }
 
     private void Logout() {
 
 
 
-        MainActivity.preferences.edit().clear().apply();
+
+
 
 //        if (MainActivity.preferences.edit())
 

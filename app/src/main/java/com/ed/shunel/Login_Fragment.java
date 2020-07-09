@@ -101,6 +101,31 @@ public class Login_Fragment extends Fragment {
         tvForgetPassword = view.findViewById(R.id.tvForgetPassword);
         tvMessage = view.findViewById(R.id.tvMessage);
 
+
+
+        tvForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_login_Fragment_to_forgetPassword_Fragment);
+            }
+        });
+
+
+
+
+        tvRegisterNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_login_Fragment_to_register_Fragment);
+            }
+        });
+
+
+
+
+
+
+
         btLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
