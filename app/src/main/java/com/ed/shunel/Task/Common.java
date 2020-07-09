@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-import tech.cherri.tpdirect.api.TPDCard;
 //import tech.cherri.tpdirect.api.TPDCard;
 
+import tech.cherri.tpdirect.api.TPDCard;
 /**
  * 定義通用屬性與方法
  */
