@@ -80,7 +80,7 @@ public class AllProductFragment extends Fragment {
             public void onRefresh() {
                 //讀取的圈圈 動畫
                 swipeRefreshLayout.setRefreshing(true);
-                showBooks(product);
+                showBooks(getProduct());
                 //直到讀取完 結束
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -93,7 +93,7 @@ public class AllProductFragment extends Fragment {
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAll");
+            jsonObject.addProperty("action", "getSaleProduct");
             productGetAllTask = new CommonTask(url, jsonObject.toString());
             try {
                 String jsonIn = productGetAllTask.execute().get();
