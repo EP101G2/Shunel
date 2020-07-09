@@ -63,6 +63,7 @@ public class ShoppingcartFragment extends Fragment {
 
     //    test
     private List<Product> productList;
+//    boolean[] checkedArr = new boolean[c.size()];
 
     public ShoppingcartFragment() {
         // Required empty public constructor
@@ -232,6 +233,7 @@ public class ShoppingcartFragment extends Fragment {
         tv_Total = view.findViewById(R.id.tv_Total);
         rv_Shopping_Cart = view.findViewById(R.id.rv_Shopping_Cart);
         rv_Shopping_Cart.setLayoutManager(new LinearLayoutManager(activity));
+        tv_Total.setText(""+totalPrice);
 
 
 
@@ -301,12 +303,15 @@ public class ShoppingcartFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     maps.put(position, isChecked);
-                    int sum = 0;
-                    for (int i = 0; i <= maps.size(); i++) {
-                        sum = Integer.parseInt(holder.tv_Count.getText().toString());
-                        sum += sum;
+
+                    int price =shopping_cartList.get(position).getPrice();
+                    if (isChecked) {
+                        totalPrice += price;
+                    } else {
+                        totalPrice -= price;
                     }
                 }
+
             });
 
             if (maps.get(position) == null) {
@@ -317,7 +322,6 @@ public class ShoppingcartFragment extends Fragment {
             holder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int price = Integer.parseInt()
                 }
             });
         }
