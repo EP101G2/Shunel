@@ -322,6 +322,9 @@ public class ShoppingcartFragment extends Fragment {
             holder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+//                    int price = Integer.parseInt()
+
                 }
             });
         }
