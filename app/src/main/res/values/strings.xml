@@ -129,5 +129,6 @@
     <string name="logout">登出</string>
     <string name="textDeleteFail">移除失敗</string>
     <string name="textDeleteSuccess">移除成功</string>
+    <string name="spcardTotal">總金額：0</string>
 
 </resources>

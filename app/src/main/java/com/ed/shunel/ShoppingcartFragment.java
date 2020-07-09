@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -53,10 +55,11 @@ public class ShoppingcartFragment extends Fragment {
     private CheckBox checkbox_all;
     private boolean isSelect = false;//全选按钮的状态
     private List<Shopping_Cart> listdatas = new ArrayList<Shopping_Cart>();
-//    private List<Shopping_Cart> cartList;
+    //    private List<Shopping_Cart> cartList;
+    private TextView tv_Total;
 
     private CommonTask shopGetall;
-
+    private int totalPrice = 0;
 
     //    test
     private List<Product> productList;
@@ -86,12 +89,14 @@ public class ShoppingcartFragment extends Fragment {
 
         findViews(view);
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
+
         initData();
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
+
         setSystemServices();
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
-//        setLinstener();
-
+        setLinstener();
+        tv_Total.setText("總計"+totalPrice);
     }
 
     private void setSystemServices() {
@@ -155,9 +160,9 @@ public class ShoppingcartFragment extends Fragment {
     }
 
     private void initData() {
-
         shopping_cartList = getDate();
-        productList = getProduct();
+
+//        productList = getProduct();
 
     }
 
@@ -170,11 +175,13 @@ public class ShoppingcartFragment extends Fragment {
             String jsonOut = jsonObject.toString();
             shopGetall = new CommonTask(url, jsonOut);
             try {
+
                 String jsonIn = shopGetall.execute().get();
                 Type listType = new TypeToken<List<Shopping_Cart>>() {
                 }.getType();
+
                 shoppingCarts = new Gson().fromJson(jsonIn, listType);
-//                Log.i();
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -183,6 +190,8 @@ public class ShoppingcartFragment extends Fragment {
         } else {
             Common.showToast(activity, R.string.textNoNetwork);
         }
+
+
         return shoppingCarts;
 
 
@@ -192,10 +201,10 @@ public class ShoppingcartFragment extends Fragment {
 
         List<Shopping_Cart> shoppingCarts = null;
         if (Common.networkConnected(activity)) {
+
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAllShop");
-//            jsonObject.addProperty("shoppingCarts",new Gson().toJson(shoppingCarts));
             String jsonOut = jsonObject.toString();
             shopGetall = new CommonTask(url, jsonOut);
 
@@ -204,6 +213,7 @@ public class ShoppingcartFragment extends Fragment {
                 Type listType = new TypeToken<List<Shopping_Cart>>() {
                 }.getType();
                 shoppingCarts = new Gson().fromJson(jsonIn, listType);
+
             } catch (Exception e) {
                 e.printStackTrace();
 //                Log.e(TAG, e.toString());
@@ -219,8 +229,10 @@ public class ShoppingcartFragment extends Fragment {
 
         checkbox_all = view.findViewById(R.id.checkox_all);
         btn_next = view.findViewById(R.id.btn_next);
+        tv_Total = view.findViewById(R.id.tv_Total);
         rv_Shopping_Cart = view.findViewById(R.id.rv_Shopping_Cart);
         rv_Shopping_Cart.setLayoutManager(new LinearLayoutManager(activity));
+
 
 
     }
@@ -233,7 +245,7 @@ public class ShoppingcartFragment extends Fragment {
         public shopp_cart_adapter(Context context, List<Shopping_Cart> shopping_cartList) {
             this.context = context;
             this.shopping_cartList = shopping_cartList;
-//            initMap();
+            initMap();
         }
 
         private void initMap() {
@@ -254,11 +266,30 @@ public class ShoppingcartFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull Myviewholder holder, final int position) {
+        public void onBindViewHolder(@NonNull final Myviewholder holder, final int position) {
 
-            Shopping_Cart shoppingCart = shopping_cartList.get(position);
-//            holder.tv_Name.setText(shoppingCart.getProduct_ID());
 
+            final Shopping_Cart shoppingCart = shopping_cartList.get(position);
+//            sum=shoppingCart.getPrice()*
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+            int id = shoppingCart.getProduct_ID();
+            int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+            Bitmap bitmap = null;
+            try {
+                bitmap = new ImageTask(url, id, imageSize).execute().get();
+            } catch (Exception e) {
+//                Log.e(TAG, e.toString());
+                e.printStackTrace();
+            }
+            if (bitmap != null) {
+                holder.iv_Prouct.setImageBitmap(bitmap);
+            } else {
+                holder.iv_Prouct.setImageResource(R.drawable.no_image);
+            }
+            holder.tv_Name.setText("商品:" + shoppingCart.getProduct_Name());
+            holder.tv_Count.setText(String.valueOf(shoppingCart.getAmount()));
+            holder.tv_specification.setText("規格" + shoppingCart.getColor());
+            holder.tv_Price.setText("價格：" + shoppingCart.getAmount() * shoppingCart.getPrice());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -270,6 +301,11 @@ public class ShoppingcartFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     maps.put(position, isChecked);
+                    int sum = 0;
+                    for (int i = 0; i <= maps.size(); i++) {
+                        sum = Integer.parseInt(holder.tv_Count.getText().toString());
+                        sum += sum;
+                    }
                 }
             });
 
@@ -278,8 +314,12 @@ public class ShoppingcartFragment extends Fragment {
             }
             //没有设置tag之前会有item重复选框出现，设置tag之后，此问题解决
             holder.checkBox.setChecked(maps.get(position));
-
-
+            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int price = Integer.parseInt()
+                }
+            });
         }
 
 
@@ -328,7 +368,7 @@ public class ShoppingcartFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return shopping_cartList.size();
+            return shopping_cartList == null ? 0 : shopping_cartList.size();
         }
 
         private class Myviewholder extends RecyclerView.ViewHolder {
@@ -337,9 +377,9 @@ public class ShoppingcartFragment extends Fragment {
             TextView tv_Name;
             TextView tv_specification;
             TextView tv_Price;
-            TextView tv_Add;
+            Button bt_Add;
+            Button bt_Less;
             TextView tv_Count;
-            TextView tv_Less;
 
 
             public Myviewholder(View view) {
@@ -349,9 +389,9 @@ public class ShoppingcartFragment extends Fragment {
                 tv_Name = view.findViewById(R.id.tv_Name);
                 tv_specification = view.findViewById(R.id.tv_specification);
                 tv_Price = view.findViewById(R.id.tv_Price);
-                tv_Add = view.findViewById(R.id.tv_Add);
+                bt_Add = view.findViewById(R.id.btAdd);
                 tv_Count = view.findViewById(R.id.tv_Count);
-                tv_Less = view.findViewById(R.id.tv_Less);
+                bt_Less = view.findViewById(R.id.btLess);
 
             }
         }
@@ -375,17 +415,19 @@ public class ShoppingcartFragment extends Fragment {
 //            return false;
         }
 
+
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
             if (Common.networkConnected(activity)) {
+                Shopping_Cart shoppingCart = shopping_cartList.get(viewHolder.getAbsoluteAdapterPosition());
                 String url = Common.URL_SERVER + "Prouct_Servlet";
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "shopDelete");
-//                jsonObject.addProperty("shopId", );
+                jsonObject.addProperty("shopId", shoppingCart.getProduct_ID());
                 int count = 0;
                 try {
-                    shopGetall= new CommonTask(url, jsonObject.toString());
+                    shopGetall = new CommonTask(url, jsonObject.toString());
                     String result = shopGetall.execute().get();
                     count = Integer.parseInt(result);
                 } catch (Exception e) {

@@ -2,6 +2,7 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import androidx.navigation.Navigation;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
@@ -93,7 +95,7 @@ public class ProductDetailFragment extends Fragment {
 
     private void findViews(View view) {
 
-        iv_Prouduct = view.findViewById(R.id.iv_Prouct);
+        iv_Prouduct = view.findViewById(R.id.ivPt);
         iv_Like = view.findViewById(R.id.iv_Like);
         iv_Shoppcard = view.findViewById(R.id.iv_Shoppcard);
         tv_Buy = view.findViewById(R.id.tv_Buy);
@@ -111,17 +113,38 @@ public class ProductDetailFragment extends Fragment {
             navController.popBackStack();
             return;
         }
-
-
         product = (Product) bundle.getSerializable("product");
 
-        tvPdName.setText(product.getProduct_Name());
-        tvPdPrice.setText(String.valueOf(product.getProduct_Price()));
-        tv_Dital.setText(product.getProduct_Ditail());
+        showTest();
+
 //
 
 
 //        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(activity, layout.simple_spinner_item, sp);
+
+    }
+
+    private void showTest() {
+
+        String url = Common.URL_SERVER + "Prouct_Servlet";
+        int id = product.getProduct_ID();
+        int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+        Bitmap bitmap = null;
+        try {
+            bitmap = new ImageTask(url, id, imageSize).execute().get();
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        if (bitmap != null) {
+            iv_Prouduct.setImageBitmap(bitmap);
+        } else {
+            iv_Prouduct.setImageResource(R.drawable.no_image);
+        }
+        tvPdName.setText("商品名稱："+product.getProduct_Name());
+        tvPdPrice.setText("價格："+String.valueOf(product.getProduct_Price()));
+        tv_Dital.setText("商品介紹："+product.getProduct_Ditail());
+        tvColor.setText("規格："+product.getProduct_Color());
+
 
     }
 
@@ -159,7 +182,7 @@ public class ProductDetailFragment extends Fragment {
                 /* 将所选mySpinner 的值带入myTextView 中*/
                 int selecte = adapter.getItem(arg2);
                 select_Amount = selecte;
-                Log.e("---------------", String.valueOf(selecte));
+//                Log.e("---------------", String.valueOf(selecte));
                 /* 将mySpinner 显示*/
                 arg0.setVisibility(View.VISIBLE);
             }
@@ -197,6 +220,7 @@ public class ProductDetailFragment extends Fragment {
                 if (Common.networkConnected(activity)) {
 
 
+
                     if (MainActivity.preferences.getString("id", "").equals("")) {
 
                         Intent intent = new Intent();
@@ -206,10 +230,14 @@ public class ProductDetailFragment extends Fragment {
 
 
                     } else {
-                        String account = MainActivity.preferences.getString("id", "");
+
+
+                        Log.i(TAG,"333");
+                        String account =MainActivity.preferences.getString("id", "G"); //取值取不到
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
-                        Shopping_Cart shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), select_Amount);
+                        Shopping_Cart shopping_cart = new Shopping_Cart(account,product.getProduct_ID(),product.getProduct_Name(),select_Amount,product.getProduct_Color(),product.getProduct_Price(),product.getProduct_MODIFY_DATE());
+
                         jsonObject.addProperty("action", "addShop");
                         jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
 
@@ -231,7 +259,7 @@ public class ProductDetailFragment extends Fragment {
                         if (count == 0) {
                             Toast.makeText(activity, R.string.Fail, Toast.LENGTH_SHORT).show();
                         }
-                    }
+//                    }
 
 
                 }
@@ -243,3 +271,4 @@ public class ProductDetailFragment extends Fragment {
 
     }
 }
+
