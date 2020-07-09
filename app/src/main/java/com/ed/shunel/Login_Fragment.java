@@ -225,11 +225,12 @@ public class Login_Fragment extends Fragment {
 
     private void savePreferences() {
 
+        //置入name屬性的字串
+        Common.getPreherences(activity).edit().putString("id", id).apply();
 
-        LoginActivity.preferences.edit()
-                .putString("id", id)
-                .putString("password", password)
-                .apply();
+
+        Log.i(TAG,"-------------------------------------------------------------");
+        Log.i(TAG, Common.getPreherences(activity).getString("id", id));
     }
 }
 

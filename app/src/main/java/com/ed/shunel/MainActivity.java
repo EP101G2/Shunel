@@ -17,15 +17,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     public static MemoryCache memoryCache=new MemoryCache();
-    public static SharedPreferences preferences;
     private final static String PREFERENCES_NAME = "preferences";
+    public static SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferences = getSharedPreferences(PREFERENCES_NAME,MODE_PRIVATE);
+
 
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        AppEventsLogger.activateApp(this);
