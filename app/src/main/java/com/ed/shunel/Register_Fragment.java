@@ -70,7 +70,7 @@ public class Register_Fragment extends Fragment {
 
 
                 if (Common.networkConnected(activity)) {
-                    String url = Common.URL_SERVER + "Uesr_Account_Servlet";
+                    String url = Common.URL_SERVER + "User_Account_Servlet";
                     String status = btRegister.getText().toString();
                     String name =etTypeName.getText().toString();
                     String  id = etTypeAccountId.getText().toString();

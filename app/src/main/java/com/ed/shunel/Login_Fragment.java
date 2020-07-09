@@ -134,7 +134,7 @@ public class Login_Fragment extends Fragment {
                 password = etTypePassword.getText().toString();
 
                 if (networkConnected()) {
-                    String url = Common.URL_SERVER + "Uesr_Account_Servlet";                           //connect servlet(eclipse)
+                    String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
                     Gson gson = new Gson();
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("action", "getLogin");
