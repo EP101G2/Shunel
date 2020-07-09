@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class User_Account implements Serializable {
 
-    private int Account_ID;
+    private String Account_ID;
     private String Account_Phone;
     private String Account_Password;
     private String Account_Addres;
@@ -14,7 +14,7 @@ public class User_Account implements Serializable {
     private Timestamp Account_Modify_Date;
 
 
-    public User_Account(int account_ID, String account_Phone, String account_Password, String account_Addres,
+    public User_Account(String account_ID, String account_Phone, String account_Password, String account_Addres,
                         int account_Total_Price, int account_Notice_Status, int account_Status, Timestamp account_Modify_Date) {
         super();
         Account_ID = account_ID;
@@ -33,12 +33,12 @@ public class User_Account implements Serializable {
         Account_Password = account_Password;
     }
 
-    public int getAccount_ID() {
+    public String getAccount_ID() {
         return Account_ID;
     }
 
 
-    public void setAccount_ID(int account_ID) {
+    public void setAccount_ID(String account_ID) {
         Account_ID = account_ID;
     }
 

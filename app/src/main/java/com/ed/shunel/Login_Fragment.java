@@ -145,7 +145,7 @@ public class Login_Fragment extends Fragment {
                                 bundle.putSerializable("User", user_account);
                                 Intent intent= new Intent();
                                 intent.putExtras(bundle);
-                                intent.setClass(activity,LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
+                                intent.setClass(activity,MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
                                 startActivity(intent);  //啟動跳頁動作
 
                             }

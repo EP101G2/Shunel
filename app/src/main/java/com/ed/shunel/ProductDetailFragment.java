@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,7 +80,7 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.e("TAG","_____"+MainActivity.preferences.getString("id", ""));
 
         findViews(view);
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
@@ -218,21 +219,26 @@ public class ProductDetailFragment extends Fragment {
 //            Product product =
                 if (Common.networkConnected(activity)) {
 
-                    Log.i(TAG,"111");
-//                    if (MainActivity.preferences.getString("id", "").equals("")) {
-//                        Log.i(TAG,"222");
-//                        Intent intent = new Intent();
-//                        intent.setClass(activity, LoginActivity.class);
-//                        startActivity(intent);
-//
-//
-//
-//                    } else {
+
+
+                    if (MainActivity.preferences.getString("id", "").equals("")) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(activity, LoginActivity.class);
+                        startActivity(intent);
+
+
+
+                    } else {
+
+
                         Log.i(TAG,"333");
-                        String account =MainActivity.preferences.getString("id", "G"); //取值取不到
+                        String account =MainActivity.preferences.getString("id", ""); //取值取不到
+//                        Log.i(TAG,"id",account);
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
                         Shopping_Cart shopping_cart = new Shopping_Cart(account,product.getProduct_ID(),product.getProduct_Name(),select_Amount,product.getProduct_Color(),product.getProduct_Price(),product.getProduct_MODIFY_DATE());
+
                         jsonObject.addProperty("action", "addShop");
                         jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
 
@@ -254,7 +260,7 @@ public class ProductDetailFragment extends Fragment {
                         if (count == 0) {
                             Toast.makeText(activity, R.string.Fail, Toast.LENGTH_SHORT).show();
                         }
-//                    }
+                    }
 
 
                 }
@@ -266,3 +272,4 @@ public class ProductDetailFragment extends Fragment {
 
     }
 }
+
