@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,8 +18,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.ed.shunel.Task.Common;
+import com.ed.shunel.bean.Shopping_Cart;
 
 import java.util.List;
 
@@ -51,7 +55,8 @@ public class BuyerFragment extends Fragment {
     private LinearLayout line_Phone;
     private LinearLayout line_Address;
 
-
+    private List<Shopping_Cart> listdatas;
+    private Shopping_Cart_List shopping_cart_list;
     public BuyerFragment() {
         // Required empty public constructor
     }
@@ -90,20 +95,32 @@ public class BuyerFragment extends Fragment {
     private void findViews(View view) {
 
         rv_Product = view.findViewById(R.id.rv_Product);
-        radioButton_Default_Address = view.findViewById(R.id.radioButton_Default_Address);
-        radioButton_New_Address = view.findViewById(R.id.radioButton_New_Address);
+
         tv_Buyer_Name = view.findViewById(R.id.tv_Buyer_Name);
         tv_Buyer_Phone = view.findViewById(R.id.tv_Phone);
         tv_Buyer_Address = view.findViewById(R.id.tv_Address);
-        et_Name = view.findViewById(R.id.et_Name);
-        et_Phone = view.findViewById(R.id.et_Phone);
+
         btn_Buyer_Confirm = view.findViewById(R.id.btn_Buyer_Confirm);
         btn_Pagenext = view.findViewById(R.id.btn_Pagenext);
-        line_Name=view.findViewById(R.id.line_Name);
-        line_Phone=view.findViewById(R.id.line_Phone);
+
         line_Address=view.findViewById(R.id.line_Address);
 
         rv_Product.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+
+        final NavController navController = Navigation.findNavController(view);
+        Bundle bundle = getArguments();
+        if (bundle == null || bundle.getSerializable("shopcard") == null) {
+            Common.showToast(activity, R.string.textNoFound);
+            navController.popBackStack();
+            return;
+        }
+        shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("shopcard");
+
+//        for (int i = 0 ; i<=shopping_cart_list.)
+//        tv_Buyer_Name.setText();
+
+
+
 
 
     }
@@ -117,7 +134,7 @@ public class BuyerFragment extends Fragment {
     private void setLinstener() {
 
 
-        rv_Product.setAdapter(new productAdapter(activity, productList));
+        rv_Product.setAdapter(new productAdapter(activity, shopping_cart_list.getCart()));
 
 
         btn_Pagenext.setOnClickListener(new View.OnClickListener() {
@@ -133,26 +150,26 @@ public class BuyerFragment extends Fragment {
 
 
 
-        radioButton_New_Address.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                if (isChecked){
-                    line_Name.setVisibility(View.VISIBLE);
-                    line_Phone.setVisibility(View.VISIBLE);
-                    line_Address.setVisibility(View.VISIBLE);
-                    btn_Buyer_Confirm.setVisibility(View.VISIBLE);
-                }else {
-                    line_Name.setVisibility(View.INVISIBLE);
-                    line_Address.setVisibility(View.INVISIBLE);
-                    line_Phone.setVisibility(View.INVISIBLE);
-                    btn_Buyer_Confirm.setVisibility(View.INVISIBLE);
-                }
-
-//                et_Phone.setVisibility(View.VISIBLE);
-            }
-
-        });
+//        radioButton_New_Address.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                if (isChecked){
+//                    line_Name.setVisibility(View.VISIBLE);
+//                    line_Phone.setVisibility(View.VISIBLE);
+//                    line_Address.setVisibility(View.VISIBLE);
+//                    btn_Buyer_Confirm.setVisibility(View.VISIBLE);
+//                }else {
+//                    line_Name.setVisibility(View.INVISIBLE);
+//                    line_Address.setVisibility(View.INVISIBLE);
+//                    line_Phone.setVisibility(View.INVISIBLE);
+//                    btn_Buyer_Confirm.setVisibility(View.INVISIBLE);
+//                }
+//
+////                et_Phone.setVisibility(View.VISIBLE);
+//            }
+//
+//        });
 
 
 
@@ -163,9 +180,9 @@ public class BuyerFragment extends Fragment {
 
     private class productAdapter extends RecyclerView.Adapter<productAdapter.Myviewholder> {
         Context context;
-        List<Product> productList;
+        List<Shopping_Cart> productList;
 
-        public productAdapter(Context context, List<Product> productList) {
+        public productAdapter(Context context, List<Shopping_Cart> productList) {
             this.context = context;
             this.productList = productList;
 
@@ -180,19 +197,24 @@ public class BuyerFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
+            final  Shopping_Cart list = productList.get(position);
 
+            holder.tv_Name.setText(list.getProduct_Name());
+//            holder.tv_Count.setText(list.getAmount());
+            holder.tv_Price.setText(String.valueOf(list.getPrice()*list.getAmount()));
+//            holder.checkBox.setVisibility(View.GONE);
+//            holder.tv_Less.setVisibility(View.GONE);
+//            holder.tv_Add.setVisibility(View.GONE);
+//            holder.tv_Count.setText("數量");
 
-            holder.checkBox.setVisibility(View.GONE);
-            holder.tv_Less.setVisibility(View.GONE);
-            holder.tv_Add.setVisibility(View.GONE);
-            holder.tv_Count.setText("數量");
+            ;
 
 
         }
 
         @Override
         public int getItemCount() {
-            return 4;
+            return productList.size();
         }
 
         private class Myviewholder extends RecyclerView.ViewHolder {
@@ -212,9 +234,9 @@ public class BuyerFragment extends Fragment {
                 tv_Name = view.findViewById(R.id.tv_Name);
                 tv_specification = view.findViewById(R.id.tv_specification);
                 tv_Price = view.findViewById(R.id.tv_Price);
-//                tv_Add = view.findViewById(R.id.tv_Add);
+                tv_Add = view.findViewById(R.id.btAdd);
                 tv_Count = view.findViewById(R.id.tv_Count);
-//                tv_Less = view.findViewById(R.id.tv_Less);
+                tv_Less = view.findViewById(R.id.btLess);
                 checkBox = view.findViewById(R.id.checkBox);
 
             }

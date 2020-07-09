@@ -21,7 +21,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
@@ -200,11 +199,12 @@ public class Login_Fragment extends Fragment {
 
     private void savePreferences() {
 
+        //置入name屬性的字串
+        Common.getPreherences(activity).edit().putString("id", id).apply();
 
-        LoginActivity.preferences.edit()
-                .putString("id", id)
-                .putString("password", password)
-                .apply();
+
+        Log.i(TAG,"-------------------------------------------------------------");
+        Log.i(TAG, Common.getPreherences(activity).getString("id", id));
     }
 }
 

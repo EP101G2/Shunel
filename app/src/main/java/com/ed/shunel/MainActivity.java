@@ -1,6 +1,5 @@
 package com.ed.shunel;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +16,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     public static MemoryCache memoryCache=new MemoryCache();
-    public static SharedPreferences preferences;
     private final static String PREFERENCES_NAME = "preferences";
 
     @Override
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferences = getSharedPreferences(PREFERENCES_NAME,MODE_PRIVATE);
+
 
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        AppEventsLogger.activateApp(this);

@@ -2,6 +2,7 @@ package com.ed.shunel.Task;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -14,6 +15,7 @@ import java.util.Locale;
 
 import tech.cherri.tpdirect.api.TPDCard;
 //import tech.cherri.tpdirect.api.TPDCard;
+
 /**
  * 定義通用屬性與方法
  */
@@ -34,6 +36,11 @@ public class Common {
             , TPDCard.CardType.AmericanExpress
     };
 
+
+    public static SharedPreferences getPreherences(Activity activity) {
+
+        return activity.getSharedPreferences("Preferenced", 0);
+    }
 
     /**
      * 檢查是否有網路連線

@@ -4,8 +4,10 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +99,13 @@ public class ShoppingcartFragment extends Fragment {
         setSystemServices();
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
         setLinstener();
-        tv_Total.setText("總計"+totalPrice);
+
+        SharedPreferences settings = activity.getSharedPreferences("Preference", 0);
+        //置入name屬性的字串
+
+
+        Log.i("1234","------------------ShoppingcartFragment----------------------------");
+        Log.i("1234",settings.getString("id",""));
     }
 
     private void setSystemServices() {
@@ -144,13 +152,28 @@ public class ShoppingcartFragment extends Fragment {
                 }
                 for (int j = 0; j < listdatas.size(); j++) {
                     content += listdatas.get(j) + ",";
+                    Log.i("TAG",content);
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 if (content.length() == 0) {
                     builder.setMessage(R.string.Nodata);
                     builder.create().show();
                 } else {
-                    Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment);
+
+                    Shopping_Cart_List shopping_cart_list = new Shopping_Cart_List(listdatas);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("shopcard", shopping_cart_list);
+//                    List<Shopping_Cart> temp= new ArrayList<>();
+//                    for (int i = 0;i<=map.size();i++){
+//                        List<Shopping_Cart> goods=map.get(i).
+//                    }
+//                    List<Shopping_Cart> temp = new ArrayList<>();
+//
+//                    Shopping_Cart sc =map.get(i);
+//                    Log.i("123123213",bundle.toString());
+
+
+                    Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment,bundle);
                 }
 
 
@@ -167,36 +190,40 @@ public class ShoppingcartFragment extends Fragment {
 
     }
 
-    private List<Product> getProduct() {
-        List<Product> shoppingCarts = null;
-        if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "Prouct_Servlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAllShop");
-            String jsonOut = jsonObject.toString();
-            shopGetall = new CommonTask(url, jsonOut);
-            try {
-
-                String jsonIn = shopGetall.execute().get();
-                Type listType = new TypeToken<List<Shopping_Cart>>() {
-                }.getType();
-
-                shoppingCarts = new Gson().fromJson(jsonIn, listType);
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-//                Log.e(TAG, e.toString());
-            }
-        } else {
-            Common.showToast(activity, R.string.textNoNetwork);
-        }
-
-
-        return shoppingCarts;
-
-
-    }
+//    private List<Product> getProduct() {
+//        List<Product> shoppingCarts = null;
+//        if (Common.networkConnected(activity)) {
+//            String url = Common.URL_SERVER + "Prouct_Servlet";
+//
+//            JsonObject jsonObject = new JsonObject();
+//            jsonObject.addProperty("action", "getAllShop");
+////            jsonObject.addProperty("id",settings.getString("id",""));
+//
+//            String jsonOut = jsonObject.toString();
+////            Log.i("XXXXX",jsonOut);
+//            shopGetall = new CommonTask(url, jsonOut);
+//            try {
+//
+//                String jsonIn = shopGetall.execute().get();
+//                Type listType = new TypeToken<List<Shopping_Cart>>() {
+//                }.getType();
+//
+//                shoppingCarts = new Gson().fromJson(jsonIn, listType);
+//
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+////                Log.e(TAG, e.toString());
+//            }
+//        } else {
+//            Common.showToast(activity, R.string.textNoNetwork);
+//        }
+//
+//
+//        return shoppingCarts;
+//
+//
+//    }
 
     private List<Shopping_Cart> getDate() {
 
@@ -206,7 +233,9 @@ public class ShoppingcartFragment extends Fragment {
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAllShop");
+            jsonObject.addProperty("id",Common.getPreherences(activity).getString("id",""));
             String jsonOut = jsonObject.toString();
+            Log.i("!!!!!!!!",jsonOut);
             shopGetall = new CommonTask(url, jsonOut);
 
             try {
@@ -233,7 +262,7 @@ public class ShoppingcartFragment extends Fragment {
         tv_Total = view.findViewById(R.id.tv_Total);
         rv_Shopping_Cart = view.findViewById(R.id.rv_Shopping_Cart);
         rv_Shopping_Cart.setLayoutManager(new LinearLayoutManager(activity));
-        tv_Total.setText(""+totalPrice);
+
 
 
 
@@ -304,12 +333,13 @@ public class ShoppingcartFragment extends Fragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     maps.put(position, isChecked);
 
-                    int price =shopping_cartList.get(position).getPrice();
+                    int price =shopping_cartList.get(position).getPrice()*shopping_cartList.get(position).getAmount();
                     if (isChecked) {
                         totalPrice += price;
                     } else {
                         totalPrice -= price;
                     }
+                    tv_Total.setText("總計"+totalPrice);
                 }
 
             });
