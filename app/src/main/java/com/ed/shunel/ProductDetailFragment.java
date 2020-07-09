@@ -25,6 +25,7 @@ import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.ed.shunel.bean.User_Account;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.e("TAG","_____"+MainActivity.preferences.getString("id", ""));
 
         findViews(view);
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
@@ -205,12 +206,12 @@ public class ProductDetailFragment extends Fragment {
 
 
                     } else {
-                        int account = Integer.parseInt(MainActivity.preferences.getString("id", ""));
+                        String account = MainActivity.preferences.getString("id", "");
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
-//                        Shopping_Cart shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), select_Amount);
-//                        jsonObject.addProperty("action", "addShop");
-//                        jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
+                        Shopping_Cart shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), select_Amount);
+                        jsonObject.addProperty("action", "addShop");
+                        jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
 
                         int count = 0;
 
