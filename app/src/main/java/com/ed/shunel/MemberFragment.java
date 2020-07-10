@@ -30,6 +30,7 @@ public class MemberFragment extends Fragment {
     private View view;
     private Button btn_Logout;
     private boolean login = false;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -55,13 +56,13 @@ public class MemberFragment extends Fragment {
 
 //
 
-        SharedPreferences settings = activity.getSharedPreferences("Preference", 0);
+        sharedPreferences = Common.getPreherences(activity);
         //置入name屬性的字串
 
 
 
         Log.i(TAG,"-------------------------MemberFragment------------------------------------");
-        Log.i(TAG,settings.getString("id",""));
+        Log.i(TAG,sharedPreferences.getString("id",""));
 
         cvLike = view.findViewById(R.id.cvLike);
         cvChat = view.findViewById(R.id.cvChat);
@@ -71,13 +72,14 @@ public class MemberFragment extends Fragment {
         btn_Logout=view.findViewById(R.id.btn_Logout);
 
         Log.e("TAG", "123");
-        if (settings.getString("id", "").equals("")) {
+        if (sharedPreferences.getString("id", "").equals("")) {
 //            Intent intent=new Intent();
 //            intent.setClass(getActivity(),LoginFragment.class);
 //            startActivity(intent);
             Intent intent= new Intent();
             intent.setClass(activity,LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
             startActivity(intent);
+            activity.finish();//把自己關掉
         }
 
         cvSetting.setOnClickListener(new View.OnClickListener() {
@@ -104,14 +106,6 @@ public class MemberFragment extends Fragment {
         });
 
 
-        btn_Logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 效果與手機上的Back按鍵相同
-                Navigation.findNavController(v).popBackStack();
-                MainActivity.preferences.edit().clear().apply();
-            }
-        });
 
     }
 

@@ -172,7 +172,7 @@ public class Login_Fragment extends Fragment {
                                 intent.putExtras(bundle);
                                 intent.setClass(activity,MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
                                 startActivity(intent);  //啟動跳頁動作
-
+                                activity.finish();//把自己關掉
                             }
                             break;
                     }

@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTypePassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/etReTypePassword" />
 
     <View
         android:id="@+id/view3"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etTypeName" />
 
     <EditText
-        android:id="@+id/etTypePassword2"
+        android:id="@+id/etReTypePassword"
         android:layout_width="270dp"
         android:layout_height="45dp"
         android:layout_marginTop="16dp"
@@ -104,6 +104,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTypePassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/etReTypePassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
