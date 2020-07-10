@@ -2,6 +2,7 @@ package com.ed.shunel.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Shopping_Cart implements Serializable{
 
@@ -14,6 +15,8 @@ public class Shopping_Cart implements Serializable{
     private int price;
     private Timestamp MODIFY_DATE;
 
+    private List<Shopping_Cart> shoppcard;
+
     public Shopping_Cart(String account_ID, int product_ID, String product_Name, int amount, String color, int price,
                          Timestamp mODIFY_DATE) {
         super();
@@ -24,6 +27,15 @@ public class Shopping_Cart implements Serializable{
         this.color = color;
         this.price = price;
         MODIFY_DATE = mODIFY_DATE;
+    }
+
+
+    public List<Shopping_Cart> getshoppcard() {
+        return shoppcard;
+    }
+
+    public void setGoods(List<Shopping_Cart> goods) {
+        this.shoppcard = goods;
     }
 
     public String getAccount_ID() {

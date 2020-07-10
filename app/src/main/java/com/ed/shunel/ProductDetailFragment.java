@@ -2,6 +2,7 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +55,7 @@ public class ProductDetailFragment extends Fragment {
     private User_Account user_account;
     private int select_Amount = 0;
     private CommonTask addTask;
+    private SharedPreferences sharedPreferences;
     //    private int[] sp= {1,2,3,4,5,6,7,8,9,10};
     private ArrayAdapter<Integer> adapter;
     private List<Integer> list = new ArrayList<Integer>();
@@ -80,7 +82,10 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.e("TAG","_____"+MainActivity.preferences.getString("id", ""));
+
+
+        sharedPreferences=Common.getPreherences(activity);
+        Log.e("TAG","_____"+sharedPreferences.getString("id", ""));
 
         findViews(view);
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
@@ -217,11 +222,10 @@ public class ProductDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //            Product product =
+
                 if (Common.networkConnected(activity)) {
 
-
-
-                    if (MainActivity.preferences.getString("id", "").equals("")) {
+                    if (Common.getPreherences(activity).getString("id","").equals("")) {
 
                         Intent intent = new Intent();
                         intent.setClass(activity, LoginActivity.class);
@@ -232,9 +236,9 @@ public class ProductDetailFragment extends Fragment {
                     } else {
 
 
-                        Log.i(TAG,"333");
-                        String account =MainActivity.preferences.getString("id", ""); //取值取不到
-//                        Log.i(TAG,"id",account);
+//                        Log.i(TAG,"333");
+                        String account =Common.getPreherences(activity).getString("id","");
+                                Log.i(TAG,"id");
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
                         Shopping_Cart shopping_cart = new Shopping_Cart(account,product.getProduct_ID(),product.getProduct_Name(),select_Amount,product.getProduct_Color(),product.getProduct_Price(),product.getProduct_MODIFY_DATE());

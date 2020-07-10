@@ -1,6 +1,8 @@
 package com.ed.shunel;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.ed.shunel.Task.Common;
 import com.ed.shunel.adapter.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -26,6 +29,7 @@ public class HomeFragment extends Fragment {
     private FragmentActivity activity;
     TabLayout tabLayout;
     ViewPager2 viewPager;
+    private SharedPreferences sharedPreferences;
     private int[] label={R.string.Popular_product,R.string.Promotion,R.string.All,R.string.Perfume_necklace,R.string.Fragrance_earrings,R.string.Necklace,R.string.Earrings};
 
     @Override
@@ -59,6 +63,15 @@ public class HomeFragment extends Fragment {
                     }
                 }).attach();
 
+
+
+//        SharedPreferences settings = activity.getSharedPreferences("Preference", 0);
+        //置入name屬性的字串
+        sharedPreferences= Common.getPreherences(activity);
+
+
+        Log.i(TAG,"-------------------------HomeFragment------------------------------------");
+        Log.i(TAG,sharedPreferences.getString("id",""));
 
 
 

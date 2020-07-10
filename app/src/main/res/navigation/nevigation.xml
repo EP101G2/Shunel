@@ -67,11 +67,6 @@
 
 
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.ed.shunel.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
-    <fragment
         android:id="@+id/forgetpasswordFragment"
         android:name="com.ed.shunel.ForgetpasswordFragment"
         android:label="fragment_forgetpassword"
@@ -119,6 +114,11 @@
         android:name="com.ed.shunel.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/hotProductFragment"
+        android:name="com.ed.shunel.HotProductFragment"
+        android:label="fragment_hot_product"
+        tools:layout="@layout/fragment_hot_product" />
 
 
 </navigation>

@@ -101,6 +101,31 @@ public class Login_Fragment extends Fragment {
         tvForgetPassword = view.findViewById(R.id.tvForgetPassword);
         tvMessage = view.findViewById(R.id.tvMessage);
 
+
+
+        tvForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_login_Fragment_to_forgetPassword_Fragment);
+            }
+        });
+
+
+
+
+        tvRegisterNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_login_Fragment_to_register_Fragment);
+            }
+        });
+
+
+
+
+
+
+
         btLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -109,7 +134,7 @@ public class Login_Fragment extends Fragment {
                 password = etTypePassword.getText().toString();
 
                 if (networkConnected()) {
-                    String url = Common.URL_SERVER + "Uesr_Account_Servlet";                           //connect servlet(eclipse)
+                    String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
                     Gson gson = new Gson();
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("action", "getLogin");
@@ -200,11 +225,12 @@ public class Login_Fragment extends Fragment {
 
     private void savePreferences() {
 
+        //置入name屬性的字串
+        Common.getPreherences(activity).edit().putString("id", id).apply();
 
-        LoginActivity.preferences.edit()
-                .putString("id", id)
-                .putString("password", password)
-                .apply();
+
+        Log.i(TAG,"-------------------------------------------------------------");
+        Log.i(TAG, Common.getPreherences(activity).getString("id", id));
     }
 }
 

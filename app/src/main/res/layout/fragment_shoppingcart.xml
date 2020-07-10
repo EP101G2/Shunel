@@ -33,13 +33,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="323dp"
-        android:layout_marginLeft="323dp"
         android:background="#FADDE6"
         android:text="@string/nextpage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_Shopping_Cart"
         app:layout_constraintVertical_bias="0.0" />

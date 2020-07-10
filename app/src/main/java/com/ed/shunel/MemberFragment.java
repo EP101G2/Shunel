@@ -2,18 +2,25 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.ed.shunel.Task.Common;
+
+import static android.content.ContentValues.TAG;
 
 
 public class MemberFragment extends Fragment {
@@ -48,6 +55,13 @@ public class MemberFragment extends Fragment {
 
 //
 
+        SharedPreferences settings = activity.getSharedPreferences("Preference", 0);
+        //置入name屬性的字串
+
+
+
+        Log.i(TAG,"-------------------------MemberFragment------------------------------------");
+        Log.i(TAG,settings.getString("id",""));
 
         cvLike = view.findViewById(R.id.cvLike);
         cvChat = view.findViewById(R.id.cvChat);
@@ -57,7 +71,7 @@ public class MemberFragment extends Fragment {
         btn_Logout=view.findViewById(R.id.btn_Logout);
 
         Log.e("TAG", "123");
-        if (MainActivity.preferences.getString("id", "").equals("")) {
+        if (settings.getString("id", "").equals("")) {
 //            Intent intent=new Intent();
 //            intent.setClass(getActivity(),LoginFragment.class);
 //            startActivity(intent);
@@ -89,13 +103,28 @@ public class MemberFragment extends Fragment {
             }
         });
 
+
+        btn_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 效果與手機上的Back按鍵相同
+                Navigation.findNavController(v).popBackStack();
+                MainActivity.preferences.edit().clear().apply();
+            }
+        });
+
     }
 
     private void Logout() {
 
 
+        Common.getPreherences(activity).edit().clear().apply();
+//        MainActivity.preferences.edit().clear().apply();
+        Intent intent= new Intent();
+        intent.setClass(activity,LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
+        startActivity(intent);
 
-        MainActivity.preferences.edit().clear().apply();
+
 
 //        if (MainActivity.preferences.edit())
 

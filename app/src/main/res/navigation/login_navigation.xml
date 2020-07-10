@@ -9,5 +9,22 @@
         android:id="@+id/login_Fragment"
         android:name="com.ed.shunel.Login_Fragment"
         android:label="fragment_login_"
-        tools:layout="@layout/fragment_login_" />
+        tools:layout="@layout/fragment_login_" >
+        <action
+            android:id="@+id/action_login_Fragment_to_register_Fragment"
+            app:destination="@id/register_Fragment" />
+        <action
+            android:id="@+id/action_login_Fragment_to_forgetPassword_Fragment"
+            app:destination="@id/forgetPassword_Fragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/register_Fragment"
+        android:name="com.ed.shunel.Register_Fragment"
+        android:label="fragment_register_"
+        tools:layout="@layout/fragment_register_" />
+    <fragment
+        android:id="@+id/forgetPassword_Fragment2"
+        android:name="com.ed.shunel.ForgetPassword_Fragment"
+        android:label="fragment_forget_password_"
+        tools:layout="@layout/fragment_forget_password_" />
 </navigation>
