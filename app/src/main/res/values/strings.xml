@@ -130,5 +130,8 @@
     <string name="textDeleteFail">移除失敗</string>
     <string name="textDeleteSuccess">移除成功</string>
     <string name="spcardTotal">總金額：0</string>
+    <string name="Sale_Notice">促銷訊息</string>
+    <string name="QA_zNotice">提問通知</string>
+    <string name="system_Notice">系統公告</string>
 
 </resources>
