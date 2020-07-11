@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
@@ -31,7 +33,7 @@ public class Register_Fragment extends Fragment {
     private final static String TAG = "TAG_SpotInsertFragment";
     private Activity activity;
     private User_Account user_account;
-    private EditText etTypeName,etTypeAccountId, etTypePhonenumber, etTypePassword,etTypeAddress;
+    private EditText etTypeName,etTypeAccountId, etTypePhonenumber, etTypePassword,etTypeAddress,etReTypePassword;
     private Button btRegister;
 
 
@@ -60,15 +62,18 @@ public class Register_Fragment extends Fragment {
         etTypePhonenumber = view.findViewById(R.id.etTypePhonenumber);
         etTypePassword = view.findViewById(R.id.etTypePassword);
         etTypeAddress=view.findViewById(R.id.etTypeAddress);
+        etReTypePassword=view.findViewById(R.id.etReTypePassword);
         btRegister = view.findViewById(R.id.btRegister);
 
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+if (!etTypePassword.getText().toString().equals(etReTypePassword.getText().toString())) {
+     Common.showToast(activity,"輸入密碼與再次輸入密碼不吻合");
+    return;
 
-
-
+}
                 if (Common.networkConnected(activity)) {
                     String url = Common.URL_SERVER + "User_Account_Servlet";
                     String status = btRegister.getText().toString();
@@ -84,22 +89,25 @@ public class Register_Fragment extends Fragment {
                     jsonObject.addProperty("user", new Gson().toJson(user_account));
 
                     try {
-                        String result = new CommonTask(url, jsonObject.toString()).execute().get();
+                        String result = new CommonTask(url, jsonObject.toString()).execute().get();//巷ＳＥＶＥＲ提出註冊請球，彈出的是註冊節過0貨1
                         int resultType= Integer.parseInt(result);
 
                         if (resultType==0){
                             Common.showToast(activity, R.string.textInsertFail);
                         }else {
                             Common.showToast(activity, R.string.textInsertSuccess);
-//
-//
-//
-//                            String userJstr = jsonObject2.get("user").getAsString();
-//                            if(userJstr != null) {
-//                                User_Account user_account = gson.fromJson(userJstr, User_Account.class);
-//                                savePreferences();
-//                                Bundle bundle=new Bundle();
+                            savePreferences();
+                            Intent intent= new Intent();
+                            intent.setClass(activity,MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
+                            startActivity(intent);
 
+                            activity.finish();//把自己關掉
+
+
+
+
+
+//
                         }
 
                     } catch (Exception e) {
@@ -122,6 +130,11 @@ public class Register_Fragment extends Fragment {
 
     private void savePreferences() {
 
+        //置入name屬性的字串
+        Common.getPreherences(activity).edit().putString("id",etTypeAccountId.getText().toString()).apply();
+        Common.getPreherences(activity).edit().putString("password",etTypePassword.getText().toString()).apply();
+
+        Log.i(TAG,"-------------------------------------------------------------");
 
     }
-    }
+}

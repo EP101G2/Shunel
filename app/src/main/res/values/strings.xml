@@ -130,10 +130,16 @@
     <string name="textDeleteFail">移除失敗</string>
     <string name="textDeleteSuccess">移除成功</string>
     <string name="spcardTotal">總金額：0</string>
+<<<<<<< HEAD
+    <string name="Sale_Notice">促銷訊息</string>
+    <string name="QA_zNotice">提問通知</string>
+    <string name="system_Notice">系統公告</string>
+=======
     <string name="typeAccountId">請輸入帳號</string>
     <string name="typeName">請輸入姓名</string>
     <string name="typeAddress">請輸入地址</string>
-    <string name="textInsertFail">新增失敗</string>
+    <string name="textInsertFail">註冊失敗</string>
     <string name="textInsertSuccess">註冊成功</string>
+>>>>>>> c20ac034cd01299863619240a1edebfcede2f28a
 
 </resources>
