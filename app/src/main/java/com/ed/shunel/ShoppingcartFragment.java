@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
+import com.ed.shunel.bean.Order_Main;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -59,7 +60,7 @@ public class ShoppingcartFragment extends Fragment {
     private List<Shopping_Cart> listdatas = new ArrayList<Shopping_Cart>();
     //    private List<Shopping_Cart> cartList;
     private TextView tv_Total;
-
+    private CommonTask addOrderMain;
     private CommonTask shopGetall;
     private int totalPrice = 0;
 
@@ -161,20 +162,38 @@ public class ShoppingcartFragment extends Fragment {
                 } else {
 
                     Shopping_Cart_List shopping_cart_list = new Shopping_Cart_List(listdatas);
+                    Order_Main order_main = new Order_Main(Common.getPreherences(activity).getString("id",""),totalPrice,Common.getPreherences(activity).getString("name",""),Common.getPreherences(activity).getString("address",""),Common.getPreherences(activity).getString("phone",""),0);
+                    if (Common.networkConnected(activity)) {
+
+                        String url = Common.URL_SERVER + "Prouct_Servlet";
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("action", "addOrderMain");
+                        jsonObject.addProperty("OrderID",new Gson().toJson(order_main));
+                        String jsonOut = jsonObject.toString();
+                        Log.i("---------",jsonOut);
+                        shopGetall = new CommonTask(url, jsonOut);
+
+                        try {
+                            String jsonIn = shopGetall.execute().get();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Common.showToast(activity, R.string.textNoNetwork);
+                    }
+
+
+
+
+
+
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("shopcard", shopping_cart_list);
-//                    List<Shopping_Cart> temp= new ArrayList<>();
-//                    for (int i = 0;i<=map.size();i++){
-//                        List<Shopping_Cart> goods=map.get(i).
-//                    }
-//                    List<Shopping_Cart> temp = new ArrayList<>();
-//
-//                    Shopping_Cart sc =map.get(i);
-//                    Log.i("123123213",bundle.toString());
-
-
                     Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment,bundle);
+//                    map.clear(listdatas.removeAll());
+
                 }
+
 
 
             }

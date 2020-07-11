@@ -3,6 +3,12 @@ package com.ed.shunel;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,22 +16,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Base64;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import java.util.concurrent.ExecutionException;
 
 
 public class Register_Fragment extends Fragment {
@@ -133,6 +128,9 @@ if (!etTypePassword.getText().toString().equals(etReTypePassword.getText().toStr
         //置入name屬性的字串
         Common.getPreherences(activity).edit().putString("id",etTypeAccountId.getText().toString()).apply();
         Common.getPreherences(activity).edit().putString("password",etTypePassword.getText().toString()).apply();
+        Common.getPreherences(activity).edit().putString("name",etTypeName.getText().toString()).apply();
+        Common.getPreherences(activity).edit().putString("phone",etTypePhonenumber.getText().toString()).apply();
+        Common.getPreherences(activity).edit().putString("address",etTypeAddress.getText().toString()).apply();
 
         Log.i(TAG,"-------------------------------------------------------------");
 
