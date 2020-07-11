@@ -12,6 +12,7 @@
     <string name="Fragrance_earrings">香氛耳環</string>
     <string name="Necklace">項鍊</string>
     <string name="Earrings">耳環</string>
+    <string name="Ring">戒指</string>
 
     <string name="typename">請輸入文字</string>
     <string name="typepassword">請輸入密碼</string>
@@ -131,15 +132,14 @@
     <string name="textDeleteSuccess">移除成功</string>
     <string name="spcardTotal">總金額：0</string>
 
+
     <string name="Sale_Notice">促銷訊息</string>
     <string name="QA_zNotice">提問通知</string>
     <string name="system_Notice">系統公告</string>
-
     <string name="typeAccountId">請輸入帳號</string>
     <string name="typeName">請輸入姓名</string>
     <string name="typeAddress">請輸入地址</string>
     <string name="textInsertFail">註冊失敗</string>
     <string name="textInsertSuccess">註冊成功</string>
-
 
 </resources>

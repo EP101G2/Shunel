@@ -67,8 +67,31 @@ public class Register_Fragment extends Fragment {
 if (!etTypePassword.getText().toString().equals(etReTypePassword.getText().toString())) {
      Common.showToast(activity,"輸入密碼與再次輸入密碼不吻合");
     return;
-
 }
+
+
+                if (etTypeName.length() == 0){
+                    etTypeName.setError("請輸入中英文");
+                }else if (etTypeAccountId.length() == 0){
+                    etTypeAccountId.setError("請輸入15位數內英文或數字");
+                }else if (etTypePhonenumber.length() == 0){
+                    etTypePhonenumber.setError("請輸入15位數內數字");
+                }else if ( etTypePassword.length() == 0){
+                    etTypePassword.setError("請輸入15位數內英文或數字");
+                }else if ( etReTypePassword.length() == 0){
+                    etReTypePassword.setError("請和密碼輸入相同");
+                }else if (etTypeAddress.length() == 0){
+                    etTypeAddress.setError("請輸入15位數內英文或數字之符號");
+                }
+
+
+
+
+
+
+
+
+
                 if (Common.networkConnected(activity)) {
                     String url = Common.URL_SERVER + "User_Account_Servlet";
                     String status = btRegister.getText().toString();
