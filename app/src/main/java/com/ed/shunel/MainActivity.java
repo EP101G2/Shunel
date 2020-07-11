@@ -15,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 //import com.facebook.appevents.AppEventsLogger;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static int flag = 0;
     public static MemoryCache memoryCache=new MemoryCache();
     private final static String PREFERENCES_NAME = "preferences";
     public static SharedPreferences preferences;

@@ -119,6 +119,11 @@
         android:name="com.ed.shunel.HotProductFragment"
         android:label="fragment_hot_product"
         tools:layout="@layout/fragment_hot_product" />
+    <fragment
+        android:id="@+id/ringProductFragment"
+        android:name="com.ed.shunel.RingProductFragment"
+        android:label="fragment_ring_product"
+        tools:layout="@layout/fragment_ring_product" />
 
 
 </navigation>
