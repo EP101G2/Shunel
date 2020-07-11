@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,8 +157,13 @@ public class Register_Fragment extends Fragment {
     private void savePreferences() {
 
         //置入name屬性的字串
-        Common.getPreherences(activity).edit().putString("id", etTypeAccountId.getText().toString()).apply();
-        Common.getPreherences(activity).edit().putString("password", etTypePassword.getText().toString()).apply();
+
+        Common.getPreherences(activity).edit().putString("id",etTypeAccountId.getText().toString()).apply();
+        Common.getPreherences(activity).edit().putString("password",etTypePassword.getText().toString()).apply();
+        Common.getPreherences(activity).edit().putString("name",etTypeName.getText().toString()).apply();
+        Common.getPreherences(activity).edit().putString("phone",etTypePhonenumber.getText().toString()).apply();
+        Common.getPreherences(activity).edit().putString("address",etTypeAddress.getText().toString()).apply();
+
 
         Log.i(TAG, "-------------------------------------------------------------");
 

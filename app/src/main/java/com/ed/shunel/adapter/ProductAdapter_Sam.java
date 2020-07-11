@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ed.shunel.MainActivity;
 import com.ed.shunel.Product;
 import com.ed.shunel.R;
 import com.ed.shunel.Task.Common;
@@ -44,22 +45,61 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
         final Product product = products.get(position);
         String url = Common.URL_SERVER + "Prouct_Servlet";
         int id_product = product.getProduct_ID();
-        productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
-        productimageTask.execute();
+                productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
+                productimageTask.execute();
+                myviewholder.tvname.setText(products.get(position).getProduct_Name());
+                myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
+                myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("product", product);
+                        Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
+                    }
+                });
 
 
-        myviewholder.tvname.setText(products.get(position).getProduct_Name());
-        myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
+//        switch (MainActivity.flag){
+//            case 0:  //熱門商品
+//                int id_product = product.getProduct_ID();
+//                productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
+//                productimageTask.execute();
+//                myviewholder.tvname.setText(products.get(position).getProduct_Name());
+//                myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
+//                myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("product", product);
+//                        Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
+//                    }
+//                });
+//
+//
+//                break;
+//
+//            case 2:  //取耳環
+//                int category_id  = product.getProduct_Category_ID();
+//                productimageTask = new ImageTask(url, category_id, imageSize, myviewholder.ivcardIMG);
+//                productimageTask.execute();
+//                myviewholder.tvname.setText(products.get(position).getProduct_Name());
+//                myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
+//                myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("product", product);
+//                        Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
+//                    }
+//                });
+//
+//
+//                break;
+//        }
 
-        myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("product", product);
-                Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
-            }
-        });
+
+
 
 
     }
@@ -67,10 +107,7 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
     @NonNull
     @Override
     public int getItemCount() {
-
         return products == null ? 0 : products.size();
-
-
     }
 
     public void setProducts(List<Product> product) {

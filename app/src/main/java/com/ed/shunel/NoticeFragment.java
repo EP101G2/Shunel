@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,8 +41,8 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     private SearchView searchView;
     private NoticeAdapter noticeAdapter;
     private List<Notice> notice;
-    //    private List<News> news;
     private CommonTask noticeGetAllTask;
+    private CardView cdSystem;
 
 //    private LayoutInflater layoutInflater;
 
@@ -74,6 +76,13 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
     private void setLinstener() {
 
+        cdSystem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 
@@ -81,9 +90,8 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
         rvNotice = view.findViewById(R.id.rvNotice);
         rvNotice.setLayoutManager(new LinearLayoutManager(activity));
-
+        cdSystem = view.findViewById(R.id.cdSystem);
         searchView = view.findViewById(R.id.searchView);
-
         rvNotice.setAdapter(new NoticeAdapter(activity, notice));
         rvNotice.setAdapter(noticeAdapter);
     }
@@ -118,12 +126,59 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         return notices;
     }
 
+    private List<Notice> getSystemDate() {
+        List<Notice> notices = null;
+
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Notice_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getAllSystem");
+            String jsonOut = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOut);
+            try {
+                String jsonIn = noticeGetAllTask.execute().get();
+                Type listType = new TypeToken<List<Notice>>() {
+                }.getType();
+                notices = new Gson().fromJson(jsonIn, listType);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        return notices;
+    }
+
+
+    private List<Notice> getQADate() {
+        List<Notice> notices = null;
+
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Notice_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getAllQA");
+            String jsonOut = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOut);
+            try {
+                String jsonIn = noticeGetAllTask.execute().get();
+                Type listType = new TypeToken<List<Notice>>() {
+                }.getType();
+                notices = new Gson().fromJson(jsonIn, listType);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        return notices;
+    }
+
 
     private void setSystemServices() {
     }
 
 
-    private class NoticeAdapter extends RecyclerView.Adapter {
+    private class NoticeAdapter extends RecyclerView.Adapter <NoticeAdapter.Myviewholder>{
         //        layoutInflater =LayoutInflater.from(context);
         Context context;
         List<Notice> noticeList;
@@ -135,27 +190,36 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
         @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return null;
+        public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_view_notice, parent, false);
+            return new Myviewholder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
+            final Notice notice = noticeList.get(position);
+//            取得spot的位置
+            String url = Common.URL_SERVER + "Notice_Servlet";
+            int notice_ID = notice.getNotice_ID();
 
+            holder.tvNoticeT.setText(notice.getNotice_Title());
+            holder.tvNoticeD.setText(notice.getNotice_Content());
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return notice == null ? 0 : notice.size();
         }
 
         private class Myviewholder extends RecyclerView.ViewHolder {
+            ImageView ivProductMini;
             TextView tvNoticeT;
             TextView tvNoticeD;
 
 
             public Myviewholder(View view) {
                 super(view);
+                ivProductMini = view.findViewById(R.id.ivProductMini);
                 tvNoticeT = view.findViewById(R.id.tvNoticeT);
                 tvNoticeD = view.findViewById(R.id.tvNoticeD);
 
