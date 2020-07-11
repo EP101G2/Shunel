@@ -141,13 +141,10 @@
     <string name="typeAddress">請輸入地址</string>
     <string name="textInsertFail">註冊失敗</string>
     <string name="textInsertSuccess">註冊成功</string>
-<<<<<<< HEAD
 
-=======
     <string name="textRegisterSuccess">註冊成功</string>
     <string name="registerSuccess">加入會員成功</string>
     <string name="backHome">返回首頁</string>
     <string name="loginsuccess">登入成功</string>
->>>>>>> 25e128a0dad21e40854c4487ae90db07422eb9d0
 
 </resources>

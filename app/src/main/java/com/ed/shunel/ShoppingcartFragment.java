@@ -200,44 +200,11 @@ public class ShoppingcartFragment extends Fragment {
     private void initData() {
         shopping_cartList = getDate();
 
-//        productList = getProduct();
+
 
     }
 
-//    private List<Product> getProduct() {
-//        List<Product> shoppingCarts = null;
-//        if (Common.networkConnected(activity)) {
-//            String url = Common.URL_SERVER + "Prouct_Servlet";
-//
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("action", "getAllShop");
-////            jsonObject.addProperty("id",settings.getString("id",""));
-//
-//            String jsonOut = jsonObject.toString();
-////            Log.i("XXXXX",jsonOut);
-//            shopGetall = new CommonTask(url, jsonOut);
-//            try {
-//
-//                String jsonIn = shopGetall.execute().get();
-//                Type listType = new TypeToken<List<Shopping_Cart>>() {
-//                }.getType();
-//
-//                shoppingCarts = new Gson().fromJson(jsonIn, listType);
-//
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-////                Log.e(TAG, e.toString());
-//            }
-//        } else {
-//            Common.showToast(activity, R.string.textNoNetwork);
-//        }
-//
-//
-//        return shoppingCarts;
-//
-//
-//    }
+
 
     private List<Shopping_Cart> getDate() {
 

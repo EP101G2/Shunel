@@ -3,6 +3,7 @@ package com.ed.shunel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ed.shunel.Task.Common;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Shopping_Cart;
 
 import java.util.List;
@@ -57,6 +59,7 @@ public class BuyerFragment extends Fragment {
 
     private List<Shopping_Cart> listdatas;
     private Shopping_Cart_List shopping_cart_list;
+
     public BuyerFragment() {
         // Required empty public constructor
     }
@@ -95,18 +98,14 @@ public class BuyerFragment extends Fragment {
     private void findViews(View view) {
 
         rv_Product = view.findViewById(R.id.rv_Product);
-
         tv_Buyer_Name = view.findViewById(R.id.tv_Buyer_Name);
         tv_Buyer_Phone = view.findViewById(R.id.tv_Phone);
         tv_Buyer_Address = view.findViewById(R.id.tv_Address);
-
         btn_Buyer_Confirm = view.findViewById(R.id.btn_Buyer_Confirm);
         btn_Pagenext = view.findViewById(R.id.btn_Pagenext);
-
-        line_Address=view.findViewById(R.id.line_Address);
+        line_Address = view.findViewById(R.id.line_Address);
 
         rv_Product.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-
         final NavController navController = Navigation.findNavController(view);
         Bundle bundle = getArguments();
         if (bundle == null || bundle.getSerializable("shopcard") == null) {
@@ -116,16 +115,16 @@ public class BuyerFragment extends Fragment {
         }
         shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("shopcard");
 
+
 //        for (int i = 0 ; i<=shopping_cart_list.)
 //        tv_Buyer_Name.setText();
-
-
-
 
 
     }
 
     private void initData() {
+
+
     }
 
     private void setSystemServices() {
@@ -133,7 +132,12 @@ public class BuyerFragment extends Fragment {
 
     private void setLinstener() {
 
-
+        String name = Common.getPreherences(activity).getString("id","");
+        String phone = Common.getPreherences(activity).getString("phone","");
+        String address = Common.getPreherences(activity).getString("address","");
+        tv_Buyer_Name.setText(name);
+        tv_Buyer_Address.setText(address);
+        tv_Buyer_Phone.setText(phone);
         rv_Product.setAdapter(new productAdapter(activity, shopping_cart_list.getCart()));
 
 
@@ -141,39 +145,12 @@ public class BuyerFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                Navigation.findNavController(v).navigate(R.id.deliveryFragment);
-                Intent intent = new Intent(getContext(),PayActivity.class);
+                Intent intent = new Intent(getContext(), PayActivity.class);
                 startActivity(intent);
 
 
             }
         });
-
-
-
-//        radioButton_New_Address.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                if (isChecked){
-//                    line_Name.setVisibility(View.VISIBLE);
-//                    line_Phone.setVisibility(View.VISIBLE);
-//                    line_Address.setVisibility(View.VISIBLE);
-//                    btn_Buyer_Confirm.setVisibility(View.VISIBLE);
-//                }else {
-//                    line_Name.setVisibility(View.INVISIBLE);
-//                    line_Address.setVisibility(View.INVISIBLE);
-//                    line_Phone.setVisibility(View.INVISIBLE);
-//                    btn_Buyer_Confirm.setVisibility(View.INVISIBLE);
-//                }
-//
-////                et_Phone.setVisibility(View.VISIBLE);
-//            }
-//
-//        });
-
-
-
-
 
 
     }
@@ -197,17 +174,32 @@ public class BuyerFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
-            final  Shopping_Cart list = productList.get(position);
+            final Shopping_Cart list = productList.get(position);
+
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+            int id = list.getProduct_ID();
+            int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+            Bitmap bitmap = null;
+            try {
+                bitmap = new ImageTask(url, id, imageSize).execute().get();
+            } catch (Exception e) {
+//                Log.e(TAG, e.toString());
+                e.printStackTrace();
+            }
+            if (bitmap != null) {
+                holder.iv_Prouct.setImageBitmap(bitmap);
+            } else {
+                holder.iv_Prouct.setImageResource(R.drawable.no_image);
+            }
+
 
             holder.tv_Name.setText(list.getProduct_Name());
-            holder.tv_Count.setText("數量："+String.valueOf(list.getAmount()));
-            holder.tv_Price.setText(String.valueOf(list.getPrice()*list.getAmount()));
+            holder.tv_Count.setText("數量：" + String.valueOf(list.getAmount()));
+            holder.tv_Price.setText(String.valueOf(list.getPrice() * list.getAmount()));
             holder.checkBox.setVisibility(View.GONE);
             holder.tv_Less.setVisibility(View.GONE);
             holder.tv_Add.setVisibility(View.GONE);
 //            holder.tv_Count.setText("數量");
-
-
 
 
         }
