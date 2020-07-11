@@ -176,18 +176,11 @@ public class Login_Fragment extends Fragment {
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("User", user_account);
 
-//
-//                                AlertDialog.Builder builder=new AlertDialog.Builder(activity)    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
-//                                        /* 設定標題 */
-//                                    .setTitle(R.string.textTitle)
-////                                        /* 設定圖示 */
-//                                        .setIcon(R.drawable.check)
-//                                        /* 設定訊息文字 */
-//                                        .setMessage(R.string.textRegisterSuccess)
-//                                        /* 設定positive與negative按鈕上面的文字與點擊事件監聽器 */
-//                                        .setCancelable(false); // 必須點擊按鈕方能關閉，預設為true
-//
-
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity);    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
+                                LayoutInflater inflater = LayoutInflater.from(activity);
+                                final View view =inflater.inflate(R.layout.loginsuccess,null);
+                                builder.setView(view);
+                                builder.create().show();
 
                                 Intent intent= new Intent();
                                 intent.putExtras(bundle);
