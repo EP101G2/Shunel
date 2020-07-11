@@ -200,14 +200,14 @@ public class BuyerFragment extends Fragment {
             final  Shopping_Cart list = productList.get(position);
 
             holder.tv_Name.setText(list.getProduct_Name());
-//            holder.tv_Count.setText(list.getAmount());
+            holder.tv_Count.setText("數量："+String.valueOf(list.getAmount()));
             holder.tv_Price.setText(String.valueOf(list.getPrice()*list.getAmount()));
-//            holder.checkBox.setVisibility(View.GONE);
-//            holder.tv_Less.setVisibility(View.GONE);
-//            holder.tv_Add.setVisibility(View.GONE);
+            holder.checkBox.setVisibility(View.GONE);
+            holder.tv_Less.setVisibility(View.GONE);
+            holder.tv_Add.setVisibility(View.GONE);
 //            holder.tv_Count.setText("數量");
 
-            ;
+
 
 
         }
