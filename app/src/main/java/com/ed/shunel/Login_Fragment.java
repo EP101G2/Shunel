@@ -2,6 +2,7 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
+import androidx.appcompat.app.AlertDialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -173,6 +175,20 @@ public class Login_Fragment extends Fragment {
                                 savePreferences();
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("User", user_account);
+
+//
+//                                AlertDialog.Builder builder=new AlertDialog.Builder(activity)    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
+//                                        /* 設定標題 */
+//                                    .setTitle(R.string.textTitle)
+////                                        /* 設定圖示 */
+//                                        .setIcon(R.drawable.check)
+//                                        /* 設定訊息文字 */
+//                                        .setMessage(R.string.textRegisterSuccess)
+//                                        /* 設定positive與negative按鈕上面的文字與點擊事件監聽器 */
+//                                        .setCancelable(false); // 必須點擊按鈕方能關閉，預設為true
+//
+
+
                                 Intent intent= new Intent();
                                 intent.putExtras(bundle);
                                 intent.setClass(activity,MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
