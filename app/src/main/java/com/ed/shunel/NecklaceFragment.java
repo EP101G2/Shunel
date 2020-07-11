@@ -30,8 +30,11 @@ import java.util.concurrent.ExecutionException;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RingProductFragment extends Fragment {
+public class NecklaceFragment extends Fragment {
 
+    public NecklaceFragment() {
+        // Required empty public constructor
+    }
     private Activity activity;
     private RecyclerView recyclerView;
     private CommonTask productGetAllTask;
@@ -39,11 +42,6 @@ public class RingProductFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private final static String TAG = "TAG_SpotInsertFragment";
 
-    public RingProductFragment() {
-        // Required empty public constructor
-
-
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +89,7 @@ public class RingProductFragment extends Fragment {
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getCategoryProduct");
-            jsonObject.addProperty("category_id", 1);
+            jsonObject.addProperty("category_id", 2);
             productGetAllTask = new CommonTask(url, jsonObject.toString());
             try {
                 String jsonIn = productGetAllTask.execute().get();

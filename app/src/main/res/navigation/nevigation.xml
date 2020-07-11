@@ -124,11 +124,35 @@
         android:name="com.ed.shunel.noticeDetailFragment"
         android:label="fragment_notice_detail"
         tools:layout="@layout/fragment_notice_detail" />
+<<<<<<< HEAD
+
+=======
     <fragment
         android:id="@+id/ringProductFragment"
         android:name="com.ed.shunel.RingProductFragment"
         android:label="fragment_ring_product"
         tools:layout="@layout/fragment_ring_product" />
+    <fragment
+        android:id="@+id/earringsFragment"
+        android:name="com.ed.shunel.EarringsFragment"
+        android:label="fragment_earrings"
+        tools:layout="@layout/fragment_earrings" />
+    <fragment
+        android:id="@+id/necklaceFragment"
+        android:name="com.ed.shunel.NecklaceFragment"
+        android:label="fragment_necklace"
+        tools:layout="@layout/fragment_necklace" />
+    <fragment
+        android:id="@+id/fragrance_earringsFragment"
+        android:name="com.ed.shunel.Fragrance_earringsFragment"
+        android:label="fragment_fragrance_earrings"
+        tools:layout="@layout/fragment_fragrance_earrings" />
+    <fragment
+        android:id="@+id/perfume_necklaceFragment"
+        android:name="com.ed.shunel.Perfume_necklaceFragment"
+        android:label="fragment_perfume_necklace"
+        tools:layout="@layout/fragment_perfume_necklace" />
+>>>>>>> 25e128a0dad21e40854c4487ae90db07422eb9d0
 
 
 </navigation>
