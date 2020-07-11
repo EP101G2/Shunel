@@ -128,8 +128,7 @@ public class Login_Fragment extends Fragment {
 
         btLogin.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
+            @Override public void onClick(View v) {
                 id = etTypeId.getText().toString();
                 password = etTypePassword.getText().toString();
 
@@ -152,6 +151,12 @@ public class Login_Fragment extends Fragment {
 
                     String result = jsonObject2.get("result").getAsString();
                     Log.i(TAG, result);
+
+                    if (etTypeId.length() == 0){
+                        etTypeId.setError("請輸入15位數內英文或數字 ");
+                    }else if (etTypePassword.length() == 0){
+                        etTypePassword.setError("請輸入15位數內英文或數字密碼");
+                    }
                     switch (result) {
                         case "fail":
 
@@ -172,7 +177,7 @@ public class Login_Fragment extends Fragment {
                                 intent.putExtras(bundle);
                                 intent.setClass(activity,MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
                                 startActivity(intent);  //啟動跳頁動作
-
+                                activity.finish();//把自己關掉
                             }
                             break;
                     }
