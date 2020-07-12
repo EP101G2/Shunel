@@ -57,7 +57,11 @@
         android:id="@+id/settingFragment2"
         android:name="com.ed.shunel.SettingFragment"
         android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment2_to_modifyFragment"
+            app:destination="@id/modifyFragment" />
+    </fragment>
     <fragment
 
         android:id="@+id/allProductFragment"
@@ -149,6 +153,28 @@
         android:name="com.ed.shunel.Perfume_necklaceFragment"
         android:label="fragment_perfume_necklace"
         tools:layout="@layout/fragment_perfume_necklace" />
+    <fragment
+        android:id="@+id/modifyFragment"
+        android:name="com.ed.shunel.modifyFragment"
+        android:label="fragment_modify"
+        tools:layout="@layout/fragment_modify" >
+        <action
+            android:id="@+id/action_modifyFragment_to_modifyPasswordFragment"
+            app:destination="@id/modifyPasswordFragment" />
+        <action
+            android:id="@+id/action_modifyFragment_to_modifynameFragment"
+            app:destination="@id/modifynameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modifynameFragment"
+        android:name="com.ed.shunel.modifynameFragment"
+        android:label="fragment_modifyname"
+        tools:layout="@layout/fragment_modifyname" />
+    <fragment
+        android:id="@+id/modifyPasswordFragment"
+        android:name="com.ed.shunel.modifyPasswordFragment"
+        android:label="fragment_modify_password"
+        tools:layout="@layout/fragment_modify_password" />
 
 
 </navigation>
