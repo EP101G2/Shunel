@@ -105,8 +105,8 @@ public class ShoppingcartFragment extends Fragment {
         //置入name屬性的字串
 
 
-        Log.i("1234","------------------ShoppingcartFragment----------------------------");
-        Log.i("1234",settings.getString("id",""));
+        Log.i("1234", "------------------ShoppingcartFragment----------------------------");
+        Log.i("1234", settings.getString("id", ""));
     }
 
     private void setSystemServices() {
@@ -153,7 +153,7 @@ public class ShoppingcartFragment extends Fragment {
                 }
                 for (int j = 0; j < listdatas.size(); j++) {
                     content += listdatas.get(j) + ",";
-                    Log.i("TAG",content);
+                    Log.i("TAG", content);
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 if (content.length() == 0) {
@@ -161,16 +161,17 @@ public class ShoppingcartFragment extends Fragment {
                     builder.create().show();
                 } else {
 
-                    Shopping_Cart_List shopping_cart_list = new Shopping_Cart_List(listdatas);
-                    Order_Main order_main = new Order_Main(Common.getPreherences(activity).getString("id",""),totalPrice,Common.getPreherences(activity).getString("name",""),Common.getPreherences(activity).getString("address",""),Common.getPreherences(activity).getString("phone",""),0);
+                    Shopping_Cart_List shopping_cart_list = new Shopping_Cart_List(listdatas); //清單
+                    Order_Main order_main = new Order_Main(Common.getPreherences(activity).getString("id", ""), totalPrice, Common.getPreherences(activity).getString("name", ""), Common.getPreherences(activity).getString("address", ""), Common.getPreherences(activity).getString("phone", ""), 0);
                     if (Common.networkConnected(activity)) {
 
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("action", "addOrderMain");
-                        jsonObject.addProperty("OrderID",new Gson().toJson(order_main));
+                        jsonObject.addProperty("OrderID", new Gson().toJson(order_main));
+                        jsonObject.addProperty("OrderDetail", new Gson().toJson(listdatas)); //送出清單
                         String jsonOut = jsonObject.toString();
-                        Log.i("---------",jsonOut);
+                        Log.i("---------", jsonOut);
                         shopGetall = new CommonTask(url, jsonOut);
 
                         try {
@@ -182,18 +183,12 @@ public class ShoppingcartFragment extends Fragment {
                         Common.showToast(activity, R.string.textNoNetwork);
                     }
 
-
-
-
-
-
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("shopcard", shopping_cart_list);
-                    Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment,bundle);
+                    Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment, bundle);
 //                    map.clear(listdatas.removeAll());
 
                 }
-
 
 
             }
@@ -205,44 +200,11 @@ public class ShoppingcartFragment extends Fragment {
     private void initData() {
         shopping_cartList = getDate();
 
-//        productList = getProduct();
+
 
     }
 
-//    private List<Product> getProduct() {
-//        List<Product> shoppingCarts = null;
-//        if (Common.networkConnected(activity)) {
-//            String url = Common.URL_SERVER + "Prouct_Servlet";
-//
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("action", "getAllShop");
-////            jsonObject.addProperty("id",settings.getString("id",""));
-//
-//            String jsonOut = jsonObject.toString();
-////            Log.i("XXXXX",jsonOut);
-//            shopGetall = new CommonTask(url, jsonOut);
-//            try {
-//
-//                String jsonIn = shopGetall.execute().get();
-//                Type listType = new TypeToken<List<Shopping_Cart>>() {
-//                }.getType();
-//
-//                shoppingCarts = new Gson().fromJson(jsonIn, listType);
-//
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-////                Log.e(TAG, e.toString());
-//            }
-//        } else {
-//            Common.showToast(activity, R.string.textNoNetwork);
-//        }
-//
-//
-//        return shoppingCarts;
-//
-//
-//    }
+
 
     private List<Shopping_Cart> getDate() {
 
@@ -252,9 +214,9 @@ public class ShoppingcartFragment extends Fragment {
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAllShop");
-            jsonObject.addProperty("id",Common.getPreherences(activity).getString("id",""));
+            jsonObject.addProperty("id", Common.getPreherences(activity).getString("id", ""));
             String jsonOut = jsonObject.toString();
-            Log.i("!!!!!!!!",jsonOut);
+            Log.i("!!!!!!!!", jsonOut);
             shopGetall = new CommonTask(url, jsonOut);
 
             try {
@@ -281,8 +243,6 @@ public class ShoppingcartFragment extends Fragment {
         tv_Total = view.findViewById(R.id.tv_Total);
         rv_Shopping_Cart = view.findViewById(R.id.rv_Shopping_Cart);
         rv_Shopping_Cart.setLayoutManager(new LinearLayoutManager(activity));
-
-
 
 
     }
@@ -352,13 +312,13 @@ public class ShoppingcartFragment extends Fragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     maps.put(position, isChecked);
 
-                    int price =shopping_cartList.get(position).getPrice()*shopping_cartList.get(position).getAmount();
+                    int price = shopping_cartList.get(position).getPrice() * shopping_cartList.get(position).getAmount();
                     if (isChecked) {
                         totalPrice += price;
                     } else {
                         totalPrice -= price;
                     }
-                    tv_Total.setText("總計"+totalPrice);
+                    tv_Total.setText("總計" + totalPrice);
                 }
 
             });

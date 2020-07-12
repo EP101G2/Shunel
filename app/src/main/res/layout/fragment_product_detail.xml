@@ -15,6 +15,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_Shoppcard"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        tools:layout_editor_absoluteX="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivPt"
+                android:layout_width="429dp"
+                android:layout_height="215dp"
+                android:src="@drawable/testproductimage" />
+
+            <TextView
+                android:id="@+id/tvPdName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="32dp"
+                android:text="TextView"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tvColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="TextView"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tvPdPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="208dp"
+                android:layout_marginRight="208dp"
+                android:text="TextView"
+                android:textSize="30sp" />
+
+            <Spinner
+                android:id="@+id/sp_Amount"
+                android:layout_width="121dp"
+                android:layout_height="39dp"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/tv_Dital"
+                android:layout_width="349dp"
+                android:layout_height="100dp"
+                android:text="TextView" />
+        </LinearLayout>
+
+    </ScrollView>
+
     <View
         android:id="@+id/view2"
         android:layout_width="125dp"
@@ -39,65 +100,23 @@
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </SearchView>
 
 
-    <TextView
-        android:id="@+id/tvPdName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/ivPt"
-        app:layout_constraintTop_toBottomOf="@+id/ivPt" />
 
     <TextView
-        android:id="@+id/tvPdPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="208dp"
-        android:layout_marginRight="208dp"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_Dital"
-        app:layout_constraintEnd_toEndOf="@+id/tvPdName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvPdName"
-        app:layout_constraintTop_toBottomOf="@+id/tvPdName" />
-
-    <ImageView
-        android:id="@+id/ivPt"
-        android:layout_width="429dp"
-        android:layout_height="215dp"
-        android:src="@drawable/testproductimage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <TextView
-        android:id="@+id/tv_Dital"
-        android:layout_width="349dp"
-        android:layout_height="81dp"
-        android:layout_marginTop="120dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/tvPdName"
-        app:layout_constraintTop_toBottomOf="@+id/tvPdName" />
-
-    <ImageView
-        android:id="@+id/iv_Like"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/heart_empty"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:id="@+id/tv_Buy"
+        android:layout_width="149dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:text="@string/tvbuy"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Shoppcard"
+        app:layout_constraintStart_toEndOf="@+id/iv_Shoppcard"
+        app:layout_constraintTop_toTopOf="@+id/iv_Like" />
 
     <ImageView
         android:id="@+id/iv_Shoppcard"
@@ -110,41 +129,15 @@
         app:layout_constraintStart_toEndOf="@+id/iv_Like"
         app:layout_constraintTop_toTopOf="@+id/iv_Like" />
 
-    <TextView
-        android:id="@+id/tv_Buy"
-        android:layout_width="149dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:text="@string/tvbuy"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_Shoppcard"
-        app:layout_constraintEnd_toEndOf="@+id/tv_Dital"
-        app:layout_constraintStart_toEndOf="@+id/iv_Shoppcard"
-        app:layout_constraintTop_toTopOf="@+id/iv_Like" />
-
-    <Spinner
-        android:id="@+id/sp_Amount"
-        android:layout_width="121dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginLeft="228dp"
-        app:layout_constraintBottom_toTopOf="@+id/iv_Like"
-        app:layout_constraintStart_toStartOf="@+id/tv_Dital"
-        app:layout_constraintTop_toBottomOf="@+id/tv_Dital"
-        app:layout_constraintVertical_bias="0.262" />
-
-    <TextView
-        android:id="@+id/tvColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvPdPrice"
-        app:layout_constraintEnd_toEndOf="@+id/tvPdName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvPdName"
-        app:layout_constraintTop_toBottomOf="@+id/tvPdName"
-        app:layout_constraintVertical_bias="0.583" />
+    <ImageView
+        android:id="@+id/iv_Like"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/heart_empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

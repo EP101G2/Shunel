@@ -128,6 +128,7 @@
         android:name="com.ed.shunel.noticeDetailFragment"
         android:label="fragment_notice_detail"
         tools:layout="@layout/fragment_notice_detail" />
+
     <fragment
         android:id="@+id/ringProductFragment"
         android:name="com.ed.shunel.RingProductFragment"
@@ -175,6 +176,7 @@
         android:name="com.ed.shunel.modifyPasswordFragment"
         android:label="fragment_modify_password"
         tools:layout="@layout/fragment_modify_password" />
+
 
 
 </navigation>

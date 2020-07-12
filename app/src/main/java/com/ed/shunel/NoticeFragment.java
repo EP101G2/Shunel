@@ -50,14 +50,15 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = new Activity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        activity = getActivity();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notice, container, false);
+            return inflater.inflate(R.layout.fragment_notice, container, false);
 
     }
 
@@ -126,54 +127,6 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         return notices;
     }
 
-    private List<Notice> getSystemDate() {
-        List<Notice> notices = null;
-
-        if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "Notice_Servlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAllSystem");
-            String jsonOut = jsonObject.toString();
-            noticeGetAllTask = new CommonTask(url, jsonOut);
-            try {
-                String jsonIn = noticeGetAllTask.execute().get();
-                Type listType = new TypeToken<List<Notice>>() {
-                }.getType();
-                notices = new Gson().fromJson(jsonIn, listType);
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        } else {
-            Common.showToast(activity, R.string.textNoNetwork);
-        }
-        return notices;
-    }
-
-
-    private List<Notice> getQADate() {
-        List<Notice> notices = null;
-
-        if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "Notice_Servlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAllQA");
-            String jsonOut = jsonObject.toString();
-            noticeGetAllTask = new CommonTask(url, jsonOut);
-            try {
-                String jsonIn = noticeGetAllTask.execute().get();
-                Type listType = new TypeToken<List<Notice>>() {
-                }.getType();
-                notices = new Gson().fromJson(jsonIn, listType);
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        } else {
-            Common.showToast(activity, R.string.textNoNetwork);
-        }
-        return notices;
-    }
-
-
     private void setSystemServices() {
     }
 
@@ -198,10 +151,8 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
             final Notice notice = noticeList.get(position);
-//            取得spot的位置
             String url = Common.URL_SERVER + "Notice_Servlet";
             int notice_ID = notice.getNotice_ID();
-
             holder.tvNoticeT.setText(notice.getNotice_Title());
             holder.tvNoticeD.setText(notice.getNotice_Content());
         }
