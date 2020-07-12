@@ -14,6 +14,7 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -93,6 +94,12 @@ public class MemberFragment extends Fragment {
         btn_Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
+                LayoutInflater inflater = LayoutInflater.from(activity);
+                final View view =inflater.inflate(R.layout.logoutsuccess,null);
+                builder.setView(view);
+                builder.create().show();
                 Logout();
             }
         });

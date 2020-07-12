@@ -249,47 +249,4 @@ public class Login_Fragment extends Fragment {
 }
 
 
-//                if (number.isEmpty()) {
-//                    etTypePhonenumber.setError(getString(R.string.textPhonenumberEmpty));
-//                }
-//                if (!password.isEmpty()) {
-//                } else {
-//                    etTypePassword.setError(getString(R.string.textPasswordEmpty));
-//                }
-//                if (number.isEmpty() || password.isEmpty()) {
-//                    tvMessage.setText(R.string.textPhonenumberOrPasswordEmpty);
-//                    return;
-//                }
-//                tvMessage.setText("");
-//
-//
-//                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_memberFragment, bundle);
-//            }
-//        });
-//    }
-//
-//    public void signUp(View view) {
-//        phonenum1 = ((EditText) findViewById(R.id.et_phonenum1))
-//                .getText().toString();
-//        phonenum2= ((EditText) findViewById(R.id.et_phonenum2))
-//                .getText().toString();
-//        //whether input is phone number
-//        if (!Patterns.PHONE.matcher(phonenum1).matches()) {
-//            Toast.makeText(this, R.string.invalid_phonenum, Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        //whether the two numbers are the same
-//        if (!phonenum1.equals(((EditText) findViewById(R.id.et_phonenum2))
-//                .getText().toString())) {
-//            Toast.makeText(this, R.string.inconsistent_phonenum,
-//                    Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        Intent intent=new Intent(this, MainActivity.class);
-//        intent.putExtra("PHONE_NUM", phonenum2);
-//        startActivity(intent);
-//        finish();
-//    }
-//}
-
 

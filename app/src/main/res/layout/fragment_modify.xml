@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".modifyFragment">
+
+    <!--    <View-->
+    <!--        android:id="@+id/view3"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="56dp"-->
+    <!--        android:background="@drawable/appbar"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="1.0" />-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSetting">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/btPersonalImformation"
+                android:layout_width="365dp"
+                android:layout_height="56dp"
+                android:background="#FFFFFF"
+                android:gravity="center|left"
+                android:paddingLeft="20dp"
+                android:text="@string/personalInformation"
+                android:textColor="#707070"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/arrow_forward_pink" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="411dp"
+            android:layout_height="54dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btModifyPassword"
+                android:layout_width="365dp"
+                android:layout_height="56dp"
+                android:background="#FFFFFF"
+                android:gravity="center|left"
+                android:paddingLeft="20dp"
+                android:text="@string/modifyPassword"
+                android:textColor="#707070"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/arrow_forward_pink" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSetting"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/appbar"
+        android:gravity="center"
+        android:text="@string/setting"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
