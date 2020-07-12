@@ -22,10 +22,12 @@ import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.Notice;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -66,9 +68,11 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        findViews(view);
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
         initData();
+
+        findViews(view);
+
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
         setSystemServices();
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
@@ -94,15 +98,10 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         cdSystem = view.findViewById(R.id.cdSystem);
         searchView = view.findViewById(R.id.searchView);
         rvNotice.setAdapter(new NoticeAdapter(activity, notice));
-        rvNotice.setAdapter(noticeAdapter);
     }
 
     private void initData() {
-
-
         notice = getDate();
-
-
     }
 
     private List<Notice> getDate() {
@@ -110,14 +109,18 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Notice_Servlet";
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAll");
+            jsonObject.addProperty("action", "getNoticeAll");
             String jsonOut = jsonObject.toString();
             noticeGetAllTask = new CommonTask(url, jsonOut);
             try {
                 String jsonIn = noticeGetAllTask.execute().get();
                 Type listType = new TypeToken<List<Notice>>() {
                 }.getType();
-                notices = new Gson().fromJson(jsonIn, listType);
+
+                Gson gson = new GsonBuilder().setDateFormat("MMM DD, YYYY, HH:mm:ss a").create();
+                //MMM 是英文月份縮寫，7月是Jul
+                //a = AM/PM
+                notices = gson.fromJson(jsonIn, listType);
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }
@@ -148,18 +151,18 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             return new Myviewholder(view);
         }
 
+
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
             final Notice notice = noticeList.get(position);
-            String url = Common.URL_SERVER + "Notice_Servlet";
             int notice_ID = notice.getNotice_ID();
             holder.tvNoticeT.setText(notice.getNotice_Title());
-            holder.tvNoticeD.setText(notice.getNotice_Content());
+            holder.tvNoticeD.setText(notice.getNotice_time().toString());
         }
 
         @Override
         public int getItemCount() {
-            return notice == null ? 0 : notice.size();
+            return noticeList == null ? 0 : noticeList.size();
         }
 
         private class Myviewholder extends RecyclerView.ViewHolder {

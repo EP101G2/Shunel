@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginFragment">
+    tools:context=".Login_Fragment">
 
-    <View
+    <TextView
         android:id="@+id/view3"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:background="@drawable/appbar"
+        android:gravity="center"
+        android:text="@string/memberlogin"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
