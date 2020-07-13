@@ -26,5 +26,14 @@
         android:id="@+id/forgetPassword_Fragment2"
         android:name="com.ed.shunel.ForgetPassword_Fragment"
         android:label="fragment_forget_password_"
-        tools:layout="@layout/fragment_forget_password_" />
+        tools:layout="@layout/fragment_forget_password_" >
+        <action
+            android:id="@+id/action_forgetPassword_Fragment2_to_createNewPasswordFragment"
+            app:destination="@id/createNewPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNewPasswordFragment"
+        android:name="com.ed.shunel.CreateNewPasswordFragment"
+        android:label="fragment_create_new_password"
+        tools:layout="@layout/fragment_create_new_password" />
 </navigation>

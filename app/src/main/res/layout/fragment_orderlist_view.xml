@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-
-
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.cardview.widget.CardView
         android:id="@+id/cdOrderList"
         android:layout_width="0dp"
@@ -29,7 +26,7 @@
             tools:srcCompat="@drawable/heart_empty" />
 
         <TextView
-            android:id="@+id/tvOrderNumText"
+            android:id="@+id/tvOrderIdText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
@@ -40,15 +37,15 @@
             app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic" />
 
         <TextView
-            android:id="@+id/tvOrderNum"
+            android:id="@+id/tvOrderId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="152dp"
             android:layout_marginTop="16dp"
             android:hint="@string/textHint"
-            android:text="@string/textOrderNum"
+            android:text="@string/textOrderId"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/tvOrderNumText" />
+            app:layout_constraintStart_toEndOf="@+id/tvOrderIdText" />
 
         <TextView
             android:id="@+id/tvOrderStatusText"

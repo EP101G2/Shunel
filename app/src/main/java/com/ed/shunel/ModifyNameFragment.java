@@ -21,7 +21,8 @@ import com.ed.shunel.Task.CommonTask;
 import com.google.gson.JsonObject;
 
 
-public class ModifynameFragment extends Fragment {
+public class ModifyNameFragment extends Fragment {
+
     Activity activity;
     private Button btTakePicture, btPickPicture, btCancel, btConfirm;
     private EditText etName, etAddress, etPhone;
@@ -33,6 +34,8 @@ public class ModifynameFragment extends Fragment {
     private static final int REQ_PICK_IMAGE = 1;
     private static final int REQ_CROP_PICTURE = 2;
     private Uri contentUri;
+    private String name, address, phone;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class ModifynameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_modifyname, container, false);
+        return inflater.inflate(R.layout.fragment_modify_name, container, false);
     }
 
     @Override
@@ -61,15 +64,28 @@ public class ModifynameFragment extends Fragment {
         tvId = view.findViewById(R.id.tvId);
 
 
-        if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "User_Account_Servlet";//連server端先檢查網址
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAll");//變作ＪＳＯＮ自串
-            String jsonOut = jsonObject.toString();
-            UpdateInfoTask = new CommonTask(url, jsonOut);
-            String jsonIn = "";
+        btConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        }
+                name = etName.getText().toString();
+                address = etAddress.getText().toString();
+                phone = etPhone.getText().toString();
+
+                if (Common.networkConnected(activity)) {
+                    String url = Common.URL_SERVER + "User_Account_Servlet";//連server端先檢查網址
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "getAll");//變作ＪＳＯＮ自串
+                    String jsonOut = jsonObject.toString();
+                    UpdateInfoTask = new CommonTask(url, jsonOut);
+                    String jsonIn = "";
+
+
+                }
+            }
+        });
+
+
     }
 
 

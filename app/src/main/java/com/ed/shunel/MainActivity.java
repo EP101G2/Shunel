@@ -1,6 +1,5 @@
 package com.ed.shunel;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,15 +15,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     public static int flag = 0;
-    public static MemoryCache memoryCache=new MemoryCache();
-   
+    public static MemoryCache memoryCache = new MemoryCache();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+//        MainFragment fragment = (MainFragment) getFragmentManager().findFragmentById(R.id.fragment_main);
+//        //步骤3:设置监听器，实现接口里面的方法
+//        fragment.setCallBack(this);
 
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        AppEventsLogger.activateApp(this);
@@ -34,4 +35,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.fragment3);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
+
+
 }

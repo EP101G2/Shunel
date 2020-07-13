@@ -83,6 +83,14 @@ public class MemberFragment extends Fragment {
             activity.finish();//把自己關掉
         }
 
+        cvLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.likeDetail_SamFragment);
+            }
+        });
+
+
         cvSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +102,6 @@ public class MemberFragment extends Fragment {
         btn_Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
                 LayoutInflater inflater = LayoutInflater.from(activity);
                 final View view =inflater.inflate(R.layout.logoutsuccess,null);
@@ -103,30 +110,19 @@ public class MemberFragment extends Fragment {
                 Logout();
             }
         });
-
-
         cvChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.chatFragment);
             }
         });
-
-
-
     }
-
     private void Logout() {
-
-
         Common.getPreherences(activity).edit().clear().apply();
 //        MainActivity.preferences.edit().clear().apply();
         Intent intent= new Intent();
         intent.setClass(activity,LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
         startActivity(intent);
-
-
-
 //        if (MainActivity.preferences.edit())
 
 
