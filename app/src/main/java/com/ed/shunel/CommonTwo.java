@@ -1,4 +1,4 @@
-package com.ed.shunel.Task;
+package com.ed.shunel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,8 +29,8 @@ public class CommonTwo {
             Log.e(TAG, e.toString());
         }
         if (chatWebSocketClient == null) {
-//            chatWebSocketClient = new ChatWebSocketClient(uri, context);
-//            chatWebSocketClient.connect();
+            chatWebSocketClient = new ChatWebSocketClient(uri, context);
+            chatWebSocketClient.connect();
         }
     }
 
@@ -42,16 +42,18 @@ public class CommonTwo {
         }
     }
 
-    public static void saveUserName(Context context, String userName) {
-        SharedPreferences preferences =
-                context.getSharedPreferences("user", MODE_PRIVATE);
-        preferences.edit().putString("userName", userName).apply();
-    }
+//    public static void saveUserName(Context context, String id) {
+//        SharedPreferences preferences =
+//                context.getSharedPreferences("Preferenced", MODE_PRIVATE);
+//        preferences.edit().putString("userName", id).apply();
+//    }
 
     public static String loadUserName(Context context) {
         SharedPreferences preferences =
-                context.getSharedPreferences("user", MODE_PRIVATE);
-        String userName = preferences.getString("userName", "");
+                context.getSharedPreferences("Preferenced", MODE_PRIVATE);
+        String userName = preferences.getString("id", "");
+
+//        String userName = Common.getPreherences().getString("name","");
         Log.d(TAG, "userName = " + userName);
         return userName;
     }

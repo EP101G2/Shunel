@@ -162,6 +162,7 @@
     <string name="textInvalidCode">無效驗證碼</string>
     <string name="textEmptyError">欄位不能為空</string>
     <string name="textSend">Send</string>
+    <string name="textMessageEmpty">Empty</string>
 
 
 </resources>
