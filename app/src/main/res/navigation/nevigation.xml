@@ -21,7 +21,11 @@
         android:id="@+id/noticeFragment"
         android:name="com.ed.shunel.NoticeFragment"
         android:label="fragment_notice"
-        tools:layout="@layout/fragment_notice" />
+        tools:layout="@layout/fragment_notice" >
+        <action
+            android:id="@+id/action_noticeFragment_to_noticeDetailFragment"
+            app:destination="@id/noticeDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shoppingcartFragment"
         android:name="com.ed.shunel.ShoppingcartFragment"
@@ -38,7 +42,7 @@
         tools:layout="@layout/fragment_member">
         <action
             android:id="@+id/action_memberFragment_to_settingFragment2"
-            app:destination="@id/settingFragment2" />
+            app:destination="@id/settingFragment" />
         <action
             android:id="@+id/action_memberFragment_to_orderListFragment2"
             app:destination="@id/orderListFragment2" />
@@ -54,7 +58,7 @@
         android:label="fragment_label"
         tools:layout="@layout/fragment_label" />
     <fragment
-        android:id="@+id/settingFragment2"
+        android:id="@+id/settingFragment"
         android:name="com.ed.shunel.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" >
@@ -158,7 +162,7 @@
 
     <fragment
         android:id="@+id/modifyFragment"
-        android:name="com.ed.shunel.modifyFragment"
+        android:name="com.ed.shunel.ModifyFragment"
         android:label="fragment_modify"
         tools:layout="@layout/fragment_modify" >
         <action
@@ -170,12 +174,12 @@
     </fragment>
     <fragment
         android:id="@+id/modifynameFragment"
-        android:name="com.ed.shunel.modifynameFragment"
+        android:name="com.ed.shunel.ModifynameFragment"
         android:label="fragment_modifyname"
         tools:layout="@layout/fragment_modifyname" />
     <fragment
         android:id="@+id/modifyPasswordFragment"
-        android:name="com.ed.shunel.modifyPasswordFragment"
+        android:name="com.ed.shunel.ModifyPasswordFragment"
         android:label="fragment_modify_password"
         tools:layout="@layout/fragment_modify_password" />
 

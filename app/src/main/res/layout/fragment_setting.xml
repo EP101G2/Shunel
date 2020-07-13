@@ -38,6 +38,7 @@
             android:textSize="20dp" />
 
         <LinearLayout
+            android:id="@+id/btMInformation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"

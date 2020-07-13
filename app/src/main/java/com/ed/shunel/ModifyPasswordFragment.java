@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class modifyPasswordFragment extends Fragment {
+public class ModifyPasswordFragment extends Fragment {
 
-    public modifyPasswordFragment() {
+    public ModifyPasswordFragment() {
         // Required empty public constructor
     }
 
