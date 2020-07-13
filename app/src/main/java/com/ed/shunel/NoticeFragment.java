@@ -129,11 +129,11 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
         rvNotice = view.findViewById(R.id.rvNotice);
         rvNotice.setLayoutManager(new LinearLayoutManager(activity));
+        rvNotice.setAdapter(new NoticeAdapter(activity, notice));
         cdSystem = view.findViewById(R.id.cdSystem);
         cdQA = view.findViewById(R.id.cdQA);
         cdSale = view.findViewById(R.id.cdSale);
         searchView = view.findViewById(R.id.searchView);
-        rvNotice.setAdapter(new NoticeAdapter(activity, notice));
         tvSaleT = view.findViewById(R.id.tvSaleT);
         tvQAT = view.findViewById(R.id.tvQAT);
         tvSystemT = view.findViewById(R.id.tvSystemT);
@@ -156,7 +156,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
                 Type listType = new TypeToken<List<Notice>>() {
                 }.getType();
 
-                Gson gson = new GsonBuilder().setDateFormat("MMM DD, YYYY, HH:mm:ss a").create();
+                Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                 //MMM 是英文月份縮寫，7月是Jul
                 //a = AM/PM
                 notices = gson.fromJson(jsonIn, listType);

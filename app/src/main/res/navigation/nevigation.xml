@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.ed.shunel.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/noticeFragment"
         android:name="com.ed.shunel.NoticeFragment"
         android:label="fragment_notice"
-        tools:layout="@layout/fragment_notice" >
+        tools:layout="@layout/fragment_notice">
         <action
             android:id="@+id/action_noticeFragment_to_noticeDetailFragment"
             app:destination="@id/noticeDetailFragment" />
@@ -61,7 +61,7 @@
         android:id="@+id/settingFragment"
         android:name="com.ed.shunel.SettingFragment"
         android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" >
+        tools:layout="@layout/fragment_setting">
         <action
             android:id="@+id/action_settingFragment2_to_modifyFragment"
             app:destination="@id/modifyFragment" />
@@ -90,7 +90,7 @@
         android:id="@+id/buyerFragment"
         android:name="com.ed.shunel.BuyerFragment"
         android:label="fragment_buyer"
-        tools:layout="@layout/fragment_buyer" >
+        tools:layout="@layout/fragment_buyer">
         <action
             android:id="@+id/action_buyerFragment_to_deliveryFragment"
             app:destination="@id/deliveryFragment" />
@@ -162,7 +162,7 @@
         android:id="@+id/modifyFragment"
         android:name="com.ed.shunel.ModifyFragment"
         android:label="fragment_modify"
-        tools:layout="@layout/fragment_modify" >
+        tools:layout="@layout/fragment_modify">
         <action
             android:id="@+id/action_modifyFragment_to_modifyPasswordFragment"
             app:destination="@id/modifyPasswordFragment" />
@@ -180,7 +180,6 @@
         android:name="com.ed.shunel.ModifyPasswordFragment"
         android:label="fragment_modify_password"
         tools:layout="@layout/fragment_modify_password" />
-
 
 
 </navigation>

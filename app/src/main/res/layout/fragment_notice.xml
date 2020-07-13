@@ -52,7 +52,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cdSale"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,6 +76,7 @@
                         android:id="@+id/tvSaleD"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxEms="25"
                         android:text="TextView" />
                 </LinearLayout>
 
@@ -97,7 +98,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -119,6 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:maxEms="25"
                         android:text="TextView" />
 
                 </LinearLayout>
@@ -142,7 +144,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -162,6 +164,7 @@
                         android:id="@+id/tvSystemD"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxEms="25"
                         android:text="TextView" />
 
                 </LinearLayout>
