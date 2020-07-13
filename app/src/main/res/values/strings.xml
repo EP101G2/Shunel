@@ -42,7 +42,6 @@
 
 
     <string name="tvOrderHisTitle">訂單詳情</string>
-    <string name="textOrderNumText">訂單編號：</string>
     <string name="textOrderStatusText">訂購狀態：</string>
     <string name="textNotYetDelivered">未出貨</string>
     <string name="textDelivered">已出貨</string>
@@ -59,6 +58,7 @@
     <string name="textName" />
     <string name="textHint">null</string>
     <string name="textOrderId" />
+    <string name="textOrderIdText">訂單編號：</string>
     <string name="textPhoneNumT">手機：</string>
     <string name="textPhoneNum" />
     <string name="textOrderDAddressT">地址：</string>
@@ -146,6 +146,10 @@
     <string name="registerSuccess">加入會員成功</string>
     <string name="backHome">返回首頁</string>
     <string name="loginsuccess">登入成功</string>
+<<<<<<< HEAD
+<!--<<<<<<< HEAD-->
+=======
+>>>>>>> 79483c131e0656e659847491b1a755b14178e381
 
     <string name="logoutsuccess">登出成功</string>
     <string name="memberlogin">會員登入</string>
