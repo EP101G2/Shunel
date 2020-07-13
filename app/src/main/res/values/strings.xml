@@ -146,14 +146,31 @@
     <string name="registerSuccess">加入會員成功</string>
     <string name="backHome">返回首頁</string>
     <string name="loginsuccess">登入成功</string>
+<<<<<<< HEAD
 <!--<<<<<<< HEAD-->
-
 =======
+>>>>>>> 79483c131e0656e659847491b1a755b14178e381
+
     <string name="logoutsuccess">登出成功</string>
     <string name="memberlogin">會員登入</string>
     <string name="modifyData">資料修改</string>
     <string name="personalInformation">個人資料</string>
     <string name="modifyPassword">密碼修改</string>
->>>>>>> 44eba6dfb478306778101d4a561d063d26af7a9d
+
+<<<<<<< HEAD
+    
+    <string name="textPickPhoto">從相簿中選擇</string>
+    <string name="textTakePicture">拍照</string>
+    <string name="textMemberId">會員編號</string>
+
+=======
+
+    <string name="textPickPhoto">從相簿中選擇</string>
+    <string name="textTakePicture">拍照</string>
+    <string name="textMemberId">會員編號</string>
+    <string name="textVerify">驗證</string>
+    <string name="textResend">重寄驗證碼</string>
+>>>>>>> 9f48d356bde2a3742f09506ff1cb802c2550aa68
+
 
 </resources>

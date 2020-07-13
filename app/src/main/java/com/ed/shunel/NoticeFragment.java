@@ -2,6 +2,7 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+
+import org.w3c.dom.CDATASection;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -44,7 +48,8 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     private NoticeAdapter noticeAdapter;
     private List<Notice> notice;
     private CommonTask noticeGetAllTask;
-    private CardView cdSystem;
+    private CardView cdSystem, cdSale, cdQA;
+    private TextView tvSaleT,tvQAT,tvSystemT;
 
 //    private LayoutInflater layoutInflater;
 
@@ -60,7 +65,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
         activity = getActivity();
         // Inflate the layout for this fragment
-            return inflater.inflate(R.layout.fragment_notice, container, false);
+        return inflater.inflate(R.layout.fragment_notice, container, false);
 
     }
 
@@ -70,7 +75,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
         initData();
-
+        MainActivity.flag = 0;
         findViews(view);
 
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
@@ -80,11 +85,40 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     }
 
     private void setLinstener() {
+//        final Bundle bundle = new Bundle();
+
+//        final String BundleTForSale = tvSaleT.getText().toString();
+//        final String BundleTForQA = tvQAT.getText().toString();
+//        final String BundleTForSystem = tvSystemT.getText().toString();
+
+
+        cdSale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.flag = 0;
+//                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment,bundle);
+                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
+//                bundle.putString("tvSaleT",BundleTForSale);
+            }
+        });
+
+        cdQA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.flag = 1;
+//                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment,bundle);
+                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
+//                bundle.putString("tvQAT",BundleTForQA);
+            }
+        });
 
         cdSystem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MainActivity.flag = 2;
+//                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment,bundle);
+                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
+//                bundle.putString("tvSystemT",BundleTForSystem);
             }
         });
 
@@ -96,8 +130,13 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         rvNotice = view.findViewById(R.id.rvNotice);
         rvNotice.setLayoutManager(new LinearLayoutManager(activity));
         cdSystem = view.findViewById(R.id.cdSystem);
+        cdQA = view.findViewById(R.id.cdQA);
+        cdSale = view.findViewById(R.id.cdSale);
         searchView = view.findViewById(R.id.searchView);
         rvNotice.setAdapter(new NoticeAdapter(activity, notice));
+        tvSaleT = view.findViewById(R.id.tvSaleT);
+        tvQAT = view.findViewById(R.id.tvQAT);
+        tvSystemT = view.findViewById(R.id.tvSystemT);
     }
 
     private void initData() {
@@ -134,7 +173,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     }
 
 
-    private class NoticeAdapter extends RecyclerView.Adapter <NoticeAdapter.Myviewholder>{
+    private class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.Myviewholder> {
         //        layoutInflater =LayoutInflater.from(context);
         Context context;
         List<Notice> noticeList;

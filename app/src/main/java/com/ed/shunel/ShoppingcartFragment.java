@@ -169,7 +169,9 @@ public class ShoppingcartFragment extends Fragment {
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("action", "addOrderMain");
                         jsonObject.addProperty("OrderID", new Gson().toJson(order_main));
-                        jsonObject.addProperty("OrderDetail", new Gson().toJson(listdatas)); //送出清單
+                        jsonObject.addProperty("OrderDetail", new Gson().toJson(listdatas));
+//                        jsonObject.addProperty("shopcardId",);
+                        //送出清單
                         String jsonOut = jsonObject.toString();
                         Log.i("---------", jsonOut);
                         shopGetall = new CommonTask(url, jsonOut);
@@ -185,6 +187,8 @@ public class ShoppingcartFragment extends Fragment {
 
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("shopcard", shopping_cart_list);
+                    bundle.putString("total", String.valueOf(totalPrice));
+//                    bundle.
                     Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment, bundle);
 //                    map.clear(listdatas.removeAll());
 
