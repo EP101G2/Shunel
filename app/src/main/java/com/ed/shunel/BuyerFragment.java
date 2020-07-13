@@ -252,18 +252,6 @@ public class BuyerFragment extends Fragment {
     }
 
 
-//    //步骤1:定义一个回调接口
-//    public interface CallBack {
-//        public void getResult(String content);
-//    }
-//
-//    //步骤2:设置监听器
-//    public void setCallBack(CallBack callBack) {
-//        this.callback = callBack;
-//    }
-//
-//    public void OnAttach(Activity activity) {
-//     callback = (CallBack) getActivity;
-//    }
+
 
 }
