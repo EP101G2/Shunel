@@ -230,9 +230,6 @@ public class ProductDetailFragment extends Fragment {
                         Intent intent = new Intent();
                         intent.setClass(activity, LoginActivity.class);
                         startActivity(intent);
-
-
-
                     } else {
 
 

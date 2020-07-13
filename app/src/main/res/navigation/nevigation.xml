@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.ed.shunel.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/noticeFragment"
         android:name="com.ed.shunel.NoticeFragment"
         android:label="fragment_notice"
-        tools:layout="@layout/fragment_notice" >
+        tools:layout="@layout/fragment_notice">
         <action
             android:id="@+id/action_noticeFragment_to_noticeDetailFragment"
             app:destination="@id/noticeDetailFragment" />
@@ -61,9 +61,9 @@
         android:id="@+id/settingFragment"
         android:name="com.ed.shunel.SettingFragment"
         android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" >
+        tools:layout="@layout/fragment_setting">
         <action
-            android:id="@+id/action_settingFragment2_to_modifyFragment"
+            android:id="@+id/action_settingFragment_to_modifyFragment"
             app:destination="@id/modifyFragment" />
     </fragment>
     <fragment
@@ -76,7 +76,7 @@
 
     <fragment
         android:id="@+id/forgetpasswordFragment"
-        android:name="com.ed.shunel.ForgetpasswordFragment"
+        android:name="com.ed.shunel.ForgetPassword_Fragment"
         android:label="fragment_forgetpassword"
         tools:layout="@layout/fragment_forgetpassword" />
     <fragment
@@ -90,10 +90,11 @@
         android:id="@+id/buyerFragment"
         android:name="com.ed.shunel.BuyerFragment"
         android:label="fragment_buyer"
-        tools:layout="@layout/fragment_buyer" >
+        tools:layout="@layout/fragment_buyer">
         <action
             android:id="@+id/action_buyerFragment_to_deliveryFragment"
             app:destination="@id/deliveryFragment" />
+
     </fragment>
 
     <fragment
@@ -111,17 +112,16 @@
         android:id="@+id/orderListFragment2"
         android:name="com.ed.shunel.OrderListFragment"
         android:label="fragment_order_list"
-        tools:layout="@layout/fragment_order_list" />
+        tools:layout="@layout/fragment_order_list" >
+        <action
+            android:id="@+id/action_orderListFragment2_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/deliveryFragment"
         android:name="com.ed.shunel.DeliveryFragment"
         android:label="fragment_delivery"
         tools:layout="@layout/fragment_delivery" />
-    <fragment
-        android:id="@+id/chatFragment"
-        android:name="com.ed.shunel.ChatFragment"
-        android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/hotProductFragment"
         android:name="com.ed.shunel.HotProductFragment"
@@ -163,29 +163,41 @@
         android:id="@+id/modifyFragment"
         android:name="com.ed.shunel.ModifyFragment"
         android:label="fragment_modify"
-        tools:layout="@layout/fragment_modify" >
+        tools:layout="@layout/fragment_modify">
         <action
             android:id="@+id/action_modifyFragment_to_modifyPasswordFragment"
             app:destination="@id/modifyPasswordFragment" />
         <action
-            android:id="@+id/action_modifyFragment_to_modifynameFragment"
-            app:destination="@id/modifynameFragment" />
+            android:id="@+id/action_modifyFragment_to_modifyNameFragment"
+            app:destination="@id/modifyNameFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/modifynameFragment"
-        android:name="com.ed.shunel.ModifynameFragment"
-        android:label="fragment_modifyname"
-        tools:layout="@layout/fragment_modifyname" />
     <fragment
         android:id="@+id/modifyPasswordFragment"
         android:name="com.ed.shunel.ModifyPasswordFragment"
         android:label="fragment_modify_password"
         tools:layout="@layout/fragment_modify_password" />
     <fragment
+
         android:id="@+id/likeDetail_SamFragment"
         android:name="com.ed.shunel.LikeDetail_SamFragment"
         android:label="fragment_like_detail__sam"
         tools:layout="@layout/fragment_like_detail__sam" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.ed.shunel.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+
+        android:id="@+id/modifyNameFragment"
+        android:name="com.ed.shunel.ModifyNameFragment"
+        android:label="fragment_modify_name"
+        tools:layout="@layout/fragment_modify_name" />
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.ed.shunel.OrderDetailFragment"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" />
 
 
 </navigation>

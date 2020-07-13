@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ed.shunel.Task.ApiUtil;
+import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.bean.Order_Main;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
@@ -45,14 +47,48 @@ public class PayActivity extends AppCompatActivity {
     private TextView tvPaymentInfo;
     private PaymentData paymentData;
     private Button btConfirm;
+    private TextView tvtotalAmountTV;
 
+    private Order_Main order_main;
+    private CommonTask orderMainFindID;
+    private String total;
+    private String name;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
 
+//        FragmentManager manager = getFragmentManager();
+//        FragmentTransaction transaction = manager.beginTransaction();
+//
+//        transaction.add(R.id.lauoutbuyID, new BuyerFragment());
+//        transaction.commit();
+
+
+//        getFragmentManager().beginTransaction().add();
+
+
+        Intent intent = getIntent();
+        total = intent.getStringExtra("total");
+        name=intent.getStringExtra("name");
+        phone=intent.getStringExtra("phone");
+        Log.i(TAG, "" + total);
+
+
+
+
         handleViews();
+
+
+        findViews();
+        /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
+        initData();
+        /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
+        setSystemServices();
+        /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
+        setLinstener();
 
         // 使用TPDSetup設定環境。每個設定值出處參看strings.xml
         TPDSetup.initInstance(getApplicationContext(),
@@ -61,8 +97,71 @@ public class PayActivity extends AppCompatActivity {
                 TPDServerType.Sandbox);
 
 
-
         prepareGooglePay();
+    }
+
+
+    //要獲取的值  就是這個引數的值
+//    @Override
+//    public void SendMessageValue(String strValue) {
+//        // TODO Auto-generated method stub
+////        tv1.setText(strValue);
+//    }
+
+    private void findViews() {
+
+        btBuy = findViewById(R.id.btnBuy);
+        tvPaymentInfo = findViewById(R.id.tvPayment);
+        btConfirm = findViewById(R.id.btnConfirm);
+        tvResult = findViewById(R.id.tvR);
+        tvtotalAmountTV = findViewById(R.id.tvtotalAmountTV);
+
+    }
+
+    private void initData() {
+
+        order_main = getData();
+
+
+    }
+
+    private Order_Main getData() {
+
+        return null;
+    }
+
+    private void setSystemServices() {
+    }
+
+    private void setLinstener() {
+
+
+        tvtotalAmountTV.setText("Total amount :" + total + "元");
+
+        btBuy.setEnabled(false);
+        btBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 跳出user資訊視窗讓user確認，確認後會呼叫onActivityResult()
+                tpdGooglePay.requestPayment(TransactionInfo.newBuilder()
+                        .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
+                        // 消費總金額
+                        .setTotalPrice(total)
+                        // 設定幣別
+                        .setCurrencyCode("TWD")
+                        .build(), LOAD_PAYMENT_DATA_REQUEST_CODE);
+            }
+        });
+
+        btConfirm.setEnabled(false);
+        btConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPrimeFromTapPay(paymentData);
+            }
+        });
+
+
     }
 
     public void prepareGooglePay() {
@@ -97,35 +196,7 @@ public class PayActivity extends AppCompatActivity {
 
 
     private void handleViews() {
-        btBuy = findViewById(R.id.btBuy);
-        btBuy.setEnabled(false);
-        btBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 跳出user資訊視窗讓user確認，確認後會呼叫onActivityResult()
-                tpdGooglePay.requestPayment(TransactionInfo.newBuilder()
-                        .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
-                        // 消費總金額
-                        .setTotalPrice("10")
-                        // 設定幣別
-                        .setCurrencyCode("TWD")
-                        .build(), LOAD_PAYMENT_DATA_REQUEST_CODE);
-            }
-        });
 
-        tvPaymentInfo = findViewById(R.id.tvPaymentInfo);
-
-        btConfirm = findViewById(R.id.btConfirm);
-        btConfirm.setEnabled(false);
-        btConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPrimeFromTapPay(paymentData);
-            }
-        });
-
-
-        tvResult = findViewById(R.id.tvResult);
     }
 
     @Override
@@ -174,6 +245,10 @@ public class PayActivity extends AppCompatActivity {
 
     private void getPrimeFromTapPay(PaymentData paymentData) {
         showProgressDialog();
+//        name = Common.getPreherences(activity).getString("id", "");
+//        phone = Common.getPreherences(activity).getString("phone", "");
+
+
         /* 呼叫getPrime()只將支付資料提交給TapPay以取得prime (代替卡片的一次性字串，此字串的時效為 30 秒)，
             參看https://docs.tappaysdk.com/google-pay/zh/reference.html#prime */
         tpdGooglePay.getPrime(
@@ -194,8 +269,10 @@ public class PayActivity extends AppCompatActivity {
                                    現在為了方便，手機直接提交給TapPay */
                                 + ApiUtil.generatePayByPrimeCURLForSandBox(prime,
                                 getString(R.string.TapPay_PartnerKey),
-                                getString(R.string.TapPay_MerchantID));
-                        Log.d(TAG, text);
+                                getString(R.string.TapPay_MerchantID), total, name, phone);
+
+
+                        Log.d(TAG, name + phone);
                         tvResult.setText(text);
                     }
                 },
@@ -209,7 +286,6 @@ public class PayActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
 
     public ProgressDialog mProgressDialog;
@@ -229,4 +305,6 @@ public class PayActivity extends AppCompatActivity {
             mProgressDialog.dismiss();
         }
     }
+
+
 }

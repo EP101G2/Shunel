@@ -45,7 +45,7 @@ public class ModifyFragment extends Fragment {
         btPersonalInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_modifyFragment_to_modifynameFragment);
+                Navigation.findNavController(view).navigate(R.id.action_modifyFragment_to_modifyNameFragment);
             }
         });
 

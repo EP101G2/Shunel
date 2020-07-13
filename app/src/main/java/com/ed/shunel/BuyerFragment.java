@@ -39,6 +39,10 @@ public class BuyerFragment extends Fragment {
     private final static String TAG = "BuyerFragment";
     private Activity activity;
     private List<Product> productList;
+    //    private List<Shopping_Cart> shopping_carts;
+    private List<Shopping_Cart> listdatas;
+    private Shopping_Cart_List shopping_cart_list;
+    private String total;
 
 
     /*UI元件*/
@@ -53,12 +57,11 @@ public class BuyerFragment extends Fragment {
     private EditText et_Address;
     private Button btn_Buyer_Confirm;
     private Button btn_Pagenext;
+    private TextView tv_BuyTotal;
     private LinearLayout line_Name;
     private LinearLayout line_Phone;
     private LinearLayout line_Address;
 
-    private List<Shopping_Cart> listdatas;
-    private Shopping_Cart_List shopping_cart_list;
 
     public BuyerFragment() {
         // Required empty public constructor
@@ -104,6 +107,7 @@ public class BuyerFragment extends Fragment {
         btn_Buyer_Confirm = view.findViewById(R.id.btn_Buyer_Confirm);
         btn_Pagenext = view.findViewById(R.id.btn_Pagenext);
         line_Address = view.findViewById(R.id.line_Address);
+        tv_BuyTotal = view.findViewById(R.id.tv_BuyTotal);
 
         rv_Product.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final NavController navController = Navigation.findNavController(view);
@@ -114,8 +118,10 @@ public class BuyerFragment extends Fragment {
             return;
         }
         shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("shopcard");
+        total = bundle.getString("total");
 
-
+//        total = shopping_cart_list.getCart().get().getAmount();
+//        shopping_carts = shopping_cart_list.getCart().get(
 //        for (int i = 0 ; i<=shopping_cart_list.)
 //        tv_Buyer_Name.setText();
 
@@ -132,20 +138,30 @@ public class BuyerFragment extends Fragment {
 
     private void setLinstener() {
 
-        String name = Common.getPreherences(activity).getString("id","");
-        String phone = Common.getPreherences(activity).getString("phone","");
-        String address = Common.getPreherences(activity).getString("address","");
+        final String name = Common.getPreherences(activity).getString("name", "");
+        final String phone = Common.getPreherences(activity).getString("phone", "");
+        String address = Common.getPreherences(activity).getString("address", "");
         tv_Buyer_Name.setText(name);
         tv_Buyer_Address.setText(address);
         tv_Buyer_Phone.setText(phone);
+
+        tv_BuyTotal.setText("總金額：" + total);
         rv_Product.setAdapter(new productAdapter(activity, shopping_cart_list.getCart()));
 
 
         btn_Pagenext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Navigation.findNavController(v).navigate(R.id.deliveryFragment);
-                Intent intent = new Intent(getContext(), PayActivity.class);
+//                Navigation.findNavController(v).navigate(R.id.action_buyerFragment_to_testPayFragment);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("one", total);
+
+
+//                Navigation.findNavController(v).navigate(R.id.final_Pay,bundle);
+                Intent intent = new Intent(getActivity(), PayActivity.class);
+                intent.putExtra("total", total);
+                intent.putExtra("name", name);
+                intent.putExtra("phone", phone);
                 startActivity(intent);
 
 
@@ -234,4 +250,8 @@ public class BuyerFragment extends Fragment {
             }
         }
     }
+
+
+
+
 }
