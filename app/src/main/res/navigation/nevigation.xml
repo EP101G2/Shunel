@@ -21,7 +21,11 @@
         android:id="@+id/noticeFragment"
         android:name="com.ed.shunel.NoticeFragment"
         android:label="fragment_notice"
-        tools:layout="@layout/fragment_notice" />
+        tools:layout="@layout/fragment_notice" >
+        <action
+            android:id="@+id/action_noticeFragment_to_noticeDetailFragment"
+            app:destination="@id/noticeDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shoppingcartFragment"
         android:name="com.ed.shunel.ShoppingcartFragment"
