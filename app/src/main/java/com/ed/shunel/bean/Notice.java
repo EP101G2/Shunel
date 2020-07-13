@@ -11,7 +11,6 @@ public class Notice {
     private int CATEGORY_MESSAGE_ID;
 
 
-
     public Notice(int notice_ID, String notice_Content, String notice_Title, Timestamp notice_time, int NOTICE_CATEGORY_ID, int CATEGORY_MESSAGE_ID) {
         Notice_ID = notice_ID;
         Notice_Content = notice_Content;
