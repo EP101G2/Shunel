@@ -159,12 +159,6 @@
         android:name="com.ed.shunel.Perfume_necklaceFragment"
         android:label="fragment_perfume_necklace"
         tools:layout="@layout/fragment_perfume_necklace" />
-<<<<<<< HEAD
-<!--<<<<<<< HEAD-->
-=======
-=======
-
->>>>>>> 79483c131e0656e659847491b1a755b14178e381
     <fragment
         android:id="@+id/modifyFragment"
         android:name="com.ed.shunel.ModifyFragment"
