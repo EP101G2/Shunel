@@ -153,12 +153,20 @@
     <string name="personalInformation">個人資料</string>
     <string name="modifyPassword">密碼修改</string>
 
+<<<<<<< HEAD
+    
+    <string name="textPickPhoto">從相簿中選擇</string>
+    <string name="textTakePicture">拍照</string>
+    <string name="textMemberId">會員編號</string>
+
+=======
 
     <string name="textPickPhoto">從相簿中選擇</string>
     <string name="textTakePicture">拍照</string>
     <string name="textMemberId">會員編號</string>
     <string name="textVerify">驗證</string>
     <string name="textResend">重寄驗證碼</string>
+>>>>>>> 9f48d356bde2a3742f09506ff1cb802c2550aa68
 
 
 </resources>

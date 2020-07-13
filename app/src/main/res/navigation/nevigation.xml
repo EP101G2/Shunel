@@ -94,6 +94,7 @@
         <action
             android:id="@+id/action_buyerFragment_to_deliveryFragment"
             app:destination="@id/deliveryFragment" />
+
     </fragment>
 
     <fragment
@@ -183,6 +184,9 @@
         tools:layout="@layout/fragment_modify_password" />
 
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 9f48d356bde2a3742f09506ff1cb802c2550aa68
 </navigation>

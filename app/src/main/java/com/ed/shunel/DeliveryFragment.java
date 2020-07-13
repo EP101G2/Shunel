@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.ed.shunel.Task.ApiUtil;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
@@ -133,7 +132,7 @@ public class DeliveryFragment extends Fragment {
     private void handleViews(View view) {
 
 
-        btBuy = view.findViewById(R.id.btBuy);
+        btBuy = view.findViewById(R.id.btnBuy);
         btBuy.setEnabled(false);
         btBuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,9 +149,9 @@ public class DeliveryFragment extends Fragment {
             }
         });
 
-        tvPaymentInfo = view.findViewById(R.id.tvPaymentInfo);
+        tvPaymentInfo = view.findViewById(R.id.tvPayment);
 
-        btConfirm = view.findViewById(R.id.btConfirm);
+        btConfirm = view.findViewById(R.id.btnConfirm);
         btConfirm.setEnabled(false);
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +161,7 @@ public class DeliveryFragment extends Fragment {
         });
 
 
-        tvResult = view.findViewById(R.id.tvResult);
+        tvResult = view.findViewById(R.id.tvR);
 
 
 
@@ -232,16 +231,16 @@ public class DeliveryFragment extends Fragment {
                            參看圖示 https://docs.tappaysdk.com/google-pay/zh/home.html#home 向下捲動即可看到 */
                     public void onSuccess(String prime, TPDCardInfo tpdCardInfo) {
                         hideProgressDialog();
-
-                        String text = "Your prime is " + prime
-                                + "\n\nUse below cURL to proceed the payment : \n"
-                                /* 手機得到prime後，一般會傳給商家server端再呼叫payByPrime方法提交給TapPay，以確認這筆訂單
-                                   現在為了方便，手機直接提交給TapPay */
-                                + ApiUtil.generatePayByPrimeCURLForSandBox(prime,
-                                getString(R.string.TapPay_PartnerKey),
-                                getString(R.string.TapPay_MerchantID));
-                        Log.d(TAG, text);
-                        tvResult.setText(text);
+//
+//                        String text = "Your prime is " + prime
+//                                + "\n\nUse below cURL to proceed the payment : \n"
+//                                /* 手機得到prime後，一般會傳給商家server端再呼叫payByPrime方法提交給TapPay，以確認這筆訂單
+//                                   現在為了方便，手機直接提交給TapPay */
+//                                + ApiUtil.generatePayByPrimeCURLForSandBox(prime,
+//                                getString(R.string.TapPay_PartnerKey),
+//                                getString(R.string.TapPay_MerchantID),getString(t));
+//                        Log.d(TAG, text);
+//                        tvResult.setText(text);
                     }
                 },
                 new TPDTokenFailureCallback() {
