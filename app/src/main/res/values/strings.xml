@@ -146,10 +146,7 @@
     <string name="registerSuccess">加入會員成功</string>
     <string name="backHome">返回首頁</string>
     <string name="loginsuccess">登入成功</string>
-<<<<<<< HEAD
 
-=======
->>>>>>> 0dc43d909f1da107ccf6c1b42177a9afa10303b2
 
     <string name="logoutsuccess">登出成功</string>
     <string name="memberlogin">會員登入</string>
