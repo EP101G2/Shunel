@@ -42,7 +42,9 @@ public class SettingFragment extends Fragment {
         btMInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_memberFragment_to_settingFragment2);
+
+                Navigation.findNavController(view).navigate(R.id.action_settingFragment_to_modifyFragment);
+
             }
         });
     }
