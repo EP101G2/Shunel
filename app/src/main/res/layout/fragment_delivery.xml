@@ -20,7 +20,7 @@
 
 
             <TextView
-                android:id="@+id/totalAmountTV"
+                android:id="@+id/tvtotalAmountTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -29,37 +29,37 @@
                 android:textSize="25sp" />
 
             <include
-                android:id="@+id/btBuy"
+                android:id="@+id/btnBuy"
                 layout="@layout/gpay_button"
 
                 android:layout_width="230dp"
                 android:layout_height="48sp"
-                android:layout_below="@id/totalAmountTV"
+                android:layout_below="@id/tvtotalAmountTV"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp" />
 
             <TextView
-                android:id="@+id/tvPaymentInfo"
+                android:id="@+id/tvPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btBuy"
+                android:layout_below="@id/btnBuy"
                 android:layout_marginTop="15dp" />
 
             <Button
-                android:id="@+id/btConfirm"
+                android:id="@+id/btnConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_below="@id/tvPaymentInfo"
+                android:layout_below="@id/tvPayment"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:gravity="center_horizontal"
                 android:text="@string/textConfirmPay" />
 
             <TextView
-                android:id="@+id/tvResult"
+                android:id="@+id/tvR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btConfirm"
+                android:layout_below="@id/btnConfirm"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp" />
 
