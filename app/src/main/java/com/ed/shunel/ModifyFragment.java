@@ -11,12 +11,12 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
 
-public class modifyFragment extends Fragment {
+public class ModifyFragment extends Fragment {
     Activity activity;
-    private Button btPersonalImformation, btModifyPassword;
+    private LinearLayout btPersonalInformation, btModifyPassword;
 
 
     @Override
@@ -36,9 +36,13 @@ public class modifyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btPersonalImformation.findViewById(R.id.btModify);
-        btModifyPassword.findViewById(R.id.btSpc);
-        btPersonalImformation.setOnClickListener(new View.OnClickListener() {
+
+
+        btPersonalInformation = view.findViewById(R.id.btPersonalInformation);
+        btModifyPassword = view.findViewById(R.id.btModifyPassword);
+
+
+        btPersonalInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(view).navigate(R.id.action_modifyFragment_to_modifynameFragment);
@@ -48,7 +52,7 @@ public class modifyFragment extends Fragment {
         btModifyPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Navigation.findNavController(view).navigate(R.id.action_modifyFragment_to_modifyPasswordFragment);
+                Navigation.findNavController(view).navigate(R.id.action_modifyFragment_to_modifyPasswordFragment);
             }
         });
 
