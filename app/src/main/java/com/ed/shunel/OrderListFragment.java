@@ -2,10 +2,12 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -169,6 +171,7 @@ public class OrderListFragment extends Fragment{
             //                        public void getOrderStatus(Orders orders){
 //                int orderStatus = orders.getOrderStatus();
 //            }
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
 //            constraint: represent the "orderStatus" from method adapter.getFilter().filter(orderStatus)
 //            status filter is the condition word of the filter
