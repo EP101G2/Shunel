@@ -181,7 +181,11 @@
         android:name="com.ed.shunel.ModifyPasswordFragment"
         android:label="fragment_modify_password"
         tools:layout="@layout/fragment_modify_password" />
-
+    <fragment
+        android:id="@+id/likeDetail_SamFragment"
+        android:name="com.ed.shunel.LikeDetail_SamFragment"
+        android:label="fragment_like_detail__sam"
+        tools:layout="@layout/fragment_like_detail__sam" />
 
 
 </navigation>
