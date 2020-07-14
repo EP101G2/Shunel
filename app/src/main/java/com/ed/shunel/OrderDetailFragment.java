@@ -41,6 +41,7 @@ public class OrderDetailFragment extends Fragment {
     private List<Product> products;//in the main project
     private Activity activity;
     private Integer counter;
+    private CommonTask ordersDetailListGetAllTask;
 //    product ID
 //    private commonTask orderGetAllTask;
 //    private ImageTask orderImageTask;
@@ -117,26 +118,26 @@ public class OrderDetailFragment extends Fragment {
     }
     private List<Orders> getOrderDetail(){
         List<Orders> ordersList = null;
-//        if (Common.networkConnected(activity)) {
-//            String url = Common.URL_SERVER + "OrderList_Servlet";
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("action", "getAll");
-//            ordersGetAllTask = new CommonTask(url, jsonObject.toString());
-//            try {
-//                String jsonIn = ordersGetAllTask.execute().get();
-//                Type listType = new TypeToken<List<Product>>() {
-//                }.getType();
-//                products = new Gson().fromJson(jsonIn, listType);
-//
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            Common.showToast(activity, R.string.textNoNetwork);
-//        }
-//        Log.e("--------------",ordersList+"");
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "OrderList_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getAll");
+            ordersDetailListGetAllTask = new CommonTask(url, jsonObject.toString());
+            try {
+                String jsonIn = ordersDetailListGetAllTask.execute().get();
+                Type listType = new TypeToken<List<Product>>() {
+                }.getType();
+                products = new Gson().fromJson(jsonIn, listType);
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        Log.e("--------------",ordersList+"");
         return ordersList;
     }//not yet
 }

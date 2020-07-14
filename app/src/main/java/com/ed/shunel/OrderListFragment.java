@@ -216,7 +216,7 @@ public class OrderListFragment extends Fragment{
 //                        }
 //                    }
 //                    return sortedOrdersList;
-//                }
+//                }//dumped
 
                 FilterResults filterResults = new FilterResults();
                 filterResults.count = ordersList.size();
@@ -229,7 +229,7 @@ public class OrderListFragment extends Fragment{
                 sortedOrderList.addAll((List)filterResults.values);
                 notifyDataSetChanged();
             }
-        }//probably ok
+        }//probably ok(?
 
 
 
@@ -291,27 +291,27 @@ public class OrderListFragment extends Fragment{
     }//?
 
     private List<Orders> getOrders(){ //first
-//        List<Orders> ordersList = null;
-//        if (Common.networkConnected(activity)) {
-//            String url = Common.URL_SERVER + "Orders_Servlet";
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("action", "getAll");
-//            ordersListGetAllTask = new CommonTask(url, jsonObject.toString());
-//            try {
-//                String jsonIn = ordersListGetAllTask.execute().get();
-//                Type listType = new TypeToken<List<Orders>>() {
-//                }.getType();
-//                ordersList = new Gson().fromJson(jsonIn, listType);
-//
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            Common.showToast(activity, R.string.textNoNetwork);
-//        }
-//        Log.e("--------------",ordersList+"");
+        List<Orders> ordersList = null;
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Orders_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getAll");
+            ordersListGetAllTask = new CommonTask(url, jsonObject.toString());
+            try {
+                String jsonIn = ordersListGetAllTask.execute().get();
+                Type listType = new TypeToken<List<Orders>>() {
+                }.getType();
+                ordersList = new Gson().fromJson(jsonIn, listType);
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        Log.e("--------------",ordersList+"");
         return ordersList;
     }//?
 }
