@@ -56,9 +56,11 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+
             android:background="#FFBEC9"
             android:layout_marginTop="8dp"
-            android:text="@string/textPickPhoto" />
+            android:text="@string/textPickPhoto"
+            android:layout_marginLeft="8dp" />
     </LinearLayout>
 
     <TextView
@@ -70,17 +72,22 @@
         android:text="@string/textMemberId"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:id="@+id/tvId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="15dp"
         android:text="12345"
         android:textColor="#0000FF"
+        app:layout_constraintBottom_toTopOf="@+id/etName"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <EditText
         android:id="@+id/etName"
@@ -126,21 +133,25 @@
 
     <Button
         android:id="@+id/btCancel"
-        android:layout_width="wrap_content"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="@string/textNo"
         app:layout_constraintEnd_toStartOf="@+id/btConfirm"
-        app:layout_constraintTop_toTopOf="@+id/btConfirm" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPhone" />
 
     <Button
         android:id="@+id/btConfirm"
-        android:layout_width="wrap_content"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/textYes"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:background="#FADDE6"
-        app:layout_constraintEnd_toEndOf="@+id/etPhone"
+        android:text="@string/textYes"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPhone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
