@@ -2,7 +2,9 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
+
 import androidx.appcompat.app.AlertDialog;
+
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -104,15 +106,12 @@ public class Login_Fragment extends Fragment {
         tvMessage = view.findViewById(R.id.tvMessage);
 
 
-
         tvForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_login_Fragment_to_forgetPassword_Fragment);
             }
         });
-
-
 
 
         tvRegisterNow.setOnClickListener(new View.OnClickListener() {
@@ -123,14 +122,10 @@ public class Login_Fragment extends Fragment {
         });
 
 
-
-
-
-
-
         btLogin.setOnClickListener(new View.OnClickListener() {
 
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 id = etTypeId.getText().toString();
                 password = etTypePassword.getText().toString();
 
@@ -154,9 +149,9 @@ public class Login_Fragment extends Fragment {
                     String result = jsonObject2.get("result").getAsString();
                     Log.i(TAG, result);
 
-                    if (etTypeId.length() == 0){
+                    if (etTypeId.length() == 0) {
                         etTypeId.setError("請輸入15位數內英文或數字 ");
-                    }else if (etTypePassword.length() == 0){
+                    } else if (etTypePassword.length() == 0) {
                         etTypePassword.setError("請輸入15位數內英文或數字密碼");
                     }
                     switch (result) {
@@ -165,12 +160,12 @@ public class Login_Fragment extends Fragment {
                             Toast.makeText(activity, "失敗", Toast.LENGTH_SHORT).show();
 
 
-                                break;
+                            break;
                         case "success":
 
 
                             String userJstr = jsonObject2.get("user").getAsString();
-                            if(userJstr != null) {
+                            if (userJstr != null) {
                                 User_Account user_account = gson.fromJson(userJstr, User_Account.class);
                                 savePreferences();
                                 Bundle bundle = new Bundle();
@@ -178,13 +173,13 @@ public class Login_Fragment extends Fragment {
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
                                 LayoutInflater inflater = LayoutInflater.from(activity);
-                                final View view =inflater.inflate(R.layout.loginsuccess,null);
+                                final View view = inflater.inflate(R.layout.loginsuccess, null);
                                 builder.setView(view);
                                 builder.create().show();
 
-                                Intent intent= new Intent();
+                                Intent intent = new Intent();
                                 intent.putExtras(bundle);
-                                intent.setClass(activity,MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
+                                intent.setClass(activity, MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
                                 startActivity(intent);  //啟動跳頁動作
                                 activity.finish();//把自己關掉
                             }
@@ -240,10 +235,12 @@ public class Login_Fragment extends Fragment {
     private void savePreferences() {
 
         //置入name屬性的字串
-        Common.getPreherences(activity).edit().putString("id", id).apply();
+        Common.getPreherences(activity).edit().putString("id", id)
+                .putString("password", password)
+                .apply();
 
 
-        Log.i(TAG,"-------------------------------------------------------------");
+        Log.i(TAG, "-------------------------------------------------------------");
         Log.i(TAG, Common.getPreherences(activity).getString("id", id));
     }
 }

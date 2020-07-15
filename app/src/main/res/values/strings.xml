@@ -160,13 +160,26 @@
     <string name="textTakePicture">拍照</string>
     <string name="textMemberId">會員編號</string>
 
+
     <string name="textVerify">驗證</string>
     <string name="textResend">重寄驗證碼</string>
     <string name="textInvalidCode">無效驗證碼</string>
     <string name="textEmptyError">欄位不能為空</string>
     <string name="textSend">Send</string>
+
+    <string name="name">姓名</string>
+    <string name="textModify">修改</string>
+    <string name="accountId">使用者帳號</string>
+    <string name="address">地址</string>
+    <string name="phone">手機</string>
+
     <string name="textMessageEmpty">Empty</string>
     <string name="insertFollow">加入追蹤</string>
     <string name="deleteFollow">取消追蹤</string>
+    <string name="textNoCameraApp">沒有照相App</string>
+    <string name="textNoUserFound">找不到您的會員資料</string>
+    <string name="textUpdateFail">修改失敗</string>
+    <string name="textUpdateSuccess">修改成功</string>
+
 
 </resources>
