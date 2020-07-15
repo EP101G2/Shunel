@@ -191,9 +191,27 @@ public class ShoppingcartFragment extends Fragment {
 //                    bundle.
                     Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment, bundle);
 //                    map.clear(listdatas.removeAll());
-
                 }
+                if (Common.networkConnected(activity)) {
 
+                    String url = Common.URL_SERVER + "Prouct_Servlet";
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "shopAfterDelete");
+                    jsonObject.addProperty("shopAD", new Gson().toJson(listdatas));
+//                        jsonObject.addProperty("shopcardId",);
+//                    送出清單
+                    String jsonOut = jsonObject.toString();
+                    Log.i("---------", jsonOut);
+                    shopGetall = new CommonTask(url, jsonOut);
+
+                    try {
+                        String jsonIn = shopGetall.execute().get();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Common.showToast(activity, R.string.textNoNetwork);
+                }
 
             }
         });
