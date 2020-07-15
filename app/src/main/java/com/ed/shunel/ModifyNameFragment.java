@@ -74,7 +74,7 @@ public class ModifyNameFragment extends Fragment {
         btCancel = view.findViewById(R.id.btCancel);
         btConfirm = view.findViewById(R.id.btConfirm);
         etName = view.findViewById(R.id.etName);
-        etAddress = view.findViewById(R.id.etName);
+        etAddress = view.findViewById(R.id.etAddress);
         etPhone = view.findViewById(R.id.etPhone);
         ivProfilePhoto = view.findViewById(R.id.ivProfilePhoto);
         tvId = view.findViewById(R.id.tvId);
@@ -128,6 +128,10 @@ public class ModifyNameFragment extends Fragment {
                 name = etName.getText().toString();
                 address = etAddress.getText().toString();
                 phone = etPhone.getText().toString();
+                user_account.setAccount_User_Name(name);
+                user_account.setAccount_Address(address);
+                user_account.setAccount_Phone(phone);
+
 
                 if (Common.networkConnected(activity)) {
                     String url = Common.URL_SERVER + "User_Account_Servlet";//連server端先檢查網址

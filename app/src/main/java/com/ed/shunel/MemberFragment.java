@@ -6,11 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -105,7 +103,7 @@ public class MemberFragment extends Fragment {
         tv_Name.setText(user_account.getAccount_User_Name());
         tvId.setText(user_account.getAccount_ID());
 
-        Log.e("TAG", "123");
+        Log.e("TAG", "---------------"+result);
 
 
 
