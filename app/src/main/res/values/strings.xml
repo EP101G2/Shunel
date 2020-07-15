@@ -173,7 +173,7 @@
     <string name="phone">手機</string>
 
     <string name="textMessageEmpty">Empty</string>
-
+    <string name="textNoCameraApp">沒有照相App</string>
 
 
 </resources>
