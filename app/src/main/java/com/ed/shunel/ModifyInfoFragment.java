@@ -56,7 +56,7 @@ public class ModifyInfoFragment extends Fragment {
 
 
         String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getLogin");
         jsonObject.addProperty("id", Common.getPreherences(activity).getString("id","id"));
@@ -70,13 +70,12 @@ public class ModifyInfoFragment extends Fragment {
             Log.e(TAG, e.toString());
         }
         JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-        String result = jsonObject2.get("user").getAsString();
-        User_Account user_account = gson.fromJson(result, User_Account.class);
+        final String result = jsonObject2.get("user").getAsString();
+        final User_Account user_account = gson.fromJson(result, User_Account.class);
         tvName.setText(user_account.getAccount_User_Name());
         tvAddress.setText(user_account.getAccount_Address());
         tv_Phone.setText(user_account.getAccount_Phone());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("User", user_account);
+
         Log.i(TAG, result);
 
 
@@ -87,7 +86,11 @@ public class ModifyInfoFragment extends Fragment {
     btn_Modify.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Navigation.findNavController(v).navigate(R.id.action_modifyInfoFragment_to_modifyNameFragment);
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("User", user_account);
+            Navigation.findNavController(v).navigate(R.id.action_modifyInfoFragment_to_modifyNameFragment,bundle);
+
         }
     });
     }
