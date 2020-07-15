@@ -107,6 +107,7 @@
     <string name="buyer_Info_Delivery">付款方式</string>
 
     <string name="textnofound">查無資料</string>
+    <string name="textnolike">無追蹤商品</string>
 
 
     <string name="textConfirmPay">確認付款</string>
@@ -165,6 +166,7 @@
     <string name="textEmptyError">欄位不能為空</string>
     <string name="textSend">Send</string>
     <string name="textMessageEmpty">Empty</string>
-
+    <string name="insertFollow">加入追蹤</string>
+    <string name="deleteFollow">取消追蹤</string>
 
 </resources>

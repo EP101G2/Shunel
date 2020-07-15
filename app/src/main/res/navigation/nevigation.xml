@@ -51,7 +51,7 @@
             app:destination="@id/chatFragment" />
 
 
-        
+
     </fragment>
     <fragment
         android:id="@+id/labelFragment"
