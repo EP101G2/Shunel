@@ -154,6 +154,12 @@ public class MemberFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.chatFragment);
             }
         });
+        cvOrderlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2);
+            }
+        });
     }
 
     private void Logout() {

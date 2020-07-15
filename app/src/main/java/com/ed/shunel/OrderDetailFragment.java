@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ed.shunel.Task.Common;
@@ -33,15 +35,16 @@ import java.util.concurrent.ExecutionException;
  */
 //1. rv orderDetail, 2. nav main to product detail
 public class OrderDetailFragment extends Fragment {
-    private static final String TAG = "TAG_OrderDetailFragment";
-    private static final String ARG_COUNT = "param1";
-    private TextView tvOrderId, tvOrderStatus, tvTotalPrice, tvName, tvPhoneNum, tvAddress;
+    private static final String ARG_COUNT = "TAG_OrderDetailFragment";
+    private TextView tvOrderId, tvOrderStatus, tvTotalPrice, tvName, tvPhone, tvAddress;// tvProductName, tvProductPrice;
+    //    private TextView tvOrderIdText, tvOrderDetStatusText, tvTotalPriceText, tvReceiverTitle, tvOrderDNameT, tvOrderDPhoneT, tvOrderDetailAddressT; need not to
+//    private ImageView ivOrderProductPic;//add later
     private RecyclerView rvOrderDetProList;
-    private List<Orders> orderDetail;
-    private List<Product> products;//in the main project
+    private List<OrderDetail> orderDetailList;
     private Activity activity;
     private Integer counter;
-    private CommonTask ordersDetailListGetAllTask;
+    private CommonTask ordersGetAllTask;
+
 //    product ID
 //    private commonTask orderGetAllTask;
 //    private ImageTask orderImageTask;
@@ -61,7 +64,7 @@ public class OrderDetailFragment extends Fragment {
         args.putInt(ARG_COUNT, counter);
         fragment.setArguments(args);
         return fragment;
-    }
+    }//ok
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,64 +73,124 @@ public class OrderDetailFragment extends Fragment {
         if (getArguments() != null){
             counter = getArguments().getInt(ARG_COUNT);
         }
-    }
+    }//ok
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_order_detail, container, false);
-    }
+    }//ok
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        orderDetail = getOrderDetail();
+        //stable text
+//        tvOrderIdText = view.findViewById(R.id.tvOrderIdText);
+//        tvOrderDetStatusText = view.findViewById(R.id.tvOrderDetStatusText);
+//        tvTotalPriceText = view.findViewById(R.id.tvTotalPriceText);
+//        tvReceiverTitle = view.findViewById(R.id.tvReceiverTitle);
+//        tvOrderDNameT = view.findViewById(R.id.tvOrderDNameT);
+//        tvOrderDPhoneT = view.findViewById(R.id.tvOrderDPhoneNumT);
+//        tvOrderDetailAddressT = view.findViewById(R.id.tvOderDetailAddressT);
+        //data need to be inserted
+        orderDetailList = getOrderDetailList();
+        tvOrderId = view.findViewById(R.id.tvOrderId);
+        tvOrderStatus = view.findViewById(R.id.tvOrderStatus);
+        tvName = view.findViewById(R.id.tvName);//=Receiver in DB
+        tvPhone = view.findViewById(R.id.tvPhone);
+        tvAddress = view.findViewById(R.id.tvAddress);
+        tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
+//        these need to go to adapter
+//        tvProductName = view.findViewById(R.id.tvProductName);
+//        tvProductPrice = view.findViewById(R.id.tvProductPrice);
+//        ivOrderProductPic = view.findViewById(R.id.ivOrderProductPic);
 
         rvOrderDetProList = view.findViewById(R.id.rvOrderDetProList);
         rvOrderDetProList.setLayoutManager(new LinearLayoutManager(activity));
-        rvOrderDetProList.setAdapter(new OrderDetailAdapter());
+        rvOrderDetProList.setAdapter(new OrderDetailAdapter(getContext(),orderDetailList));
 
     }
 
-    private class OrderDetailAdapter extends RecyclerView.Adapter<PageViewHolder>{
+    private class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.PageViewHolder>{
         Context context;
-        List<Orders> orderDetList;
+        List<OrderDetail> orderDetailList;
+        public OrderDetailAdapter (Context context, List<OrderDetail> orderDetailList){
+            this.context = context;
+            this.orderDetailList = orderDetailList;
+        }//ok
+
+        @Override
+        public int getItemCount() {
+            return orderDetailList.size();
+        }//ok
+
+        private class PageViewHolder extends RecyclerView.ViewHolder {
+            //           TextView tvOrderId, tvOrderStatus, tvTotalPrice, tvName, tvPhoneNum, tvAddress;
+            TextView tvProductName, tvProductPrice;
+            TextView tvProductPriceT;
+            ImageView ivOrderProductPic;
+
+            public PageViewHolder(@NonNull View itemView) {
+                super(itemView);
+                tvProductName = itemView.findViewById(R.id.tvProductName);
+                tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+                tvProductPriceT = itemView.findViewById(R.id.tvProductPriceT);
+                ivOrderProductPic = itemView.findViewById(R.id.ivOrderProductPic);
+//                need not to be shown here
+//                tvOrderId = itemView.findViewById(R.id.tvOrderId);
+//                tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
+//                tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
+//                tvName = itemView.findViewById(R.id.tvName);
+//                tvPhoneNum = itemView.findViewById(R.id.tvPhone);
+//                tvAddress = itemView.findViewById(R.id.tvAddress);
+            }
+        }
 
         @NonNull
         @Override
         public PageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return null;
-        }
+            View view = LayoutInflater.from(context).inflate(R.layout.fragment_orderdetail_view, parent, false);
+            return new PageViewHolder(view);
+        }//ok
 
         @Override
-        public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull PageViewHolder holder, int position) { //after added orderId & orderStatus to orderDetail(checked), modify this section
+            final OrderDetail orderDetail = orderDetailList.get(position);
+//            holder.tvOrderId.setText(orderDetail.getOrderId());
+//            holder.tvOrderStatus.setText(orderDetail.getOrderStatus());
+//            holder.tvTotalPrice.setText(orderDetail.getTotalPrice());//create class: orderDetail,(check), fix orderDetail follow the DB
+//            holder.tvName.setText(orderDetail.getReceiver());
+//            holder.tvPhoneNum.setText(orderDetail.getPhone());
+//            holder.tvAddress.setText(orderDetail.getAddress());
+            holder.tvProductName.setText(orderDetail.getProductName());
+            holder.tvProductPrice.setText(orderDetail.getBuyPrice());
+//            holder.ivOrderProductPic.setImageResource(); //get image from db, product
 
-        }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //navigation to productDetail
+                    Navigation.findNavController(v).navigate(R.id.action_orderDetailFragment_to_productDetailFragment);//follow the main name of productDet
+                }
+            });
+        } //need to be fixed!!
 
-        @Override
-        public int getItemCount() {
-            return orderDetail.size();
-        }
     }
 
-    private class PageViewHolder extends RecyclerView.ViewHolder {
-        public PageViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-    }
-    private List<Orders> getOrderDetail(){
-        List<Orders> ordersList = null;
+
+    private List<OrderDetail> getOrderDetailList(){
+        List<OrderDetail> orderDetailList = null;
         if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "OrderList_Servlet";
+            String url = Common.URL_SERVER + "Orders_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAll");
-            ordersDetailListGetAllTask = new CommonTask(url, jsonObject.toString());
+            ordersGetAllTask = new CommonTask(url, jsonObject.toString());
             try {
-                String jsonIn = ordersDetailListGetAllTask.execute().get();
-                Type listType = new TypeToken<List<Product>>() {
+                String jsonIn = ordersGetAllTask.execute().get();
+                Type listType = new TypeToken<List<Orders>>() {
                 }.getType();
-                products = new Gson().fromJson(jsonIn, listType);
+                orderDetailList = new Gson().fromJson(jsonIn, listType);
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -137,7 +200,7 @@ public class OrderDetailFragment extends Fragment {
         } else {
             Common.showToast(activity, R.string.textNoNetwork);
         }
-        Log.e("--------------",ordersList+"");
-        return ordersList;
+        Log.e("--------------",orderDetailList+"");
+        return orderDetailList;
     }//not yet
 }
