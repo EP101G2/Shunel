@@ -107,6 +107,7 @@
     <string name="buyer_Info_Delivery">付款方式</string>
 
     <string name="textnofound">查無資料</string>
+    <string name="textnolike">無追蹤商品</string>
 
 
     <string name="textConfirmPay">確認付款</string>
@@ -173,6 +174,8 @@
     <string name="phone">手機</string>
 
     <string name="textMessageEmpty">Empty</string>
+    <string name="insertFollow">加入追蹤</string>
+    <string name="deleteFollow">取消追蹤</string>
     <string name="textNoCameraApp">沒有照相App</string>
     <string name="textNoUserFound">找不到您的會員資料</string>
     <string name="textUpdateFail">修改失敗</string>

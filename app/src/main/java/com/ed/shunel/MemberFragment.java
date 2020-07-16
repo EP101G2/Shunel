@@ -79,6 +79,7 @@ public class MemberFragment extends Fragment {
 
 
 
+
         if (sharedPreferences.getString("id", "").equals("")) {
 //            Intent intent=new Intent();
 //            intent.setClass(getActivity(),LoginFragment.class);
@@ -129,11 +130,6 @@ public class MemberFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2);
             }
         });
-
-
-
-
-
 
         String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
         Gson gson = new Gson();
