@@ -88,7 +88,7 @@ public class MemberFragment extends Fragment {
         jsonObject.addProperty("action", "getLogin");
         jsonObject.addProperty("id", Common.getPreherences(activity).getString("id", "defValue"));
         jsonObject.addProperty("password", Common.getPreherences(activity).getString("password", "defValue"));
-        Log.e("ID_PAS", Common.getPreherences(activity).getString("id", "defValue"));
+        Log.e("ID_PAS", Common.getPreherences(activity).getString("password", "defValue"));
         memberTask = new CommonTask(url, jsonObject.toString());
         String jsonIn = "";
         try {
