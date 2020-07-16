@@ -37,7 +37,7 @@ import java.io.File;
 
 public class ModifyNameFragment extends Fragment {
 
-    Activity activity;
+    private Activity activity;
     private final static String TAG = "TAG_SpotUpdateFragment";
     private Button btTakePicture, btPickPicture, btCancel, btConfirm;
     private EditText etName, etAddress, etPhone;

@@ -322,8 +322,6 @@ public class ProductDetailFragment extends Fragment {
             public void onClick(View v) {
                 if (Common.networkConnected(activity)){
                     Log.e("========set======",set+"");
-
-                    Log.e("========follow======",follow+"");
                     if(set.equals("like")||follow.equals("success") ){     //succes表示已經是追蹤了
                         String account_id = Common.getPreherences(activity).getString("id", "");
                         String url = Common.URL_SERVER + "Prouct_Servlet";

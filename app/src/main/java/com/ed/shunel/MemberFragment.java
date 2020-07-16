@@ -80,34 +80,6 @@ public class MemberFragment extends Fragment {
 
 
 
-
-
-        String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
-        Gson gson = new Gson();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("action", "getLogin");
-        jsonObject.addProperty("id", Common.getPreherences(activity).getString("id", "defValue"));
-        jsonObject.addProperty("password", Common.getPreherences(activity).getString("password", "defValue"));
-        Log.e("ID_PAS", Common.getPreherences(activity).getString("password", "defValue"));
-        memberTask = new CommonTask(url, jsonObject.toString());
-        String jsonIn = "";
-        try {
-            jsonIn = memberTask.execute().get();
-
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-        JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-        String result = jsonObject2.get("user").getAsString();
-        User_Account user_account = gson.fromJson(result, User_Account.class);
-        tv_Name.setText(user_account.getAccount_User_Name());
-        tvId.setText(user_account.getAccount_ID());
-
-        Log.e("TAG", "---------------"+result);
-
-
-
-
         if (sharedPreferences.getString("id", "").equals("")) {
 //            Intent intent=new Intent();
 //            intent.setClass(getActivity(),LoginFragment.class);
@@ -158,6 +130,29 @@ public class MemberFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2);
             }
         });
+
+        String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("action", "getLogin");
+        jsonObject.addProperty("id", Common.getPreherences(activity).getString("id", ""));
+        jsonObject.addProperty("password", Common.getPreherences(activity).getString("password", ""));
+        Log.e("ID_PAS", Common.getPreherences(activity).getString("id", ""));
+        memberTask = new CommonTask(url, jsonObject.toString());
+        String jsonIn = "";
+        try {
+            jsonIn = memberTask.execute().get();
+
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
+        String result = jsonObject2.get("user").getAsString();
+        User_Account user_account = gson.fromJson(result, User_Account.class);
+        tv_Name.setText(user_account.getAccount_User_Name());
+        tvId.setText(user_account.getAccount_ID());
+
+        Log.e("TAG", "123");
     }
 
     private void Logout() {
