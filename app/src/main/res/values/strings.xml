@@ -107,6 +107,7 @@
     <string name="buyer_Info_Delivery">付款方式</string>
 
     <string name="textnofound">查無資料</string>
+    <string name="textnolike">無追蹤商品</string>
 
 
     <string name="textConfirmPay">確認付款</string>
@@ -157,7 +158,7 @@
 
     <string name="textPickPhoto">從相簿中選擇</string>
     <string name="textTakePicture">拍照</string>
-    <string name="textMemberId">會員編號</string>
+    <string name="textMemberId">使用者帳號</string>
 
 
     <string name="textVerify">驗證</string>
@@ -173,10 +174,15 @@
     <string name="phone">手機</string>
 
     <string name="textMessageEmpty">Empty</string>
+    <string name="insertFollow">加入追蹤</string>
+    <string name="deleteFollow">取消追蹤</string>
     <string name="textNoCameraApp">沒有照相App</string>
     <string name="textNoUserFound">找不到您的會員資料</string>
     <string name="textUpdateFail">修改失敗</string>
     <string name="textUpdateSuccess">修改成功</string>
+    <string name="textOldPw">請輸入舊密碼:</string>
+    <string name="textNewPw">請輸入新密碼：</string>
+    <string name="textRePw">請再次輸入新密碼：</string>
 
 
 </resources>

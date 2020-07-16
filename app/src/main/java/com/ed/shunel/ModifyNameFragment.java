@@ -3,7 +3,10 @@ package com.ed.shunel;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,16 +31,22 @@ import android.widget.TextView;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
+import com.ed.shunel.Task.UserImageTask;
 import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.yalantis.ucrop.UCrop;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class ModifyNameFragment extends Fragment {
 
-    Activity activity;
+    private Activity activity;
     private final static String TAG = "TAG_SpotUpdateFragment";
     private Button btTakePicture, btPickPicture, btCancel, btConfirm;
     private EditText etName, etAddress, etPhone;
@@ -47,7 +56,7 @@ public class ModifyNameFragment extends Fragment {
     private User_Account user_account;
     private byte[] image;
     private static final int REQ_TAKE_PICTURE = 0;
-    private static final int REQ_PICK_PICTURE = 1;
+    private static final int REQ_PICK_IMAGE = 1;
     private static final int REQ_CROP_PICTURE = 2;
     private Uri contentUri;
     private String name, address, phone;
@@ -86,11 +95,31 @@ public class ModifyNameFragment extends Fragment {
             navController.popBackStack();
             return;
         }
-        user_account = (User_Account) bundle.getSerializable("User");
 
+
+
+        user_account = (User_Account) bundle.getSerializable("User");
+        String url = Common.URL_SERVER + "User_Account_Servlet";
+        String  id = user_account.getAccount_ID();
+
+        int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+        Bitmap bitmap = null;
+        try {
+            bitmap = new UserImageTask(url, id, imageSize).execute().get();
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        if (bitmap != null) {
+            ivProfilePhoto.setImageBitmap(bitmap);
+        } else {
+            ivProfilePhoto.setImageResource(R.drawable.no_image);
+        }
+        tvId.setText(id);
         etName.setText(user_account.getAccount_User_Name());
         etAddress.setText(user_account.getAccount_Address());
         etPhone.setText(user_account.getAccount_Phone());
+
+
 
         btTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +145,8 @@ public class ModifyNameFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQ_PICK_PICTURE);
+                startActivityForResult(intent, REQ_PICK_IMAGE);
+
             }
         });
 
@@ -170,6 +200,65 @@ public class ModifyNameFragment extends Fragment {
             }
         });
 
+
+
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQ_TAKE_PICTURE:
+                    crop(contentUri);
+                    break;
+                case REQ_PICK_IMAGE:
+                    Uri uri = intent.getData();
+                    crop(uri);
+                    break;
+                case REQ_CROP_PICTURE:
+                    handleCropResult(intent);
+                    break;
+            }
+        }
+    }
+
+    private void crop(Uri contentUri) {
+        File file = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        file = new File(file, "picture_cropped.jpg");
+        Uri destinationUri = Uri.fromFile(file);
+        UCrop.of(contentUri, destinationUri)
+                .withAspectRatio(16, 9) // 設定裁減比例
+               .withMaxResultSize(500, 500) // 設定結果尺寸不可超過指定寬高
+                .start(activity, this, REQ_CROP_PICTURE);
+    }
+
+    private void handleCropResult(Intent intent) {
+        Uri resultUri = UCrop.getOutput(intent);
+        if (resultUri == null) {
+            return;
+        }
+        Bitmap bitmap = null;
+        try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                bitmap = BitmapFactory.decodeStream(
+                        activity.getContentResolver().openInputStream(resultUri));
+            } else {
+                ImageDecoder.Source source =
+                        ImageDecoder.createSource(activity.getContentResolver(), resultUri);
+                bitmap = ImageDecoder.decodeBitmap(source);
+            }
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            image = out.toByteArray();
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
+        }
+        if (bitmap != null) {
+            ivProfilePhoto.setImageBitmap(bitmap);
+        } else {
+            ivProfilePhoto.setImageResource(R.drawable.no_image);
+        }
     }
 
 }
