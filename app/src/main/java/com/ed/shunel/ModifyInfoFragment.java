@@ -27,7 +27,6 @@ public class ModifyInfoFragment extends Fragment {
     private Activity activity;
     private TextView tvId, tvName, tvAddress, tv_Phone;
     private Button btn_Modify;
-    private String id,name,address,phone;
     private CommonTask infoTask;
 
     @Override
@@ -72,6 +71,7 @@ public class ModifyInfoFragment extends Fragment {
         JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
         final String result = jsonObject2.get("user").getAsString();
         final User_Account user_account = gson.fromJson(result, User_Account.class);
+        tvId.setText(user_account.getAccount_ID());
         tvName.setText(user_account.getAccount_User_Name());
         tvAddress.setText(user_account.getAccount_Address());
         tv_Phone.setText(user_account.getAccount_Phone());
