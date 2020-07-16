@@ -6,11 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -78,6 +76,7 @@ public class MemberFragment extends Fragment {
         btn_Logout = view.findViewById(R.id.btn_Logout);
         tvId = view.findViewById(R.id.tvId);
         tv_Name = view.findViewById(R.id.tv_Name);
+
 
 
         if (sharedPreferences.getString("id", "").equals("")) {
