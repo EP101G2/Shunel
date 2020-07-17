@@ -90,7 +90,7 @@ public class OrderListFragment extends Fragment{
         rvOrderList = view.findViewById(R.id.rvOrderList);
         rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvOrderList.setAdapter(new OrderListAdapter(getContext(), ordersList));
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutOrder);
         rvOrderList.setLayoutManager(new LinearLayoutManager(activity));
         ordersList = getOrders();
         showOrders(ordersList);
@@ -167,6 +167,11 @@ public class OrderListFragment extends Fragment{
             }
             return statusFilter;
         }
+
+        public void setOrders(List<Orders> ordersList) {
+            this.ordersList = ordersList;
+        }
+
         public class StatusFilter extends Filter{ //the StatusFilter extends Filter, with two methods
             //                        public void getOrderStatus(Orders orders){
 //                int orderStatus = orders.getOrderStatus();
@@ -284,7 +289,7 @@ public class OrderListFragment extends Fragment{
         if (orderListAdapter == null) {
             rvOrderList.setAdapter(new OrderListAdapter(activity, ordersList));
         } else {
-//            orderListAdapter.setOrders(ordersList);
+            orderListAdapter.setOrders(ordersList);
             orderListAdapter.notifyDataSetChanged();
 
         }

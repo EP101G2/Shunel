@@ -23,7 +23,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            tools:srcCompat="@drawable/heart_empty" />
+            tools:srcCompat="@drawable/photos_pink" />
 
         <TextView
             android:id="@+id/tvProductName"

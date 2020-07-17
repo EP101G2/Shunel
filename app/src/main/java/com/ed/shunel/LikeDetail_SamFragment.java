@@ -109,7 +109,7 @@ public class LikeDetail_SamFragment extends Fragment {
 
     private void showBooks(List<Product> product) {
         if (product == null || product.isEmpty()) {
-            Common.showToast(activity, R.string.textnofound);
+            Common.showToast(activity, R.string.textnolike);
         }
         ProductAdapter_Sam productAdapter = (ProductAdapter_Sam) recyclerView.getAdapter();
         if (productAdapter == null) {

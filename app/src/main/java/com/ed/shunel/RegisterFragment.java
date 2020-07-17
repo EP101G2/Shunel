@@ -26,7 +26,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 
-public class Register_Fragment extends Fragment {
+public class RegisterFragment extends Fragment {
 
     private final static String TAG = "TAG_SpotInsertFragment";
     private Activity activity;
@@ -47,7 +47,7 @@ public class Register_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register_, container, false);
+        return inflater.inflate(R.layout.fragment_register, container, false);
     }
 
 
