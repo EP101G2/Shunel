@@ -155,6 +155,9 @@
     <string name="personalInformation">個人資料</string>
     <string name="modifyPassword">密碼修改</string>
 
+
+
+
     <string name="textPickPhoto">從相簿中選擇</string>
     <string name="textTakePicture">拍照</string>
     <string name="textMemberId">使用者帳號</string>
@@ -182,6 +185,7 @@
     <string name="textOldPw">請輸入舊密碼:</string>
     <string name="textNewPw">請輸入新密碼：</string>
     <string name="textRePw">請再次輸入新密碼：</string>
+    <string name="textWrongOldPassword">舊密碼不正確</string>
 
 
 </resources>

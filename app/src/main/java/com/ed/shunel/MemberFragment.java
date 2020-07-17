@@ -155,6 +155,8 @@ public class MemberFragment extends Fragment {
         Log.e("TAG", "123");
     }
 
+
+
     private void Logout() {
         Common.getPreherences(activity).edit().clear().apply();
 //        MainActivity.preferences.edit().clear().apply();

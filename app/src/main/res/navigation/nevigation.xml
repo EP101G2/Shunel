@@ -183,7 +183,11 @@
         android:id="@+id/modifyPasswordFragment"
         android:name="com.ed.shunel.ModifyPasswordFragment"
         android:label="fragment_modify_password"
-        tools:layout="@layout/fragment_modify_password" />
+        tools:layout="@layout/fragment_modify_password" >
+        <action
+            android:id="@+id/action_modifyPasswordFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+    </fragment>
     <fragment
 
         android:id="@+id/likeDetail_SamFragment"
