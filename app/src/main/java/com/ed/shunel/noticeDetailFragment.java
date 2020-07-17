@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -177,8 +178,27 @@ public class noticeDetailFragment extends Fragment {
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             final Notice notice = noticeDetail.get(position);
             int notice_ID = notice.getNotice_ID();
+            switch (MainActivity.flag) {
+//                case 0:
+//                    
+//                case 1:
+
+                case 2:
+                holder.ivProductMini.setImageResource(R.drawable.ic_action_gear2);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("notice", notice);
+                        Navigation.findNavController(view)
+                                .navigate(R.id.action_noticeDetailFragment_to_systemDetailFragment, bundle);
+                    }
+                });
+            }
             holder.tvNoticeT.setText(notice.getNotice_Title());
             holder.tvNoticeD.setText(notice.getNotice_time().toString());
+
+
         }
 
         @Override

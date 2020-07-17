@@ -52,32 +52,33 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cdSale"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="56dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvSaleT"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/Sale_Notice"
                         android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/tvSaleD"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxEms="25"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <ImageView
@@ -85,8 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|right"
-
-                    android:layout_weight="0.1"
+                    android:layout_marginRight="16dp"
                     android:src="@drawable/arrow_forward_pink" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -94,7 +94,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cdQA"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="56dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
@@ -117,11 +117,12 @@
 
                     <TextView
                         android:id="@+id/tvQAD"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:maxEms="25"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -130,7 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|right"
-                    android:layout_weight="0.1"
+                    android:layout_marginRight="16dp"
                     android:src="@drawable/arrow_forward_pink" />
 
             </LinearLayout>
@@ -140,7 +141,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cdSystem"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="56dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,7 +149,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
@@ -161,11 +162,12 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/tvSystemD"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvSystemDetailD"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxEms="25"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -174,7 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|right"
-                    android:layout_weight="0.1"
+                    android:layout_marginRight="16dp"
                     android:src="@drawable/arrow_forward_pink" />
 
             </LinearLayout>

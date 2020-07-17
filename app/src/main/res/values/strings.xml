@@ -156,6 +156,8 @@
     <string name="modifyPassword">密碼修改</string>
 
 
+
+
     <string name="textPickPhoto">從相簿中選擇</string>
     <string name="textTakePicture">拍照</string>
     <string name="textMemberId">使用者帳號</string>
@@ -174,6 +176,7 @@
     <string name="phone">手機</string>
 
     <string name="textMessageEmpty">Empty</string>
+
     <string name="insertFollow">加入追蹤</string>
     <string name="deleteFollow">取消追蹤</string>
     <string name="textNoCameraApp">沒有照相App</string>
