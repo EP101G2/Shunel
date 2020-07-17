@@ -75,6 +75,7 @@ public class ForgetPassword_Fragment extends Fragment {
             public void onClick(View v) {
                 // 電話號碼格式要符合E.164，要加上country code，台灣為+886
                 String phone = "+886" + etPhone.getText().toString().trim();
+                Log.e("_____",phone);
                 if (phone.isEmpty()) {
                     etPhone.setError(getString(R.string.textEmptyError));
                     return;

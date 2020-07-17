@@ -13,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -27,7 +29,9 @@ public class ModifyInfoFragment extends Fragment {
     private Activity activity;
     private TextView tvId, tvName, tvAddress, tv_Phone;
     private Button btn_Modify;
+    private ImageView ivUser;
     private CommonTask infoTask;
+    private ImageTask imageTask;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class ModifyInfoFragment extends Fragment {
     tvName=view.findViewById(R.id.tvName);
     tvAddress=view.findViewById(R.id.tvAddress);
     tv_Phone=view.findViewById(R.id.tv_Phone);
+    ivUser=view.findViewById(R.id.ivUser);
     btn_Modify=view.findViewById(R.id.btn_Modify);
 
 
@@ -75,6 +80,7 @@ public class ModifyInfoFragment extends Fragment {
         tvName.setText(user_account.getAccount_User_Name());
         tvAddress.setText(user_account.getAccount_Address());
         tv_Phone.setText(user_account.getAccount_Phone());
+//        ivUser.setImageBitmap(MainActivity.memoryCache.get(user_account.getAccount_ID("")));
 
         Log.i(TAG, result);
 
