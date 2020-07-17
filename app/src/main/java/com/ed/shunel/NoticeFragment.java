@@ -2,7 +2,6 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,10 +27,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.CDATASection;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,10 +43,11 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     private SearchView searchView;
     private NoticeAdapter noticeAdapter;
     private List<Notice> notice;
+    private Notice saleLast, qaLast, systemLast;
     private CommonTask noticeGetAllTask;
     private CardView cdSystem, cdSale, cdQA;
-    private TextView tvSaleT,tvQAT,tvSystemT;
-
+    private TextView tvSaleT, tvSaleD, tvQAT, tvQAD, tvSystemT, tvSystemD;
+    private String i = "";
 //    private LayoutInflater layoutInflater;
 
 
@@ -72,10 +69,11 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        MainActivity.flag = 0;
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
         initData();
-        MainActivity.flag = 0;
+
+
         findViews(view);
 
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
@@ -128,19 +126,118 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     private void findViews(View view) {
 
         rvNotice = view.findViewById(R.id.rvNotice);
-        rvNotice.setLayoutManager(new LinearLayoutManager(activity));
-        rvNotice.setAdapter(new NoticeAdapter(activity, notice));
         cdSystem = view.findViewById(R.id.cdSystem);
         cdQA = view.findViewById(R.id.cdQA);
         cdSale = view.findViewById(R.id.cdSale);
         searchView = view.findViewById(R.id.searchView);
         tvSaleT = view.findViewById(R.id.tvSaleT);
+        tvSaleD = view.findViewById(R.id.tvSaleD);
         tvQAT = view.findViewById(R.id.tvQAT);
+        tvQAD = view.findViewById(R.id.tvQAD);
         tvSystemT = view.findViewById(R.id.tvSystemT);
+        tvSystemD = view.findViewById(R.id.tvSystemDetailD);
+        tvSaleD.setText(saleLast.getNotice_Content());
+        tvQAD.setText(qaLast.getNotice_Content());
+        tvSystemD.setText(systemLast.getNotice_Content());
+        rvNotice.setLayoutManager(new LinearLayoutManager(activity));
+        rvNotice.setAdapter(new NoticeAdapter(activity, notice));
     }
 
     private void initData() {
+//        MainActivity.flag = 0;
+//        for (MainActivity.flag = 0; MainActivity.flag <= 3; MainActivity.flag++) {
         notice = getDate();
+        saleLast = getLastSaleN();
+        qaLast = getLastQAN();
+        systemLast = getLastSystemN();
+//            for (int i = 0 ; i<=notice.size() ; i++){
+//                 int Notice_ID = ;
+//                 String Notice_Content;
+//                 String Notice_Title;
+//                 Timestamp Notice_time;
+//                 int NOTICE_CATEGORY_ID;
+//                 int CATEGORY_MESSAGE_ID;
+//                Notice_ID = notice_ID;
+//                Notice_Content = notice_Content;
+//                Notice_Title = notice_Title;
+//                Notice_time = notice_time;
+//                this.NOTICE_CATEGORY_ID = NOTICE_CATEGORY_ID;
+//                this.CATEGORY_MESSAGE_ID = CATEGORY_MESSAGE_ID;
+//            }
+//        }
+    }
+
+    private Notice getLastSystemN() {
+        Notice systemLast = null;
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Notice_Servlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getLastSystemN");
+            String jsonOutSystem = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOutSystem);
+            try {
+                String jsonIn = noticeGetAllTask.execute().get();
+                systemLast = gson.fromJson(jsonIn, Notice.class);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        return systemLast;
+    }
+
+    private Notice getLastQAN() {
+        Notice qaLast = null;
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Notice_Servlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getLastQAN");
+            String jsonOutSystem = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOutSystem);
+            try {
+                String jsonIn = noticeGetAllTask.execute().get();
+                qaLast = gson.fromJson(jsonIn, Notice.class);
+                Log.d(TAG, qaLast.getNotice_Content() + "-------------------");
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        return qaLast;
+    }
+
+    private Notice getLastSaleN() {
+        Notice saleLast = null;
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Notice_Servlet";
+//            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getLastSaleN");
+//            jsonObject.addProperty("action", "getLastQAN");
+//                    jsonObject.addProperty("action", "getLastSystemN");
+            String jsonOutSystem = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOutSystem);
+            try {
+                String jsonIn = noticeGetAllTask.execute().get();
+//                JsonArray jsonArray = gson.fromJson(jsonIn, JsonArray.class);
+//                Log.d(TAG,"234234234234234234234");
+                saleLast = gson.fromJson(jsonIn, Notice.class);
+//                JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
+//                Log.d(TAG,jsonObject2+"-------------------");
+                Log.d(TAG, saleLast.getNotice_Content() + "-------------------");
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+//        Log.i(TAG,notceLast.getNotice_Content());
+        return saleLast;
     }
 
     private List<Notice> getDate() {
@@ -155,7 +252,6 @@ public class NoticeFragment<layoutInflater> extends Fragment {
                 String jsonIn = noticeGetAllTask.execute().get();
                 Type listType = new TypeToken<List<Notice>>() {
                 }.getType();
-
                 Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                 //MMM 是英文月份縮寫，7月是Jul
                 //a = AM/PM

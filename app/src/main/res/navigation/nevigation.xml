@@ -132,7 +132,14 @@
         android:id="@+id/noticeDetailFragment"
         android:name="com.ed.shunel.noticeDetailFragment"
         android:label="fragment_notice_detail"
-        tools:layout="@layout/fragment_notice_detail" />
+        tools:layout="@layout/fragment_notice_detail" >
+        <action
+            android:id="@+id/action_noticeDetailFragment_to_systemDetailFragment"
+            app:destination="@id/systemDetailFragment" />
+        <action
+            android:id="@+id/action_noticeDetailFragment_to_saleDetailFragment"
+            app:destination="@id/saleDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/ringProductFragment"
@@ -199,5 +206,15 @@
         android:name="com.ed.shunel.OrderDetailFragment"
         android:label="fragment_order_detail"
         tools:layout="@layout/fragment_order_detail" />
+    <fragment
+        android:id="@+id/systemDetailFragment"
+        android:name="com.ed.shunel.SystemDetailFragment"
+        android:label="fragment_system_detail"
+        tools:layout="@layout/fragment_system_detail" />
+    <fragment
+        android:id="@+id/saleDetailFragment"
+        android:name="com.ed.shunel.SaleDetailFragment"
+        android:label="fragment_sale_detail"
+        tools:layout="@layout/fragment_sale_detail" />
 
 </navigation>

@@ -154,23 +154,16 @@
     <string name="personalInformation">個人資料</string>
     <string name="modifyPassword">密碼修改</string>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5025ce917133ba17e0939fd748cca1cb60090479
     <string name="textPickPhoto">從相簿中選擇</string>
     <string name="textTakePicture">拍照</string>
     <string name="textMemberId">會員編號</string>
 
-<<<<<<< HEAD
-=======
     <string name="textVerify">驗證</string>
     <string name="textResend">重寄驗證碼</string>
     <string name="textInvalidCode">無效驗證碼</string>
     <string name="textEmptyError">欄位不能為空</string>
     <string name="textSend">Send</string>
     <string name="textMessageEmpty">Empty</string>
->>>>>>> 5025ce917133ba17e0939fd748cca1cb60090479
 
 
 </resources>

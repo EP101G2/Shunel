@@ -10,10 +10,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/noticeList"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         app:cardBackgroundColor="#FFFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -32,16 +30,18 @@
                 app:srcCompat="@drawable/unknown" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvNoticeT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="8dp"
+                    android:maxEms="14"
                     android:text="TextView"
                     android:textSize="20dp" />
 
@@ -49,34 +49,23 @@
                     android:id="@+id/tvNoticeD"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="8dp"
                     android:text="TextView" />
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:layout_weight="0.1"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/arrow_forward_pink" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/arrowCardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/arrowCardView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_forward_pink" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

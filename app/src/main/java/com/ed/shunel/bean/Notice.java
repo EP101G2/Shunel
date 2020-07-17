@@ -1,8 +1,9 @@
 package com.ed.shunel.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Notice {
+public class Notice implements Serializable {
     private int Notice_ID;
     private String Notice_Content;
     private String Notice_Title;
