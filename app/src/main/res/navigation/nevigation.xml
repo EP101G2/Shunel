@@ -209,7 +209,6 @@
         android:id="@+id/orderDetailFragment"
         android:name="com.ed.shunel.OrderDetailFragment"
         android:label="fragment_order_detail"
-
         tools:layout="@layout/fragment_order_detail" />
     <fragment
         android:id="@+id/systemDetailFragment"
@@ -236,6 +235,5 @@
             android:id="@+id/action_modifyInfoFragment_to_modifyNameFragment"
             app:destination="@id/modifyNameFragment" />
     </fragment>
-
 
 </navigation>

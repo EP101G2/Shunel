@@ -25,7 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ed.shunel.Task.Common;
+import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
+import com.ed.shunel.bean.Order_Main;
 import com.ed.shunel.bean.Shopping_Cart;
 
 import java.util.List;
@@ -43,7 +45,8 @@ public class BuyerFragment extends Fragment {
     private List<Shopping_Cart> listdatas;
     private Shopping_Cart_List shopping_cart_list;
     private String total;
-
+    private CommonTask orderMainUpdata;
+    private Order_Main oM=null;
 
     /*UI元件*/
     private RecyclerView rv_Product;
@@ -138,31 +141,54 @@ public class BuyerFragment extends Fragment {
 
     private void setLinstener() {
 
+        String id = Common.getPreherences(activity).getString("id","");
         final String name = Common.getPreherences(activity).getString("name", "");
         final String phone = Common.getPreherences(activity).getString("phone", "");
         String address = Common.getPreherences(activity).getString("address", "");
+
+
         tv_Buyer_Name.setText(name);
         tv_Buyer_Address.setText(address);
         tv_Buyer_Phone.setText(phone);
 
+//        name = et_Name.getText().toString();
+
+
         tv_BuyTotal.setText("總金額：" + total);
         rv_Product.setAdapter(new productAdapter(activity, shopping_cart_list.getCart()));
 
-
+        oM = new Order_Main(id,Integer.parseInt(total),name,address,phone,0);
         btn_Pagenext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Navigation.findNavController(v).navigate(R.id.action_buyerFragment_to_testPayFragment);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("one", total);
-
-
-//                Navigation.findNavController(v).navigate(R.id.final_Pay,bundle);
                 Intent intent = new Intent(getActivity(), PayActivity.class);
                 intent.putExtra("total", total);
                 intent.putExtra("name", name);
                 intent.putExtra("phone", phone);
                 startActivity(intent);
+
+
+
+//                if (Common.networkConnected(activity)) {
+//
+//                    String url = Common.URL_SERVER + "Prouct_Servlet";
+//                    JsonObject jsonObject = new JsonObject();
+//                    jsonObject.addProperty("action", "Main_Recriver");
+//                    jsonObject.addProperty("orderupdate", new Gson().toJson(oM));
+////                        jsonObject.addProperty("shopcardId",);
+////                    送出清單
+//                    String jsonOut = jsonObject.toString();
+//                    Log.i("---------", jsonOut);
+//                    orderMainUpdata = new CommonTask(url, jsonOut);
+//
+//                    try {
+//                        String jsonIn = orderMainUpdata.execute().get();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//                    Common.showToast(activity, R.string.textNoNetwork);
+//                }
 
 
             }
@@ -250,8 +276,6 @@ public class BuyerFragment extends Fragment {
             }
         }
     }
-
-
 
 
 }
