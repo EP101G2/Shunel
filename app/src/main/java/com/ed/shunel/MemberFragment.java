@@ -46,6 +46,7 @@ public class MemberFragment extends Fragment {
     private int imageSize;
     private ImageView ivUser;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +85,7 @@ public class MemberFragment extends Fragment {
         btn_Logout = view.findViewById(R.id.btn_Logout);
         tvId = view.findViewById(R.id.tvId);
         tv_Name = view.findViewById(R.id.tv_Name);
+        ivUser=view.findViewById(R.id.ivUser);
 
 
 
@@ -166,23 +168,23 @@ public class MemberFragment extends Fragment {
         tvId.setText(user_account.getAccount_ID());
 
 
-//        String Pic=Common.getPreherences(activity).getString("id","");
-//        imageSize = getResources().getDisplayMetrics().widthPixels / 4;
-//        imageTask= new ImageTaskUser(url,Pic,imageSize);
-//        try {
-//            Bitmap bitmap=imageTask.execute().get();
-//            if (bitmap == null){
-//                ivUser.setImageResource(R.drawable.no_image);
-//            }else {
-//                ivUser.setImageBitmap(bitmap);
-//            }
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        Log.e("TAG", "123");
-//        Common.getPreherences(activity).edit().apply();
+        String Pic=Common.getPreherences(activity).getString("id","");
+        imageSize = getResources().getDisplayMetrics().widthPixels / 4;
+        imageTask= new ImageTaskUser(url,Pic,imageSize);
+        try {
+            Bitmap bitmap=imageTask.execute().get();
+            if (bitmap == null){
+                ivUser.setImageResource(R.drawable.no_image);
+            }else {
+                ivUser.setImageBitmap(bitmap);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e("TAG", "123");
+        Common.getPreherences(activity).edit().apply();
 
 
 
