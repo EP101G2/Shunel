@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ed.shunel.Task.Common;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
+import java.util.prefs.Preferences;
 
 
 public class ForgetPasswordFragment extends Fragment {
@@ -40,7 +42,7 @@ public class ForgetPasswordFragment extends Fragment {
     private FirebaseAuth auth;
     private String verificationId;
     private PhoneAuthProvider.ForceResendingToken resendToken;
-
+    private Bundle bundle;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +77,16 @@ public class ForgetPasswordFragment extends Fragment {
             public void onClick(View v) {
                 // 電話號碼格式要符合E.164，要加上country code，台灣為+886
                 String phone = "+886" + etPhone.getText().toString().trim();
+                String phonenumber =etPhone.getText().toString().trim();
+                Log.e("phonennn", phonenumber);
+                bundle = new Bundle();
+                bundle.putSerializable("phonenumber",phonenumber);
                 Log.e("_____",phone);
                 if (phone.isEmpty()) {
                     etPhone.setError(getString(R.string.textEmptyError));
+
+
+
                     return;
                 }
                 sendVerificationCode(phone);
@@ -103,6 +112,8 @@ public class ForgetPasswordFragment extends Fragment {
                 String phone = "+886" + etPhone.getText().toString().trim();
                 if (phone.isEmpty()) {
                     etPhone.setError(getString(R.string.textEmptyError));
+
+
                     return;
                 }
                 resendVerificationCode(phone, resendToken);
@@ -118,6 +129,8 @@ public class ForgetPasswordFragment extends Fragment {
                 activity,
                 verifyCallbacks, // 監聽電話驗證的狀態
                 token); // 驗證碼發送後，verifyCallbacks.onCodeSent()會傳來token，方便user要求重傳驗證碼
+
+
     }
 
 
@@ -132,8 +145,9 @@ public class ForgetPasswordFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
                             Navigation.findNavController(etPhone)
-                                    .navigate(R.id.action_forgetPasswordFragment_to_createNewPasswordFragment);
+                                    .navigate(R.id.action_forgetPasswordFragment_to_createNewPasswordFragment, bundle);
 
                         } else {
                             Exception exception = task.getException();
@@ -197,6 +211,7 @@ public class ForgetPasswordFragment extends Fragment {
             layoutVerify.setVisibility(View.VISIBLE);
         }
     };
+
 
 //   @Override
 //    public void onStart() {

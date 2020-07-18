@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class CreateNewPasswordFragment extends Fragment {
     private Activity activity;
     private EditText etNewPasswordForget, etRetypeNewPasswordForget;
     private Button btConfirm, btCancel;
-    private String password,id;
+    private String password,phone;
     private User_Account user_account;
 
     @Override
@@ -59,16 +60,22 @@ public class CreateNewPasswordFragment extends Fragment {
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 if (etNewPasswordForget.getText().toString().equals(etRetypeNewPasswordForget.getText().toString())) {
                     password = etNewPasswordForget.getText().toString();
-                    user_account = new User_Account();
-                    user_account.setAccount_Password(password);
-                    user_account.setAccount_ID(Common.getPreherences(activity).getString("id", ""));
+                   Bundle bundle=getArguments();
+                   phone=bundle.getString("phonenumber");
+//                    user_account = new User_Account();
+//                    user_account.setAccount_Password(password);
+//                    user_account.setAccount_ID(Common.getPreherences(activity).getString("id", ""));
                     if (Common.networkConnected(activity)) {
                         String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
                         JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty("action", "UpdatePw");
-                        jsonObject.addProperty("user", new Gson().toJson(user_account));
+                        jsonObject.addProperty("action", "UpdateNewPw");
+                        jsonObject.addProperty("phone", phone);
+                        jsonObject.addProperty("password", password);
                         int count = 0;
                         try {
                             String result = new CommonTask(url, jsonObject.toString()).execute().get();
@@ -83,9 +90,14 @@ public class CreateNewPasswordFragment extends Fragment {
                         } else {
                             Common.showToast(activity, R.string.textUpdateSuccess);
                             Common.getPreherences(activity).edit().putString("password", password).apply();
-                            Bundle bundle = new Bundle();
+
                             bundle.putSerializable("user", user_account);
+
+
+                            Common.getPreherences(activity).getString("phone",phone);
+
                             Navigation.findNavController(v).navigate(R.id.action_createNewPasswordFragment_to_login_Fragment);
+
                         }
 
                     } else {

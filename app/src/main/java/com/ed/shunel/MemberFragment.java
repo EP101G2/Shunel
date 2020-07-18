@@ -91,9 +91,7 @@ public class MemberFragment extends Fragment {
 
 
         if (sharedPreferences.getString("id", "").equals("")) {
-//            Intent intent=new Intent();
-//            intent.setClass(getActivity(),LoginFragment.class);
-//            startActivity(intent);
+
             Intent intent = new Intent();
             intent.setClass(activity, LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
             startActivity(intent);
@@ -161,11 +159,14 @@ public class MemberFragment extends Fragment {
         Log.e("------------",sharedPreferences.getString("id", ""));
         Log.e("------------",sharedPreferences.getString("password", ""));
 
-        JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-        String result = jsonObject2.get("user").getAsString();
-        User_Account user_account = gson.fromJson(result, User_Account.class);
-        tv_Name.setText(user_account.getAccount_User_Name());
-        tvId.setText(user_account.getAccount_ID());
+
+      //沒登入執行會錯這邊，問謝哥
+//        JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
+//        String result = jsonObject2.get("user").getAsString();
+//        User_Account user_account = gson.fromJson(result, User_Account.class);
+//        tv_Name.setText(user_account.getAccount_User_Name());
+//        tvId.setText(user_account.getAccount_ID());
+
 
 
         String Pic=Common.getPreherences(activity).getString("id","");
