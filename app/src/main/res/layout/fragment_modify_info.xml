@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/ivUser"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="186dp"
+        android:layout_height="151dp"
         android:src="@drawable/unknown"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"

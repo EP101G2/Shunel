@@ -59,7 +59,7 @@ public class ModifyNameFragment extends Fragment {
     private static final int REQ_PICK_IMAGE = 1;
     private static final int REQ_CROP_PICTURE = 2;
     private Uri contentUri;
-    private String name, address, phone;
+    private String name, address, phone,pic;
 
 
     @Override
@@ -78,6 +78,9 @@ public class ModifyNameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        pic=Common.getPreherences(activity).getString("id","");
+
         btTakePicture = view.findViewById(R.id.btTakePicture);
         btPickPicture = view.findViewById(R.id.btPickPicture);
         btCancel = view.findViewById(R.id.btCancel);
@@ -256,6 +259,7 @@ public class ModifyNameFragment extends Fragment {
         }
         if (bitmap != null) {
             ivProfilePhoto.setImageBitmap(bitmap);
+//            MainActivity.memoryCache.put(Integer.parseInt(profilo),bitmap);
         } else {
             ivProfilePhoto.setImageResource(R.drawable.no_image);
         }
