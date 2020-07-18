@@ -109,7 +109,7 @@ public class Login_Fragment extends Fragment {
         tvForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_login_Fragment_to_forgetPassword_Fragment);
+                Navigation.findNavController(v).navigate(R.id.action_login_Fragment_to_forgetPasswordFragment);
             }
         });
 

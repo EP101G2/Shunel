@@ -190,8 +190,6 @@ public class MemberFragment extends Fragment {
 
 
 
-
-
     }
 
 

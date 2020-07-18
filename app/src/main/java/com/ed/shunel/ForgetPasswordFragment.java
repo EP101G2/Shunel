@@ -30,7 +30,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.concurrent.TimeUnit;
 
 
-public class ForgetPassword_Fragment extends Fragment {
+public class ForgetPasswordFragment extends Fragment {
     private String TAG = "TAG_MainFragment";
     private Activity activity;
     private ConstraintLayout layoutVerify;
@@ -53,7 +53,7 @@ public class ForgetPassword_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forget_password_, container, false);
+        return inflater.inflate(R.layout.fragment_forget_password, container, false);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class ForgetPassword_Fragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Navigation.findNavController(etPhone)
-                                    .navigate(R.id.action_forgetPassword_Fragment2_to_createNewPasswordFragment);
+                                    .navigate(R.id.action_forgetPasswordFragment_to_createNewPasswordFragment);
 
                         } else {
                             Exception exception = task.getException();
@@ -198,14 +198,30 @@ public class ForgetPassword_Fragment extends Fragment {
         }
     };
 
-//    @Override
+//   @Override
 //    public void onStart() {
 //        super.onStart();
 //        // 檢查user是否已經登入，是則FirebaseUser物件不為null
 //        FirebaseUser user = auth.getCurrentUser();
 //        if (user != null) {
-//            Navigation.findNavController()
-//                    .navigate(R.id.action_forgetPassword_Fragment2_to_createNewPasswordFragment);
+//            Navigation.findNavController(btSend)
+//                    .navigate(R.id.action_forgetPasswordFragment_to_createNewPasswordFragment);
 //        }
 //    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

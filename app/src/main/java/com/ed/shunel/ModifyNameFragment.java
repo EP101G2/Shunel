@@ -185,6 +185,7 @@ public class ModifyNameFragment extends Fragment {
                     if (count == 0) {
                         Common.showToast(activity, R.string.textUpdateFail);
                     } else {
+
                         Common.showToast(activity, R.string.textUpdateSuccess);
                     }
                 } else {

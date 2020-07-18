@@ -14,8 +14,8 @@
             android:id="@+id/action_login_Fragment_to_register_Fragment"
             app:destination="@id/register_Fragment" />
         <action
-            android:id="@+id/action_login_Fragment_to_forgetPassword_Fragment"
-            app:destination="@id/forgetPassword_Fragment2" />
+            android:id="@+id/action_login_Fragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/register_Fragment"
@@ -23,17 +23,21 @@
         android:label="fragment_register_"
         tools:layout="@layout/fragment_register" />
     <fragment
-        android:id="@+id/forgetPassword_Fragment2"
-        android:name="com.ed.shunel.ForgetPassword_Fragment"
-        android:label="fragment_forget_password_"
-        tools:layout="@layout/fragment_forget_password_" >
-        <action
-            android:id="@+id/action_forgetPassword_Fragment2_to_createNewPasswordFragment"
-            app:destination="@id/createNewPasswordFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/createNewPasswordFragment"
         android:name="com.ed.shunel.CreateNewPasswordFragment"
         android:label="fragment_create_new_password"
-        tools:layout="@layout/fragment_create_new_password" />
+        tools:layout="@layout/fragment_create_new_password" >
+        <action
+            android:id="@+id/action_createNewPasswordFragment_to_login_Fragment"
+            app:destination="@id/login_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="com.ed.shunel.ForgetPasswordFragment"
+        android:label="fragment_forget_password"
+        tools:layout="@layout/fragment_forget_password" >
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_createNewPasswordFragment"
+            app:destination="@id/createNewPasswordFragment" />
+    </fragment>
 </navigation>
