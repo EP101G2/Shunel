@@ -208,7 +208,8 @@
     <fragment
         android:id="@+id/orderDetailFragment"
         android:name="com.ed.shunel.OrderDetailFragment"
-        android:label="fragment_order_detail" />
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" />
     <fragment
         android:id="@+id/systemDetailFragment"
         android:name="com.ed.shunel.SystemDetailFragment"
