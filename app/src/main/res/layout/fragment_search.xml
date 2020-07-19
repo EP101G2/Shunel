@@ -32,19 +32,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/etSearch"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/shape"
-            android:ems="10"
-            android:hint="@string/searchPrompt"
-            android:inputType="textPersonName"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#975F66" />
+        <SearchView
+            android:id="@+id/searchview"
+            android:layout_width="289dp"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tvSearch"
@@ -88,12 +79,11 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvNotice"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/lnHistory"
 
-        />
+        app:layout_constraintTop_toBottomOf="@+id/lnHistory" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

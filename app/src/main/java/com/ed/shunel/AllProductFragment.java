@@ -70,6 +70,8 @@ public class AllProductFragment extends Fragment {
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         recyclerView.setAdapter(new ProductAdapter_Sam(getContext(), product));
+
+
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         product = getProduct();
         showBooks(product);

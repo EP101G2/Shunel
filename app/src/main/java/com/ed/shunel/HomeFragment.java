@@ -6,11 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.ed.shunel.Task.Common;
@@ -29,6 +32,7 @@ public class HomeFragment extends Fragment {
     private FragmentActivity activity;
     TabLayout tabLayout;
     ViewPager2 viewPager;
+    ImageView searchView;
     private SharedPreferences sharedPreferences;
     private int[] label={R.string.Popular_product,R.string.Promotion,R.string.All,R.string.Perfume_necklace,R.string.Fragrance_earrings,R.string.Necklace,R.string.Earrings,R.string.Ring};
 
@@ -49,6 +53,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
+        searchView = view.findViewById(R.id.rearchitem);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.searchFragment);
+            }
+        });
+
 
 
         viewPager = view.findViewById(R.id.view_pager);

@@ -59,43 +59,6 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
                 });
 
 
-//        switch (MainActivity.flag){
-//            case 0:  //熱門商品
-//                int id_product = product.getProduct_ID();
-//                productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
-//                productimageTask.execute();
-//                myviewholder.tvname.setText(products.get(position).getProduct_Name());
-//                myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
-//                myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("product", product);
-//                        Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
-//                    }
-//                });
-//
-//
-//                break;
-//
-//            case 2:  //取耳環
-//                int category_id  = product.getProduct_Category_ID();
-//                productimageTask = new ImageTask(url, category_id, imageSize, myviewholder.ivcardIMG);
-//                productimageTask.execute();
-//                myviewholder.tvname.setText(products.get(position).getProduct_Name());
-//                myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
-//                myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("product", product);
-//                        Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
-//                    }
-//                });
-//
-//
-//                break;
-//        }
 
 
 
