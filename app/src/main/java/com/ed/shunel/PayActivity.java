@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ed.shunel.Task.ApiUtil;
+import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.Order_Main;
 import com.google.android.gms.common.api.Status;
@@ -20,9 +21,12 @@ import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
 import com.google.android.gms.wallet.TransactionInfo;
 import com.google.android.gms.wallet.WalletConstants;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 import tech.cherri.tpdirect.api.TPDCardInfo;
 import tech.cherri.tpdirect.api.TPDConsumer;
@@ -54,27 +58,23 @@ public class PayActivity extends AppCompatActivity {
     private String total;
     private String name;
     private String phone;
+    private CommonTask chageOrder;
+    private String getOrder_main;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
 
-//        FragmentManager manager = getFragmentManager();
-//        FragmentTransaction transaction = manager.beginTransaction();
-//
-//        transaction.add(R.id.lauoutbuyID, new BuyerFragment());
-//        transaction.commit();
-
-
-//        getFragmentManager().beginTransaction().add();
 
 
         Intent intent = getIntent();
         total = intent.getStringExtra("total");
         name=intent.getStringExtra("name");
         phone=intent.getStringExtra("phone");
-        Log.i(TAG, "" + total);
+        getOrder_main= intent.getStringExtra("orderId");
+        Log.i(TAG, "-----------------------------------orderID" +getOrder_main);
 
 
 
@@ -127,6 +127,9 @@ public class PayActivity extends AppCompatActivity {
 
     private Order_Main getData() {
 
+
+
+
         return null;
     }
 
@@ -157,7 +160,7 @@ public class PayActivity extends AppCompatActivity {
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPrimeFromTapPay(paymentData);
+//                changeOrderStatus();
             }
         });
 
@@ -210,7 +213,10 @@ public class PayActivity extends AppCompatActivity {
                     paymentData = PaymentData.getFromIntent(data);
                     if (paymentData != null) {
                         showPaymentInfo(paymentData);
+                        getPrimeFromTapPay(paymentData);
+                        changeOrderStatus();
                     }
+
                     break;
                 case Activity.RESULT_CANCELED:
                     btConfirm.setEnabled(false);
@@ -230,6 +236,38 @@ public class PayActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    private void changeOrderStatus() {
+        //待測試
+
+        if (Common.networkConnected(this)) {
+
+            String url = Common.URL_SERVER + "Orders_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "changeOrderStatus");
+            jsonObject.addProperty("orderID",Integer.valueOf(getOrder_main));
+            chageOrder= new CommonTask(url, jsonObject.toString());
+
+            Log.i(TAG,chageOrder.toString());
+            try {
+                String jsonIn = chageOrder.execute().get();
+//                jsonObject = new Gson().fromJson(jsonIn,JsonObject.class);
+                Log.i(TAG,jsonObject.toString());
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Common.showToast(this, R.string.textNoNetwork);
+        }
+
+
+
+
+
     }
 
     private void showPaymentInfo(PaymentData paymentData) {
@@ -285,6 +323,8 @@ public class PayActivity extends AppCompatActivity {
                         tvResult.setText(text);
                     }
                 });
+//        changeOrderStatus();
+
     }
 
 

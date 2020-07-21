@@ -73,7 +73,6 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
         initData();
 
-
         findViews(view);
 
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
@@ -88,59 +87,65 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 //        final String BundleTForSale = tvSaleT.getText().toString();
 //        final String BundleTForQA = tvQAT.getText().toString();
 //        final String BundleTForSystem = tvSystemT.getText().toString();
+        if (notice == null || notice.isEmpty()) {
+            return;
+        } else {
 
-
-        cdSale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.flag = 0;
+            cdSale.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity.flag = 0;
 //                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment,bundle);
-                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
+                    Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
 //                bundle.putString("tvSaleT",BundleTForSale);
-            }
-        });
+                }
+            });
 
-        cdQA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.flag = 1;
+            cdQA.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity.flag = 1;
 //                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment,bundle);
-                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
+                    Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
 //                bundle.putString("tvQAT",BundleTForQA);
-            }
-        });
+                }
+            });
 
-        cdSystem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.flag = 2;
+            cdSystem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity.flag = 2;
 //                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment,bundle);
-                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
+                    Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
 //                bundle.putString("tvSystemT",BundleTForSystem);
-            }
-        });
+                }
+            });
+        }
 
     }
 
 
     private void findViews(View view) {
-
-        rvNotice = view.findViewById(R.id.rvNotice);
-        cdSystem = view.findViewById(R.id.cdSystem);
-        cdQA = view.findViewById(R.id.cdQA);
-        cdSale = view.findViewById(R.id.cdSale);
-        searchView = view.findViewById(R.id.searchView);
-        tvSaleT = view.findViewById(R.id.tvSaleT);
-        tvSaleD = view.findViewById(R.id.tvSaleD);
-        tvQAT = view.findViewById(R.id.tvQAT);
-        tvQAD = view.findViewById(R.id.tvQAD);
-        tvSystemT = view.findViewById(R.id.tvSystemT);
-        tvSystemD = view.findViewById(R.id.tvSystemDetailD);
-        tvSaleD.setText(saleLast.getNotice_Content());
-        tvQAD.setText(qaLast.getNotice_Content());
-        tvSystemD.setText(systemLast.getNotice_Content());
-        rvNotice.setLayoutManager(new LinearLayoutManager(activity));
-        rvNotice.setAdapter(new NoticeAdapter(activity, notice));
+        if (notice == null || notice.isEmpty()) {
+            Common.showToast(activity, R.string.textnofound);
+        } else {
+            rvNotice = view.findViewById(R.id.rvNotice);
+            cdSystem = view.findViewById(R.id.cdSystem);
+            cdQA = view.findViewById(R.id.cdQA);
+            cdSale = view.findViewById(R.id.cdSale);
+            searchView = view.findViewById(R.id.searchView);
+            tvSaleT = view.findViewById(R.id.tvSaleT);
+            tvSaleD = view.findViewById(R.id.tvSaleD);
+            tvQAT = view.findViewById(R.id.tvQAT);
+            tvQAD = view.findViewById(R.id.tvQAD);
+            tvSystemT = view.findViewById(R.id.tvSystemT);
+            tvSystemD = view.findViewById(R.id.tvSystemDetailD);
+            tvSaleD.setText(saleLast.getNotice_Content());
+            tvQAD.setText(qaLast.getNotice_Content());
+            tvSystemD.setText(systemLast.getNotice_Content());
+            rvNotice.setLayoutManager(new LinearLayoutManager(activity));
+            rvNotice.setAdapter(new NoticeAdapter(activity, notice));
+        }
     }
 
     private void initData() {
@@ -150,6 +155,8 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         saleLast = getLastSaleN();
         qaLast = getLastQAN();
         systemLast = getLastSystemN();
+
+
 //            for (int i = 0 ; i<=notice.size() ; i++){
 //                 int Notice_ID = ;
 //                 String Notice_Content;
@@ -260,6 +267,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
                 Log.e(TAG, e.toString());
             }
         } else {
+
             Common.showToast(activity, R.string.textNoNetwork);
         }
         return notices;
@@ -289,6 +297,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
+
             final Notice notice = noticeList.get(position);
             int notice_ID = notice.getNotice_ID();
             holder.tvNoticeT.setText(notice.getNotice_Title());

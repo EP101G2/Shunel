@@ -64,7 +64,7 @@ public class noticeDetailFragment extends Fragment {
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
         initData();
         /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
-       setSystemServices();
+        setSystemServices();
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
         setLinstener();
 //        Bundle bundle = getArguments();
@@ -137,6 +137,8 @@ public class noticeDetailFragment extends Fragment {
                 case 2:
                     jsonObject.addProperty("action", "getSystemAll");
 
+                    break;
+
             }
             String jsonOut = jsonObject.toString();
             noticeGetAllTask = new CommonTask(url, jsonOut);
@@ -173,27 +175,45 @@ public class noticeDetailFragment extends Fragment {
         }
 
 
-
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             final Notice notice = noticeDetail.get(position);
             int notice_ID = notice.getNotice_ID();
             switch (MainActivity.flag) {
-//                case 0:
-//                    
-//                case 1:
+                case 0:
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Bundle bundle = new Bundle();
+                            String saleTitle =  notice.getNotice_Title().trim();
+                            String saleDetail = notice.getNotice_Content().trim();
+                            if (saleTitle.isEmpty() || saleDetail.isEmpty()) {
+                                Common.showToast(activity, R.string.textnofound);
+                            }
+                            bundle.putString("saleTitle", saleTitle);
+                            bundle.putString("saleDetail", saleDetail);
+                            Navigation.findNavController(view)
+                                    .navigate(R.id.action_noticeDetailFragment_to_saleDetailFragment, bundle);
+
+                        }
+                    });
+                    break;
+
+//              case 1:
 
                 case 2:
-                holder.ivProductMini.setImageResource(R.drawable.ic_action_gear2);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("notice", notice);
-                        Navigation.findNavController(view)
-                                .navigate(R.id.action_noticeDetailFragment_to_systemDetailFragment, bundle);
-                    }
-                });
+                    holder.ivProductMini.setImageResource(R.drawable.ic_action_gear2);
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("noticeSystem", notice);
+                            Navigation.findNavController(view)
+                                    .navigate(R.id.action_noticeDetailFragment_to_systemDetailFragment, bundle);
+                        }
+
+                    });
+                    break;
             }
             holder.tvNoticeT.setText(notice.getNotice_Title());
             holder.tvNoticeD.setText(notice.getNotice_time().toString());
