@@ -105,6 +105,7 @@ public class OrderListFragment extends Fragment{
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+<<<<<<< HEAD
 
 //        imageViews, onClick Listener(select from status)
         ivNotYetDelivered = ivNotYetDelivered.findViewById(R.id.ivNotYetDelivered);
@@ -112,6 +113,14 @@ public class OrderListFragment extends Fragment{
         ivReceived = ivReceived.findViewById(R.id.ivReceived);
         ivCanceled = ivCanceled.findViewById(R.id.ivCanceled);
         ivRefounded = ivRefounded.findViewById(R.id.ivRefounded);
+=======
+//        searchViews, onClick Listener
+        ivNotYetDelivered = view.findViewById(R.id.ivNotYetDelivered);
+        ivDelivered = view.findViewById(R.id.ivDelivered);
+        ivReceived = view.findViewById(R.id.ivReceived);
+        ivCanceled = view.findViewById(R.id.ivCanceled);
+        ivRefounded = view.findViewById(R.id.ivRefounded);
+>>>>>>> 7479e0d5029386defce70bfdf16a1acab0a92e93
 
 
 
@@ -195,8 +204,8 @@ public class OrderListFragment extends Fragment{
         }//ok
 
         public int getItemCount(){
-            return ordersList.size();
-        }//ok
+            return ordersList == null ? 0 : ordersList.size();
+        }//ok ordersList == null ? 0 : ordersList.size();
 
         @NonNull
         @Override
@@ -216,9 +225,9 @@ public class OrderListFragment extends Fragment{
 
             holder.ivOrderProductPic.setImageResource(orders.getImageId());
             holder.tvOrderIdText.setText(R.string.textOrderIdText);
-            holder.tvOrderId.setText(orders.getOrderId());
+            holder.tvOrderId.setText(String.valueOf(orders.getOrderId()));
             holder.tvOrderStatusText.setText(R.string.textOrderStatusText);
-            holder.tvOrderStatus.setText(orders.getOrderStatus());
+            holder.tvOrderStatus.setText(String.valueOf(orders.getOrderStatus()));
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
