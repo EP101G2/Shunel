@@ -5,17 +5,17 @@ public class Order_Detail {
     //宣告區
     private int order_ID;
     private int order_Detail_Amount;
-    private int Prount_ID;
+    private int product_ID;
     private int order_Detail_Buy_Price;
     private String color;
     private int imageId;
 
-    public Order_Detail(int order_ID, int order_Detail_Amount, int prount_ID, int order_Detail_Buy_Price,
+    public Order_Detail(int order_ID, int order_Detail_Amount, int product_ID, int order_Detail_Buy_Price,
                         String color, int imageId) {
         super();
         this.order_ID = order_ID;
         this.order_Detail_Amount = order_Detail_Amount;
-        this.Prount_ID = prount_ID;
+        this.product_ID = product_ID;
         this.order_Detail_Buy_Price = order_Detail_Buy_Price;
         this.color = color;
         this.imageId = imageId;
@@ -39,12 +39,12 @@ public class Order_Detail {
         this.order_Detail_Amount = order_Detail_Amount;
     }
 
-    public int getPrount_ID() {
-        return Prount_ID;
+    public int getProduct_ID() {
+        return product_ID;
     }
 
-    public void setPrount_ID(int prount_ID) {
-        Prount_ID = prount_ID;
+    public void setProduct_ID(int product_ID) {
+        this.product_ID = product_ID;
     }
 
     public int getOrder_Detail_Buy_Price() {

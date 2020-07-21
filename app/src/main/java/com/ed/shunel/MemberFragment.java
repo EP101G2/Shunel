@@ -135,7 +135,16 @@ public class MemberFragment extends Fragment {
         cvOrderlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2);
+                Bundle bundle = new Bundle();
+                String account_ID = tvId.getText().toString().trim();
+                if (account_ID.isEmpty()) {
+                    tvId.setError("Account_ID is empty");
+                }
+                bundle.putString("Account_ID", account_ID);
+//                User_Account userAccount;
+//                userAccount = new User_Account(account_ID);
+//                bundle.putSerializable("Account_ID", userAccount);//
+                Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2, bundle);
             }
         });
 
