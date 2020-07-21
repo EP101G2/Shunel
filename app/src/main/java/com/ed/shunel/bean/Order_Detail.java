@@ -8,15 +8,17 @@ public class Order_Detail {
     private int Prount_ID;
     private int order_Detail_Buy_Price;
     private String color;
+    private int imageId;
 
     public Order_Detail(int order_ID, int order_Detail_Amount, int prount_ID, int order_Detail_Buy_Price,
-                        String color) {
+                        String color, int imageId) {
         super();
         this.order_ID = order_ID;
         this.order_Detail_Amount = order_Detail_Amount;
         this.Prount_ID = prount_ID;
         this.order_Detail_Buy_Price = order_Detail_Buy_Price;
         this.color = color;
+        this.imageId = imageId;
     }
     //建構子
 
@@ -61,4 +63,11 @@ public class Order_Detail {
         this.color = color;
     }
 
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
+    }
 }

@@ -79,6 +79,7 @@ public class OrderListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.fragment_order_list, container, false);
     }
     //set up for rvOrderList
@@ -86,12 +87,14 @@ public class OrderListFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvOrderList = view.findViewById(R.id.rvOrderList);
-        rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
+//        rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvOrderList.setAdapter(new OrderListAdapter(getContext(), ordersList));
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutOrder);
         rvOrderList.setLayoutManager(new LinearLayoutManager(activity));
+
         ordersList = getOrders();
         showOrders(ordersList);
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutOrder);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -102,12 +105,24 @@ public class OrderListFragment extends Fragment{
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-//        searchViews, onClick Listener
+<<<<<<< HEAD
+
+//        imageViews, onClick Listener(select from status)
         ivNotYetDelivered = ivNotYetDelivered.findViewById(R.id.ivNotYetDelivered);
         ivDelivered = ivDelivered.findViewById(R.id.ivDelivered);
         ivReceived = ivReceived.findViewById(R.id.ivReceived);
         ivCanceled = ivCanceled.findViewById(R.id.ivCanceled);
         ivRefounded = ivRefounded.findViewById(R.id.ivRefounded);
+=======
+//        searchViews, onClick Listener
+        ivNotYetDelivered = view.findViewById(R.id.ivNotYetDelivered);
+        ivDelivered = view.findViewById(R.id.ivDelivered);
+        ivReceived = view.findViewById(R.id.ivReceived);
+        ivCanceled = view.findViewById(R.id.ivCanceled);
+        ivRefounded = view.findViewById(R.id.ivRefounded);
+>>>>>>> 7479e0d5029386defce70bfdf16a1acab0a92e93
+
+
 
 //        svNotYetDelivered.setOnSearchClickListener(new SearchView.OnClickListener() {
 //            @Override
@@ -189,8 +204,8 @@ public class OrderListFragment extends Fragment{
         }//ok
 
         public int getItemCount(){
-            return ordersList.size();
-        }//ok
+            return ordersList == null ? 0 : ordersList.size();
+        }//ok ordersList == null ? 0 : ordersList.size();
 
         @NonNull
         @Override
@@ -210,9 +225,9 @@ public class OrderListFragment extends Fragment{
 
             holder.ivOrderProductPic.setImageResource(orders.getImageId());
             holder.tvOrderIdText.setText(R.string.textOrderIdText);
-            holder.tvOrderId.setText(orders.getOrderId());
+            holder.tvOrderId.setText(String.valueOf(orders.getOrderId()));
             holder.tvOrderStatusText.setText(R.string.textOrderStatusText);
-            holder.tvOrderStatus.setText(orders.getOrderStatus());
+            holder.tvOrderStatus.setText(String.valueOf(orders.getOrderStatus()));
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
