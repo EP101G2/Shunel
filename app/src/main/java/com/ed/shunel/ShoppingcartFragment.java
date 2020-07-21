@@ -144,6 +144,7 @@ public class ShoppingcartFragment extends Fragment {
             public void onClick(View v) {
 
                 String content = "";
+                String orderId = "";
                 listdatas.clear();
                 Map<Integer, Boolean> map = shopp_cart_adapter.getMap();
                 for (int i = 0; i < shopping_cartList.size(); i++) {
@@ -175,9 +176,13 @@ public class ShoppingcartFragment extends Fragment {
                         String jsonOut = jsonObject.toString();
                         Log.i("---------", jsonOut);
                         shopGetall = new CommonTask(url, jsonOut);
-
+//                        orderId=shopGetall.toString();
+//                        orderId=Integer.parseInt(shopGetall);
                         try {
                             String jsonIn = shopGetall.execute().get();
+                            Log.i("888888","9999999999"+jsonIn);
+                            orderId = jsonIn;
+                            Log.i("888888","9999999999"+orderId);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -188,7 +193,9 @@ public class ShoppingcartFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("shopcard", shopping_cart_list);
                     bundle.putString("total", String.valueOf(totalPrice));
-//                    bundle.
+                    bundle.putString("orderId",orderId);
+                    Log.i("888888","7777777777"+orderId);
+//                    bu
                     Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment, bundle);
 //                    map.clear(listdatas.removeAll());
                 }

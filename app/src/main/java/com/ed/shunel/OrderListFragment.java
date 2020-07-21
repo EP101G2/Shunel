@@ -2,27 +2,21 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
@@ -34,10 +28,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,12 +97,22 @@ public class OrderListFragment extends Fragment{
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+<<<<<<< HEAD
 //        imageViews, onClick Listener, statement filter
+=======
+
+//        imageViews, onClick Listener(select from status)
+//        searchViews, onClick Listener
+>>>>>>> 2a0b596c2e5b98b43dfcffc1d8ef9973d637b1d6
         ivNotYetDelivered = view.findViewById(R.id.ivNotYetDelivered);
         ivDelivered = view.findViewById(R.id.ivDelivered);
         ivReceived = view.findViewById(R.id.ivReceived);
         ivCanceled = view.findViewById(R.id.ivCanceled);
         ivRefounded = view.findViewById(R.id.ivRefounded);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2a0b596c2e5b98b43dfcffc1d8ef9973d637b1d6
 
         ivNotYetDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
