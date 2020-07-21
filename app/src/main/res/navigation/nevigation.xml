@@ -108,7 +108,11 @@
         android:id="@+id/productDetailFragment"
         android:name="com.ed.shunel.ProductDetailFragment"
         android:label="fragment_product_detail"
-        tools:layout="@layout/fragment_product_detail" />
+        tools:layout="@layout/fragment_product_detail" >
+        <action
+            android:id="@+id/action_productDetailFragment_to_buyerFragment"
+            app:destination="@id/buyerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/orderListFragment2"
         android:name="com.ed.shunel.OrderListFragment"
@@ -183,7 +187,11 @@
         android:id="@+id/modifyPasswordFragment"
         android:name="com.ed.shunel.ModifyPasswordFragment"
         android:label="fragment_modify_password"
-        tools:layout="@layout/fragment_modify_password" />
+        tools:layout="@layout/fragment_modify_password" >
+        <action
+            android:id="@+id/action_modifyPasswordFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+    </fragment>
     <fragment
 
         android:id="@+id/likeDetail_SamFragment"
@@ -205,7 +213,10 @@
         android:id="@+id/orderDetailFragment"
         android:name="com.ed.shunel.OrderDetailFragment"
         android:label="fragment_order_detail"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 08eefa1c6578ad26535bd94a81a49fe451b65d64
         tools:layout="@layout/fragment_order_detail" />
     <fragment
         android:id="@+id/systemDetailFragment"
@@ -217,7 +228,12 @@
         android:name="com.ed.shunel.SaleDetailFragment"
         android:label="fragment_sale_detail"
         tools:layout="@layout/fragment_sale_detail" />
+<<<<<<< HEAD
         tools:layout="@layout/fragment_order_detail" >
+=======
+
+
+>>>>>>> 08eefa1c6578ad26535bd94a81a49fe451b65d64
         <action
             android:id="@+id/action_orderDetailFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />

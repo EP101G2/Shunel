@@ -87,10 +87,6 @@ public class DeliveryFragment extends Fragment {
 
 
 
-//        TPDSetup.initInstance(getApplicationContext(),
-//                Integer.parseInt(getString(R.string.TapPay_AppID)),
-//                getString(R.string.TapPay_AppKey),
-//                TPDServerType.Sandbox);
 
         prepareGooglePay();
 
@@ -146,6 +142,7 @@ public class DeliveryFragment extends Fragment {
                         // 設定幣別
                         .setCurrencyCode("TWD")
                         .build(), LOAD_PAYMENT_DATA_REQUEST_CODE);
+
             }
         });
 
@@ -156,7 +153,7 @@ public class DeliveryFragment extends Fragment {
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPrimeFromTapPay(paymentData);
+//                getPrimeFromTapPay(paymentData);
             }
         });
 
@@ -169,38 +166,39 @@ public class DeliveryFragment extends Fragment {
     }
 
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
-//            switch (resultCode) {
-//                case Activity.RESULT_OK:
-//                    btConfirm.setEnabled(true);
-//                    // 取得支付資訊
-//                    paymentData = PaymentData.getFromIntent(data);
-//                    if (paymentData != null) {
-//                        showPaymentInfo(paymentData);
-//                    }
-//                    break;
-//                case Activity.RESULT_CANCELED:
-//                    btConfirm.setEnabled(false);
-//                    tvResult.setText(R.string.textCanceled);
-//                    break;
-//                case AutoResolveHelper.RESULT_ERROR:
-//                    btConfirm.setEnabled(false);
-//                    Status status = AutoResolveHelper.getStatusFromIntent(data);
-//                    if (status != null) {
-//                        String text = "status code: " + status.getStatusCode() +
-//                                " , message: " + status.getStatusMessage();
-//                        Log.d(TAG, text);
-//                        tvResult.setText(text);
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    btConfirm.setEnabled(true);
+                    // 取得支付資訊
+                    paymentData = PaymentData.getFromIntent(data);
+                    if (paymentData != null) {
+                        showPaymentInfo(paymentData);
+                        getPrimeFromTapPay(paymentData);
+                    }
+                    break;
+                case Activity.RESULT_CANCELED:
+                    btConfirm.setEnabled(false);
+                    tvResult.setText(R.string.textCanceled);
+                    break;
+                case AutoResolveHelper.RESULT_ERROR:
+                    btConfirm.setEnabled(false);
+                    Status status = AutoResolveHelper.getStatusFromIntent(data);
+                    if (status != null) {
+                        String text = "status code: " + status.getStatusCode() +
+                                " , message: " + status.getStatusMessage();
+                        Log.d(TAG, text);
+                        tvResult.setText(text);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
 
     private void showPaymentInfo(PaymentData paymentData) {
@@ -231,8 +229,8 @@ public class DeliveryFragment extends Fragment {
                            參看圖示 https://docs.tappaysdk.com/google-pay/zh/home.html#home 向下捲動即可看到 */
                     public void onSuccess(String prime, TPDCardInfo tpdCardInfo) {
                         hideProgressDialog();
-//
-//                        String text = "Your prime is " + prime
+
+                        String text = "Your prime is " + prime;
 //                                + "\n\nUse below cURL to proceed the payment : \n"
 //                                /* 手機得到prime後，一般會傳給商家server端再呼叫payByPrime方法提交給TapPay，以確認這筆訂單
 //                                   現在為了方便，手機直接提交給TapPay */
@@ -240,7 +238,7 @@ public class DeliveryFragment extends Fragment {
 //                                getString(R.string.TapPay_PartnerKey),
 //                                getString(R.string.TapPay_MerchantID),getString(t));
 //                        Log.d(TAG, text);
-//                        tvResult.setText(text);
+                        tvResult.setText(text);
                     }
                 },
                 new TPDTokenFailureCallback() {
@@ -274,37 +272,6 @@ public class DeliveryFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
-            switch (resultCode) {
-                case Activity.RESULT_OK:
-                    btConfirm.setEnabled(true);
-                    // 取得支付資訊
-                    paymentData = PaymentData.getFromIntent(data);
-                    if (paymentData != null) {
-                        showPaymentInfo(paymentData);
-                    }
-                    break;
-                case Activity.RESULT_CANCELED:
-                    btConfirm.setEnabled(false);
-                    tvResult.setText(R.string.textCanceled);
-                    break;
-                case AutoResolveHelper.RESULT_ERROR:
-                    btConfirm.setEnabled(false);
-                    Status status = AutoResolveHelper.getStatusFromIntent(data);
-                    if (status != null) {
-                        String text = "status code: " + status.getStatusCode() +
-                                " , message: " + status.getStatusMessage();
-                        Log.d(TAG, text);
-                        tvResult.setText(text);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+
 
 }

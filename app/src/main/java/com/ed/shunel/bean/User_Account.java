@@ -39,6 +39,9 @@ public class User_Account implements Serializable {
     }
 
 
+    public User_Account() {
+
+    }
 
     public String getAccount_User_Name() {
         return Account_User_Name;

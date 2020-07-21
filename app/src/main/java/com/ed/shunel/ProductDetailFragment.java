@@ -26,6 +26,8 @@ import androidx.navigation.Navigation;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
+import com.ed.shunel.bean.Order_Main;
+import com.ed.shunel.bean.Product_List;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
@@ -55,13 +57,17 @@ public class ProductDetailFragment extends Fragment {
     private Shopping_Cart shopping_cart;
     private User_Account user_account;
     private int select_Amount = 0;
-    private CommonTask addTask,like;
+    private CommonTask addTask,like,nowBuy;
     private SharedPreferences sharedPreferences;
     //    private int[] sp= {1,2,3,4,5,6,7,8,9,10};
     private ArrayAdapter<Integer> adapter;
     private List<Integer> list = new ArrayList<Integer>();
+    private List<Product> productList = new ArrayList<>();
     String follow;
     JsonObject jsonObject1;
+    private int totalPrice = 0;
+    private Shopping_Cart_List shopping_cart_list;
+    private Product_List product_list;
 
 
 
@@ -388,6 +394,66 @@ public class ProductDetailFragment extends Fragment {
                 }
 
 
+            }
+        });
+
+
+//        直接購買
+        tv_Buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Common.networkConnected(activity)) {
+
+                    if (Common.getPreherences(activity).getString("id", "").equals("")) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(activity, LoginActivity.class);
+                        startActivity(intent);
+                    } else {
+
+
+                        String account = Common.getPreherences(activity).getString("id", "");
+                        String name =Common.getPreherences(activity).getString("name","");
+                        String address =Common.getPreherences(activity).getString("address","");
+                        String phone =Common.getPreherences(activity).getString("phone","");
+                        Log.i(TAG, "id");
+//                        product_list.setCart(product);
+                        productList.add(product);
+                        Product_List pl = new Product_List(productList);
+                        Order_Main orderMain = new Order_Main(account,totalPrice,name,address,phone,0);
+//                        Order_Detail orderDetail = new Order_Detail()
+                        String url = Common.URL_SERVER + "Prouct_Servlet";
+                        JsonObject jsonObject = new JsonObject();
+
+
+                        jsonObject.addProperty("action", "addOrderMain");
+                        jsonObject.addProperty("OrderID", new Gson().toJson(orderMain));
+                        jsonObject.addProperty("OrderDetail", new Gson().toJson(productList));
+
+                        int count = 0;
+
+                        try {
+                            nowBuy = new CommonTask(url, jsonObject.toString());
+//
+                            String result = nowBuy.execute().get();
+                            Log.i(TAG, result);
+                            count = Integer.parseInt(result);
+//                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        Bundle bundle =new Bundle();
+                        bundle.putSerializable("nowBuy",pl);
+                        bundle.putString("total", String.valueOf(totalPrice));
+//                        再補傳送物件
+//                        Navigation.findNavController(v).navigate(R.id.action_productDetailFragment_to_buyerFragment,bundle);
+                    }
+
+
+                }
             }
         });
 

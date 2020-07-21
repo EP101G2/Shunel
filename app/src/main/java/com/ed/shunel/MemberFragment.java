@@ -3,12 +3,14 @@ package com.ed.shunel;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,9 +22,12 @@ import androidx.navigation.Navigation;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.Task.ImageTaskUser;
 import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import java.util.concurrent.ExecutionException;
 
 import static android.content.ContentValues.TAG;
 
@@ -37,6 +42,10 @@ public class MemberFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private TextView tvId, tv_Name;
     private CommonTask memberTask;
+    private ImageTaskUser imageTask;
+    private int imageSize;
+    private ImageView ivUser;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,14 +85,13 @@ public class MemberFragment extends Fragment {
         btn_Logout = view.findViewById(R.id.btn_Logout);
         tvId = view.findViewById(R.id.tvId);
         tv_Name = view.findViewById(R.id.tv_Name);
+        ivUser=view.findViewById(R.id.ivUser);
 
 
 
 
         if (sharedPreferences.getString("id", "").equals("")) {
-//            Intent intent=new Intent();
-//            intent.setClass(getActivity(),LoginFragment.class);
-//            startActivity(intent);
+
             Intent intent = new Intent();
             intent.setClass(activity, LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
             startActivity(intent);
@@ -140,20 +148,53 @@ public class MemberFragment extends Fragment {
         Log.e("ID_PAS", Common.getPreherences(activity).getString("id", ""));
         memberTask = new CommonTask(url, jsonObject.toString());
         String jsonIn = "";
+
         try {
             jsonIn = memberTask.execute().get();
 
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
+        Log.e("------------",jsonIn);
+        Log.e("------------",sharedPreferences.getString("id", ""));
+        Log.e("------------",sharedPreferences.getString("password", ""));
+
+
+      //沒登入執行會錯這邊，問謝哥
         JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
         String result = jsonObject2.get("user").getAsString();
         User_Account user_account = gson.fromJson(result, User_Account.class);
         tv_Name.setText(user_account.getAccount_User_Name());
         tvId.setText(user_account.getAccount_ID());
 
+
+
+        String Pic=Common.getPreherences(activity).getString("id","");
+        imageSize = getResources().getDisplayMetrics().widthPixels / 4;
+        imageTask= new ImageTaskUser(url,Pic,imageSize);
+        try {
+            Bitmap bitmap=imageTask.execute().get();
+            if (bitmap == null){
+                ivUser.setImageResource(R.drawable.no_image);
+            }else {
+                ivUser.setImageBitmap(bitmap);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Log.e("TAG", "123");
+        Common.getPreherences(activity).edit().apply();
+
+
+
+
+
     }
+
+
+
 
     private void Logout() {
         Common.getPreherences(activity).edit().clear().apply();
