@@ -1,6 +1,8 @@
 package com.ed.shunel;
 
-public class Orders {
+import java.io.Serializable;
+
+public class Orders implements Serializable {
     private int orderId;
     private static int orderStatus;
     private int imageId;

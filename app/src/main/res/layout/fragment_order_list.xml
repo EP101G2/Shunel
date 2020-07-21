@@ -69,42 +69,42 @@
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <SearchView
-                android:id="@+id/svNotYetDelivered"
-                android:layout_width="72dp"
+            <ImageView
+                android:id="@+id/ivNotYetDelivered"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:searchIcon="@drawable/notyetdelivered" />
+                android:layout_weight="1"
+                android:src="@drawable/notyetdelivered" />
 
-            <SearchView
-                android:id="@+id/svDelivered"
-                android:layout_width="72dp"
+            <ImageView
+                android:id="@+id/ivDelivered"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:searchIcon="@drawable/delivered" />
+                android:layout_weight="1"
+                android:src="@drawable/delivered" />
 
-            <SearchView
-                android:id="@+id/svReceived"
-                android:layout_width="72dp"
+            <ImageView
+                android:id="@+id/ivReceived"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:searchIcon="@drawable/received" />
+                android:layout_weight="1"
+                android:src="@drawable/received" />
 
-            <SearchView
-                android:id="@+id/svCanceled"
-                android:layout_width="72dp"
+            <ImageView
+                android:id="@+id/ivCanceled"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:searchIcon="@drawable/canceled" />
+                android:layout_weight="1"
+                android:src="@drawable/canceled" />
 
-            <SearchView
-                android:id="@+id/svRefounded"
-                android:layout_width="72dp"
+            <ImageView
+                android:id="@+id/ivRefounded"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:searchIcon="@drawable/refounded" >
-
-            </SearchView>
+                android:layout_weight="1"
+                android:src="@drawable/refounded" />
         </LinearLayout>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayoutOrder"
             android:layout_width="match_parent"

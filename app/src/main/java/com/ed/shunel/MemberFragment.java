@@ -161,11 +161,11 @@ public class MemberFragment extends Fragment {
 
 
       //沒登入執行會錯這邊，問謝哥
-//        JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-//        String result = jsonObject2.get("user").getAsString();
-//        User_Account user_account = gson.fromJson(result, User_Account.class);
-//        tv_Name.setText(user_account.getAccount_User_Name());
-//        tvId.setText(user_account.getAccount_ID());
+        JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
+        String result = jsonObject2.get("user").getAsString();
+        User_Account user_account = gson.fromJson(result, User_Account.class);
+        tv_Name.setText(user_account.getAccount_User_Name());
+        tvId.setText(user_account.getAccount_ID());
 
 
 

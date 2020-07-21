@@ -85,15 +85,6 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //stable text
-//        tvOrderIdText = view.findViewById(R.id.tvOrderIdText);
-//        tvOrderDetStatusText = view.findViewById(R.id.tvOrderDetStatusText);
-//        tvTotalPriceText = view.findViewById(R.id.tvTotalPriceText);
-//        tvReceiverTitle = view.findViewById(R.id.tvReceiverTitle);
-//        tvOrderDNameT = view.findViewById(R.id.tvOrderDNameT);
-//        tvOrderDPhoneT = view.findViewById(R.id.tvOrderDPhoneNumT);
-//        tvOrderDetailAddressT = view.findViewById(R.id.tvOderDetailAddressT);
-        //data need to be inserted
         orderDetailList = getOrderDetailList();
         tvOrderId = view.findViewById(R.id.tvOrderId);
         tvOrderStatus = view.findViewById(R.id.tvOrderStatus);
@@ -101,10 +92,6 @@ public class OrderDetailFragment extends Fragment {
         tvPhone = view.findViewById(R.id.tvPhone);
         tvAddress = view.findViewById(R.id.tvAddress);
         tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
-//        these need to go to adapter
-//        tvProductName = view.findViewById(R.id.tvProductName);
-//        tvProductPrice = view.findViewById(R.id.tvProductPrice);
-//        ivOrderProductPic = view.findViewById(R.id.ivOrderProductPic);
 
         rvOrderDetProList = view.findViewById(R.id.rvOrderDetProList);
         rvOrderDetProList.setLayoutManager(new LinearLayoutManager(activity));
@@ -135,7 +122,7 @@ public class OrderDetailFragment extends Fragment {
                 super(itemView);
                 tvProductName = itemView.findViewById(R.id.tvProductName);
                 tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
-                tvProductPriceT = itemView.findViewById(R.id.tvProductPriceT);
+//                tvProductPriceT = itemView.findViewById(R.id.tvProductPriceT);
                 ivOrderProductPic = itemView.findViewById(R.id.ivOrderProductPic);
 //                need not to be shown here
 //                tvOrderId = itemView.findViewById(R.id.tvOrderId);
