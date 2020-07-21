@@ -160,7 +160,7 @@ public class PayActivity extends AppCompatActivity {
         btConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeOrderStatus();
+//                changeOrderStatus();
             }
         });
 
@@ -214,7 +214,7 @@ public class PayActivity extends AppCompatActivity {
                     if (paymentData != null) {
                         showPaymentInfo(paymentData);
                         getPrimeFromTapPay(paymentData);
-//                        changeOrderStatus();
+                        changeOrderStatus();
                     }
 
                     break;
