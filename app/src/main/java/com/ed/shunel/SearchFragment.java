@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import com.ed.shunel.Task.Common;
@@ -34,6 +36,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
+    private ImageButton ibBack;
     private SearchView searchView;
     private List<Product> product;
     private CommonTask productGetAllTask;
@@ -67,6 +70,17 @@ public class SearchFragment extends Fragment {
         showBooks(product);
         recyclerView.setAdapter(new SearchAdapter_Sam(getContext(),product));
 
+
+
+        ibBack = view.findViewById(R.id.ibBack);
+        ibBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Navigation.findNavController(v).popBackStack();
+
+            }
+        });
 
 
 
