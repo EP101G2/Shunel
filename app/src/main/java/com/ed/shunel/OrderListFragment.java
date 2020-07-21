@@ -79,6 +79,7 @@ public class OrderListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.fragment_order_list, container, false);
     }
     //set up for rvOrderList
@@ -86,12 +87,14 @@ public class OrderListFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvOrderList = view.findViewById(R.id.rvOrderList);
-        rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
+//        rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvOrderList.setAdapter(new OrderListAdapter(getContext(), ordersList));
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutOrder);
         rvOrderList.setLayoutManager(new LinearLayoutManager(activity));
+
         ordersList = getOrders();
         showOrders(ordersList);
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutOrder);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -102,12 +105,15 @@ public class OrderListFragment extends Fragment{
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-//        searchViews, onClick Listener
+
+//        imageViews, onClick Listener(select from status)
         ivNotYetDelivered = ivNotYetDelivered.findViewById(R.id.ivNotYetDelivered);
         ivDelivered = ivDelivered.findViewById(R.id.ivDelivered);
         ivReceived = ivReceived.findViewById(R.id.ivReceived);
         ivCanceled = ivCanceled.findViewById(R.id.ivCanceled);
         ivRefounded = ivRefounded.findViewById(R.id.ivRefounded);
+
+
 
 //        svNotYetDelivered.setOnSearchClickListener(new SearchView.OnClickListener() {
 //            @Override
