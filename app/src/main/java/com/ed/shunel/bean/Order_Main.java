@@ -1,8 +1,9 @@
 package com.ed.shunel.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Order_Main {
+public class Order_Main implements Serializable {
 
     //宣告區
     private int Order_ID; //PK
