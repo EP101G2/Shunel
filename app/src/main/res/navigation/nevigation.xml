@@ -205,7 +205,7 @@
         android:id="@+id/orderDetailFragment"
         android:name="com.ed.shunel.OrderDetailFragment"
         android:label="fragment_order_detail"
-<<<<<<< HEAD
+
         tools:layout="@layout/fragment_order_detail" />
     <fragment
         android:id="@+id/systemDetailFragment"
@@ -217,12 +217,11 @@
         android:name="com.ed.shunel.SaleDetailFragment"
         android:label="fragment_sale_detail"
         tools:layout="@layout/fragment_sale_detail" />
-=======
         tools:layout="@layout/fragment_order_detail" >
         <action
             android:id="@+id/action_orderDetailFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/modifyInfoFragment"
         android:name="com.ed.shunel.ModifyInfoFragment"
@@ -232,6 +231,5 @@
             android:id="@+id/action_modifyInfoFragment_to_modifyNameFragment"
             app:destination="@id/modifyNameFragment" />
     </fragment>
->>>>>>> 32ca3444db8253ffb2ea94ef365b1671d05f591f
 
 </navigation>
