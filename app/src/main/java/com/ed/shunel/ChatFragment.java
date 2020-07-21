@@ -86,11 +86,13 @@ public class ChatFragment extends Fragment {
                 ChatMessage chatMessage = new ChatMessage("chat", sender, friend, message);
                 String chatMessageJson = new Gson().toJson(chatMessage);
                 chatWebSocketClient.send(chatMessageJson);
-
+                LayoutInflater messageInflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
                 Log.d(TAG, "output: " + chatMessageJson);
 
                 // 將欲傳送訊息顯示在TextView上
                 tvMessage.append(sender + ": " + message + "\n");
+//                convertView = messageInflater.inflate(R.layout.my_message, null);
+
                 // 將輸入的訊息清空
                 etMessage.setText(null);
                 // 捲動至最新訊息
