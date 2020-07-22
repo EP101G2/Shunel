@@ -89,8 +89,7 @@ public class HotProductFragment extends Fragment {
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getCategoryProduct");
-            jsonObject.addProperty("category_id", 1);
+            jsonObject.addProperty("action", "getTOP5Product");
             productGetAllTask = new CommonTask(url, jsonObject.toString());
             try {
                 String jsonIn = productGetAllTask.execute().get();
