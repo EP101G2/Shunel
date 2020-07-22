@@ -23,11 +23,8 @@ public class Common {
     private static final String TAG = "TAG_Common";
 
     public static String URL_SERVER = "http://10.0.2.2:8080/Shunel_Web/";
-<<<<<<< HEAD
 //public static String URL_SERVER = "http://192.168.43.249:8080/Shunel_Web/";
-=======
-//    public static String URL_SERVER = "http://192.168.43.249:8080/Shunel_Web/";
->>>>>>> d6767bc7429b390d70c5aa4588daf49bfcbad8b7
+
 
 
     //第三支付
