@@ -185,7 +185,9 @@
     <string name="textNewPw">請輸入新密碼：</string>
     <string name="textRePw">請再次輸入新密碼：</string>
 
+
     <string name="textWrongOldPassword">舊密碼不正確</string>
     <string name="searchtext">請輸入您想找的商品</string>
+
 
 </resources>

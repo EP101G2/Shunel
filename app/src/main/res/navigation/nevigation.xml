@@ -93,9 +93,8 @@
         android:label="fragment_buyer"
         tools:layout="@layout/fragment_buyer">
         <action
-            android:id="@+id/action_buyerFragment_to_deliveryFragment"
-            app:destination="@id/deliveryFragment" />
-
+            android:id="@+id/action_buyerFragment_to_orderListFragment2"
+            app:destination="@id/orderListFragment2" />
     </fragment>
 
     <fragment
@@ -212,7 +211,8 @@
     <fragment
         android:id="@+id/orderDetailFragment"
         android:name="com.ed.shunel.OrderDetailFragment"
-        android:label="fragment_order_detail"/>
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" />
 
     <fragment
         android:id="@+id/systemDetailFragment"

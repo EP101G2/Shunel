@@ -60,6 +60,8 @@ public class PayActivity extends AppCompatActivity {
     private String phone;
     private CommonTask chageOrder;
     private String getOrder_main;
+    private int requestCode;
+    private int resultCode;
 
 
     @Override
@@ -204,6 +206,8 @@ public class PayActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        this.requestCode = requestCode;
+        this.resultCode = resultCode;
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
             switch (resultCode) {
@@ -213,8 +217,11 @@ public class PayActivity extends AppCompatActivity {
                     paymentData = PaymentData.getFromIntent(data);
                     if (paymentData != null) {
                         showPaymentInfo(paymentData);
+                        Log.i("1111111","111111111");
                         getPrimeFromTapPay(paymentData);
+                        Log.i("2222222","222222222");
                         changeOrderStatus();
+
                     }
 
                     break;

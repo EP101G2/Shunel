@@ -14,7 +14,7 @@ public class OrderDetail {
 
 
 
-    public OrderDetail(int totalPrice, String address, String phone, String receiver, int productId, String productName, int buyPrice, int productImageId){
+    public OrderDetail(int orderId, int orderStatus, int totalPrice, String address, String phone, String receiver, int productId, String productName, int buyPrice, int productImageId){
         this.orderId = orderId;
         this.orderStatus = orderStatus;
         this.totalPrice = totalPrice;
