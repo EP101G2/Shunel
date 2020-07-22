@@ -1,10 +1,12 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,20 +27,36 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ed.shunel.Task.ApiUtil;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Order_Main;
 import com.ed.shunel.bean.Shopping_Cart;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
+import com.google.android.gms.wallet.TransactionInfo;
+import com.google.android.gms.wallet.WalletConstants;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import tech.cherri.tpdirect.api.TPDCardInfo;
+import tech.cherri.tpdirect.api.TPDConsumer;
 import tech.cherri.tpdirect.api.TPDGooglePay;
 import tech.cherri.tpdirect.api.TPDMerchant;
 import tech.cherri.tpdirect.api.TPDServerType;
 import tech.cherri.tpdirect.api.TPDSetup;
+import tech.cherri.tpdirect.callback.TPDGooglePayListener;
+import tech.cherri.tpdirect.callback.TPDTokenFailureCallback;
+import tech.cherri.tpdirect.callback.TPDTokenSuccessCallback;
 
+import static com.ed.shunel.Task.Common.CARD_TYPES;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +72,7 @@ public class BuyerFragment extends Fragment {
 
     private String total;
     private CommonTask orderMainUpdata;
-    private Order_Main oM=null;
+    private Order_Main oM = null;
     private Product product_list;
     private String orderId;
 
@@ -81,6 +99,15 @@ public class BuyerFragment extends Fragment {
     private RelativeLayout btBuy;
     private PaymentData paymentData;
     private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 101;
+    private int requestCode;
+    private int resultCode;
+    private CommonTask chageOrder;
+
+    String id = "";
+    String name = "";
+    String phone = "";
+    String address = "";
+//    private String getOrder_main;
 
     public BuyerFragment() {
         // Required empty public constructor
@@ -122,9 +149,6 @@ public class BuyerFragment extends Fragment {
                 TPDServerType.Sandbox);
 
 
-
-
-
         prepareGooglePay();
 
     }
@@ -132,37 +156,38 @@ public class BuyerFragment extends Fragment {
     private void prepareGooglePay() {
 
         TPDMerchant tpdMerchant = new TPDMerchant();
-//        // 設定商店名稱
-//        tpdMerchant.setMerchantName(getString(R.string.TapPay_MerchantName));
-//        // 設定允許的信用卡種類
-//        tpdMerchant.setSupportedNetworks(CARD_TYPES);
-//        // 設定客戶填寫項目
-//        TPDConsumer tpdConsumer = new TPDConsumer();
-//        // 不需要電話號碼
-//        tpdConsumer.setPhoneNumberRequired(false);
-//        // 不需要運送地址
-//        tpdConsumer.setShippingAddressRequired(false);
-//        // 不需要Email
-//        tpdConsumer.setEmailRequired(false);
-//
-//        tpdGooglePay = new TPDGooglePay(activity, tpdMerchant, tpdConsumer);
-//        // 檢查user裝置是否支援Google Pay
-//        tpdGooglePay.isGooglePayAvailable(new TPDGooglePayListener() {
-//            @Override
-//            public void onReadyToPayChecked(boolean isReadyToPay, String msg) {
-//                Log.d(TAG, "Pay with Google availability : " + isReadyToPay);
-//                if (isReadyToPay) {
-////                    btBuy.setEnabled(true);
-//                } else {
-////                    tvResult.setText(R.string.textCannotUseGPay);
-//                }
-//            }
-//        });
+        // 設定商店名稱
+        tpdMerchant.setMerchantName(getString(R.string.TapPay_MerchantName));
+        // 設定允許的信用卡種類
+        tpdMerchant.setSupportedNetworks(CARD_TYPES);
+        // 設定客戶填寫項目
+        TPDConsumer tpdConsumer = new TPDConsumer();
+        // 不需要電話號碼
+        tpdConsumer.setPhoneNumberRequired(false);
+        // 不需要運送地址
+        tpdConsumer.setShippingAddressRequired(false);
+        // 不需要Email
+        tpdConsumer.setEmailRequired(false);
+
+        tpdGooglePay = new TPDGooglePay(activity, tpdMerchant, tpdConsumer);
+        // 檢查user裝置是否支援Google Pay
+        tpdGooglePay.isGooglePayAvailable(new TPDGooglePayListener() {
+            @Override
+            public void onReadyToPayChecked(boolean isReadyToPay, String msg) {
+                Log.d(TAG, "Pay with Google availability : " + isReadyToPay);
+                if (isReadyToPay) {
+//                    btBuy.setEnabled(true);
+                } else {
+//                    tvResult.setText(R.string.textCannotUseGPay);
+                }
+            }
+        });
     }
 
     private void findViews(View view) {
 
         rv_Product = view.findViewById(R.id.rv_Product);
+
         tv_Buyer_Name = view.findViewById(R.id.tv_Buyer_Name);
         tv_Buyer_Phone = view.findViewById(R.id.tv_Phone);
         tv_Buyer_Address = view.findViewById(R.id.tv_Address);
@@ -170,9 +195,10 @@ public class BuyerFragment extends Fragment {
         btn_Pagenext = view.findViewById(R.id.btn_Pagenext);
 //        line_Address = view.findViewById(R.id.line_Address);
         tv_BuyTotal = view.findViewById(R.id.tv_BuyTotal);
-//        btBuy = view.findViewById(R.id.btnBuy);
+        btBuy = view.findViewById(R.id.btnBuy);
 //        btBuy.setEnabled(false);
-        rv_Product.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+
+
         final NavController navController = Navigation.findNavController(view);
         Bundle bundle = getArguments();
         if (bundle == null || bundle.getSerializable("shopcard") == null) {
@@ -188,13 +214,11 @@ public class BuyerFragment extends Fragment {
 //        }
 
 
-
-            shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("shopcard");
+        shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("shopcard");
 //        shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("nowBuy");
 
         total = bundle.getString("total");
         orderId = bundle.getString("orderId");
-
 
 
     }
@@ -209,51 +233,50 @@ public class BuyerFragment extends Fragment {
 
     private void setLinstener() {
 
-        String id = Common.getPreherences(activity).getString("id","");
-        final String name = Common.getPreherences(activity).getString("name", "");
-        final String phone = Common.getPreherences(activity).getString("phone", "");
-        String address = Common.getPreherences(activity).getString("address", "");
+        id = Common.getPreherences(activity).getString("id", "");
+        name = Common.getPreherences(activity).getString("name", "");
+        phone = Common.getPreherences(activity).getString("phone", "");
+        address = Common.getPreherences(activity).getString("address", "");
 
 
         tv_Buyer_Name.setText(name);
         tv_Buyer_Address.setText(address);
         tv_Buyer_Phone.setText(phone);
 
-//        btBuy.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 跳出user資訊視窗讓user確認，確認後會呼叫onActivityResult()
-//                Log.i(TAG,"btbuy1");
-//                tpdGooglePay.requestPayment(TransactionInfo.newBuilder()
-//                        .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
-//                        // 消費總金額
-//                        .setTotalPrice("10")
-//                        // 設定幣別
-//                        .setCurrencyCode("TWD")
-//                        .build(), LOAD_PAYMENT_DATA_REQUEST_CODE);
-//
-//            }
-//        });
+        btBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 跳出user資訊視窗讓user確認，確認後會呼叫onActivityResult()
+                Log.i(TAG, "btbuy1");
+                tpdGooglePay.requestPayment(TransactionInfo.newBuilder()
+                        .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
+                        // 消費總金額
+                        .setTotalPrice("10")
+                        // 設定幣別
+                        .setCurrencyCode("TWD")
+                        .build(), LOAD_PAYMENT_DATA_REQUEST_CODE);
+
+            }
+        });
 
         tv_BuyTotal.setText("總金額：" + total);
+
         rv_Product.setAdapter(new productAdapter(activity, shopping_cart_list.getCart()));
-//        rv_Product.setAdapter(new nowBuyAdapter(activity,));
-        oM = new Order_Main(id,Integer.parseInt(total),name,address,phone,0);
+        rv_Product.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+        oM = new Order_Main(id, Integer.parseInt(total), name, address, phone, 0);
         btn_Pagenext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PayActivity.class);
-                intent.putExtra("total", total);
-                intent.putExtra("name", name);
-                intent.putExtra("phone", phone);
-                intent.putExtra("orderId",orderId);
-//                intent.putExtra("order",oM.getOrder_ID());
-//                intent.putExtra("orderID", oM.getOrder_ID());
-//                Log.i(TAG,"111222222222"+ oM.getOrder_ID());
-                startActivity(intent);
-//                Navigation.findNavController(v).navigate(R.id.action_buyerFragment_to_deliveryFragment);
-
-
+//                Intent intent = new Intent(getActivity(), PayActivity.class);
+//                intent.putExtra("total", total);
+//                intent.putExtra("name", name);
+//                intent.putExtra("phone", phone);
+//                intent.putExtra("orderId", orderId);
+////                intent.putExtra("order",oM.getOrder_ID());
+////                intent.putExtra("orderID", oM.getOrder_ID());
+////                Log.i(TAG,"111222222222"+ oM.getOrder_ID());
+//                startActivity(intent);
+                Navigation.findNavController(v).navigate(R.id.action_buyerFragment_to_orderListFragment2);
 
 
             }
@@ -313,7 +336,7 @@ public class BuyerFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return product_list==null? 0: productList.size();
+            return product_list == null ? 0 : productList.size();
         }
 
         private class Myviewholder extends RecyclerView.ViewHolder {
@@ -342,110 +365,148 @@ public class BuyerFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
-//            switch (resultCode) {
-//                case Activity.RESULT_OK:
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        this.requestCode = requestCode;
+        this.resultCode = resultCode;
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
 //                    btConfirm.setEnabled(true);
-//                    // 取得支付資訊
-//                    paymentData = PaymentData.getFromIntent(data);
-//                    if (paymentData != null) {
-//                        showPaymentInfo(paymentData);
-//                        getPrimeFromTapPay(paymentData);
-//                    }
-//                    break;
-//                case Activity.RESULT_CANCELED:
+                    // 取得支付資訊
+                    paymentData = PaymentData.getFromIntent(data);
+                    if (paymentData != null) {
+                        showPaymentInfo(paymentData);
+                        getPrimeFromTapPay(paymentData);
+                        changeOrderStatus();
+                        Common.showToast(activity,"交易成功");
+                    }
+                    break;
+                case Activity.RESULT_CANCELED:
 //                    btConfirm.setEnabled(false);
 //                    tvResult.setText(R.string.textCanceled);
-//                    break;
-//                case AutoResolveHelper.RESULT_ERROR:
+                    Common.showToast(activity,"交易失敗");
+                    break;
+                case AutoResolveHelper.RESULT_ERROR:
 //                    btConfirm.setEnabled(false);
-//                    Status status = AutoResolveHelper.getStatusFromIntent(data);
-//                    if (status != null) {
-//                        String text = "status code: " + status.getStatusCode() +
-//                                " , message: " + status.getStatusMessage();
+                    Status status = AutoResolveHelper.getStatusFromIntent(data);
+                    if (status != null) {
+                        String text = "status code: " + status.getStatusCode() +
+                                " , message: " + status.getStatusMessage();
+                        Log.d(TAG, text);
+//                        tvResult.setText(text);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    public void showPaymentInfo(PaymentData paymentData) {
+
+        try {
+            JSONObject paymentDataJO = new JSONObject(paymentData.toJson());
+            String cardDescription = paymentDataJO.getJSONObject("paymentMethodData").getString
+                    ("description");
+//            tvPaymentInfo.setText(cardDescription);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void getPrimeFromTapPay(PaymentData paymentData) {
+        showProgressDialog();
+        /* 呼叫getPrime()只將支付資料提交給TapPay以取得prime (代替卡片的一次性字串，此字串的時效為 30 秒)，
+            參看https://docs.tappaysdk.com/google-pay/zh/reference.html#prime */
+        tpdGooglePay.getPrime(
+                paymentData,
+                new TPDTokenSuccessCallback() {
+                    @Override
+                    /* 一般而言，手機提交支付、信用卡資料給TapPay後，TapPay會將信用卡等資訊送至Bank確認是否合法，
+                           Bank會回一個暫時編號給TapPay方便後續支付確認，TapPay儲存該編號後再回一個自編prime給手機，
+                           手機再傳給server，server再呼叫payByPrime方法提交給TapPay，以確認這筆訂單，
+                           此時server就可發訊息告訴user訂單成立。
+                           參看圖示 https://docs.tappaysdk.com/google-pay/zh/home.html#home 向下捲動即可看到 */
+                    public void onSuccess(String prime, TPDCardInfo tpdCardInfo) {
+                        hideProgressDialog();
+
+                        String text = "Your prime is " + prime
+                                + "\n\nUse below cURL to proceed the payment : \n"
+                                /* 手機得到prime後，一般會傳給商家server端再呼叫payByPrime方法提交給TapPay，以確認這筆訂單
+                                   現在為了方便，手機直接提交給TapPay */
+                                + ApiUtil.generatePayByPrimeCURLForSandBox(prime,
+                                getString(R.string.TapPay_PartnerKey),
+                                getString(R.string.TapPay_MerchantID), total, name, phone);
 //                        Log.d(TAG, text);
 //                        tvResult.setText(text);
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
-//
-//
-//    private void showPaymentInfo(PaymentData paymentData) {
-//
-//        try {
-//            JSONObject paymentDataJO = new JSONObject(paymentData.toJson());
-//            String cardDescription = paymentDataJO.getJSONObject("paymentMethodData").getString
-//                    ("description");
-////            tvPaymentInfo.setText(cardDescription);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//
-//    private void getPrimeFromTapPay(PaymentData paymentData) {
-//        showProgressDialog();
-//        /* 呼叫getPrime()只將支付資料提交給TapPay以取得prime (代替卡片的一次性字串，此字串的時效為 30 秒)，
-//            參看https://docs.tappaysdk.com/google-pay/zh/reference.html#prime */
-//        tpdGooglePay.getPrime(
-//                paymentData,
-//                new TPDTokenSuccessCallback() {
-//                    @Override
-//                    /* 一般而言，手機提交支付、信用卡資料給TapPay後，TapPay會將信用卡等資訊送至Bank確認是否合法，
-//                           Bank會回一個暫時編號給TapPay方便後續支付確認，TapPay儲存該編號後再回一個自編prime給手機，
-//                           手機再傳給server，server再呼叫payByPrime方法提交給TapPay，以確認這筆訂單，
-//                           此時server就可發訊息告訴user訂單成立。
-//                           參看圖示 https://docs.tappaysdk.com/google-pay/zh/home.html#home 向下捲動即可看到 */
-//                    public void onSuccess(String prime, TPDCardInfo tpdCardInfo) {
-//                        hideProgressDialog();
-//
-//                        String text = "Your prime is " + prime;
-////                                + "\n\nUse below cURL to proceed the payment : \n"
-////                                /* 手機得到prime後，一般會傳給商家server端再呼叫payByPrime方法提交給TapPay，以確認這筆訂單
-////                                   現在為了方便，手機直接提交給TapPay */
-////                                + ApiUtil.generatePayByPrimeCURLForSandBox(prime,
-////                                getString(R.string.TapPay_PartnerKey),
-////                                getString(R.string.TapPay_MerchantID),getString(t));
-////                        Log.d(TAG, text);
-////                        tvResult.setText(text);
-//                    }
-//                },
-//                new TPDTokenFailureCallback() {
-//                    @Override
-//                    public void onFailure(int status, String reportMsg) {
-//                        hideProgressDialog();
-//                        String text = "TapPay getPrime failed. status: " + status + ", message: " + reportMsg;
-//                        Log.d(TAG, text);
-////                        tvResult.setText(text);
-//                    }
-//                });
-//    }
-//
-//    public ProgressDialog mProgressDialog;
-//
-//    private void showProgressDialog() {
-//        if (mProgressDialog == null) {
-//            mProgressDialog = new ProgressDialog(activity);
-//            mProgressDialog.setIndeterminate(true);
-//            mProgressDialog.setMessage("Loading...");
-//        }
-//
-//        mProgressDialog.show();
-//
-//
-//    }
-//
-//    protected void hideProgressDialog() {
-//        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-//            mProgressDialog.dismiss();
-//        }
-//    }
+                    }
+                },
+                new TPDTokenFailureCallback() {
+                    @Override
+                    public void onFailure(int status, String reportMsg) {
+                        hideProgressDialog();
+                        String text = "TapPay getPrime failed. status: " + status + ", message: " + reportMsg;
+                        Log.d(TAG, text);
+//                        tvResult.setText(text);
+                    }
+                });
+    }
 
+    public ProgressDialog mProgressDialog;
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(activity);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Loading...");
+        }
+
+        mProgressDialog.show();
+
+
+    }
+
+    protected void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+
+    private void changeOrderStatus() {
+        //待測試
+
+        if (Common.networkConnected(activity)) {
+
+            String url = Common.URL_SERVER + "Orders_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "changeOrderStatus");
+            jsonObject.addProperty("orderID",Integer.valueOf(orderId));
+            chageOrder= new CommonTask(url, jsonObject.toString());
+
+            Log.i(TAG,chageOrder.toString());
+            try {
+                String jsonIn = chageOrder.execute().get();
+//                jsonObject = new Gson().fromJson(jsonIn,JsonObject.class);
+                Log.i(TAG,jsonObject.toString());
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+
+
+
+
+
+    }
 }

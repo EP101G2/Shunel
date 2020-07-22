@@ -77,7 +77,7 @@
     </ScrollView>
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/btBack"
         android:layout_width="125dp"
         android:layout_height="46dp"
         android:layout_marginEnd="225dp"

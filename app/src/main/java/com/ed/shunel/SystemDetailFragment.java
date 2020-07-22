@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import org.w3c.dom.Text;
 public class SystemDetailFragment extends Fragment {
     private Activity activity;
     private Notice notice;
-    private TextView tvSystemDetailT,tvSystemDetailD;
+    private TextView tvSystemDetailT, tvSystemDetailD;
 
     public SystemDetailFragment() {
         // Required empty public constructor
@@ -33,6 +34,7 @@ public class SystemDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Activity activity = getActivity();
+        Log.i("98765","eeeeeeeee27272727272722727272");
     }
 
     @Override
@@ -45,13 +47,12 @@ public class SystemDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.flag = 0;
+        MainActivity.flag = 2;
+        Bundle bundle = getArguments();
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
         initData();
 
-
         findViews(view);
-
     }
 
     private void findViews(View view) {
@@ -63,6 +64,6 @@ public class SystemDetailFragment extends Fragment {
     }
 
     private void initData() {
-        notice= (Notice) (getArguments() != null ? getArguments().getSerializable("notice") : null);
+        notice = (Notice) (getArguments() != null ? getArguments().getSerializable("noticeSystem") : null);
     }
 }
