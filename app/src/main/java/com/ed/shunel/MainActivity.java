@@ -20,7 +20,7 @@ import java.util.List;
 //import com.facebook.appevents.AppEventsLogger;
 
 public class MainActivity extends AppCompatActivity {
-    public static int flag = 0;
+    public static int flag;
     public static MemoryCache memoryCache = new MemoryCache();
     private final static String TAG = "MainActivity";
     private int requestCode;
