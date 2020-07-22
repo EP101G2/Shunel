@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/btBack"
         android:layout_width="125dp"
         android:layout_height="46dp"
         android:layout_marginBottom="8dp"

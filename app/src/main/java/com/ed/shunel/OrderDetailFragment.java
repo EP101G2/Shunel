@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+//import com.ed.shunel.bean.Order_Detail;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -35,7 +36,7 @@ import java.util.concurrent.ExecutionException;
  */
 //1. rv orderDetail, 2. nav main to product detail
 public class OrderDetailFragment extends Fragment {
-    private static final String ARG_COUNT = "TAG_OrderDetailFragment";
+    private static final String ARG_COUNT = "-OrderDetailFragment-";
     private TextView tvOrderId, tvOrderStatus, tvTotalPrice, tvName, tvPhone, tvAddress;// tvProductName, tvProductPrice;
     //    private TextView tvOrderIdText, tvOrderDetStatusText, tvTotalPriceText, tvReceiverTitle, tvOrderDNameT, tvOrderDPhoneT, tvOrderDetailAddressT; need not to
 //    private ImageView ivOrderProductPic;//add later

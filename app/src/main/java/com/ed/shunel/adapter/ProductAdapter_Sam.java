@@ -43,6 +43,29 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
     @Override
     public void onBindViewHolder(@NonNull Myviewholder myviewholder, int position) {
         final Product product = products.get(position);
+
+        switch (position) {
+            case 0:
+                myviewholder.ivTop.setImageResource(R.drawable.top1);
+                break;
+            case 1:
+                myviewholder.ivTop.setImageResource(R.drawable.top2);
+
+                break;
+            case 2:
+                myviewholder.ivTop.setImageResource(R.drawable.top3);
+
+                break;
+            default:
+                myviewholder.ivTop.setVisibility(View.GONE);
+
+
+                break;
+        }
+
+
+
+
         String url = Common.URL_SERVER + "Prouct_Servlet";
         int id_product = product.getProduct_ID();
                 productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
@@ -78,7 +101,7 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
     }
 
     class Myviewholder extends RecyclerView.ViewHolder {
-        private ImageView ivcardIMG;
+        private ImageView ivcardIMG,ivTop;
         private TextView tvname, tvPrice;
 
 
@@ -87,6 +110,11 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
             ivcardIMG = itemView.findViewById(R.id.ivcardIMG);
             tvname = itemView.findViewById(R.id.tvname);
             tvPrice = itemView.findViewById(R.id.tvprice);
+            ivTop = itemView.findViewById(R.id.ivTop);
+
+
+
+
 
         }
     }
