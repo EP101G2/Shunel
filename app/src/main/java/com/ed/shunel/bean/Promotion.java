@@ -7,19 +7,27 @@ import java.sql.Timestamp;
 
         private int Promotion_ID;
         private String Promotion_Name;
-        private int Prouct_ID;
+        private int Product_ID;
         private int Promotion_Price;
         private Timestamp Promotion_Date_Start;
         private Timestamp Promotion_Date_End;
 
 
-        public Promotion(int promotion_ID, String promotion_Name, int prouct_ID, int promotion_Price, Timestamp promotion_Date_Start, Timestamp promotion_Date_End) {
+//        public Promotion(int promotion_ID, String promotion_Name, int prouct_ID, int promotion_Price, Timestamp promotion_Date_Start, Timestamp promotion_Date_End) {
+//            Promotion_ID = promotion_ID;
+//            Promotion_Name = promotion_Name;
+//            Prouct_ID = prouct_ID;
+//            Promotion_Price = promotion_Price;
+//            Promotion_Date_Start = promotion_Date_Start;
+//            Promotion_Date_End = promotion_Date_End;
+//        }
+
+
+        public Promotion(int promotion_ID, String promotion_Name, int prouct_ID, int promotion_Price) {
             Promotion_ID = promotion_ID;
             Promotion_Name = promotion_Name;
-            Prouct_ID = prouct_ID;
+            Product_ID = prouct_ID;
             Promotion_Price = promotion_Price;
-            Promotion_Date_Start = promotion_Date_Start;
-            Promotion_Date_End = promotion_Date_End;
         }
 
         public int getPromotion_ID() {
@@ -39,11 +47,11 @@ import java.sql.Timestamp;
         }
 
         public int getProuct_ID() {
-            return Prouct_ID;
+            return Product_ID;
         }
 
         public void setProuct_ID(int prouct_ID) {
-            Prouct_ID = prouct_ID;
+            Product_ID = prouct_ID;
         }
 
         public int getPromotion_Price() {

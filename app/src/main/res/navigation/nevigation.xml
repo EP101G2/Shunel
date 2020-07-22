@@ -224,7 +224,11 @@
         android:id="@+id/saleDetailFragment"
         android:name="com.ed.shunel.SaleDetailFragment"
         android:label="fragment_sale_detail"
-        tools:layout="@layout/fragment_sale_detail" />
+        tools:layout="@layout/fragment_sale_detail" >
+        <action
+            android:id="@+id/action_saleDetailFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
 
         tools:layout="@layout/fragment_order_detail" >
 
