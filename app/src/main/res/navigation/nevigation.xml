@@ -212,12 +212,8 @@
     <fragment
         android:id="@+id/orderDetailFragment"
         android:name="com.ed.shunel.OrderDetailFragment"
-        android:label="fragment_order_detail"
-<<<<<<< HEAD
+        android:label="fragment_order_detail"/>
 
-=======
->>>>>>> 08eefa1c6578ad26535bd94a81a49fe451b65d64
-        tools:layout="@layout/fragment_order_detail" />
     <fragment
         android:id="@+id/systemDetailFragment"
         android:name="com.ed.shunel.SystemDetailFragment"
@@ -228,12 +224,7 @@
         android:name="com.ed.shunel.SaleDetailFragment"
         android:label="fragment_sale_detail"
         tools:layout="@layout/fragment_sale_detail" />
-<<<<<<< HEAD
-        tools:layout="@layout/fragment_order_detail" >
-=======
 
-
->>>>>>> 08eefa1c6578ad26535bd94a81a49fe451b65d64
         <action
             android:id="@+id/action_orderDetailFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
