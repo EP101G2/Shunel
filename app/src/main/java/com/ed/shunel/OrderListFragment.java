@@ -53,7 +53,7 @@ public class OrderListFragment extends Fragment{
     private SwipeRefreshLayout swipeRefreshLayout;
     private ImageTask orderImageTask;
     private User_Account userAccount;
-    List<Orders> orderListMain;
+    List<Order_Main> orderListMain;
     RecyclerView rvOrderList;
     private CommonTask ordersListGetTask;
 
@@ -105,7 +105,7 @@ public class OrderListFragment extends Fragment{
             public void onRefresh() {
                 //讀取的圈圈 動畫
                 swipeRefreshLayout.setRefreshing(true);
-                showOrders(orderListMain);
+                showOrders(getOrders());
                 //直到讀取完 結束
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -165,8 +165,8 @@ public class OrderListFragment extends Fragment{
 
     }
 
-    private List<Orders> getOrders() {
-        List<Orders> orderListMain = new ArrayList<>();
+    private List<Order_Main> getOrders() {
+        List<Order_Main> orderListMain = new ArrayList<>();
         try {
             if (Common.networkConnected(activity)) {
 //                get data from orders servlet
@@ -201,7 +201,7 @@ public class OrderListFragment extends Fragment{
         return orderListMain;
     }
 
-    private void showOrders(List<Orders> orderListMain) {
+    private void showOrders(List<Order_Main> orderListMain) {
         if (orderListMain == null || orderListMain.isEmpty()) {
             Common.showToast(activity, R.string.textnofound);
         }
@@ -219,18 +219,18 @@ public class OrderListFragment extends Fragment{
         private LayoutInflater layoutInflater;
         private int imageSize;
         Context context;
-        List<Orders> orderListMain;
+        List<Order_Main> orderListMain;
         List<Order_Main> sortedOrderList = new ArrayList<>();
         StatusFilter statusFilter;//initialise a filter
 
-        public OrderListAdapter(Context context, List<Orders> orderListMain) {
+        public OrderListAdapter(Context context, List<Order_Main> orderListMain) {
             this.context = context;
             layoutInflater = LayoutInflater.from(context);
             this.orderListMain = orderListMain;
             imageSize = getResources().getDisplayMetrics().widthPixels / 4;
         }
 
-        void setOrders(List<Orders> orderListMain) {
+        void setOrders(List<Order_Main> orderListMain) {
             this.orderListMain = orderListMain;
         }
 
@@ -269,7 +269,7 @@ public class OrderListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
-            final Orders orderMain = orderListMain.get(position);
+            final Order_Main orderMain = orderListMain.get(position);
 
 //            String url = Common.URL_SERVER + "Orders_Servlet";
 //            final Gson gson = new Gson();
@@ -279,8 +279,8 @@ public class OrderListFragment extends Fragment{
 //            orderImageTask = new ImageTask(url, id, imageSize, holder.ivOrderProductPic);
 //            orderImageTask.execute();
 //            holder.ivOrderProductPic.setImageResource(orderMain.getImageId());
-            holder.tvOrderId.setText(String.valueOf(orderMain.getOrderId()));
-            holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrderStatus()));
+            holder.tvOrderId.setText(String.valueOf(orderMain.getOrder_ID()));
+            holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrder_Main_Order_Status()));
 
 //            ---fake pic for testing---
             holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
@@ -315,12 +315,12 @@ public class OrderListFragment extends Fragment{
 //            the method "performFiltering()" is to do the filtering of the data(orderList)
             public FilterResults performFiltering(CharSequence constraint) {
 //                filter by orderStatus. if orderStatus = 0
-                List<Orders> sortedOrdersList = new ArrayList<>();
+                List<Order_Main> sortedOrdersList = new ArrayList<>();
                 if (constraint == null){
                     sortedOrdersList.addAll(orderListMain);
                 }else {
-                    for (Orders orderMain : orderListMain){
-                        if (Objects.equals(orderMain.getOrderStatus(), constraint)){//Objects.equals(orderMain.getOrderStatus(), constraint)
+                    for (Order_Main orderMain : orderListMain){
+                        if (Objects.equals(orderMain.getOrder_Main_Order_Status(), constraint)){//Objects.equals(orderMain.getOrderStatus(), constraint)
                             sortedOrdersList.add(orderMain);
                         }
                     }
