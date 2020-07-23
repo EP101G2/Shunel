@@ -62,7 +62,6 @@ public class RingProductFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.flag = 0 ;
         recyclerView = view.findViewById(R.id.recyclerView);
 
 

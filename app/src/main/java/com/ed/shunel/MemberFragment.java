@@ -139,12 +139,10 @@ public class MemberFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 String account_ID = tvId.getText().toString().trim();
                 if (account_ID.isEmpty()) {
-                    tvId.setError("Account_ID is empty");
+                    tvId.setError("haven't log in");
                 }
-                bundle.putString("Account_ID", account_ID);
-//                User_Account userAccount;
-//                userAccount = new User_Account(account_ID);
-//                bundle.putSerializable("Account_ID", userAccount);//
+                bundle.putString("User", account_ID);
+                bundle.putSerializable("User", account_ID);
                 Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2, bundle);
             }
         });
