@@ -185,7 +185,7 @@ public class noticeDetailFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
                             Bundle bundle = new Bundle();
-                            String saleTitle =  notice.getNotice_Title().trim();
+                            String saleTitle = notice.getNotice_Title().trim();
                             String saleDetail = notice.getNotice_Content().trim();
                             if (saleTitle.isEmpty() || saleDetail.isEmpty()) {
                                 Common.showToast(activity, R.string.textnofound);
@@ -199,7 +199,10 @@ public class noticeDetailFragment extends Fragment {
                     });
                     break;
 
-//              case 1:
+                case 1:
+                    holder.ivProductMini.setImageResource(R.drawable.action_dialog);
+
+                    break;
 
                 case 2:
                     holder.ivProductMini.setImageResource(R.drawable.ic_action_gear2);

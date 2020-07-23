@@ -2,6 +2,7 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Notice;
+import com.ed.shunel.bean.Product_List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -43,6 +46,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     private SearchView searchView;
     private NoticeAdapter noticeAdapter;
     private List<Notice> notice;
+    private Product productImageMini;
     private Notice saleLast, qaLast, systemLast;
     private CommonTask noticeGetAllTask;
     private CardView cdSystem, cdSale, cdQA;
@@ -140,9 +144,9 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             tvQAD = view.findViewById(R.id.tvQAD);
             tvSystemT = view.findViewById(R.id.tvSystemT);
             tvSystemD = view.findViewById(R.id.tvSystemDetailD);
-            tvSaleD.setText(saleLast.getNotice_Content());
-            tvQAD.setText(qaLast.getNotice_Content());
-            tvSystemD.setText(systemLast.getNotice_Content());
+            tvSaleD.setText(saleLast.getNotice_Title());
+            tvQAD.setText(qaLast.getNotice_Title());
+            tvSystemD.setText(systemLast.getNotice_Title());
             rvNotice.setLayoutManager(new LinearLayoutManager(activity));
             rvNotice.setAdapter(new NoticeAdapter(activity, notice));
         }
@@ -281,10 +285,14 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         //        layoutInflater =LayoutInflater.from(context);
         Context context;
         List<Notice> noticeList;
+        List<Product> productList;
+        private ImageTask productimageTaskForN;
+        private int imageSize;
 
         public NoticeAdapter(Context context, List<Notice> noticeList) {
             this.context = context;
             this.noticeList = noticeList;
+            imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
         }
 
         @NonNull
@@ -299,9 +307,13 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
 
             final Notice notice = noticeList.get(position);
+
+
+
             int notice_ID = notice.getNotice_ID();
             holder.tvNoticeT.setText(notice.getNotice_Title());
             holder.tvNoticeD.setText(notice.getNotice_time().toString());
+
         }
 
         @Override

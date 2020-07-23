@@ -44,6 +44,10 @@ public class Product implements Serializable {
         this.product_MODIFY_DATE = product_MODIFY_DATE;
     }
 
+    public Product(int product_ID, int product_Price) {
+        this.product_ID = product_ID;
+        this.product_Price = product_Price;
+    }
 
     public int getProduct_ID() {
         return product_ID;

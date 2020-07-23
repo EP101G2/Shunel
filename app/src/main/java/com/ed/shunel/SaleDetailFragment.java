@@ -2,11 +2,13 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Notice;
 import com.ed.shunel.bean.Promotion;
 import com.google.gson.Gson;
@@ -45,6 +48,8 @@ public class SaleDetailFragment extends Fragment {
     private SaleAdapter SaleAdapter;
     private Notice notice;
     private String saleTitle,saleDetail;
+    private ImageTask imageTask;
+
 
 
     @Override
@@ -140,6 +145,7 @@ public class SaleDetailFragment extends Fragment {
         public SaleAdapter(Context context, List<Promotion> promotions) {
             this.context = context;
             this.promotionList = promotions;
+
         }
 
         @NonNull
@@ -151,9 +157,47 @@ public class SaleDetailFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
+            Log.e("test","測試");
             final Promotion promotion = promotionList.get(position);
+
+//            Log.e(TAG,"Name"+promotion.getPromotion_Name());
+//            Log.e(TAG,"Promotion"+promotion.getPromotion_ID());
+//            Log.e(TAG,"Price"+promotion.getPromotion_Price());
+//            Log.e(TAG,"ID"+promotion.getProuct_ID());
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+            int product_id = promotion.getProuct_ID();
+//            Log.e("555555","product_id:"+product_id);
+            int imageSize = getResources().getDisplayMetrics().widthPixels / 5;
+//            Bitmap bitmap = null;
+            try {
+                imageTask = (ImageTask) new ImageTask(url, product_id, imageSize,holder.ivProductMini).execute();
+
+            } catch (Exception e) {
+//                Log.e(TAG, e.toString());
+                e.printStackTrace();
+            }
+
+//            if (bitmap != null) {
+//                holder.ivProductMini.setImageBitmap(bitmap);
+//            } else {
+//                holder.ivProductMini.setImageResource(R.drawable.no_image);
+//            }
             holder.tvNoticeT.setText(promotion.getPromotion_Name());
             holder.tvNoticeD.setText(String.valueOf(promotion.getPromotion_Price()));
+
+            final Product product = new Product(promotion.getProuct_ID(),promotion.getPromotion_Price());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+//                    int product_id = promotion.getProuct_ID();
+//                    int promotionPrice = promotion.getPromotion_Price();
+                    bundle.putSerializable("product",product);
+//                    bundle.putInt("product_id", product_id);
+//                    bundle.putInt("promotionPrice", promotionPrice);
+                    Navigation.findNavController(v).navigate(R.id.action_saleDetailFragment_to_productDetailFragment,bundle);
+                }
+            });
         }
 
         @Override
