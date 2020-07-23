@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.Constraints;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,8 +33,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Objects;
+
+import static com.ed.shunel.Orders.orderStatus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +53,7 @@ public class OrderListFragment extends Fragment{
     private Button btBack;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ImageTask orderImageTask;
-    List<Order_Main> orderListMain;
+    List<Orders> orderListMain;
     RecyclerView rvOrderList;
     private CommonTask ordersListGetAllTask;
 
@@ -81,9 +85,23 @@ public class OrderListFragment extends Fragment{
         return inflater.inflate(R.layout.fragment_order_list, container, false);
     }
 
+//    get the bundle with accountId from Member Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        bring accountId from bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String MemberFragment = bundle.getString("User");
+            String accountId = bundle.getString("account_ID");
+            String text = " account_ID: " + accountId + "\n";
+//          tvID.append(text);
+            Object user = bundle.getSerializable("User");
+//          String text2 = user == null ? "" : user.toString();
+//          tvResult.append(text2);
+        }
+
+
         rvOrderList = view.findViewById(R.id.rvOrderList);
 //        rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvOrderList.setAdapter(new OrderListAdapter(getContext(), orderListMain));
@@ -103,16 +121,13 @@ public class OrderListFragment extends Fragment{
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-//        imageViews, onClick Listener, statement filter
 
-//        imageViews, onClick Listener(select from status)
-//        searchViews, onClick Listener
         ivNotYetDelivered = view.findViewById(R.id.ivNotYetDelivered);
         ivDelivered = view.findViewById(R.id.ivDelivered);
         ivReceived = view.findViewById(R.id.ivReceived);
         ivCanceled = view.findViewById(R.id.ivCanceled);
         ivRefounded = view.findViewById(R.id.ivRefounded);
-
+//        set up filter when click image (change to btn??)
         ivNotYetDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +163,7 @@ public class OrderListFragment extends Fragment{
                 adapter.getFilter().filter("4"); //?? setting the key: orderstatus.case4
             }
         });
+
 //        click on arrow left and go back to the previous page
         Button btBack = view.findViewById(R.id.btBack);
         btBack.setOnClickListener(new View.OnClickListener() {
@@ -156,11 +172,13 @@ public class OrderListFragment extends Fragment{
                 // 效果與手機上的Back按鍵相同
                 Navigation.findNavController(v).popBackStack();
             }
-        });
+        });//ok
     }
 
-    private List<Order_Main> getOrders() {
-        List<Order_Main> orderListMain = null;
+
+
+    private List<Orders> getOrders() {
+        List<Orders> orderListMain = new ArrayList<>();
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Orders_Servlet";
             JsonObject jsonObject = new JsonObject();
@@ -178,10 +196,18 @@ public class OrderListFragment extends Fragment{
         } else {
             Common.showToast(activity, R.string.textNoNetwork);
         }
+////        ---fake data for testing---
+//        orderListMain.add(new Orders(R.drawable.photos_pink, 1, 0));
+//        orderListMain.add(new Orders(R.drawable.photos_pink, 2, 1));
+//        orderListMain.add(new Orders(R.drawable.photos_pink, 3, 2));
+//        orderListMain.add(new Orders(R.drawable.photos_pink, 4, 3));
+//        orderListMain.add(new Orders(R.drawable.photos_pink, 5, 4));
+//        orderListMain.add(new Orders(R.drawable.photos_pink, 6, 0));
+
         return orderListMain;
     }
 
-    private void showOrders(List<Order_Main> orderListMain) {
+    private void showOrders(List<Orders> orderListMain) {
         if (orderListMain == null || orderListMain.isEmpty()) {
             Common.showToast(activity, R.string.textnofound);
         }
@@ -199,18 +225,18 @@ public class OrderListFragment extends Fragment{
         private LayoutInflater layoutInflater;
         private int imageSize;
         Context context;
-        List<Order_Main> orderListMain;
+        List<Orders> orderListMain;
         List<Order_Main> sortedOrderList = new ArrayList<>();
         StatusFilter statusFilter;//initialise a filter
 
-        public OrderListAdapter(Context context, List<Order_Main> orderListMain) {
+        public OrderListAdapter(Context context, List<Orders> orderListMain) {
             this.context = context;
             layoutInflater = LayoutInflater.from(context);
             this.orderListMain = orderListMain;
             imageSize = getResources().getDisplayMetrics().widthPixels / 4;
         }
 
-        void setOrders(List<Order_Main> orderListMain) {
+        void setOrders(List<Orders> orderListMain) {
             this.orderListMain = orderListMain;
         }
 
@@ -229,6 +255,8 @@ public class OrderListFragment extends Fragment{
         }//ok
 
         public int getItemCount(){
+            Log.e(TAG,"test: itemCount:"+orderListMain.size());
+
             return orderListMain == null ? 0 : orderListMain.size();
         }//ok orderListMain == null ? 0 : orderListMain.size();
 
@@ -241,24 +269,27 @@ public class OrderListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
-            final Order_Main orderMain = orderListMain.get(position);
+            final Orders orderMain = orderListMain.get(position);
 
-            String url = Common.URL_SERVER + "Orders_Servlet";
+//            String url = Common.URL_SERVER + "Orders_Servlet";
+//            final Gson gson = new Gson();
+
 //            String accountId = orderMain.getAccount_ID();
-            int id = orderMain.getOrder_ID();
-            orderImageTask = new ImageTask(url, id, imageSize, holder.ivOrderProductPic);
-            orderImageTask.execute();
+//            int id = orderMain.getOrderId();
+//            orderImageTask = new ImageTask(url, id, imageSize, holder.ivOrderProductPic);
+//            orderImageTask.execute();
 //            holder.ivOrderProductPic.setImageResource(orderMain.getImageId());
-            holder.tvOrderIdText.setText(R.string.textOrderIdText);
-            holder.tvOrderId.setText(String.valueOf(orderMain.getOrder_ID()));
-            holder.tvOrderStatusText.setText(R.string.textOrderStatusText);
-            holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrder_Main_Order_Status()));
+            holder.tvOrderId.setText(String.valueOf(orderMain.getOrderId()));
+            holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrderStatus()));
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            ---fake pic for testing---
+            holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {//nevigation: go to OrderDetailFragment
                 @Override
-                public void onClick(View v) { //nevigation: go to OrderDetailFragment
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("orders", orderMain);//bring orderId and status
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();//bring orderId and status and pic
+                    bundle.putSerializable("orders", orderMain);
                     Navigation.findNavController(v).navigate(R.id.action_orderListFragment2_to_orderDetailFragment, bundle);
                 }
             });
@@ -284,12 +315,12 @@ public class OrderListFragment extends Fragment{
 //            the method "performFiltering()" is to do the filtering of the data(orderList)
             public FilterResults performFiltering(CharSequence constraint) {
 //                filter by orderStatus. if orderStatus = 0
-                List<Order_Main> sortedOrdersList = new ArrayList<>();
+                List<Orders> sortedOrdersList = new ArrayList<>();
                 if (constraint == null){
                     sortedOrdersList.addAll(orderListMain);
                 }else {
-                    for (Order_Main orderMain : orderListMain){
-                        if (Objects.equals(orderMain.getOrder_Main_Order_Status(), constraint)){//Objects.equals(orderMain.getOrderStatus(), constraint)
+                    for (Orders orderMain : orderListMain){
+                        if (Objects.equals(orderMain.getOrderStatus(), constraint)){//Objects.equals(orderMain.getOrderStatus(), constraint)
                             sortedOrdersList.add(orderMain);
                         }
                     }
@@ -298,36 +329,6 @@ public class OrderListFragment extends Fragment{
                 filterResults.count = orderListMain.size();
                 filterResults.values = orderListMain;
                 return filterResults;
-//                    switch (chosenOrderStatus) { //not yet completed!!
-//                        case R.id.svNotYetDelivered://click on 1st sv and shows only orderList.getOrderStatus(0) //write a method() but use dif parameter to adjust layout(search view ex)
-//                            chosenOrderStatus = 0;
-//
-//                            break;
-//                        case R.id.svDelivered://click on 2nd sv and shows only orderList.getOrderStatus(1)
-//
-//                            break;
-//                        case R.id.svReceived://click on 3rd sv and shows only orderList.getOrderStatus(2)
-//
-//                            break;
-//                        case R.id.svCanceled://click on 4th sv and shows only orderList.getOrderStatus(3)
-//
-//                            break;
-//                        case R.id.svRefounded://click on 5th sv and shows only orderList.getOrderStatus(4)
-//
-//                            break;
-//                        default:
-//                            sortedOrdersList.addAll(orderListMain);
-//                    }
-
-//                public showByStatus(){
-//                    for (Orders orders : orderListMain){
-//                        if (orders.getOrderStatus().equals(chosenOrderStatus)){
-//                            sortedOrderList.add(orders);
-//                        }
-//                    }
-//                    return sortedOrdersList;
-//                }//dumped
-
             }
             @Override
             public void publishResults(CharSequence constraint, FilterResults filterResults) {
