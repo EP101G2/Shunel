@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 //import com.ed.shunel.bean.Order_Detail;
+import com.ed.shunel.bean.Order_Main;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -45,7 +46,7 @@ public class OrderDetailFragment extends Fragment {
     private List<OrderDetail> orderDetailList;
     private Activity activity;
     private Integer counter;
-    private CommonTask ordersGetAllTask;
+    private CommonTask ordersDetGetTask;
 
 //    product ID
 //    private commonTask orderGetAllTask;
@@ -88,6 +89,9 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        bundle bring orderId, orderStatus, from OrderListFrag
+
+
         orderDetailList = getOrderDetailList();
         tvOrderId = view.findViewById(R.id.tvOrderId);
         tvOrderStatus = view.findViewById(R.id.tvOrderStatus);
@@ -111,7 +115,15 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return orderDetailList==null?  0: orderDetailList.size();
+            try {
+                if (orderDetailList != null) {
+                    Log.e(ARG_COUNT,"itemCount:"+orderDetailList.size());
+                    return orderDetailList == null ? 0 : orderDetailList.size();
+                }
+            }catch (Exception e){
+                Log.e(ARG_COUNT,"null list");
+            }
+            return orderDetailList == null ? 0 : orderDetailList.size();
         }//ok
 
         private class PageViewHolder extends RecyclerView.ViewHolder {
@@ -158,26 +170,29 @@ public class OrderDetailFragment extends Fragment {
 
     private List<OrderDetail> getOrderDetailList(){
         List<OrderDetail> orderDetailList = new ArrayList<>();;
-        if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "Orders_Servlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAll");
-            ordersGetAllTask = new CommonTask(url, jsonObject.toString());
-            try {
-                String jsonIn = ordersGetAllTask.execute().get();
-                Type listType = new TypeToken<List<OrderDetail>>() {
-                }.getType();
-                orderDetailList = new Gson().fromJson(jsonIn, listType);
-
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            if (Common.networkConnected(activity)) {
+//                get data from orders servlet
+                String url = Common.URL_SERVER + "Orders_Servlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "getOrderDetShort");
+                jsonObject.addProperty("account_ID", Common.getPreherences(activity).getString("account_ID", "defValue"));
+                String jsonOut = jsonObject.toString();
+                ordersDetGetTask = new CommonTask(url, jsonOut);
+                try {
+                    String jsonIn = ordersDetGetTask.execute().get();
+                    Type listType = new TypeToken<List<Order_Main>>() {
+                    }.getType();
+                    orderDetailList = new Gson().fromJson(jsonIn, listType);
+                } catch (Exception e) {
+                    Log.e(ARG_COUNT, e.toString());
+                }
+            } else {
+                Common.showToast(activity, R.string.textNoNetwork);
             }
-        } else {
-            Common.showToast(activity, R.string.textNoNetwork);
+        } catch (Exception e) {
+            Log.e(ARG_COUNT, e.toString());
         }
-        Log.e("--------------",orderDetailList+"");
 
 //        ---fake data for testing---
 //        orderDetailList.add(new OrderDetail(001,0,300,"asdfg","+447394787310","zxc",001,"qwe",300,001));
@@ -191,5 +206,8 @@ public class OrderDetailFragment extends Fragment {
 //        orderDetailList.add(new OrderDetail(006,0,300,"asdfg","+447394787310","zxc",001,"qwe",300,001));
 
         return orderDetailList;
-    }//not yet
+    }
+
+
+
 }
