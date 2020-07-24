@@ -128,6 +128,7 @@ public class Login_Fragment extends Fragment {
             public void onClick(View v) {
                 id = etTypeId.getText().toString();
                 password = etTypePassword.getText().toString();
+                String token = Common.getPreherences(activity).getString("getToken","");
 
                 if (networkConnected()) {
                     String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
@@ -136,6 +137,7 @@ public class Login_Fragment extends Fragment {
                     jsonObject.addProperty("action", "getLogin");
                     jsonObject.addProperty("id", id);
                     jsonObject.addProperty("password", password);
+                    jsonObject.addProperty("getToken",token);
                     loginTask = new CommonTask(url, jsonObject.toString());
                     String jsonIn = "";
                     try {
@@ -168,9 +170,9 @@ public class Login_Fragment extends Fragment {
                             if (userJstr != null) {
                                 User_Account user_account = gson.fromJson(userJstr, User_Account.class);
                                 savePreferences();
+                                String getToken = Common.getPreherences(activity).getString("getToken", "");
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("User", user_account);
-
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
                                 LayoutInflater inflater = LayoutInflater.from(activity);
                                 final View view = inflater.inflate(R.layout.loginsuccess, null);
