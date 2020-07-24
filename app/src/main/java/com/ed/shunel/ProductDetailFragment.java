@@ -447,9 +447,11 @@ public class ProductDetailFragment extends Fragment {
                         productList.add(product);
                         Product_List pl = new Product_List(productList);
 
+
                         Order_Main orderMain = new Order_Main(account, totalPrice, name, address, phone, 0);
 
 //                        Order_Main orderMain = new Order_Main(account,totalPrice,name,address,phone,0);
+
 
 //                        Order_Detail orderDetail = new Order_Detail()
                         String url = Common.URL_SERVER + "Prouct_Servlet";

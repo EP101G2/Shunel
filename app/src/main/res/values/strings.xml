@@ -187,7 +187,7 @@
 
     <string name="textWrongOldPassword">舊密碼不正確</string>
     <string name="searchtext">請輸入您想找的商品</string>
-
+    <string name="accountID" />
 
 
 </resources>

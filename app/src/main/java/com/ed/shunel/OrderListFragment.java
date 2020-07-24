@@ -10,13 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.Constraints;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,17 +27,15 @@ import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Order_Main;
+import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Objects;
-
-import static com.ed.shunel.Orders.orderStatus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,13 +47,14 @@ public class OrderListFragment extends Fragment{
     private static final String TAG = "-OrderListFragment-";
     private Activity activity;
     private Integer counter;
-    private ImageView ivNotYetDelivered, ivDelivered, ivReceived, ivCanceled, ivRefounded;
+    private ImageButton btNotYetDelivered, btDelivered, btReceived, btCanceled, btRefounded;
     private Button btBack;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ImageTask orderImageTask;
-    List<Orders> orderListMain;
+    private User_Account userAccount;
+    List<Order_Main> orderListMain;
     RecyclerView rvOrderList;
-    private CommonTask ordersListGetAllTask;
+    private CommonTask ordersListGetTask;
 
     public OrderListFragment(){
 //        Required empty public constructor
@@ -89,19 +88,7 @@ public class OrderListFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        bring accountId from bundle
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            String MemberFragment = bundle.getString("User");
-            String accountId = bundle.getString("account_ID");
-            String text = " account_ID: " + accountId + "\n";
-//          tvID.append(text);
-            Object user = bundle.getSerializable("User");
-//          String text2 = user == null ? "" : user.toString();
-//          tvResult.append(text2);
-        }
-
-
+//        bring accountId from bundle?
         rvOrderList = view.findViewById(R.id.rvOrderList);
 //        rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvOrderList.setAdapter(new OrderListAdapter(getContext(), orderListMain));
@@ -116,47 +103,47 @@ public class OrderListFragment extends Fragment{
             public void onRefresh() {
                 //讀取的圈圈 動畫
                 swipeRefreshLayout.setRefreshing(true);
-                showOrders(orderListMain);
+                showOrders(getOrders());
                 //直到讀取完 結束
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        ivNotYetDelivered = view.findViewById(R.id.ivNotYetDelivered);
-        ivDelivered = view.findViewById(R.id.ivDelivered);
-        ivReceived = view.findViewById(R.id.ivReceived);
-        ivCanceled = view.findViewById(R.id.ivCanceled);
-        ivRefounded = view.findViewById(R.id.ivRefounded);
+        btNotYetDelivered = view.findViewById(R.id.btNotYetDelivered);
+        btDelivered = view.findViewById(R.id.btDelivered);
+        btReceived = view.findViewById(R.id.btReceived);
+        btCanceled = view.findViewById(R.id.btCanceled);
+        btRefounded = view.findViewById(R.id.btRefounded);
 //        set up filter when click image (change to btn??)
-        ivNotYetDelivered.setOnClickListener(new View.OnClickListener() {
+        btNotYetDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("0"); //?? setting the key: orderstatus.case0
             }
         });
-        ivDelivered.setOnClickListener(new View.OnClickListener() {
+        btDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("1"); //?? setting the key: orderstatus.case1
             }
         });
-        ivReceived.setOnClickListener(new View.OnClickListener() {
+        btReceived.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("2"); //?? setting the key: orderstatus.case2
             }
         });
-        ivCanceled.setOnClickListener(new View.OnClickListener() {
+        btCanceled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("3"); //?? setting the key: orderstatus.case3
             }
         });
-        ivRefounded.setOnClickListener(new View.OnClickListener() {
+        btRefounded.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
@@ -173,41 +160,38 @@ public class OrderListFragment extends Fragment{
                 Navigation.findNavController(v).popBackStack();
             }
         });//ok
+
     }
 
-
-
-    private List<Orders> getOrders() {
-        List<Orders> orderListMain = new ArrayList<>();
-        if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "Orders_Servlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAll");
-            String jsonOut = jsonObject.toString();
-            ordersListGetAllTask = new CommonTask(url, jsonOut);
-            try {
-                String jsonIn = ordersListGetAllTask.execute().get();
-                Type listType = new TypeToken<List<Order_Main>>() {
-                }.getType();
-                orderListMain = new Gson().fromJson(jsonIn, listType);
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
+    private List<Order_Main> getOrders() {
+        List<Order_Main> orderListMain = new ArrayList<>();
+        try {
+            if (Common.networkConnected(activity)) {
+//                get data from orders servlet
+                String url = Common.URL_SERVER + "Orders_Servlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "getOrderMainShort");
+                jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("Account_ID", "G"));
+                String jsonOut = jsonObject.toString();
+                ordersListGetTask = new CommonTask(url, jsonOut);
+                try {
+                    String jsonIn = ordersListGetTask.execute().get();
+                    Type listType = new TypeToken<List<Order_Main>>() {
+                    }.getType();
+                    orderListMain = new Gson().fromJson(jsonIn, listType);
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            } else {
+                Common.showToast(activity, R.string.textNoNetwork);
             }
-        } else {
-            Common.showToast(activity, R.string.textNoNetwork);
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
         }
-////        ---fake data for testing---
-//        orderListMain.add(new Orders(R.drawable.photos_pink, 1, 0));
-//        orderListMain.add(new Orders(R.drawable.photos_pink, 2, 1));
-//        orderListMain.add(new Orders(R.drawable.photos_pink, 3, 2));
-//        orderListMain.add(new Orders(R.drawable.photos_pink, 4, 3));
-//        orderListMain.add(new Orders(R.drawable.photos_pink, 5, 4));
-//        orderListMain.add(new Orders(R.drawable.photos_pink, 6, 0));
-
         return orderListMain;
     }
 
-    private void showOrders(List<Orders> orderListMain) {
+    private void showOrders(List<Order_Main> orderListMain) {
         if (orderListMain == null || orderListMain.isEmpty()) {
             Common.showToast(activity, R.string.textnofound);
         }
@@ -225,18 +209,18 @@ public class OrderListFragment extends Fragment{
         private LayoutInflater layoutInflater;
         private int imageSize;
         Context context;
-        List<Orders> orderListMain;
+        List<Order_Main> orderListMain;
         List<Order_Main> sortedOrderList = new ArrayList<>();
         StatusFilter statusFilter;//initialise a filter
 
-        public OrderListAdapter(Context context, List<Orders> orderListMain) {
+        public OrderListAdapter(Context context, List<Order_Main> orderListMain) {
             this.context = context;
             layoutInflater = LayoutInflater.from(context);
             this.orderListMain = orderListMain;
             imageSize = getResources().getDisplayMetrics().widthPixels / 4;
         }
 
-        void setOrders(List<Orders> orderListMain) {
+        void setOrders(List<Order_Main> orderListMain) {
             this.orderListMain = orderListMain;
         }
 
@@ -255,8 +239,14 @@ public class OrderListFragment extends Fragment{
         }//ok
 
         public int getItemCount(){
-            Log.e(TAG,"test: itemCount:"+orderListMain.size());
-
+            try {
+                if (orderListMain != null) {
+                    Log.e(TAG,"itemCount:"+orderListMain.size());
+                    return orderListMain == null ? 0 : orderListMain.size();
+                }
+            }catch (Exception e){
+                Log.e(TAG,"null list");
+            }
             return orderListMain == null ? 0 : orderListMain.size();
         }//ok orderListMain == null ? 0 : orderListMain.size();
 
@@ -269,21 +259,15 @@ public class OrderListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
-            final Orders orderMain = orderListMain.get(position);
+            final Order_Main orderMain = orderListMain.get(position);
 
-//            String url = Common.URL_SERVER + "Orders_Servlet";
-//            final Gson gson = new Gson();
+            holder.tvOrderId.setText(String.valueOf(orderMain.getOrder_ID()));
+            holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrder_Main_Order_Status()));
 
-//            String accountId = orderMain.getAccount_ID();
-//            int id = orderMain.getOrderId();
-//            orderImageTask = new ImageTask(url, id, imageSize, holder.ivOrderProductPic);
-//            orderImageTask.execute();
-//            holder.ivOrderProductPic.setImageResource(orderMain.getImageId());
-            holder.tvOrderId.setText(String.valueOf(orderMain.getOrderId()));
-            holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrderStatus()));
-
-//            ---fake pic for testing---
+//            fake pic for testing
             holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
+//            insert pic here
+            
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {//nevigation: go to OrderDetailFragment
                 @Override
@@ -315,12 +299,12 @@ public class OrderListFragment extends Fragment{
 //            the method "performFiltering()" is to do the filtering of the data(orderList)
             public FilterResults performFiltering(CharSequence constraint) {
 //                filter by orderStatus. if orderStatus = 0
-                List<Orders> sortedOrdersList = new ArrayList<>();
+                List<Order_Main> sortedOrdersList = new ArrayList<>();
                 if (constraint == null){
                     sortedOrdersList.addAll(orderListMain);
                 }else {
-                    for (Orders orderMain : orderListMain){
-                        if (Objects.equals(orderMain.getOrderStatus(), constraint)){//Objects.equals(orderMain.getOrderStatus(), constraint)
+                    for (Order_Main orderMain : orderListMain){
+                        if (Objects.equals(orderMain.getOrder_Main_Order_Status(), constraint)){//Objects.equals(orderMain.getOrderStatus(), constraint)
                             sortedOrdersList.add(orderMain);
                         }
                     }
@@ -330,6 +314,7 @@ public class OrderListFragment extends Fragment{
                 filterResults.values = orderListMain;
                 return filterResults;
             }
+
             @Override
             public void publishResults(CharSequence constraint, FilterResults filterResults) {
                try {
@@ -340,6 +325,6 @@ public class OrderListFragment extends Fragment{
                    Log.e(TAG, e.toString());
                }
             }
-        }//probably ok(?
+        }//to be fixed
     }
 }
