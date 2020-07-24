@@ -107,14 +107,6 @@
                 android:src="@drawable/refounded" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvAccountId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:hint="@string/textHint"
-            android:text="@string/accountID" />
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayoutOrder"
             android:layout_width="match_parent"

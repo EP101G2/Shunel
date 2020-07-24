@@ -49,7 +49,6 @@ public class OrderListFragment extends Fragment{
     private Integer counter;
     private ImageButton btNotYetDelivered, btDelivered, btReceived, btCanceled, btRefounded;
     private Button btBack;
-    private TextView tvAccountId;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ImageTask orderImageTask;
     private User_Account userAccount;
@@ -90,7 +89,6 @@ public class OrderListFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        bring accountId from bundle?
-        tvAccountId = view.findViewById(R.id.tvAccountId);
         rvOrderList = view.findViewById(R.id.rvOrderList);
 //        rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvOrderList.setAdapter(new OrderListAdapter(getContext(), orderListMain));
@@ -190,14 +188,6 @@ public class OrderListFragment extends Fragment{
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
-////        ---fake data for testing---
-//        orderListMain.add(new Orders(1, 0, R.drawable.photos_pink));
-//        orderListMain.add(new Orders(2, 0, R.drawable.photos_pink));
-//        orderListMain.add(new Orders(3, 0, R.drawable.photos_pink));
-//        orderListMain.add(new Orders(4, 0, R.drawable.photos_pink));
-//        orderListMain.add(new Orders(5, 1, R.drawable.photos_pink));
-//        orderListMain.add(new Orders(6, 0, R.drawable.photos_pink));
-
         return orderListMain;
     }
 
@@ -271,19 +261,13 @@ public class OrderListFragment extends Fragment{
         public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
             final Order_Main orderMain = orderListMain.get(position);
 
-//            String url = Common.URL_SERVER + "Orders_Servlet";
-//            final Gson gson = new Gson();
-
-//            String accountId = orderMain.getAccount_ID();
-//            int id = orderMain.getOrderId();
-//            orderImageTask = new ImageTask(url, id, imageSize, holder.ivOrderProductPic);
-//            orderImageTask.execute();
-//            holder.ivOrderProductPic.setImageResource(orderMain.getImageId());
             holder.tvOrderId.setText(String.valueOf(orderMain.getOrder_ID()));
             holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrder_Main_Order_Status()));
 
-//            ---fake pic for testing---
+//            fake pic for testing
             holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
+//            insert pic here
+            
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {//nevigation: go to OrderDetailFragment
                 @Override
@@ -330,6 +314,7 @@ public class OrderListFragment extends Fragment{
                 filterResults.values = orderListMain;
                 return filterResults;
             }
+
             @Override
             public void publishResults(CharSequence constraint, FilterResults filterResults) {
                try {
@@ -340,6 +325,6 @@ public class OrderListFragment extends Fragment{
                    Log.e(TAG, e.toString());
                }
             }
-        }//probably ok(?
+        }//to be fixed
     }
 }
