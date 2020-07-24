@@ -184,11 +184,29 @@
     <string name="textOldPw">請輸入舊密碼:</string>
     <string name="textNewPw">請輸入新密碼：</string>
     <string name="textRePw">請再次輸入新密碼：</string>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> e8bdbc0e16d787c4ee91b5068c24af2b15c9d5b1
+    <string name="textWrongOldPassword">舊密碼不正確</string>
+    <string name="searchtext">請輸入您想找的商品</string>
+
+>>>>>>> 20899b5c7f8146fc9a52688e1213a57aa8160b66
+
+<<<<<<< HEAD
+=======
     <string name="textWrongOldPassword">舊密碼不正確</string>
     <string name="searchtext">請輸入您想找的商品</string>
     <string name="accountID" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> 29d397cb5fd1e70654146e68fe6bae3f9a41528b
+>>>>>>> e8bdbc0e16d787c4ee91b5068c24af2b15c9d5b1
+>>>>>>> 20899b5c7f8146fc9a52688e1213a57aa8160b66
 
 
 </resources>

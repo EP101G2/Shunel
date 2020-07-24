@@ -449,6 +449,7 @@ public class ProductDetailFragment extends Fragment {
 //                        product_list.setCart(product);
                         productList.add(product);
                         Product_List pl = new Product_List(productList);
+<<<<<<< HEAD
 
 
                         Order_Main orderMain = new Order_Main(account, totalPrice, name, address, phone, 0);
@@ -456,6 +457,9 @@ public class ProductDetailFragment extends Fragment {
 //                        Order_Main orderMain = new Order_Main(account,totalPrice,name,address,phone,0);
 
 
+=======
+                        Order_Main orderMain = new Order_Main(account, totalPrice, name, address, phone, 0);
+>>>>>>> 20899b5c7f8146fc9a52688e1213a57aa8160b66
 //                        Order_Detail orderDetail = new Order_Detail()
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
