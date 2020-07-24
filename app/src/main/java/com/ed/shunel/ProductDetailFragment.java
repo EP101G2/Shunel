@@ -54,7 +54,7 @@ public class ProductDetailFragment extends Fragment {
     private TextView tvPdPrice;
     private TextView tvColor;
     private Spinner sp_Amount;
-    private Product product;
+    private Product product,productSale;
     private Shopping_Cart shopping_cart;
     private User_Account user_account;
     private int select_Amount = 0;
@@ -212,7 +212,7 @@ public class ProductDetailFragment extends Fragment {
                 addTask = new CommonTask(url1, jsonOutSystem);
                 try {
                     String jsonIn = addTask.execute().get();
-                    product = gson.fromJson(jsonIn, Product.class);
+                    productSale = gson.fromJson(jsonIn, Product.class);
                     Log.e(TAG, "-----------------------------------"+jsonIn);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
@@ -221,10 +221,13 @@ public class ProductDetailFragment extends Fragment {
                 Common.showToast(activity, R.string.textNoNetwork);
 
             }
-            tvPdName.setText("商品名稱：" + product.getProduct_Name());
             tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
-            tv_Dital.setText("商品介紹：" + product.getProduct_Ditail());
-            tvColor.setText("規格：" + product.getProduct_Color());
+            //product 是接從promotion bundle過去的值
+
+
+            tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
+            tv_Dital.setText("商品介紹：" + productSale.getProduct_Ditail());
+            tvColor.setText("規格：" + productSale.getProduct_Color());
 
 
         }
@@ -446,11 +449,11 @@ public class ProductDetailFragment extends Fragment {
 //                        product_list.setCart(product);
                         productList.add(product);
                         Product_List pl = new Product_List(productList);
-<<<<<<< HEAD
+
                         Order_Main orderMain = new Order_Main(account, totalPrice, name, address, phone, 0);
-=======
+
 //                        Order_Main orderMain = new Order_Main(account,totalPrice,name,address,phone,0);
->>>>>>> a116201cea0f4222f3a6250fd68bfe5fd6eed06c
+
 //                        Order_Detail orderDetail = new Order_Detail()
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
