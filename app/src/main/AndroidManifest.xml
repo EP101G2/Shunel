@@ -3,9 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ed.shunel">
 
+
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -14,12 +18,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@drawable/circle" />
-
+        <service android:name=".Task.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".PayActivity" /> <!-- 拍照 -->
         <uses-library

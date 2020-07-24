@@ -45,6 +45,7 @@ public class MemberFragment extends Fragment {
     private ImageTaskUser imageTask;
     private int imageSize;
     private ImageView ivUser;
+    private String id, name;
 
 
     @Override
@@ -135,16 +136,7 @@ public class MemberFragment extends Fragment {
         cvOrderlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                String account_ID = tvId.getText().toString().trim();
-                if (account_ID.isEmpty()) {
-                    tvId.setError("Account_ID is empty");
-                }
-                bundle.putString("Account_ID", account_ID);
-//                User_Account userAccount;
-//                userAccount = new User_Account(account_ID);
-//                bundle.putSerializable("Account_ID", userAccount);//
-                Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2, bundle);
+                Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2);//
             }
         });
 
@@ -169,12 +161,13 @@ public class MemberFragment extends Fragment {
         Log.e("------------",sharedPreferences.getString("password", ""));
 
 
-      //沒登入執行會錯這邊，問謝哥
-//        JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
-//        String result = jsonObject2.get("user").getAsString();
-//        User_Account user_account = gson.fromJson(result, User_Account.class);
-//        tv_Name.setText(user_account.getAccount_User_Name());
-//        tvId.setText(user_account.getAccount_ID());
+
+
+        
+
+        User_Account user_account = gson.fromJson(jsonIn, User_Account.class);
+        tv_Name.setText(user_account.getAccount_User_Name());
+        tvId.setText(user_account.getAccount_ID());
 
 
 

@@ -15,6 +15,43 @@
       },
       "oauth_client": [
         {
+          "client_id": "820611596567-nmdoln90o60ounta01ul59sq76fscasu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ed.shunel",
+            "certificate_hash": "2401173bc2c9b1a1d423949a617ef4e68a1ca53e"
+          }
+        },
+        {
+          "client_id": "820611596567-kmd0fnj3b2tibemqva0dcjsn1keur7dm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVYc4wVMoF4rz5xZM5z0Xx6hnhJjuzJhc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820611596567-kmd0fnj3b2tibemqva0dcjsn1keur7dm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820611596567:android:3a0dce74129a6414753752",
+        "android_client_info": {
+          "package_name": "idv.ron.phoneauthdemo"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "820611596567-kmd0fnj3b2tibemqva0dcjsn1keur7dm.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Order_Main;
+import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -45,13 +47,14 @@ public class OrderListFragment extends Fragment{
     private static final String TAG = "-OrderListFragment-";
     private Activity activity;
     private Integer counter;
-    private ImageView ivNotYetDelivered, ivDelivered, ivReceived, ivCanceled, ivRefounded;
+    private ImageButton btNotYetDelivered, btDelivered, btReceived, btCanceled, btRefounded;
     private Button btBack;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ImageTask orderImageTask;
+    private User_Account userAccount;
     List<Order_Main> orderListMain;
     RecyclerView rvOrderList;
-    private CommonTask ordersListGetAllTask;
+    private CommonTask ordersListGetTask;
 
     public OrderListFragment(){
 //        Required empty public constructor
@@ -81,9 +84,11 @@ public class OrderListFragment extends Fragment{
         return inflater.inflate(R.layout.fragment_order_list, container, false);
     }
 
+//    get the bundle with accountId from Member Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        bring accountId from bundle?
         rvOrderList = view.findViewById(R.id.rvOrderList);
 //        rvOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvOrderList.setAdapter(new OrderListAdapter(getContext(), orderListMain));
@@ -98,56 +103,54 @@ public class OrderListFragment extends Fragment{
             public void onRefresh() {
                 //讀取的圈圈 動畫
                 swipeRefreshLayout.setRefreshing(true);
-                showOrders(orderListMain);
+                showOrders(getOrders());
                 //直到讀取完 結束
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-//        imageViews, onClick Listener, statement filter
 
-//        imageViews, onClick Listener(select from status)
-//        searchViews, onClick Listener
-        ivNotYetDelivered = view.findViewById(R.id.ivNotYetDelivered);
-        ivDelivered = view.findViewById(R.id.ivDelivered);
-        ivReceived = view.findViewById(R.id.ivReceived);
-        ivCanceled = view.findViewById(R.id.ivCanceled);
-        ivRefounded = view.findViewById(R.id.ivRefounded);
-
-        ivNotYetDelivered.setOnClickListener(new View.OnClickListener() {
+        btNotYetDelivered = view.findViewById(R.id.btNotYetDelivered);
+        btDelivered = view.findViewById(R.id.btDelivered);
+        btReceived = view.findViewById(R.id.btReceived);
+        btCanceled = view.findViewById(R.id.btCanceled);
+        btRefounded = view.findViewById(R.id.btRefounded);
+//        set up filter when click image (change to btn??)
+        btNotYetDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("0"); //?? setting the key: orderstatus.case0
             }
         });
-        ivDelivered.setOnClickListener(new View.OnClickListener() {
+        btDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("1"); //?? setting the key: orderstatus.case1
             }
         });
-        ivReceived.setOnClickListener(new View.OnClickListener() {
+        btReceived.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("2"); //?? setting the key: orderstatus.case2
             }
         });
-        ivCanceled.setOnClickListener(new View.OnClickListener() {
+        btCanceled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("3"); //?? setting the key: orderstatus.case3
             }
         });
-        ivRefounded.setOnClickListener(new View.OnClickListener() {
+        btRefounded.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderListFragment.OrderListAdapter adapter = (OrderListFragment.OrderListAdapter)rvOrderList.getAdapter();
                 adapter.getFilter().filter("4"); //?? setting the key: orderstatus.case4
             }
         });
+
 //        click on arrow left and go back to the previous page
         Button btBack = view.findViewById(R.id.btBack);
         btBack.setOnClickListener(new View.OnClickListener() {
@@ -156,27 +159,34 @@ public class OrderListFragment extends Fragment{
                 // 效果與手機上的Back按鍵相同
                 Navigation.findNavController(v).popBackStack();
             }
-        });
+        });//ok
+
     }
 
     private List<Order_Main> getOrders() {
-        List<Order_Main> orderListMain = null;
-        if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "Orders_Servlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAll");
-            String jsonOut = jsonObject.toString();
-            ordersListGetAllTask = new CommonTask(url, jsonOut);
-            try {
-                String jsonIn = ordersListGetAllTask.execute().get();
-                Type listType = new TypeToken<List<Order_Main>>() {
-                }.getType();
-                orderListMain = new Gson().fromJson(jsonIn, listType);
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
+        List<Order_Main> orderListMain = new ArrayList<>();
+        try {
+            if (Common.networkConnected(activity)) {
+//                get data from orders servlet
+                String url = Common.URL_SERVER + "Orders_Servlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "getOrderMainShort");
+                jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("Account_ID", "G"));
+                String jsonOut = jsonObject.toString();
+                ordersListGetTask = new CommonTask(url, jsonOut);
+                try {
+                    String jsonIn = ordersListGetTask.execute().get();
+                    Type listType = new TypeToken<List<Order_Main>>() {
+                    }.getType();
+                    orderListMain = new Gson().fromJson(jsonIn, listType);
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            } else {
+                Common.showToast(activity, R.string.textNoNetwork);
             }
-        } else {
-            Common.showToast(activity, R.string.textNoNetwork);
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
         }
         return orderListMain;
     }
@@ -229,6 +239,14 @@ public class OrderListFragment extends Fragment{
         }//ok
 
         public int getItemCount(){
+            try {
+                if (orderListMain != null) {
+                    Log.e(TAG,"itemCount:"+orderListMain.size());
+                    return orderListMain == null ? 0 : orderListMain.size();
+                }
+            }catch (Exception e){
+                Log.e(TAG,"null list");
+            }
             return orderListMain == null ? 0 : orderListMain.size();
         }//ok orderListMain == null ? 0 : orderListMain.size();
 
@@ -243,22 +261,19 @@ public class OrderListFragment extends Fragment{
         public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
             final Order_Main orderMain = orderListMain.get(position);
 
-            String url = Common.URL_SERVER + "Orders_Servlet";
-//            String accountId = orderMain.getAccount_ID();
-            int id = orderMain.getOrder_ID();
-            orderImageTask = new ImageTask(url, id, imageSize, holder.ivOrderProductPic);
-            orderImageTask.execute();
-//            holder.ivOrderProductPic.setImageResource(orderMain.getImageId());
-            holder.tvOrderIdText.setText(R.string.textOrderIdText);
             holder.tvOrderId.setText(String.valueOf(orderMain.getOrder_ID()));
-            holder.tvOrderStatusText.setText(R.string.textOrderStatusText);
             holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrder_Main_Order_Status()));
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            fake pic for testing
+            holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
+//            insert pic here
+            
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {//nevigation: go to OrderDetailFragment
                 @Override
-                public void onClick(View v) { //nevigation: go to OrderDetailFragment
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("orders", orderMain);//bring orderId and status
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();//bring orderId and status and pic
+                    bundle.putSerializable("orders", orderMain);
                     Navigation.findNavController(v).navigate(R.id.action_orderListFragment2_to_orderDetailFragment, bundle);
                 }
             });
@@ -298,37 +313,8 @@ public class OrderListFragment extends Fragment{
                 filterResults.count = orderListMain.size();
                 filterResults.values = orderListMain;
                 return filterResults;
-//                    switch (chosenOrderStatus) { //not yet completed!!
-//                        case R.id.svNotYetDelivered://click on 1st sv and shows only orderList.getOrderStatus(0) //write a method() but use dif parameter to adjust layout(search view ex)
-//                            chosenOrderStatus = 0;
-//
-//                            break;
-//                        case R.id.svDelivered://click on 2nd sv and shows only orderList.getOrderStatus(1)
-//
-//                            break;
-//                        case R.id.svReceived://click on 3rd sv and shows only orderList.getOrderStatus(2)
-//
-//                            break;
-//                        case R.id.svCanceled://click on 4th sv and shows only orderList.getOrderStatus(3)
-//
-//                            break;
-//                        case R.id.svRefounded://click on 5th sv and shows only orderList.getOrderStatus(4)
-//
-//                            break;
-//                        default:
-//                            sortedOrdersList.addAll(orderListMain);
-//                    }
-
-//                public showByStatus(){
-//                    for (Orders orders : orderListMain){
-//                        if (orders.getOrderStatus().equals(chosenOrderStatus)){
-//                            sortedOrderList.add(orders);
-//                        }
-//                    }
-//                    return sortedOrdersList;
-//                }//dumped
-
             }
+
             @Override
             public void publishResults(CharSequence constraint, FilterResults filterResults) {
                try {
@@ -339,6 +325,6 @@ public class OrderListFragment extends Fragment{
                    Log.e(TAG, e.toString());
                }
             }
-        }//probably ok(?
+        }//to be fixed
     }
 }
