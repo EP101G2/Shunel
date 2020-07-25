@@ -211,13 +211,10 @@
     <fragment
         android:id="@+id/orderDetailFragment"
         android:name="com.ed.shunel.OrderDetailFragment"
-<<<<<<< HEAD
         android:label="fragment_order_detail"/>
 
 
-=======
-        android:label="fragment_order_detail" />
->>>>>>> 20899b5c7f8146fc9a52688e1213a57aa8160b66
+
 
     <fragment
         android:id="@+id/systemDetailFragment"
@@ -227,30 +224,25 @@
     <fragment
         android:id="@+id/saleDetailFragment"
         android:name="com.ed.shunel.SaleDetailFragment"
-<<<<<<< HEAD
+
         android:label="fragment_sale_detail"
 
         tools:layout="@layout/fragment_sale_detail" >
-=======
-        android:label="fragment_sale_detail" >
->>>>>>> 20899b5c7f8146fc9a52688e1213a57aa8160b66
+
         <action
             android:id="@+id/action_saleDetailFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
     </fragment>
-<<<<<<< HEAD
 
 
-        tools:layout="@layout/fragment_order_detail" >
-        tools:layout="@layout/fragment_sale_detail" />
+<!--        tools:layout="@layout/fragment_order_detail" >-->
+<!--        tools:layout="@layout/fragment_sale_detail" />-->
 
 
 
         <action
             android:id="@+id/action_orderDetailFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
-=======
->>>>>>> 20899b5c7f8146fc9a52688e1213a57aa8160b66
 
     <fragment
         android:id="@+id/modifyInfoFragment"
