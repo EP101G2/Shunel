@@ -70,6 +70,7 @@ public class ModifyInfoFragment extends Fragment {
         jsonObject.addProperty("action", "getLogin");
         jsonObject.addProperty("id", Common.getPreherences(activity).getString("id", "id"));
         jsonObject.addProperty("password", Common.getPreherences(activity).getString("password", "password"));
+        jsonObject.addProperty("getToken", Common.getPreherences(activity).getString("getToken", "token"));
         infoTask = new CommonTask(url, jsonObject.toString());
         String jsonIn = "";
         try {
