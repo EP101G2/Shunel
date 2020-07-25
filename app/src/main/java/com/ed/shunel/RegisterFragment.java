@@ -22,6 +22,7 @@ import android.widget.EditText;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.User_Account;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -33,6 +34,7 @@ public class RegisterFragment extends Fragment {
     private User_Account user_account;
     private EditText etTypeName, etTypeAccountId, etTypePhonenumber, etTypePassword, etTypeAddress, etReTypePassword;
     private Button btRegister;
+    private String token;
 
 
     @Override
@@ -96,8 +98,9 @@ public class RegisterFragment extends Fragment {
                     String phonenumber = etTypePhonenumber.getText().toString();
                     String password = etTypePassword.getText().toString();
                     String address = etTypeAddress.getText().toString();
-
-                    user_account = new User_Account(name, id, phonenumber, password, address);
+                    String token = FirebaseInstanceId.getInstance().getToken();
+                    Log.e("token","======"+token);
+                    user_account = new User_Account(name, id, phonenumber, password, address,token);
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("action", "Register");
                     jsonObject.addProperty("user", new Gson().toJson(user_account));
@@ -158,7 +161,7 @@ public class RegisterFragment extends Fragment {
         Common.getPreherences(activity).edit().putString("name",etTypeName.getText().toString()).apply();
         Common.getPreherences(activity).edit().putString("phone",etTypePhonenumber.getText().toString()).apply();
         Common.getPreherences(activity).edit().putString("address",etTypeAddress.getText().toString()).apply();
-
+        Common.getPreherences(activity).edit().putString("getToken",FirebaseInstanceId.getInstance().getToken());
 
         Log.i(TAG, "-------------------------------------------------------------");
 

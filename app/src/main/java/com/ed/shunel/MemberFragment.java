@@ -166,8 +166,8 @@ public class MemberFragment extends Fragment {
         
 
         User_Account user_account = gson.fromJson(jsonIn, User_Account.class);
-        tv_Name.setText(user_account.getAccount_User_Name());
-        tvId.setText(user_account.getAccount_ID());
+//        tv_Name.setText(user_account.getAccount_User_Name());
+//        tvId.setText(user_account.getAccount_ID());
 
 
 

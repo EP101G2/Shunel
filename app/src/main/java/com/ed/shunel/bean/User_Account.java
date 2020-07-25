@@ -1,4 +1,5 @@
 package com.ed.shunel.bean;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -12,6 +13,7 @@ public class User_Account implements Serializable {
     private int Account_Notice_Status;
     private int Account_Status;
     private Timestamp Account_Modify_Date;
+    private String TOKEN;
 
 
 //    public User_Account(String account_User_Name,String account_ID, String account_Phone, String account_Password, String account_Address,
@@ -29,13 +31,15 @@ public class User_Account implements Serializable {
 //    }
 
 
-    public User_Account(String account_User_Name,String account_ID, String account_Phone, String account_Password, String account_Address) {
+    public User_Account(String account_User_Name, String account_ID, String account_Phone, String account_Password, String account_Address,String token) {
         super();
-        Account_User_Name=account_User_Name;
+        Account_User_Name = account_User_Name;
         Account_ID = account_ID;
         Account_Phone = account_Phone;
         Account_Password = account_Password;
         Account_Address = account_Address;
+        this.TOKEN = token;
+
     }
 
 
@@ -131,9 +135,13 @@ public class User_Account implements Serializable {
         Account_Modify_Date = account_Modify_Date;
     }
 
+    public String getToken() {
+        return TOKEN;
+    }
 
-
-
+    public void setToken(String token) {
+        this.TOKEN = token;
+    }
 
 
 }

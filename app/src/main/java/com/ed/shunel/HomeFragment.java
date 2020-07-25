@@ -56,7 +56,16 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getToken = FirebaseInstanceId.getInstance().getToken();
-//      
+        Common.getPreherences(activity).edit().putString("getToken",getToken).apply();
+
+
+        if(getToken!= null) {
+            Log.e("11111", getToken);
+        }
+
+        Log.e("11111", getToken);
+
+
         searchView = view.findViewById(R.id.rearchitem);
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
