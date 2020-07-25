@@ -160,7 +160,7 @@ public class OrderDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //navigation to productDetail
-                    Navigation.findNavController(v).navigate(R.id.action_orderDetailFragment_to_productDetailFragment);//follow the main name of productDet
+//                    Navigation.findNavController(v).navigate(R.id.action_orderDetailFragment_to_productDetailFragment);//follow the main name of productDet
                 }
             });
         } //need to be fixed!!

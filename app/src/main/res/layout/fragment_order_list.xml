@@ -63,16 +63,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view">
 
-        <LinearLayout
-<<<<<<< HEAD
-=======
-
->>>>>>> 29d397cb5fd1e70654146e68fe6bae3f9a41528b
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="2dp"
-            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/btNotYetDelivered"
@@ -110,6 +100,7 @@
                 android:src="@drawable/refounded" />
         </LinearLayout>
 
+    <LinearLayout>
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayoutOrder"
             android:layout_width="match_parent"
