@@ -63,15 +63,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view">
 
-<<<<<<< HEAD
-=======
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="2dp"
         android:orientation="horizontal">
->>>>>>> 511d8e62fdb8193081af6b288d856dd6e39fe520
 
             <ImageButton
                 android:id="@+id/btNotYetDelivered"
