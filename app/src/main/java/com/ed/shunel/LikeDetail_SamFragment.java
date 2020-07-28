@@ -61,6 +61,7 @@ public class LikeDetail_SamFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        MainActivity.flag=10;
         recyclerView = view.findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
