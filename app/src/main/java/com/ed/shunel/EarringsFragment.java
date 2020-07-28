@@ -59,7 +59,7 @@ public class EarringsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.flag = 0 ;
+        MainActivity.flag = 7 ;
         recyclerView = view.findViewById(R.id.recyclerView);
 
 

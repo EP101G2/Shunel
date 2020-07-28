@@ -63,7 +63,7 @@ public class AllProductFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.flag = 2 ;
+        MainActivity.flag = 3 ;
         recyclerView = view.findViewById(R.id.recyclerView);
 
 

@@ -60,7 +60,7 @@ public class NecklaceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.flag = 0 ;
+        MainActivity.flag = 6 ;
         recyclerView = view.findViewById(R.id.recyclerView);
 
 
