@@ -122,5 +122,6 @@
                 android:layout_marginEnd="16dp" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
