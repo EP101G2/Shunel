@@ -14,7 +14,7 @@ public class CommonTwo {
 
     private final static String TAG = "CommonTwo";
     public static final String SERVER_URI =
-            "ws://192.168.196.146:8080/Shunel_Web/TwoChatServer/";
+            "ws://172.20.10.3:8080/Shunel_Web/TwoChatServer/";
     public static ChatWebSocketClient chatWebSocketClient;
 
 
