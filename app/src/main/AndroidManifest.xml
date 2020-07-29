@@ -67,7 +67,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
         </activity>
+        <receiver android:name= ".NotificationClickReceiver">
+            <intent-filter>
+                <action android:name="com.android.broadcast.RECEIVER_ACTION"/>
+            </intent-filter>
+
+        </receiver>
     </application>
 
 </manifest>
