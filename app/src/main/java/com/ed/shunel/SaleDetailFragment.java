@@ -56,13 +56,16 @@ public class SaleDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-        Log.i("98765", "222323232323232323");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Common.getPreherences(activity).edit().remove("noticeTitle").apply();
+        Common.getPreherences(activity).edit().remove("noticeDetail").apply();//清除
+
         return inflater.inflate(R.layout.fragment_sale_detail, container, false);
     }
 
@@ -72,8 +75,8 @@ public class SaleDetailFragment extends Fragment {
         MainActivity.flag = 0;
         Bundle bundle = getArguments();
         if (bundle != null) {
-            saleTitle = bundle.getString("saleTitle");
-            saleDetail = bundle.getString("saleDetail");
+            saleTitle = bundle.getString("noticeTitle");
+            saleDetail = bundle.getString("noticeDetail");
         }
         initData();
         findViews(view);
@@ -184,6 +187,7 @@ public class SaleDetailFragment extends Fragment {
 //            }
             holder.tvNoticeT.setText(promotion.getPromotion_Name());
             holder.tvNoticeD.setText(String.valueOf(promotion.getPromotion_Price()));
+
 
             final Product product = new Product(promotion.getProuct_ID(),promotion.getPromotion_Price());
             holder.itemView.setOnClickListener(new View.OnClickListener() {

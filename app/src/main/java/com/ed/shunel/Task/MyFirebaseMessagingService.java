@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import com.ed.shunel.MainActivity;
+import com.ed.shunel.NotificationClickReceiver;
 import com.ed.shunel.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -24,6 +26,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         //通知
@@ -33,12 +36,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
         //點擊通知後跳轉頁面
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("flag",remoteMessage.getData().get("flag"));
+        Intent intent = new Intent(this, NotificationClickReceiver.class);//過中轉站到廣播器
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferenced", MODE_PRIVATE);//用廣播去攔截點擊事件
+        preferences.edit().putString("noticeTitle", remoteMessage.getData().get("title")).apply();
+        preferences.edit().putString("noticeDetail", remoteMessage.getData().get("msg")).apply();
+        preferences.edit().putString("pageFlag", remoteMessage.getData().get("flag")).apply();
 
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new NotificationCompat.Builder(this, "msg")
                 .setContentTitle(remoteMessage.getData().get("title"))//Data收到
                 .setContentText(remoteMessage.getData().get("msg"))//Data收到
@@ -51,7 +57,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .build();
         wakeUpAndUnlock(this);
-        notificationManager.notify(new Random().nextInt(5), notification);
+
+        int Notification_ID = 0;
+        notificationManager.notify(Notification_ID, notification);
     }
 
     public void wakeUpAndUnlock(Context context) {
