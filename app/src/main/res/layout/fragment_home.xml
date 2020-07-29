@@ -55,11 +55,9 @@
         android:id="@+id/rearchitem"
         android:layout_width="46dp"
         android:layout_height="48dp"
-        android:layout_marginStart="224dp"
-        android:layout_marginLeft="224dp"
         android:src="@drawable/search_white"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintStart_toEndOf="@+id/view2" />
+        app:layout_constraintEnd_toEndOf="@+id/view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

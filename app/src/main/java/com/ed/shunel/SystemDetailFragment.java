@@ -34,7 +34,6 @@ public class SystemDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Activity activity = getActivity();
-        Log.i("98765","eeeeeeeee27272727272722727272");
     }
 
     @Override

@@ -161,7 +161,7 @@ public class RegisterFragment extends Fragment {
         Common.getPreherences(activity).edit().putString("name",etTypeName.getText().toString()).apply();
         Common.getPreherences(activity).edit().putString("phone",etTypePhonenumber.getText().toString()).apply();
         Common.getPreherences(activity).edit().putString("address",etTypeAddress.getText().toString()).apply();
-
+        Common.getPreherences(activity).edit().putString("getToken",FirebaseInstanceId.getInstance().getToken());
 
         Log.i(TAG, "-------------------------------------------------------------");
 

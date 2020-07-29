@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 //import com.ed.shunel.bean.Order_Detail;
+import com.ed.shunel.bean.Order_Detail;
 import com.ed.shunel.bean.Order_Main;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -43,7 +44,7 @@ public class OrderDetailFragment extends Fragment {
     //    private TextView tvOrderIdText, tvOrderDetStatusText, tvTotalPriceText, tvReceiverTitle, tvOrderDNameT, tvOrderDPhoneT, tvOrderDetailAddressT; need not to
 //    private ImageView ivOrderProductPic;//add later
     private RecyclerView rvOrderDetProList;
-    private List<OrderDetail> orderDetailList;
+    private List<Order_Detail> orderDetailList;
     private Activity activity;
     private Integer counter;
     private CommonTask ordersDetGetTask;
@@ -107,8 +108,8 @@ public class OrderDetailFragment extends Fragment {
 
     private class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.PageViewHolder>{
         Context context;
-        List<OrderDetail> orderDetailList;
-        public OrderDetailAdapter (Context context, List<OrderDetail> orderDetailList){
+        List<Order_Detail> orderDetailList;
+        public OrderDetailAdapter (Context context, List<Order_Detail> orderDetailList){
             this.context = context;
             this.orderDetailList = orderDetailList;
         }//ok
@@ -148,9 +149,9 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull PageViewHolder holder, int position) { //after added orderId & orderStatus to orderDetail(checked), modify this section
-            final OrderDetail orderDetail = orderDetailList.get(position);
-            holder.tvProductName.setText(orderDetail.getProductName());
-            holder.tvProductPrice.setText(orderDetail.getBuyPrice());
+            final Order_Detail orderDetail = orderDetailList.get(position);
+            holder.tvProductName.setText(orderDetail.getProduct_ID());
+            holder.tvProductPrice.setText(orderDetail.getOrder_Detail_Buy_Price());
 
 //            ---fake pic for testing---
             holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
@@ -160,7 +161,7 @@ public class OrderDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //navigation to productDetail
-                    Navigation.findNavController(v).navigate(R.id.action_orderDetailFragment_to_productDetailFragment);//follow the main name of productDet
+//                    Navigation.findNavController(v).navigate(R.id.action_orderDetailFragment_to_productDetailFragment);//follow the main name of productDet
                 }
             });
         } //need to be fixed!!
@@ -168,15 +169,15 @@ public class OrderDetailFragment extends Fragment {
     }
 
 
-    private List<OrderDetail> getOrderDetailList(){
-        List<OrderDetail> orderDetailList = new ArrayList<>();;
+    private List<Order_Detail> getOrderDetailList(){
+        List<Order_Detail> orderDetailList = new ArrayList<>();;
         try {
             if (Common.networkConnected(activity)) {
 //                get data from orders servlet
                 String url = Common.URL_SERVER + "Orders_Servlet";
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "getOrderDetShort");
-                jsonObject.addProperty("account_ID", Common.getPreherences(activity).getString("account_ID", "defValue"));
+                jsonObject.addProperty("Order_ID", Common.getPreherences(activity).getString("Order_ID", "defValue"));
                 String jsonOut = jsonObject.toString();
                 ordersDetGetTask = new CommonTask(url, jsonOut);
                 try {
@@ -193,17 +194,6 @@ public class OrderDetailFragment extends Fragment {
         } catch (Exception e) {
             Log.e(ARG_COUNT, e.toString());
         }
-
-//        ---fake data for testing---
-//        orderDetailList.add(new OrderDetail(001,0,300,"asdfg","+447394787310","zxc",001,"qwe",300,001));
-//        orderDetailList.add(new OrderDetail(002,1,300,"asdfg","+447394787310","zxc",001,"qwe",200,001));
-//        orderDetailList.add(new OrderDetail(002,1,300,"asdfg","+447394787310","zxc",002,"qwe",100,002));
-//        orderDetailList.add(new OrderDetail(003,2,500,"asdfg","+447394787310","zxc",001,"qwe",200,001));
-//        orderDetailList.add(new OrderDetail(003,2,500,"asdfg","+447394787310","zxc",002,"qwe",100,002));
-//        orderDetailList.add(new OrderDetail(003,2,500,"asdfg","+447394787310","zxc",003,"qwe",200,003));
-//        orderDetailList.add(new OrderDetail(004,3,300,"asdfg","+447394787310","zxc",001,"qwe",300,001));
-//        orderDetailList.add(new OrderDetail(005,4,300,"asdfg","+447394787310","zxc",001,"qwe",300,001));
-//        orderDetailList.add(new OrderDetail(006,0,300,"asdfg","+447394787310","zxc",001,"qwe",300,001));
 
         return orderDetailList;
     }

@@ -47,7 +47,7 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
 
         Log.e("Flag===",MainActivity.flag+"");
         switch (MainActivity.flag) {
-            case 8:
+            case 9:
 
                 switch (position) {
                     case 0:
@@ -59,7 +59,12 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
                         break;
                     case 2:
                         myviewholder.ivTop.setImageResource(R.drawable.top3);
-
+                        break;
+                    case 3:
+                        myviewholder.ivTop.setImageResource(R.drawable.top4);
+                        break;
+                    case 4:
+                        myviewholder.ivTop.setImageResource(R.drawable.top5);
                         break;
                     default:
                         myviewholder.ivTop.setVisibility(View.GONE);
@@ -80,7 +85,7 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
         productimageTask = new ImageTask(url, id_product, imageSize, myviewholder.ivcardIMG);
         productimageTask.execute();
         myviewholder.tvname.setText(products.get(position).getProduct_Name());
-        myviewholder.tvPrice.setText(String.valueOf(product.getProduct_Price()));
+        myviewholder.tvPrice.setText("$"+product.getProduct_Price());
         myviewholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

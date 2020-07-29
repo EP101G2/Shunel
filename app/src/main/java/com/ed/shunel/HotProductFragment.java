@@ -61,7 +61,7 @@ public class HotProductFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.flag = 8 ;
+        MainActivity.flag = 9 ;
         recyclerView = view.findViewById(R.id.recyclerView);
 
 
