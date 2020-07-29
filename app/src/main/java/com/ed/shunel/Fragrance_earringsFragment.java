@@ -59,7 +59,7 @@ public class Fragrance_earringsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.flag = 0 ;
+        MainActivity.flag = 5 ;
         recyclerView = view.findViewById(R.id.recyclerView);
 
 
