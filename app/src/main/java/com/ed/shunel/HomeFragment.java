@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
             Log.e("11111", getToken);
         }
 
-        Log.e("11111", getToken);
+//        Log.e("11111", getToken);
 
 
         searchView = view.findViewById(R.id.rearchitem);

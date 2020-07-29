@@ -63,15 +63,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view">
 
-<<<<<<< HEAD
-=======
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="2dp"
-        android:orientation="horizontal">
->>>>>>> 511d8e62fdb8193081af6b288d856dd6e39fe520
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/btNotYetDelivered"
@@ -109,21 +106,23 @@
                 android:src="@drawable/refounded" />
         </LinearLayout>
 
-    <LinearLayout>
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayoutOrder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="6dp">
+        <LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvOrderList"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshLayoutOrder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="16dp" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                android:layout_margin="6dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvOrderList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="16dp" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

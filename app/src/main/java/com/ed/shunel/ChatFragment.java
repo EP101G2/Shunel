@@ -57,7 +57,8 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        friend = Common.getPreherences(activity).getString("name","");
+//        friend = Common.getPreherences(activity).getString("name","");
+        friend = "2";
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
@@ -82,6 +83,7 @@ public class ChatFragment extends Fragment {
                     return;
                 }
                 String sender = loadUserName(activity);
+//                String sender = "2";
                 // 將欲傳送訊息轉成JSON後送出
                 ChatMessage chatMessage = new ChatMessage("chat", sender, friend, message);
                 String chatMessageJson = new Gson().toJson(chatMessage);
