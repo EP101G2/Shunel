@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.ed.shunel.Task.Common;
 import com.ed.shunel.cache.MemoryCache;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private int requestCode;
     private int resultCode;
     private Intent data;
+    private SharedPreferences preferences ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,27 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragment3);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        String isNotiFi = Common.getPreherences(this).getString("Notification","N");
+        Log.e("========isNotiFi",isNotiFi+"========");
+        String pageFlag = Common.getPreherences(this).getString("pageFlag","noFlag");
+        if (isNotiFi.equals("Y")){
+            Common.getPreherences(this).edit().putString("Notification","N").apply();//設開關
+            if(pageFlag.equals("1")){
+                String saleTitle = Common.getPreherences(this).getString("noticeTitle","");
+                String saleDetail = Common.getPreherences(this).getString("noticeDetail","");
+                Bundle bundle = new Bundle();
+                bundle.putString("noticeTitle",saleTitle);
+                bundle.putString("noticeDetail",saleDetail);
+                Log.e("=====saleTitle=====",saleTitle+"=========");
+                Log.e("saleTitle=====",bundle.getString("noticeTitle")+"saleTitle");
+                Navigation.findNavController(this,R.id.fragment3)
+                        .navigate(R.id.action_homeFragment_to_saleDetailFragment, bundle);
+                Common.getPreherences(this).edit().remove("pageFlag").apply();
+            }
+
+
+
+        }
     }
 //    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 //        super.onActivityResult(requestCode, resultCode, intent);

@@ -190,8 +190,8 @@ public class noticeDetailFragment extends Fragment {
                             if (saleTitle.isEmpty() || saleDetail.isEmpty()) {
                                 Common.showToast(activity, R.string.textnofound);
                             }
-                            bundle.putString("saleTitle", saleTitle);
-                            bundle.putString("saleDetail", saleDetail);
+                            bundle.putString("title", saleTitle);
+                            bundle.putString("msg", saleDetail);
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_noticeDetailFragment_to_saleDetailFragment, bundle);
 

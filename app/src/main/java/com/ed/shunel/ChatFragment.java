@@ -10,18 +10,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.bean.ChatMessage;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.ed.shunel.CommonTwo.chatWebSocketClient;
 import static com.ed.shunel.CommonTwo.loadUserName;
@@ -38,8 +46,13 @@ public class ChatFragment extends Fragment {
     private TextView tvMessage;
     private EditText etMessage;
     private ScrollView scrollView;
+    private Button btSend;
+    private RecyclerView rv;
     private String friend;
 
+    private ChatMessage chatMessage = null;
+    String message = "";
+    private List<ChatMessage> chatMessageList = new ArrayList<>();
 
 
     public ChatFragment() {
@@ -57,7 +70,7 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        friend = Common.getPreherences(activity).getString("name","");
+        friend = "Shunel";
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
@@ -70,42 +83,68 @@ public class ChatFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvMessage = view.findViewById(R.id.tvMessage);
+
+        findViews(view);
+        /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
+        initData();
+        /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
+        setSystemServices();
+        /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
+        setLinstener();
+        
+        
+    }
+
+    private void findViews(View view) {
+        rv = view.findViewById(R.id.rv);
+        btSend = view.findViewById(R.id.btSend);
         etMessage = view.findViewById(R.id.etMessage);
-        scrollView = view.findViewById(R.id.scrollView);
-        view.findViewById(R.id.btSend).setOnClickListener(new View.OnClickListener() {
+
+
+    }
+
+    private void initData() {
+    }
+
+    private void setSystemServices() {
+    }
+
+    private void setLinstener() {
+
+
+        rv.setLayoutManager(new LinearLayoutManager(activity));
+        rv.setAdapter(new messageFragment(activity,chatMessageList)); //data要放什麼？
+
+        btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = etMessage.getText().toString();
+                message = etMessage.getText().toString();
                 if (message.trim().isEmpty()) {
-                    showToast(activity, R.string.textMessageEmpty);
+                    Toast.makeText(activity,"請輸入文字",Toast.LENGTH_LONG).show();
                     return;
                 }
                 String sender = loadUserName(activity);
                 // 將欲傳送訊息轉成JSON後送出
-                ChatMessage chatMessage = new ChatMessage("chat", sender, friend, message);
+                chatMessage = new ChatMessage("chat", sender, friend, message);
                 String chatMessageJson = new Gson().toJson(chatMessage);
                 chatWebSocketClient.send(chatMessageJson);
-                LayoutInflater messageInflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-                Log.d(TAG, "output: " + chatMessageJson);
+                Log.d("btSend:", "output: " + chatMessageJson);
 
                 // 將欲傳送訊息顯示在TextView上
-                tvMessage.append(sender + ": " + message + "\n");
-//                convertView = messageInflater.inflate(R.layout.my_message, null);
-
+                chatMessageList.add(chatMessage);
+//                tvMessage.append(sender + ": " + message + "\n");
                 // 將輸入的訊息清空
+
+                messageFragment adpter = (messageFragment) rv.getAdapter();
+                if(adpter!=null) {
+                    adpter.setListforMsg(chatMessageList);
+                    adpter.notifyDataSetChanged();
+                }
                 etMessage.setText(null);
-                // 捲動至最新訊息
-                scrollView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollView.fullScroll(View.FOCUS_DOWN);
-                    }
-                });
             }
         });
-    }
 
+    }
 
 
     /**
@@ -125,16 +164,13 @@ public class ChatFragment extends Fragment {
             ChatMessage chatMessage = new Gson().fromJson(message, ChatMessage.class);
             String sender = chatMessage.getSender();
             // 接收到聊天訊息，若發送者與目前聊天對象相同，就將訊息顯示在TextView
-            if (sender.equals(friend)) {
-                tvMessage.append(sender + ": " + chatMessage.getMessage() + "\n");
-                scrollView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollView.fullScroll(View.FOCUS_DOWN);
-                    }
-                });
+            chatMessageList.add(chatMessage);
+            messageFragment adpter = (messageFragment) rv.getAdapter();
+            if(adpter!=null) {
+                adpter.setListforMsg(chatMessageList);
+                adpter.notifyDataSetChanged();
             }
-            Log.d(TAG, message);
+            Log.d("=============", message);
         }
     };
 
@@ -146,4 +182,83 @@ public class ChatFragment extends Fragment {
         broadcastManager.unregisterReceiver(chatReceiver);
     }
 
+
+
+
+    private class messageFragment extends RecyclerView.Adapter<messageFragment.MyViewholder> {
+        Context context;
+        List<ChatMessage> message;
+
+        public messageFragment(Context context ,List<ChatMessage> message ) {
+            this.context = context;
+            this.message = message;
+
+        }
+
+        void setListforMsg(List<ChatMessage> message){
+            this.message = message;
+        }
+
+        @NonNull
+        @Override
+        public MyViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
+            View itemView = layoutInflater.inflate(R.layout.chat_list_test, parent, false);
+
+            return new MyViewholder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
+
+            final ChatMessage CM = message.get(position);
+            if(CM.getReceiver().equals(friend)){
+
+                holder.tv_their.setVisibility(View.VISIBLE);
+                holder.iv_their.setVisibility(View.VISIBLE);
+
+
+                //我方最新訊息
+                holder.tvMy.setText(CM.getMessage());
+                holder.iv_my.setVisibility(View.VISIBLE);
+                holder.tv_their.setVisibility(View.GONE);
+                holder.iv_their.setVisibility(View.GONE);
+                Log.e("h123=",CM.getMessage());
+            }
+            else {
+
+                holder.iv_my.setVisibility(View.VISIBLE);
+                holder.tvMy.setVisibility(View.VISIBLE);
+
+                //對方最新訊息
+                holder.tvMy.setVisibility(View.GONE);
+                holder.iv_my.setVisibility(View.GONE);
+                holder.tv_their.setText(CM.getMessage());
+                holder.iv_their.setImageResource(R.drawable.circle);
+                Log.e("h223=",CM.getMessage());
+            }
+
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return message==null?0:message.size();
+        }
+
+        private class MyViewholder extends RecyclerView.ViewHolder {
+            TextView tvMy,tv_their;
+            ImageView iv_their,iv_my;
+            public MyViewholder(View itemView) {
+                super(itemView);
+
+                tvMy = itemView.findViewById(R.id.tvMy);
+                iv_my = itemView.findViewById(R.id.iv_my);
+                tv_their = itemView.findViewById(R.id.tvTheir);
+                iv_their = itemView.findViewById(R.id.iv_their);
+
+            }
+        }
+    }
 }

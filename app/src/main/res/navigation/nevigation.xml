@@ -16,6 +16,18 @@
         <action
             android:id="@+id/action_homeFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_systemDetailFragment"
+            app:destination="@id/systemDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_saleDetailFragment"
+            app:destination="@id/saleDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_orderListFragment2"
+            app:destination="@id/orderListFragment2" />
     </fragment>
     <fragment
         android:id="@+id/noticeFragment"

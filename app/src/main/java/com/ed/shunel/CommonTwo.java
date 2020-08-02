@@ -14,7 +14,7 @@ public class CommonTwo {
 
     private final static String TAG = "CommonTwo";
     public static final String SERVER_URI =
-            "ws://10.0.2.2:8080/Shunel_Web/TwoChatServer/";
+            "ws://172.20.10.3:8080/Shunel_Web/TwoChatServer/";
     public static ChatWebSocketClient chatWebSocketClient;
 
 
@@ -42,18 +42,16 @@ public class CommonTwo {
         }
     }
 
-//    public static void saveUserName(Context context, String id) {
-//        SharedPreferences preferences =
-//                context.getSharedPreferences("Preferenced", MODE_PRIVATE);
-//        preferences.edit().putString("userName", id).apply();
-//    }
+    public static void saveUserName(Context context, String id) {
+        SharedPreferences preferences =
+                context.getSharedPreferences("Preferenced", MODE_PRIVATE);
+        preferences.edit().putString("userName", id).apply();
+    }
 
     public static String loadUserName(Context context) {
         SharedPreferences preferences =
                 context.getSharedPreferences("Preferenced", MODE_PRIVATE);
         String userName = preferences.getString("id", "");
-
-//        String userName = Common.getPreherences().getString("name","");
         Log.d(TAG, "userName = " + userName);
         return userName;
     }
