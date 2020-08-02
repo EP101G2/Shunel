@@ -63,7 +63,7 @@ public class PromotionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MainActivity.flag = 9 ;
+        MainActivity.flag = 2 ;
         recyclerView = view.findViewById(R.id.recyclerView);
 
 

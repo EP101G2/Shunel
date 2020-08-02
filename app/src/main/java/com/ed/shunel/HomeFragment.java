@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.e("=homefragment的flag=",""+MainActivity.flag);
         super.onViewCreated(view, savedInstanceState);
         getToken = FirebaseInstanceId.getInstance().getToken();
         Common.getPreherences(activity).edit().putString("getToken",getToken).apply();

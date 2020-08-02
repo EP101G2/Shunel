@@ -34,9 +34,9 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
 
         switch (position){
-            case 0: //熱門
+            case 0: //熱門  flag=9
                 return new HotProductFragment();
-            case 1: //促銷
+            case 1: //促銷 flag=2
                 return new PromotionFragment();
             case 2: //全部  flag=3
                 return new AllProductFragment();

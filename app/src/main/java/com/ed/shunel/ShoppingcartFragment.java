@@ -329,12 +329,12 @@ public class ShoppingcartFragment extends Fragment {
             holder.tv_Count.setText(String.valueOf(shoppingCart.getAmount()));
             holder.tv_specification.setText("規格" + shoppingCart.getColor());
             holder.tv_Price.setText("價格：" + shoppingCart.getAmount() * shoppingCart.getPrice());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Navigation.findNavController(v).navigate(R.id.productDetailFragment);
-                }
-            });
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Navigation.findNavController(v).navigate(R.id.productDetailFragment);
+//                }
+//            });
 
             holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
