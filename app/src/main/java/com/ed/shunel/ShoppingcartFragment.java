@@ -180,9 +180,9 @@ public class ShoppingcartFragment extends Fragment {
 //                        orderId=Integer.parseInt(shopGetall);
                         try {
                             String jsonIn = shopGetall.execute().get();
-                            Log.i("888888","9999999999"+jsonIn);
+//                            Log.i("888888","9999999999"+jsonIn);
                             orderId = jsonIn;
-                            Log.i("888888","9999999999"+orderId);
+//                            Log.i("888888","9999999999"+orderId);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -39,7 +39,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/circle"
+        app:srcCompat="@drawable/chat_logo"
         tools:layout_editor_absoluteY="107dp" />
 
     <ImageView
@@ -52,7 +52,7 @@
         app:layout_constraintHorizontal_bias="0.991"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/chat_logo" />
+        app:srcCompat="@drawable/circle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
