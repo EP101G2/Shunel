@@ -253,5 +253,10 @@
             android:id="@+id/action_modifyInfoFragment_to_modifyNameFragment"
             app:destination="@id/modifyNameFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/promotionFragment"
+        android:name="com.ed.shunel.PromotionFragment"
+        android:label="fragment_promotion"
+        tools:layout="@layout/fragment_promotion" />
 
 </navigation>
