@@ -97,7 +97,7 @@ public class ChatFragment extends Fragment {
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
         CommonTwo.connectServer(activity, loadUserName(activity));
-
+        chatMessageList = getData();
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
@@ -127,7 +127,7 @@ public class ChatFragment extends Fragment {
 
     private void initData() {
 
-        chatMessageList = getData();
+
 
     }
 
@@ -167,7 +167,7 @@ public class ChatFragment extends Fragment {
 
 
         rv.setLayoutManager(new LinearLayoutManager(activity));
-        rv.setAdapter(new messageFragment(activity, chatMessageList)); //data要放什麼？
+        rv.setAdapter(new messageFragment(activity, chatMessageList));
 
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,15 +267,16 @@ public class ChatFragment extends Fragment {
         private final int TYPE_IMAGE_SENT = 2;
         private final int TYPE_IMAGE_RECEIVED = 3;
         private LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
         Context context;
+
+
         List<ChatMessage> message;
+//        int id;
 
         public messageFragment(Context context, List<ChatMessage> message) {
             this.context = context;
             this.message = message;
-            
+
         }
 
         void setListforMsg(List<ChatMessage> message) {
@@ -335,12 +336,9 @@ public class ChatFragment extends Fragment {
             Calendar mCal = Calendar.getInstance();
             CharSequence s = DateFormat.format("hh:mm:ss", mCal.getTime());
 
-
-
             if (CM.getSender().equals(Common.getPreherences(activity).getString("id", ""))) {
                 ReceivedMessageHolder receivedMessageHolder = (ReceivedMessageHolder) holder;
                 receivedMessageHolder.messageTxt.setText(CM.getMessage());
-
                 if (CM.getDate()!=null){
                     receivedMessageHolder.messageTime.setText(DateToStr(CM.getDate()));
                 }else {
