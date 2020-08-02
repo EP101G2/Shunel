@@ -30,10 +30,13 @@ import com.ed.shunel.bean.ChatMessage;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static android.content.ContentValues.TAG;
 import static com.ed.shunel.CommonTwo.chatWebSocketClient;
@@ -54,7 +57,7 @@ public class ChatFragment extends Fragment {
     private Button btSend;
     private RecyclerView rv;
     private String friend;
-    private CommonTask chatTask;
+    private CommonTask chatTask,messageTask;
     private String user_ID;
     private String user_Name;
     private int chat_ID;
@@ -122,8 +125,37 @@ public class ChatFragment extends Fragment {
 
     private void initData() {
 
+    chatMessageList = getData();
 
+    }
 
+    private List<ChatMessage> getData() {
+
+        List<ChatMessage> messages = null;
+
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Chat_Servlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("type", "getAll");
+            jsonObject.addProperty("chat_ID",chat_ID);
+            messageTask = new CommonTask(url, jsonObject.toString());
+            try {
+                String jsonIn = messageTask.execute().get();
+                Type listType = new TypeToken<List<ChatMessage>>() {
+                }.getType();
+                messages = new Gson().fromJson(jsonIn, listType);
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        Log.e("--------------",messages+"");
+
+        return  messages;
     }
 
     private void setSystemServices() {
@@ -178,6 +210,7 @@ public class ChatFragment extends Fragment {
         jsonObject.addProperty("receiver",chatMessage.getReceiver());
         jsonObject.addProperty("sender",chatMessage.getSender());
         jsonObject.addProperty("msg",chatMessage.getMessage());
+        jsonObject.addProperty("msgtype",chatMessage.getType());
 
 
         Log.e(TAG, jsonObject.toString());
@@ -304,13 +337,11 @@ public class ChatFragment extends Fragment {
 
 
             if (CM.getSender().equals(Common.getPreherences(activity).getString("id",""))){
-//                SentMessageHolder sentMessageHolder = (SentMessageHolder) holder;
-//                sentMessageHolder.messageTxt.setText(CM.getMessage());
                 ReceivedMessageHolder receivedMessageHolder = (ReceivedMessageHolder) holder;
                 receivedMessageHolder.messageTxt.setText(CM.getMessage());
             }else {
                 SentMessageHolder sentMessageHolder = (SentMessageHolder) holder;
-                sentMessageHolder.nameTxt.setText(CM.getReceiver());
+                sentMessageHolder.nameTxt.setText(CM.getSender());
                 sentMessageHolder.messageTxt.setText(CM.getMessage());
             }
 
