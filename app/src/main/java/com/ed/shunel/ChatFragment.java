@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +30,14 @@ import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.ChatMessage;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -57,7 +61,7 @@ public class ChatFragment extends Fragment {
     private Button btSend;
     private RecyclerView rv;
     private String friend;
-    private CommonTask chatTask,messageTask;
+    private CommonTask chatTask, messageTask;
     private String user_ID;
     private String user_Name;
     private int chat_ID;
@@ -65,7 +69,6 @@ public class ChatFragment extends Fragment {
     private ChatMessage chatMessage = null;
     String message = "";
     private List<ChatMessage> chatMessageList = new ArrayList<>();
-
 
     public ChatFragment() {
         // Required empty public constructor
@@ -90,7 +93,6 @@ public class ChatFragment extends Fragment {
         friend = "Shunel";
         user_ID = Common.getPreherences(activity).getString("id", "");
         user_Name = Common.getPreherences(activity).getString("name", "");
-//        Log.e("123312=","-----------------------"+user_Name+"------------"+user_ID);
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
@@ -125,25 +127,25 @@ public class ChatFragment extends Fragment {
 
     private void initData() {
 
-    chatMessageList = getData();
+        chatMessageList = getData();
 
     }
 
     private List<ChatMessage> getData() {
-
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         List<ChatMessage> messages = null;
 
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Chat_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("type", "getAll");
-            jsonObject.addProperty("chat_ID",chat_ID);
+            jsonObject.addProperty("chat_ID", chat_ID);
             messageTask = new CommonTask(url, jsonObject.toString());
             try {
                 String jsonIn = messageTask.execute().get();
                 Type listType = new TypeToken<List<ChatMessage>>() {
                 }.getType();
-                messages = new Gson().fromJson(jsonIn, listType);
+                messages = gson.fromJson(jsonIn, listType);
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -153,9 +155,9 @@ public class ChatFragment extends Fragment {
         } else {
             Common.showToast(activity, R.string.textNoNetwork);
         }
-        Log.e("--------------",messages+"");
+        Log.e("--------------", messages + "");
 
-        return  messages;
+        return messages;
     }
 
     private void setSystemServices() {
@@ -177,11 +179,10 @@ public class ChatFragment extends Fragment {
                 }
                 String sender = loadUserName(activity);
                 // 將欲傳送訊息轉成JSON後送出
-                chatMessage = new ChatMessage("chat",user_ID,friend,message,chat_ID);
+                chatMessage = new ChatMessage("chat", user_ID, friend, message, chat_ID);
                 String chatMessageJson = new Gson().toJson(chatMessage);
                 chatWebSocketClient.send(chatMessageJson);
                 Log.d("btSend:", "output: " + chatMessageJson);
-
                 // 將欲傳送訊息顯示在TextView上
                 chatMessageList.add(chatMessage);
                 // 將輸入的訊息清空
@@ -192,8 +193,6 @@ public class ChatFragment extends Fragment {
                     adpter.notifyDataSetChanged();
                 }
                 etMessage.setText(null);
-
-
 
 
             }
@@ -207,18 +206,17 @@ public class ChatFragment extends Fragment {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "createChatID");
         jsonObject.addProperty("chatID", chatMessage.getChatRoom());
-        jsonObject.addProperty("receiver",chatMessage.getReceiver());
-        jsonObject.addProperty("sender",chatMessage.getSender());
-        jsonObject.addProperty("msg",chatMessage.getMessage());
-        jsonObject.addProperty("msgtype",chatMessage.getType());
+        jsonObject.addProperty("receiver", chatMessage.getReceiver());
+        jsonObject.addProperty("sender", chatMessage.getSender());
+        jsonObject.addProperty("msg", chatMessage.getMessage());
+        jsonObject.addProperty("msgtype", chatMessage.getType());
 
 
         Log.e(TAG, jsonObject.toString());
         try {
             chatTask = new CommonTask(url, jsonObject.toString());
             String result = chatTask.execute().get();
-//            chat_ID = Integer.parseInt(result);
-            Log.e(TAG, "============"+result);
+            Log.e(TAG, "============" + result);
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -271,14 +269,13 @@ public class ChatFragment extends Fragment {
         private LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
-
         Context context;
         List<ChatMessage> message;
 
         public messageFragment(Context context, List<ChatMessage> message) {
             this.context = context;
             this.message = message;
-
+            
         }
 
         void setListforMsg(List<ChatMessage> message) {
@@ -335,14 +332,31 @@ public class ChatFragment extends Fragment {
 
             final ChatMessage CM = message.get(position);
 
+            Calendar mCal = Calendar.getInstance();
+            CharSequence s = DateFormat.format("hh:mm:ss", mCal.getTime());
 
-            if (CM.getSender().equals(Common.getPreherences(activity).getString("id",""))){
+
+
+            if (CM.getSender().equals(Common.getPreherences(activity).getString("id", ""))) {
                 ReceivedMessageHolder receivedMessageHolder = (ReceivedMessageHolder) holder;
                 receivedMessageHolder.messageTxt.setText(CM.getMessage());
-            }else {
+
+                if (CM.getDate()!=null){
+                    receivedMessageHolder.messageTime.setText(DateToStr(CM.getDate()));
+                }else {
+                    receivedMessageHolder.messageTime.setText(s);
+                }
+
+            } else {
                 SentMessageHolder sentMessageHolder = (SentMessageHolder) holder;
                 sentMessageHolder.nameTxt.setText(CM.getSender());
                 sentMessageHolder.messageTxt.setText(CM.getMessage());
+                if (CM.getDate()!=null){
+                    sentMessageHolder.theirTime.setText(DateToStr(CM.getDate()));
+                }else {
+                    sentMessageHolder.theirTime.setText(s);
+                }
+
             }
 
 
@@ -360,60 +374,32 @@ public class ChatFragment extends Fragment {
         }
 
         private class SentMessageHolder extends MyViewholder {
-//            TextView messageTxt;
-//
-//            public SentMessageHolder(@NonNull View itemView) {
-//                super(itemView);
-//                messageTxt = itemView.findViewById(R.id.message_mybody);
-//            }
 
-            TextView nameTxt, messageTxt;
+            TextView nameTxt, messageTxt,theirTime;
 
             public SentMessageHolder(@NonNull View itemView) {
                 super(itemView);
-
+                theirTime =itemView.findViewById(R.id.theirTime);
                 nameTxt = itemView.findViewById(R.id.name);
                 messageTxt = itemView.findViewById(R.id.message_mybody);
             }
 
 
-
         }
 
         private class ReceivedMessageHolder extends MyViewholder {
-//            TextView nameTxt, messageTxt;
-//
-//            public ReceivedMessageHolder(@NonNull View itemView) {
-//                super(itemView);
-//
-//                nameTxt = itemView.findViewById(R.id.name);
-//                messageTxt = itemView.findViewById(R.id.message_mybody);
-//            }
-
-
-            TextView messageTxt;
+            TextView messageTxt, messageTime;
 
             public ReceivedMessageHolder(@NonNull View itemView) {
                 super(itemView);
                 messageTxt = itemView.findViewById(R.id.message_mybody);
+                messageTime = itemView.findViewById(R.id.myTime);
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         private class SentImageHolder extends MyViewholder {
             ImageView imageView;
+
             public SentImageHolder(@NonNull View itemView) {
                 super(itemView);
 
@@ -432,4 +418,12 @@ public class ChatFragment extends Fragment {
             }
         }
     }
+
+    public static String DateToStr(Date date) {
+
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        String str = format.format(date);
+        return str;
+    }
+
 }
