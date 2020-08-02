@@ -25,12 +25,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ed.shunel.Task.Common;
+import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.ChatMessage;
+import com.ed.shunel.bean.Shopping_Cart;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static com.ed.shunel.CommonTwo.chatWebSocketClient;
 import static com.ed.shunel.CommonTwo.loadUserName;
 import static com.ed.shunel.CommonTwo.showToast;
@@ -49,6 +54,10 @@ public class ChatFragment extends Fragment {
     private Button btSend;
     private RecyclerView rv;
     private String friend;
+    private CommonTask chatTask;
+    private String user_ID;
+    private String user_Name;
+    private int chat_ID;
 
     private ChatMessage chatMessage = null;
     String message = "";
@@ -69,8 +78,16 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Bundle bundle = getArguments();
+
+        chat_ID = bundle.getInt("chatroom");
+
         // Inflate the layout for this fragment
         friend = "Shunel";
+        user_ID = Common.getPreherences(activity).getString("id", "");
+        user_Name = Common.getPreherences(activity).getString("name", "");
+//        Log.e("123312=","-----------------------"+user_Name+"------------"+user_ID);
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
@@ -91,8 +108,8 @@ public class ChatFragment extends Fragment {
         setSystemServices();
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
         setLinstener();
-        
-        
+
+
     }
 
     private void findViews(View view) {
@@ -104,6 +121,9 @@ public class ChatFragment extends Fragment {
     }
 
     private void initData() {
+
+
+
     }
 
     private void setSystemServices() {
@@ -113,36 +133,62 @@ public class ChatFragment extends Fragment {
 
 
         rv.setLayoutManager(new LinearLayoutManager(activity));
-        rv.setAdapter(new messageFragment(activity,chatMessageList)); //data要放什麼？
+        rv.setAdapter(new messageFragment(activity, chatMessageList)); //data要放什麼？
 
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 message = etMessage.getText().toString();
                 if (message.trim().isEmpty()) {
-                    Toast.makeText(activity,"請輸入文字",Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "請輸入文字", Toast.LENGTH_LONG).show();
                     return;
                 }
                 String sender = loadUserName(activity);
                 // 將欲傳送訊息轉成JSON後送出
-                chatMessage = new ChatMessage("chat", sender, friend, message);
+                chatMessage = new ChatMessage("chat",user_ID,friend,message,chat_ID);
                 String chatMessageJson = new Gson().toJson(chatMessage);
                 chatWebSocketClient.send(chatMessageJson);
                 Log.d("btSend:", "output: " + chatMessageJson);
 
                 // 將欲傳送訊息顯示在TextView上
                 chatMessageList.add(chatMessage);
-//                tvMessage.append(sender + ": " + message + "\n");
                 // 將輸入的訊息清空
-
+                sendChatDB(chatMessage);
                 messageFragment adpter = (messageFragment) rv.getAdapter();
-                if(adpter!=null) {
+                if (adpter != null) {
                     adpter.setListforMsg(chatMessageList);
                     adpter.notifyDataSetChanged();
                 }
                 etMessage.setText(null);
+
+
+
+
             }
         });
+
+    }
+
+    private void sendChatDB(ChatMessage chatMessage) {
+
+        String url = Common.URL_SERVER + "Chat_Servlet";
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "createChatID");
+        jsonObject.addProperty("chatID", chatMessage.getChatRoom());
+        jsonObject.addProperty("receiver",chatMessage.getReceiver());
+        jsonObject.addProperty("sender",chatMessage.getSender());
+        jsonObject.addProperty("msg",chatMessage.getMessage());
+
+
+        Log.e(TAG, jsonObject.toString());
+        try {
+            chatTask = new CommonTask(url, jsonObject.toString());
+            String result = chatTask.execute().get();
+//            chat_ID = Integer.parseInt(result);
+            Log.e(TAG, "============"+result);
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
 
     }
 
@@ -166,7 +212,7 @@ public class ChatFragment extends Fragment {
             // 接收到聊天訊息，若發送者與目前聊天對象相同，就將訊息顯示在TextView
             chatMessageList.add(chatMessage);
             messageFragment adpter = (messageFragment) rv.getAdapter();
-            if(adpter!=null) {
+            if (adpter != null) {
                 adpter.setListforMsg(chatMessageList);
                 adpter.notifyDataSetChanged();
             }
@@ -183,81 +229,175 @@ public class ChatFragment extends Fragment {
     }
 
 
-
-
     private class messageFragment extends RecyclerView.Adapter<messageFragment.MyViewholder> {
+        /*layout分別是自己發送的文字內容，自己發送的圖片，與別人發的文字和圖片*/
+        private final int TYPE_MESSAGE_SENT = 0;
+        private final int TYPE_MESSAGE_RECEIVED = 1;
+        private final int TYPE_IMAGE_SENT = 2;
+        private final int TYPE_IMAGE_RECEIVED = 3;
+        private LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+
         Context context;
         List<ChatMessage> message;
 
-        public messageFragment(Context context ,List<ChatMessage> message ) {
+        public messageFragment(Context context, List<ChatMessage> message) {
             this.context = context;
             this.message = message;
 
         }
 
-        void setListforMsg(List<ChatMessage> message){
+        void setListforMsg(List<ChatMessage> message) {
             this.message = message;
         }
 
         @NonNull
         @Override
         public MyViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(context);
-            View itemView = layoutInflater.inflate(R.layout.chat_list_test, parent, false);
+            View itemView;
 
-            return new MyViewholder(itemView);
+            switch (viewType) {
+                case TYPE_MESSAGE_SENT:
+                    itemView = inflater.inflate(R.layout.their_message, parent, false);
+                    return new SentMessageHolder(itemView);
+
+                case TYPE_MESSAGE_RECEIVED:
+                    itemView = inflater.inflate(R.layout.my_message, parent, false);
+                    return new ReceivedMessageHolder(itemView);
+
+                case TYPE_IMAGE_SENT:
+                    itemView = inflater.inflate(R.layout.item_sent_image, parent, false);
+                    return new SentImageHolder(itemView);
+
+                case TYPE_IMAGE_RECEIVED:
+                    itemView = inflater.inflate(R.layout.item_received_photo, parent, false);
+                    return new ReceivedImageHolder(itemView);
+                default:
+                    throw new IllegalStateException("Unexpected value: " + viewType);
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            ChatMessage CM = message.get(position);
+
+            if (CM.getSender().equals("Shunel")) {
+                if (CM.getType().equals("chat")) {
+                    return TYPE_MESSAGE_SENT;
+                } else {
+                    return TYPE_IMAGE_SENT;
+                }
+            } else {
+                if (CM.getType().equals("chat")) {
+                    return TYPE_MESSAGE_RECEIVED;
+                } else {
+                    return TYPE_IMAGE_RECEIVED;
+                }
+            }
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
 
             final ChatMessage CM = message.get(position);
-            if(CM.getReceiver().equals(friend)){
-
-                holder.tv_their.setVisibility(View.VISIBLE);
-                holder.iv_their.setVisibility(View.VISIBLE);
 
 
-                //我方最新訊息
-                holder.tvMy.setText(CM.getMessage());
-                holder.iv_my.setVisibility(View.VISIBLE);
-                holder.tv_their.setVisibility(View.GONE);
-                holder.iv_their.setVisibility(View.GONE);
-                Log.e("h123=",CM.getMessage());
+            if (CM.getSender().equals(Common.getPreherences(activity).getString("id",""))){
+//                SentMessageHolder sentMessageHolder = (SentMessageHolder) holder;
+//                sentMessageHolder.messageTxt.setText(CM.getMessage());
+                ReceivedMessageHolder receivedMessageHolder = (ReceivedMessageHolder) holder;
+                receivedMessageHolder.messageTxt.setText(CM.getMessage());
+            }else {
+                SentMessageHolder sentMessageHolder = (SentMessageHolder) holder;
+                sentMessageHolder.nameTxt.setText(CM.getReceiver());
+                sentMessageHolder.messageTxt.setText(CM.getMessage());
             }
-            else {
-
-                holder.iv_my.setVisibility(View.VISIBLE);
-                holder.tvMy.setVisibility(View.VISIBLE);
-
-                //對方最新訊息
-                holder.tvMy.setVisibility(View.GONE);
-                holder.iv_my.setVisibility(View.GONE);
-                holder.tv_their.setText(CM.getMessage());
-                holder.iv_their.setImageResource(R.drawable.circle);
-                Log.e("h223=",CM.getMessage());
-            }
-
 
 
         }
 
         @Override
         public int getItemCount() {
-            return message==null?0:message.size();
+            return message == null ? 0 : message.size();
         }
 
         private class MyViewholder extends RecyclerView.ViewHolder {
-            TextView tvMy,tv_their;
-            ImageView iv_their,iv_my;
             public MyViewholder(View itemView) {
                 super(itemView);
+            }
+        }
 
-                tvMy = itemView.findViewById(R.id.tvMy);
-                iv_my = itemView.findViewById(R.id.iv_my);
-                tv_their = itemView.findViewById(R.id.tvTheir);
-                iv_their = itemView.findViewById(R.id.iv_their);
+        private class SentMessageHolder extends MyViewholder {
+//            TextView messageTxt;
+//
+//            public SentMessageHolder(@NonNull View itemView) {
+//                super(itemView);
+//                messageTxt = itemView.findViewById(R.id.message_mybody);
+//            }
 
+            TextView nameTxt, messageTxt;
+
+            public SentMessageHolder(@NonNull View itemView) {
+                super(itemView);
+
+                nameTxt = itemView.findViewById(R.id.name);
+                messageTxt = itemView.findViewById(R.id.message_mybody);
+            }
+
+
+
+        }
+
+        private class ReceivedMessageHolder extends MyViewholder {
+//            TextView nameTxt, messageTxt;
+//
+//            public ReceivedMessageHolder(@NonNull View itemView) {
+//                super(itemView);
+//
+//                nameTxt = itemView.findViewById(R.id.name);
+//                messageTxt = itemView.findViewById(R.id.message_mybody);
+//            }
+
+
+            TextView messageTxt;
+
+            public ReceivedMessageHolder(@NonNull View itemView) {
+                super(itemView);
+                messageTxt = itemView.findViewById(R.id.message_mybody);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private class SentImageHolder extends MyViewholder {
+            ImageView imageView;
+            public SentImageHolder(@NonNull View itemView) {
+                super(itemView);
+
+                imageView = itemView.findViewById(R.id.imageView);
+            }
+        }
+
+        private class ReceivedImageHolder extends MyViewholder {
+            ImageView imageView;
+            TextView nameTxt;
+
+            public ReceivedImageHolder(@NonNull View itemView) {
+                super(itemView);
+                imageView = itemView.findViewById(R.id.imageView);
+                nameTxt = itemView.findViewById(R.id.nameTxt);
             }
         }
     }
