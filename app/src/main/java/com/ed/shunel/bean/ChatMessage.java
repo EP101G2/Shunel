@@ -16,6 +16,8 @@ public class ChatMessage {
     private String base64;
     private Timestamp date;
 
+    private int imageView;
+
     private int id;
 
 
@@ -47,17 +49,9 @@ public class ChatMessage {
     }
 
 
-
-
-
-
-
-
     public ChatMessage(String chat, String user_ID, String friend, String message, int chat_ID, Timestamp date, Integer o) {
         super();
     }
-
-
 
 
     public String getRead() {
@@ -65,13 +59,9 @@ public class ChatMessage {
     }
 
 
-
-
     public void setRead(String read) {
         this.read = read;
     }
-
-
 
 
     public int getChatRoom() {
@@ -79,17 +69,9 @@ public class ChatMessage {
     }
 
 
-
-
     public void setChatRoom(int chatRoom) {
         this.chatRoom = chatRoom;
     }
-
-
-
-
-
-
 
 
     public String getSender() {
@@ -142,4 +124,24 @@ public class ChatMessage {
     public void setDate(Timestamp date) {
         this.date = date;
     }
+
+
+    public int getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(int imageView) {
+        this.imageView = imageView;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+
 }
