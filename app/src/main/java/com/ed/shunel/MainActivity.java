@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private int requestCode;
     private int resultCode;
     private Intent data;
-    private SharedPreferences preferences ;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,31 +44,55 @@ public class MainActivity extends AppCompatActivity {
 
         //建立bottom
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        NavController navController = Navigation.findNavController(this, R.id.fragment3);
+        NavController navController = Navigation.findNavController(this, R.id.fragment3);//推播的基底頁面設置
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        String isNotiFi = Common.getPreherences(this).getString("Notification","N");
-        Log.e("========isNotiFi",isNotiFi+"========");
-        String pageFlag = Common.getPreherences(this).getString("pageFlag","noFlag");
-        if (isNotiFi.equals("Y")){
-            Common.getPreherences(this).edit().putString("Notification","N").apply();//設開關
-            if(pageFlag.equals("1")){
-                String saleTitle = Common.getPreherences(this).getString("noticeTitle","");
-                String saleDetail = Common.getPreherences(this).getString("noticeDetail","");
+        String isNotiFi = Common.getPreherences(this).getString("Notification", "N");
+        Log.e("========isNotiFi", isNotiFi + "========");
+        String pageFlag = Common.getPreherences(this).getString("pageFlag", "noFlag");
+
+
+        //看帶過去的頁面要Bundle什麼，就要在這設置Bundle帶過去
+        if (isNotiFi.equals("Y")) {
+            Common.getPreherences(this).edit().putString("Notification", "N").apply();//設開關
+            if (pageFlag.equals("0")) {
+                String saleTitle = Common.getPreherences(this).getString("noticeTitle", "saleTitle");
+                String saleDetail = Common.getPreherences(this).getString("noticeDetail", "saleDetail");
                 Bundle bundle = new Bundle();
-                bundle.putString("noticeTitle",saleTitle);
-                bundle.putString("noticeDetail",saleDetail);
-                Log.e("=====saleTitle=====",saleTitle+"=========");
-                Log.e("saleTitle=====",bundle.getString("noticeTitle")+"saleTitle");
-                Navigation.findNavController(this,R.id.fragment3)
+                bundle.putString("noticeTitle", saleTitle);
+                bundle.putString("noticeDetail", saleDetail);
+                Log.e("=====saleTitle=====", saleTitle + "=========");
+                Log.e("saleTitle=====", bundle.getString("noticeTitle") + "saleTitle");
+                Navigation.findNavController(this, R.id.fragment3)
                         .navigate(R.id.action_homeFragment_to_saleDetailFragment, bundle);
+                Common.getPreherences(this).edit().remove("pageFlag").apply();//移除偏好設定中的flag
+            }else if(pageFlag.equals("1")){
+                String orderTitle = Common.getPreherences(this).getString("noticeTitle", "orderTitle");
+                String orderDetail = Common.getPreherences(this).getString("noticeDetail", "orderDetail");
+                Bundle bundle = new Bundle();
+                bundle.putString("noticeTitle", orderTitle);
+                bundle.putString("noticeDetail", orderDetail);
+                Log.e("=====saleTitle=====", orderTitle + "=========");
+                Log.e("saleTitle=====", bundle.getString("noticeTitle") + "saleTitle");
+                Navigation.findNavController(this, R.id.fragment3)
+                        .navigate(R.id.action_homeFragment_to_chatFragment, bundle);
+                Common.getPreherences(this).edit().remove("pageFlag").apply();
+            } else if (pageFlag.equals("2")) {
+                String systemTitle = Common.getPreherences(this).getString("noticeTitle", "systemTitle");
+                String systemDetail = Common.getPreherences(this).getString("noticeDetail", "systemDetail");
+                Bundle bundle = new Bundle();
+                bundle.putString("noticeTitle", systemTitle);
+                bundle.putString("noticeDetail", systemDetail);
+                Log.e("=====systemTitle=====",  systemTitle+ "=========");
+                Log.e("saleTitle for bundle", bundle.getString("noticeTitle") + "systemTitle");
+                Navigation.findNavController(this, R.id.fragment3)
+                        .navigate(R.id.action_homeFragment_to_systemDetailFragment, bundle);
                 Common.getPreherences(this).edit().remove("pageFlag").apply();
             }
 
-
-
         }
     }
-//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+    //    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 //        super.onActivityResult(requestCode, resultCode, intent);
 //        Fragment fragment = (Fragment) getChildFragmentManager().findFragmentByTag(childTag);
 //        if (fragment != null) {
@@ -117,26 +141,26 @@ public class MainActivity extends AppCompatActivity {
 //                handleResult(f, requestCode, resultCode, data);
 //            }
 //    }
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    for (int index = 0; index < fragmentManager.getFragments().size(); index++) {
-        Fragment fragment = fragmentManager.getFragments().get(index); //找到第一层Fragment
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        for (int index = 0; index < fragmentManager.getFragments().size(); index++) {
+            Fragment fragment = fragmentManager.getFragments().get(index); //找到第一层Fragment
 
-        if (fragment != null && fragment instanceof BuyerFragment) {
-            handleResult(fragment, requestCode, resultCode, data);
-            return;
-        }
+            if (fragment != null && fragment instanceof BuyerFragment) {
+                handleResult(fragment, requestCode, resultCode, data);
+                return;
+            }
 
-        if (fragment == null) {
-            Log.w(TAG, "Activity result no fragment exists for index: 0x"
-                    + Integer.toHexString(requestCode));
-        } else {
-            handleResult(fragment, requestCode, resultCode, data);
+            if (fragment == null) {
+                Log.w(TAG, "Activity result no fragment exists for index: 0x"
+                        + Integer.toHexString(requestCode));
+            } else {
+                handleResult(fragment, requestCode, resultCode, data);
+            }
         }
     }
-}
 
     /**
      * 递归调用，对所有的子Fragment生效
