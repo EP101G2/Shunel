@@ -13,6 +13,7 @@ import com.ed.shunel.LabelFragment;
 import com.ed.shunel.NecklaceFragment;
 import com.ed.shunel.NoticeFragment;
 import com.ed.shunel.Perfume_necklaceFragment;
+import com.ed.shunel.PromotionFragment;
 import com.ed.shunel.RingProductFragment;
 import com.ed.shunel.SettingFragment;
 
@@ -33,10 +34,10 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
 
         switch (position){
-            case 0: //熱門
+            case 0: //熱門  flag=9
                 return new HotProductFragment();
-            case 1: //促銷
-                return new SettingFragment();
+            case 1: //促銷 flag=2
+                return new PromotionFragment();
             case 2: //全部  flag=3
                 return new AllProductFragment();
             case 3: //香氛項鍊 flag=4
