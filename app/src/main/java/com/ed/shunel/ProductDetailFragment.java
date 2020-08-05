@@ -317,7 +317,6 @@ public class ProductDetailFragment extends Fragment {
         iv_Shoppcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//            Product product =
 
                 if (Common.networkConnected(activity)) {
 
@@ -329,7 +328,6 @@ public class ProductDetailFragment extends Fragment {
                     } else {
 
 
-//                        Log.i(TAG,"333");
                         Shopping_Cart shopping_cart = null;
                         String account = Common.getPreherences(activity).getString("id", "");
                         Log.i(TAG, "id");

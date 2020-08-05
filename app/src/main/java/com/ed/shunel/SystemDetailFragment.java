@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ed.shunel.Task.Common;
 import com.ed.shunel.bean.Notice;
 
 import org.w3c.dom.Text;
@@ -25,6 +26,7 @@ public class SystemDetailFragment extends Fragment {
     private Activity activity;
     private Notice notice;
     private TextView tvSystemDetailT, tvSystemDetailD;
+    private String systemTitle,systemDetail;
 
     public SystemDetailFragment() {
         // Required empty public constructor
@@ -33,13 +35,15 @@ public class SystemDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Activity activity = getActivity();
+        activity = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Common.getPreherences(activity).edit().remove("noticeTitle").apply();
+        Common.getPreherences(activity).edit().remove("noticeDetail").apply();
         return inflater.inflate(R.layout.fragment_system_detail, container, false);
     }
 
@@ -47,22 +51,26 @@ public class SystemDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         MainActivity.flag = 2;
-        Bundle bundle = getArguments();
+
         /* 初始化資料,包含從其他Activity傳來的Bundle資料 ,Preference資枓 */
         initData();
-
         findViews(view);
     }
 
     private void findViews(View view) {
         tvSystemDetailT = view.findViewById(R.id.tvSystenDetailT);
         tvSystemDetailD = view.findViewById(R.id.tvSystemDetailD);
-        tvSystemDetailT.setText(notice.getNotice_Title());
-        tvSystemDetailD.setText(notice.getNotice_Content());
+        tvSystemDetailT.setText(systemTitle);
+        tvSystemDetailD.setText(systemDetail);
 
     }
 
     private void initData() {
-        notice = (Notice) (getArguments() != null ? getArguments().getSerializable("noticeSystem") : null);
+//        notice = (Notice) (getArguments() != null ? getArguments().getSerializable("noticeSystem") : null);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            systemTitle = bundle.getString("noticeTitle");
+            systemDetail = bundle.getString("noticeDetail");
+        }
     }
 }

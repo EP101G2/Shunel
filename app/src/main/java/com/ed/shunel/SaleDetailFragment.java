@@ -64,7 +64,7 @@ public class SaleDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Common.getPreherences(activity).edit().remove("noticeTitle").apply();
-        Common.getPreherences(activity).edit().remove("noticeDetail").apply();//清除
+        Common.getPreherences(activity).edit().remove("noticeDetail").apply();//清除放在偏好設定的通知標題跟內文
 
         return inflater.inflate(R.layout.fragment_sale_detail, container, false);
     }
