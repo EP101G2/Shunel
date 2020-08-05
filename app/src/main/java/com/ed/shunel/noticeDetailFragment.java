@@ -190,8 +190,8 @@ public class noticeDetailFragment extends Fragment {
                             if (saleTitle.isEmpty() || saleDetail.isEmpty()) {
                                 Common.showToast(activity, R.string.textnofound);
                             }
-                            bundle.putString("title", saleTitle);
-                            bundle.putString("msg", saleDetail);
+                            bundle.putString("noticeTitle", saleTitle);//title
+                            bundle.putString("noticeDetail", saleDetail);
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_noticeDetailFragment_to_saleDetailFragment, bundle);
 
@@ -210,7 +210,13 @@ public class noticeDetailFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("noticeSystem", notice);
+                            String systemTitle = notice.getNotice_Title().trim();
+                            String systemDetail = notice.getNotice_Content().trim();
+                            if (systemTitle.isEmpty() || systemDetail.isEmpty()) {
+                                Common.showToast(activity, R.string.textnofound);
+                            }
+                            bundle.putString("noticeTitle", systemTitle);//title
+                            bundle.putString("noticeDetail", systemDetail);
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_noticeDetailFragment_to_systemDetailFragment, bundle);
                         }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.ed.shunel.bean.ChatMessage;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -43,9 +44,17 @@ class ChatWebSocketClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
+
+        ChatMessage jsonObject = gson.fromJson(message, ChatMessage.class);
         // type: 訊息種類，有open(有user連線), close(有user離線), chat(其他user傳送來的聊天訊息)
-        String type = jsonObject.get("type").getAsString();
+        String type = jsonObject.getType();
+
+
+
+
+//        JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
+//        // type: 訊息種類，有open(有user連線), close(有user離線), chat(其他user傳送來的聊天訊息)
+//        String type = jsonObject.get("type").getAsString();
         sendMessageBroadcast(type, message);
         Log.d(TAG, "onMessage: " + message);
 
