@@ -38,7 +38,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ed.shunel.Task.ChatImageView;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
-import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.ChatMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -446,27 +445,47 @@ public class ChatFragment extends Fragment {
 
 //
 
-
+            //判斷發送的人是誰
             if (CM.getSender().equals(Common.getPreherences(activity).getString("id", ""))) {
 
+                //判斷訊息是chat or image
                 if (CM.getType().equals("chat")) {
                     ReceivedMessageHolder receivedMessageHolder = (ReceivedMessageHolder) holder;
                     receivedMessageHolder.messageTxt.setText(CM.getMessage());
+
+                    //判斷時間是否有null
                     if (CM.getDate() != null) {
                         receivedMessageHolder.messageTime.setText(DateToStr(CM.getDate()));
                     } else {
                         receivedMessageHolder.messageTime.setText(s);
                     }
+
+                    //訊息為image
                 } else {
                     ReceivedImageHolder receivedImageHolder = (ReceivedImageHolder) holder;
-
+                    //判斷訊息是誰發的 1表示自己
                     if (CM.getFlag() == 1) {
-//                    receivedImageHolder.imageView.
+                        //去db抓資料
                         String url = Common.URL_SERVER + "Chat_Servlet";
                         imageTask = new ChatImageView(url, Integer.parseInt(CM.getBase64()), imageSize, ((ReceivedImageHolder) holder).imageView);
                         imageTask.execute();
+
+                        //判斷時間是否有null
+                        if (CM.getDate() != null) {
+                            receivedImageHolder.tvTheirImage.setText(DateToStr(CM.getDate()));
+                        } else {
+                            receivedImageHolder.tvTheirImage.setText(s);
+                        }
+
                     } else {
+                        //即時發送的訊息
                         receivedImageHolder.imageView.setImageBitmap(bitmap);
+                        //判斷時間是否有null
+                        if (CM.getDate() != null) {
+                            receivedImageHolder.tvTheirImage.setText(DateToStr(CM.getDate()));
+                        } else {
+                            receivedImageHolder.tvTheirImage.setText(s);
+                        }
                     }
                 }
 
@@ -484,15 +503,16 @@ public class ChatFragment extends Fragment {
                     }
                 } else {
                     SentImageHolder sentImageHolder = (SentImageHolder) holder;
-//                    if (CM.getFlag()!=1){
                     String url = Common.URL_SERVER + "Chat_Servlet";
 
-//                    Log.e(TAG,"//////////////////////"+imageID);
-                        imageTask = new ChatImageView(url, Integer.parseInt(CM.getBase64()), imageSize, ((SentImageHolder) holder).imageView);
-                        imageTask.execute();
-//                  }else {
-//                        sentImageHolder.imageView.setImageBitmap(bitmap);
-//                    }
+                    imageTask = new ChatImageView(url, Integer.parseInt(CM.getBase64()), imageSize, ((SentImageHolder) holder).imageView);
+                    imageTask.execute();
+
+                    if (CM.getDate() != null) {
+                        sentImageHolder.tvMyImage.setText(s);
+                    } else {
+                        sentImageHolder.tvMyImage.setText(s);
+                    }
 
                 }
 
@@ -539,22 +559,25 @@ public class ChatFragment extends Fragment {
 
         private class SentImageHolder extends MyViewholder {
             ImageView imageView;
+            TextView tvMyImage;
 
             public SentImageHolder(@NonNull View itemView) {
                 super(itemView);
-
-                imageView = itemView.findViewById(R.id.imageView);
+                tvMyImage = itemView.findViewById(R.id.tvChat);
+                imageView = itemView.findViewById(R.id.imageView_chat);
             }
         }
 
         private class ReceivedImageHolder extends MyViewholder {
             ImageView imageView;
             TextView nameTxt;
+            TextView tvTheirImage;
 
             public ReceivedImageHolder(@NonNull View itemView) {
                 super(itemView);
-                imageView = itemView.findViewById(R.id.imageView);
+                imageView = itemView.findViewById(R.id.imageView_chat);
                 nameTxt = itemView.findViewById(R.id.nameTxt);
+                tvTheirImage = itemView.findViewById(R.id.tvChat);
             }
         }
     }
