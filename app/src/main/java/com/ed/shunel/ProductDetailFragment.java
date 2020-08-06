@@ -210,7 +210,7 @@ public class ProductDetailFragment extends Fragment {
             } else {
                 tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
             }
-            tv_Dital.setText("商品介紹：" + product.getProduct_Ditail());
+            tv_Dital.setText(product.getProduct_Ditail());
             tvColor.setText("規格：" + product.getProduct_Color());
         } else {
 
@@ -240,7 +240,7 @@ public class ProductDetailFragment extends Fragment {
 
 
             tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
-            tv_Dital.setText("商品介紹：" + productSale.getProduct_Ditail());
+            tv_Dital.setText(productSale.getProduct_Ditail());
             tvColor.setText("規格：" + productSale.getProduct_Color());
 
 
