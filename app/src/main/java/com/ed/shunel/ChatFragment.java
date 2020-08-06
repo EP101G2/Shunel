@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,7 +125,7 @@ public class ChatFragment extends Fragment {
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
-        CommonTwo.connectServer(activity, loadUserName(activity));
+//        CommonTwo.connectServer(activity, loadUserName(activity));
         chatMessageList = getData();
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
@@ -437,6 +438,8 @@ public class ChatFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
 
+
+
             final ChatMessage CM = message.get(position);
 
             Calendar mCal = Calendar.getInstance();
@@ -502,7 +505,7 @@ public class ChatFragment extends Fragment {
                         sentMessageHolder.theirTime.setText(s);
                     }
                 } else {
-                    SentImageHolder sentImageHolder = (SentImageHolder) holder;
+                    final SentImageHolder sentImageHolder = (SentImageHolder) holder;
                     String url = Common.URL_SERVER + "Chat_Servlet";
 
                     imageTask = new ChatImageView(url, Integer.parseInt(CM.getBase64()), imageSize, ((SentImageHolder) holder).imageView);
@@ -513,6 +516,14 @@ public class ChatFragment extends Fragment {
                     } else {
                         sentImageHolder.tvMyImage.setText(s);
                     }
+
+                    sentImageHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           sentImageHolder.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        }
+                    });
+
 
                 }
 

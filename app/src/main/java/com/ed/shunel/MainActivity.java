@@ -18,6 +18,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
+import static com.ed.shunel.CommonTwo.loadUserName;
+
 //import com.facebook.FacebookSdk;
 //import com.facebook.appevents.AppEventsLogger;
 
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //一開APP就連上聊天室
+        CommonTwo.connectServer(this, loadUserName(this));
 //        MainFragment fragment = (MainFragment) getFragmentManager().findFragmentById(R.id.fragment_main);
 //        //步骤3:设置监听器，实现接口里面的方法
 //        fragment.setCallBack(this);

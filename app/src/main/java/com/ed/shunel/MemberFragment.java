@@ -226,6 +226,7 @@ public class MemberFragment extends Fragment {
 
     private void Logout() {
         Common.getPreherences(activity).edit().clear().apply();
+
 //        MainActivity.preferences.edit().clear().apply();
         Intent intent = new Intent();
         intent.setClass(activity, LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
