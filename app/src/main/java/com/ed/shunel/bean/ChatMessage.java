@@ -15,11 +15,20 @@ public class ChatMessage {
     private String read;
     private String base64;
     private Timestamp date;
-
     private int imageView;
-
     private int id;
 
+    private int flag;
+
+    public ChatMessage(String type, String sender, String receiver, String message, int chatRoom, String base64,int flag) {
+        this.type = type;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.message = message;
+        this.chatRoom = chatRoom;
+        this.base64 = base64;
+        this.flag = flag;
+    }
 
     public ChatMessage(String type, String sender, String receiver, String message, int chatRoom, Timestamp date, int id) {
         this.type = type;
@@ -142,6 +151,11 @@ public class ChatMessage {
         this.id = id;
     }
 
+    public int getFlag() {
+        return flag;
+    }
 
-
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 }
