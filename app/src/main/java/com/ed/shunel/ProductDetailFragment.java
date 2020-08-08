@@ -26,6 +26,7 @@ import androidx.navigation.Navigation;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
+import com.ed.shunel.bean.Order_Detail;
 import com.ed.shunel.bean.Order_Main;
 import com.ed.shunel.bean.Product_List;
 import com.ed.shunel.bean.Promotion;
@@ -172,15 +173,11 @@ public class ProductDetailFragment extends Fragment {
         product = (Product) bundle.getSerializable("product");
         promotionProduct = (Promotion) bundle.getSerializable("promotion");
 
-//        product_id = bundle.getString("product_id");
-//        promotionPrice = bundle.getString("promotionPrice");
 
         showTest();
 
-//
 
 
-//        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(activity, layout.simple_spinner_item, sp);
 
     }
 
@@ -283,7 +280,6 @@ public class ProductDetailFragment extends Fragment {
                 /* 将所选mySpinner 的值带入myTextView 中*/
                 int selecte = adapter.getItem(arg2);
                 select_Amount = selecte;
-//                Log.e("---------------", String.valueOf(selecte));
                 /* 将mySpinner 显示*/
                 arg0.setVisibility(View.VISIBLE);
             }
@@ -460,53 +456,46 @@ public class ProductDetailFragment extends Fragment {
                     } else {
 
 
+                        Shopping_Cart shopping_cart = null;
                         String account = Common.getPreherences(activity).getString("id", "");
-                        String name = Common.getPreherences(activity).getString("name", "");
-                        String address = Common.getPreherences(activity).getString("address", "");
-                        String phone = Common.getPreherences(activity).getString("phone", "");
                         Log.i(TAG, "id");
-//                        product_list.setCart(product);
-                        productList.add(product);
-                        Product_List pl = new Product_List(productList);
-
-
-                        Order_Main orderMain = new Order_Main(account, totalPrice, name, address, phone, 0);
-
-//                        Order_Main orderMain = new Order_Main(account,totalPrice,name,address,phone,0);
-
-//                        Order_Detail orderDetail = new Order_Detail()
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
+                        if (promotionProduct != null){
+                            shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
+                        }else {
+                            shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
+                        }
 
 
-                        jsonObject.addProperty("action", "addOrderMain");
-//                        jsonObject.addProperty("OrderID", new Gson().toJson(orderMain));
-//                        jsonObject.addProperty("OrderDetail", new Gson().toJson(productList));
+
+                        jsonObject.addProperty("action", "addShop");
+                        jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
 
                         int count = 0;
 
                         try {
-                            nowBuy = new CommonTask(url, jsonObject.toString());
-//
-                            String result = nowBuy.execute().get();
+                            addTask = new CommonTask(url, jsonObject.toString());
+
+                            String result = addTask.execute().get();
                             Log.i(TAG, result);
                             count = Integer.parseInt(result);
-//                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
 
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("nowBuy", pl);
-                        bundle.putString("total", String.valueOf(totalPrice));
-//                        再補傳送物件
-//                        Navigation.findNavController(v).navigate(R.id.action_productDetailFragment_to_buyerFragment,bundle);
+                        if (count == 0) {
+                            Toast.makeText(activity, R.string.Fail, Toast.LENGTH_SHORT).show();
+                        }
                     }
-
+                    Navigation.findNavController(v).navigate(R.id.action_productDetailFragment_to_shoppingcartFragment);
 
                 }
+
+
             }
         });
 
