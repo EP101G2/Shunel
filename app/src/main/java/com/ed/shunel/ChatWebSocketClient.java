@@ -49,12 +49,9 @@ class ChatWebSocketClient extends WebSocketClient {
         // type: 訊息種類，有open(有user連線), close(有user離線), chat(其他user傳送來的聊天訊息)
         String type = jsonObject.getType();
 
-
-
-
-//        JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
-//        // type: 訊息種類，有open(有user連線), close(有user離線), chat(其他user傳送來的聊天訊息)
-//        String type = jsonObject.get("type").getAsString();
+        if(type.equals("image")){
+            type = "chat";
+        }
         sendMessageBroadcast(type, message);
         Log.d(TAG, "onMessage: " + message);
 

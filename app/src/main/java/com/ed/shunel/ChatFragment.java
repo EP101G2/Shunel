@@ -38,7 +38,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ed.shunel.Task.ChatImageView;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
-import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.ChatMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -94,7 +93,7 @@ public class ChatFragment extends Fragment {
     private String base61ToStr;
     private ChatImageView imageTask;
     private int imageID;
-
+    Bitmap bitmap = null;
     private ChatMessage chatMessage = null;
     String message = "";
     private List<ChatMessage> chatMessageList = new ArrayList<>();
@@ -181,6 +180,15 @@ public class ChatFragment extends Fragment {
                 }.getType();
                 messages = gson.fromJson(jsonIn, listType);
 
+
+                for (ChatMessage chat : messages) {
+                    if (chat.getType().equals("image")) {
+                        chat.setBase64(String.valueOf(chat.getId()));
+                        chat.setFlag(1);
+                        Log.e("3123", "===============================" + chat.getBase64());
+                    }
+                }
+
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -214,7 +222,8 @@ public class ChatFragment extends Fragment {
                 String sender = loadUserName(activity);
                 // 將欲傳送訊息轉成JSON後送出
                 if (image != null) {
-                    chatMessage = new ChatMessage("image", user_ID, friend, message, chat_ID);
+                    chatMessage = new ChatMessage("image", user_ID, friend, message, chat_ID, base61ToStr, 0);
+                    image = null;
                 } else {
                     chatMessage = new ChatMessage("chat", user_ID, friend, message, chat_ID);
                 }
@@ -225,7 +234,7 @@ public class ChatFragment extends Fragment {
                 // 將欲傳送訊息顯示在TextView上
                 chatMessageList.add(chatMessage);
                 // 將輸入的訊息清空
-                sendChatDB(chatMessage);
+//                sendChatDB(chatMessage);
                 messageFragment adpter = (messageFragment) rv.getAdapter();
                 if (adpter != null) {
                     adpter.setListforMsg(chatMessageList);
@@ -331,6 +340,7 @@ public class ChatFragment extends Fragment {
             String message = intent.getStringExtra("message");
             ChatMessage chatMessage = new Gson().fromJson(message, ChatMessage.class);
             String sender = chatMessage.getSender();
+            chatMessage.setFlag(1);
             // 接收到聊天訊息，若發送者與目前聊天對象相同，就將訊息顯示在TextView
             chatMessageList.add(chatMessage);
             messageFragment adpter = (messageFragment) rv.getAdapter();
@@ -435,24 +445,48 @@ public class ChatFragment extends Fragment {
 
 //
 
-
+            //判斷發送的人是誰
             if (CM.getSender().equals(Common.getPreherences(activity).getString("id", ""))) {
 
+                //判斷訊息是chat or image
                 if (CM.getType().equals("chat")) {
                     ReceivedMessageHolder receivedMessageHolder = (ReceivedMessageHolder) holder;
                     receivedMessageHolder.messageTxt.setText(CM.getMessage());
+
+                    //判斷時間是否有null
                     if (CM.getDate() != null) {
                         receivedMessageHolder.messageTime.setText(DateToStr(CM.getDate()));
                     } else {
                         receivedMessageHolder.messageTime.setText(s);
                     }
+
+                    //訊息為image
                 } else {
-
                     ReceivedImageHolder receivedImageHolder = (ReceivedImageHolder) holder;
-                    String url = Common.URL_SERVER + "Chat_Servlet";
-                    imageTask = new ChatImageView(url, imageID, imageSize, ((ReceivedImageHolder) holder).imageView);
-                    imageTask.execute();
+                    //判斷訊息是誰發的 1表示自己
+                    if (CM.getFlag() == 1) {
+                        //去db抓資料
+                        String url = Common.URL_SERVER + "Chat_Servlet";
+                        imageTask = new ChatImageView(url, Integer.parseInt(CM.getBase64()), imageSize, ((ReceivedImageHolder) holder).imageView);
+                        imageTask.execute();
 
+                        //判斷時間是否有null
+                        if (CM.getDate() != null) {
+                            receivedImageHolder.tvTheirImage.setText(DateToStr(CM.getDate()));
+                        } else {
+                            receivedImageHolder.tvTheirImage.setText(s);
+                        }
+
+                    } else {
+                        //即時發送的訊息
+                        receivedImageHolder.imageView.setImageBitmap(bitmap);
+                        //判斷時間是否有null
+                        if (CM.getDate() != null) {
+                            receivedImageHolder.tvTheirImage.setText(DateToStr(CM.getDate()));
+                        } else {
+                            receivedImageHolder.tvTheirImage.setText(s);
+                        }
+                    }
                 }
 
 
@@ -471,9 +505,15 @@ public class ChatFragment extends Fragment {
                     SentImageHolder sentImageHolder = (SentImageHolder) holder;
                     String url = Common.URL_SERVER + "Chat_Servlet";
 
-//                    Log.e(TAG,"//////////////////////"+imageID);
-                    imageTask = new ChatImageView(url, imageID, imageSize, ((SentImageHolder) holder).imageView);
+                    imageTask = new ChatImageView(url, Integer.parseInt(CM.getBase64()), imageSize, ((SentImageHolder) holder).imageView);
                     imageTask.execute();
+
+                    if (CM.getDate() != null) {
+                        sentImageHolder.tvMyImage.setText(s);
+                    } else {
+                        sentImageHolder.tvMyImage.setText(s);
+                    }
+
                 }
 
 
@@ -519,22 +559,25 @@ public class ChatFragment extends Fragment {
 
         private class SentImageHolder extends MyViewholder {
             ImageView imageView;
+            TextView tvMyImage;
 
             public SentImageHolder(@NonNull View itemView) {
                 super(itemView);
-
-                imageView = itemView.findViewById(R.id.imageView);
+                tvMyImage = itemView.findViewById(R.id.tvChat);
+                imageView = itemView.findViewById(R.id.imageView_chat);
             }
         }
 
         private class ReceivedImageHolder extends MyViewholder {
             ImageView imageView;
             TextView nameTxt;
+            TextView tvTheirImage;
 
             public ReceivedImageHolder(@NonNull View itemView) {
                 super(itemView);
-                imageView = itemView.findViewById(R.id.imageView);
+                imageView = itemView.findViewById(R.id.imageView_chat);
                 nameTxt = itemView.findViewById(R.id.nameTxt);
+                tvTheirImage = itemView.findViewById(R.id.tvChat);
             }
         }
     }
@@ -554,7 +597,7 @@ public class ChatFragment extends Fragment {
         if (resultUri == null) {
             return;
         }
-        Bitmap bitmap = null;
+
         try {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
                 bitmap = BitmapFactory.decodeStream(
@@ -568,15 +611,15 @@ public class ChatFragment extends Fragment {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             image = out.toByteArray();
+
+            base61ToStr = Base64.encodeToString(image, Base64.DEFAULT);
 //            base61ToStr = Base64.encodeToString(image, Base64.DEFAULT);
-            Log.e(TAG, "234567890-" + base61ToStr);
+//            Log.e(TAG, "234567890-" + base61ToStr);
 
         } catch (IOException e) {
             Log.e(TAG, e.toString());
         }
-        if (bitmap != null) {
 
-        }
     }
 
     private void crop(Uri sourceImageUri) {
@@ -608,9 +651,31 @@ public class ChatFragment extends Fragment {
         }
     }
 
-//    private Bitmap getBitmapFromString(String image) {
-//        byte[] bytes = Base64.decode(image, Base64.DEFAULT);
-//        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    private Bitmap getBitmapFromString(String image) {
+        byte[] bytes = Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+
+//    private String imageToStr(byte[] image) {
+//        /*btmapToStr*/
+//        Bitmap bitmap = null;
+//        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+//        image = out.toByteArray();
+//        base61ToStr = Base64.encodeToString(image, Base64.DEFAULT);
+//
+//        return base61ToStr;
 //    }
+
+    private Bitmap btyeToBitmap(byte[] image) {
+        if (image.length != 0) {
+            return BitmapFactory.decodeByteArray(image, 0, image.length);
+        } else {
+            return null;
+        }
+
+    }
+
 
 }
