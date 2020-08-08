@@ -164,6 +164,8 @@ public class ShoppingcartFragment extends Fragment {
 
                     Shopping_Cart_List shopping_cart_list = new Shopping_Cart_List(listdatas); //清單
                     Order_Main order_main = new Order_Main(Common.getPreherences(activity).getString("id", ""), totalPrice, Common.getPreherences(activity).getString("name", ""), Common.getPreherences(activity).getString("address", ""), Common.getPreherences(activity).getString("phone", ""), 0);
+
+                    //訂單成立
                     if (Common.networkConnected(activity)) {
 
                         String url = Common.URL_SERVER + "Prouct_Servlet";

@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("=====saleTitle=====", orderTitle + "=========");
                 Log.e("saleTitle=====", bundle.getString("noticeTitle") + "saleTitle");
                 Navigation.findNavController(this, R.id.fragment3)
-                        .navigate(R.id.action_homeFragment_to_chatFragment, bundle);
+                        .navigate(R.id.action_homeFragment_to_orderListFragment2, bundle);
                 Common.getPreherences(this).edit().remove("pageFlag").apply();
             } else if (pageFlag.equals("2")) {
                 String systemTitle = Common.getPreherences(this).getString("noticeTitle", "systemTitle");
