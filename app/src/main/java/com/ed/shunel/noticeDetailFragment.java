@@ -78,6 +78,7 @@ public class noticeDetailFragment extends Fragment {
         tvNoticeDetailT = view.findViewById(R.id.tvNoticeDetailT);
         rvNoticeDetail = view.findViewById(R.id.rvNoticeDetail);
         rvNoticeDetail.setLayoutManager(new LinearLayoutManager(activity));
+
         noticeDetail = getDate();
         rvNoticeDetail.setAdapter(new NoticeDetailAdapter(activity, noticeDetail));
 

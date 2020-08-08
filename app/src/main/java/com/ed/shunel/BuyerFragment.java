@@ -478,7 +478,7 @@ public class BuyerFragment extends Fragment {
     }
 
 
-    private void changeOrderStatus() {
+    private void changeOrderStatus() {//未付款改以付款
         //待測試
 
         if (Common.networkConnected(activity)) {
@@ -486,7 +486,7 @@ public class BuyerFragment extends Fragment {
             String url = Common.URL_SERVER + "Orders_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "changeOrderStatus");
-            jsonObject.addProperty("orderID",Integer.valueOf(orderId));
+            jsonObject.addProperty("OrderID",Integer.valueOf(orderId));
             chageOrder= new CommonTask(url, jsonObject.toString());
 
             Log.i(TAG,chageOrder.toString());
