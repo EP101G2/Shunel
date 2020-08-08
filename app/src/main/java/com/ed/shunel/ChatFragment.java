@@ -125,7 +125,6 @@ public class ChatFragment extends Fragment {
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
-//        CommonTwo.connectServer(activity, loadUserName(activity));
         chatMessageList = getData();
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
@@ -296,33 +295,6 @@ public class ChatFragment extends Fragment {
 
     }
 
-    private void sendChatDB(ChatMessage chatMessage) {
-
-        String url = Common.URL_SERVER + "Chat_Servlet";
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", "createChatID");
-        jsonObject.addProperty("chatID", chatMessage.getChatRoom());
-        jsonObject.addProperty("receiver", chatMessage.getReceiver());
-        jsonObject.addProperty("sender", chatMessage.getSender());
-        jsonObject.addProperty("msg", chatMessage.getMessage());
-        jsonObject.addProperty("msgtype", chatMessage.getType());
-        if (image != null) {
-            jsonObject.addProperty("imageBase64", Base64.encodeToString(image, Base64.DEFAULT));
-            Log.e(TAG, "///////////////////111111111" + image);
-            image = null;
-        }
-
-
-        Log.e(TAG, jsonObject.toString());
-        try {
-            chatTask = new CommonTask(url, jsonObject.toString());
-            imageID = Integer.parseInt(chatTask.execute().get());
-            Log.e(TAG, "============" + imageID);
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-
-    }
 
 
     /**
