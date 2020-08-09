@@ -45,8 +45,9 @@ public class MemberFragment extends Fragment {
     private ImageTaskUser imageTask;
     private int imageSize;
     private ImageView ivUser;
+    private CommonTask chatTask;
     private String id, name;
-
+    private String user_Id;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,7 +131,32 @@ public class MemberFragment extends Fragment {
         cvChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.chatFragment);
+
+                /********************************建立聊天室 Jack*****************************************/
+                int chat_ID = 0;
+                user_Id = Common.getPreherences(activity).getString("id","");
+
+                String url = Common.URL_SERVER + "Chat_Servlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("type", "createRoom");
+                jsonObject.addProperty("admin_Id", "1");
+                jsonObject.addProperty("user_ID", user_Id);
+
+                Log.e(TAG, jsonObject.toString());
+                try {
+                    chatTask = new CommonTask(url, jsonObject.toString());
+                    String result = chatTask.execute().get();
+                    chat_ID = Integer.parseInt(result);
+                    Log.e(TAG, "============"+result);
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("chatroom",chat_ID);
+
+                /********************************建立聊天室 Jack*****************************************/
+                Navigation.findNavController(v).navigate(R.id.chatFragment,bundle);
             }
         });
         cvOrderlist.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +226,7 @@ public class MemberFragment extends Fragment {
 
     private void Logout() {
         Common.getPreherences(activity).edit().clear().apply();
+
 //        MainActivity.preferences.edit().clear().apply();
         Intent intent = new Intent();
         intent.setClass(activity, LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ

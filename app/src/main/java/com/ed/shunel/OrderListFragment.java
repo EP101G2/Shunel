@@ -43,6 +43,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 //fragment of OrderListMain, with rvOrderList
+//    change into view pager
 public class OrderListFragment extends Fragment{
     private static final String TAG = "-OrderListFragment-";
     private Activity activity;
@@ -171,7 +172,7 @@ public class OrderListFragment extends Fragment{
                 String url = Common.URL_SERVER + "Orders_Servlet";
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "getOrderMainShort");
-                jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("Account_ID", "G"));
+                jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("Account_ID", "G")); //for testing
                 String jsonOut = jsonObject.toString();
                 ordersListGetTask = new CommonTask(url, jsonOut);
                 try {

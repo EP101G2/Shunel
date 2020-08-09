@@ -26,8 +26,10 @@ import androidx.navigation.Navigation;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTask;
+import com.ed.shunel.bean.Order_Detail;
 import com.ed.shunel.bean.Order_Main;
 import com.ed.shunel.bean.Product_List;
+import com.ed.shunel.bean.Promotion;
 import com.ed.shunel.bean.Shopping_Cart;
 import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
@@ -54,7 +56,8 @@ public class ProductDetailFragment extends Fragment {
     private TextView tvPdPrice;
     private TextView tvColor;
     private Spinner sp_Amount;
-    private Product product,productSale;
+    private Product product, productSale;
+    private Promotion promotionProduct;
     private Shopping_Cart shopping_cart;
     private User_Account user_account;
     private int select_Amount = 0;
@@ -95,7 +98,7 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.e("===商品詳細頁面的flag===",""+MainActivity.flag);
 
         sharedPreferences = Common.getPreherences(activity);
         Log.e("TAG", "_____" + sharedPreferences.getString("id", ""));
@@ -112,6 +115,8 @@ public class ProductDetailFragment extends Fragment {
 
             Bundle bundle = getArguments();
             product = (Product) bundle.getSerializable("product");
+            promotionProduct = (Promotion) bundle.getSerializable("promotion");
+
             int product_id = product.getProduct_ID();
             String account_id = Common.getPreherences(activity).getString("id", "");
             String url = Common.URL_SERVER + "Prouct_Servlet";
@@ -166,15 +171,13 @@ public class ProductDetailFragment extends Fragment {
             return;
         }
         product = (Product) bundle.getSerializable("product");
-//        product_id = bundle.getString("product_id");
-//        promotionPrice = bundle.getString("promotionPrice");
+        promotionProduct = (Promotion) bundle.getSerializable("promotion");
+
 
         showTest();
 
-//
 
 
-//        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(activity, layout.simple_spinner_item, sp);
 
     }
 
@@ -184,6 +187,7 @@ public class ProductDetailFragment extends Fragment {
         int id = product.getProduct_ID();
         int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
         Bitmap bitmap = null;
+//        int price = promotionProduct.getPromotion_Price();
         try {
             bitmap = new ImageTask(url, id, imageSize).execute().get();
         } catch (Exception e) {
@@ -197,8 +201,13 @@ public class ProductDetailFragment extends Fragment {
 
         if (product.getProduct_Name() != null && product.getProduct_Color() != null && product.getProduct_Ditail() != null) {
             tvPdName.setText("商品名稱：" + product.getProduct_Name());
-            tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
-            tv_Dital.setText("商品介紹：" + product.getProduct_Ditail());
+
+            if (promotionProduct != null) {   //從促銷頁面過來
+                tvPdPrice.setText("價格：" + String.valueOf(promotionProduct.getPromotion_Price()));
+            } else {
+                tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
+            }
+            tv_Dital.setText(product.getProduct_Ditail());
             tvColor.setText("規格：" + product.getProduct_Color());
         } else {
 
@@ -213,7 +222,7 @@ public class ProductDetailFragment extends Fragment {
                 try {
                     String jsonIn = addTask.execute().get();
                     productSale = gson.fromJson(jsonIn, Product.class);
-                    Log.e(TAG, "-----------------------------------"+jsonIn);
+                    Log.e(TAG, "-----------------------------------" + jsonIn);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -221,12 +230,14 @@ public class ProductDetailFragment extends Fragment {
                 Common.showToast(activity, R.string.textNoNetwork);
 
             }
+
             tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
+
             //product 是接從promotion bundle過去的值
 
 
             tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
-            tv_Dital.setText("商品介紹：" + productSale.getProduct_Ditail());
+            tv_Dital.setText(productSale.getProduct_Ditail());
             tvColor.setText("規格：" + productSale.getProduct_Color());
 
 
@@ -269,7 +280,6 @@ public class ProductDetailFragment extends Fragment {
                 /* 将所选mySpinner 的值带入myTextView 中*/
                 int selecte = adapter.getItem(arg2);
                 select_Amount = selecte;
-//                Log.e("---------------", String.valueOf(selecte));
                 /* 将mySpinner 显示*/
                 arg0.setVisibility(View.VISIBLE);
             }
@@ -303,7 +313,6 @@ public class ProductDetailFragment extends Fragment {
         iv_Shoppcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//            Product product =
 
                 if (Common.networkConnected(activity)) {
 
@@ -315,12 +324,18 @@ public class ProductDetailFragment extends Fragment {
                     } else {
 
 
-//                        Log.i(TAG,"333");
+                        Shopping_Cart shopping_cart = null;
                         String account = Common.getPreherences(activity).getString("id", "");
                         Log.i(TAG, "id");
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
-                        Shopping_Cart shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
+                       if (promotionProduct != null){
+                        shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
+                       }else {
+                         shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
+                       }
+
+
 
                         jsonObject.addProperty("action", "addShop");
                         jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
@@ -361,7 +376,6 @@ public class ProductDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (Common.networkConnected(activity)) {
-                    Log.e("========set======", set + "");
                     if (set.equals("like") || follow.equals("success")) {     //succes表示已經是追蹤了
                         String account_id = Common.getPreherences(activity).getString("id", "");
                         String url = Common.URL_SERVER + "Prouct_Servlet";
@@ -408,8 +422,9 @@ public class ProductDetailFragment extends Fragment {
                                 Toast.makeText(activity, R.string.insertFollow, Toast.LENGTH_SHORT).show();
                                 set = "like";
                                 follow = "success";
+                            }else{
+                                Toast.makeText(activity,R.string.pleselogin,Toast.LENGTH_SHORT).show();
                             }
-
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
@@ -441,53 +456,46 @@ public class ProductDetailFragment extends Fragment {
                     } else {
 
 
+                        Shopping_Cart shopping_cart = null;
                         String account = Common.getPreherences(activity).getString("id", "");
-                        String name = Common.getPreherences(activity).getString("name", "");
-                        String address = Common.getPreherences(activity).getString("address", "");
-                        String phone = Common.getPreherences(activity).getString("phone", "");
                         Log.i(TAG, "id");
-//                        product_list.setCart(product);
-                        productList.add(product);
-                        Product_List pl = new Product_List(productList);
-
-
-                        Order_Main orderMain = new Order_Main(account, totalPrice, name, address, phone, 0);
-
-//                        Order_Main orderMain = new Order_Main(account,totalPrice,name,address,phone,0);
-
-//                        Order_Detail orderDetail = new Order_Detail()
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
+                        if (promotionProduct != null){
+                            shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
+                        }else {
+                            shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
+                        }
 
 
-                        jsonObject.addProperty("action", "addOrderMain");
-//                        jsonObject.addProperty("OrderID", new Gson().toJson(orderMain));
-//                        jsonObject.addProperty("OrderDetail", new Gson().toJson(productList));
+
+                        jsonObject.addProperty("action", "addShop");
+                        jsonObject.addProperty("ProductID", new Gson().toJson(shopping_cart));
 
                         int count = 0;
 
                         try {
-                            nowBuy = new CommonTask(url, jsonObject.toString());
-//
-                            String result = nowBuy.execute().get();
+                            addTask = new CommonTask(url, jsonObject.toString());
+
+                            String result = addTask.execute().get();
                             Log.i(TAG, result);
                             count = Integer.parseInt(result);
-//                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
 
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("nowBuy", pl);
-                        bundle.putString("total", String.valueOf(totalPrice));
-//                        再補傳送物件
-//                        Navigation.findNavController(v).navigate(R.id.action_productDetailFragment_to_buyerFragment,bundle);
+                        if (count == 0) {
+                            Toast.makeText(activity, R.string.Fail, Toast.LENGTH_SHORT).show();
+                        }
                     }
-
+                    Navigation.findNavController(v).navigate(R.id.action_productDetailFragment_to_shoppingcartFragment);
 
                 }
+
+
             }
         });
 

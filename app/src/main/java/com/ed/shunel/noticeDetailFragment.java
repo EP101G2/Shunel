@@ -78,6 +78,7 @@ public class noticeDetailFragment extends Fragment {
         tvNoticeDetailT = view.findViewById(R.id.tvNoticeDetailT);
         rvNoticeDetail = view.findViewById(R.id.rvNoticeDetail);
         rvNoticeDetail.setLayoutManager(new LinearLayoutManager(activity));
+
         noticeDetail = getDate();
         rvNoticeDetail.setAdapter(new NoticeDetailAdapter(activity, noticeDetail));
 
@@ -99,7 +100,7 @@ public class noticeDetailFragment extends Fragment {
             case 1:
 //                if (bundle != null) {
 //                    String BundleTForQA = bundle.getString("tvQAT");
-                String textQA = "提問通知";
+                String textQA = "貨態通知";
                 tvNoticeDetailT.append(textQA);
 //                }
                 break;
@@ -190,8 +191,8 @@ public class noticeDetailFragment extends Fragment {
                             if (saleTitle.isEmpty() || saleDetail.isEmpty()) {
                                 Common.showToast(activity, R.string.textnofound);
                             }
-                            bundle.putString("saleTitle", saleTitle);
-                            bundle.putString("saleDetail", saleDetail);
+                            bundle.putString("noticeTitle", saleTitle);//title
+                            bundle.putString("noticeDetail", saleDetail);
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_noticeDetailFragment_to_saleDetailFragment, bundle);
 
@@ -200,7 +201,7 @@ public class noticeDetailFragment extends Fragment {
                     break;
 
                 case 1:
-                    holder.ivProductMini.setImageResource(R.drawable.action_dialog);
+                    holder.ivProductMini.setImageResource(R.drawable.ic_action_box);
 
                     break;
 
@@ -210,7 +211,13 @@ public class noticeDetailFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("noticeSystem", notice);
+                            String systemTitle = notice.getNotice_Title().trim();
+                            String systemDetail = notice.getNotice_Content().trim();
+                            if (systemTitle.isEmpty() || systemDetail.isEmpty()) {
+                                Common.showToast(activity, R.string.textnofound);
+                            }
+                            bundle.putString("noticeTitle", systemTitle);//title
+                            bundle.putString("noticeDetail", systemDetail);
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_noticeDetailFragment_to_systemDetailFragment, bundle);
                         }

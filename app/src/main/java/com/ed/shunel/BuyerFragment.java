@@ -191,14 +191,13 @@ public class BuyerFragment extends Fragment {
         tv_Buyer_Name = view.findViewById(R.id.tv_Buyer_Name);
         tv_Buyer_Phone = view.findViewById(R.id.tv_Phone);
         tv_Buyer_Address = view.findViewById(R.id.tv_Address);
-//        btn_Buyer_Confirm = view.findViewById(R.id.btn_Buyer_Confirm);
         btn_Pagenext = view.findViewById(R.id.btn_Pagenext);
-//        line_Address = view.findViewById(R.id.line_Address);
         tv_BuyTotal = view.findViewById(R.id.tv_BuyTotal);
         btBuy = view.findViewById(R.id.btnBuy);
-//        btBuy.setEnabled(false);
 
 
+
+        /*bundle 接收---------------------------------------------------------------------*/
         final NavController navController = Navigation.findNavController(view);
         Bundle bundle = getArguments();
         if (bundle == null || bundle.getSerializable("shopcard") == null) {
@@ -207,19 +206,11 @@ public class BuyerFragment extends Fragment {
             return;
         }
 
-//        if (bundle == null || bundle.getSerializable("nowBuy") == null) {
-//            Common.showToast(activity, R.string.textNoFound);
-//            navController.popBackStack();
-//            return;
-//        }
-
 
         shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("shopcard");
-//        shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("nowBuy");
-
         total = bundle.getString("total");
         orderId = bundle.getString("orderId");
-
+        /*bundle 接收---------------------------------------------------------------------*/
 
     }
 
@@ -237,8 +228,10 @@ public class BuyerFragment extends Fragment {
         name = Common.getPreherences(activity).getString("name", "");
         phone = Common.getPreherences(activity).getString("phone", "");
         address = Common.getPreherences(activity).getString("address", "");
-
-
+//        Log.e(TAG,id);
+//        Log.e(TAG,name);
+//        Log.e(TAG,phone);
+//        Log.e(TAG,address);
         tv_Buyer_Name.setText(name);
         tv_Buyer_Address.setText(address);
         tv_Buyer_Phone.setText(phone);
@@ -267,15 +260,7 @@ public class BuyerFragment extends Fragment {
         btn_Pagenext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), PayActivity.class);
-//                intent.putExtra("total", total);
-//                intent.putExtra("name", name);
-//                intent.putExtra("phone", phone);
-//                intent.putExtra("orderId", orderId);
-////                intent.putExtra("order",oM.getOrder_ID());
-////                intent.putExtra("orderID", oM.getOrder_ID());
-////                Log.i(TAG,"111222222222"+ oM.getOrder_ID());
-//                startActivity(intent);
+//
                 Navigation.findNavController(v).navigate(R.id.action_buyerFragment_to_orderListFragment2);
 
 
@@ -478,7 +463,7 @@ public class BuyerFragment extends Fragment {
     }
 
 
-    private void changeOrderStatus() {
+    private void changeOrderStatus() {//未付款改以付款
         //待測試
 
         if (Common.networkConnected(activity)) {
@@ -486,7 +471,7 @@ public class BuyerFragment extends Fragment {
             String url = Common.URL_SERVER + "Orders_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "changeOrderStatus");
-            jsonObject.addProperty("orderID",Integer.valueOf(orderId));
+            jsonObject.addProperty("OrderID",Integer.valueOf(orderId));
             chageOrder= new CommonTask(url, jsonObject.toString());
 
             Log.i(TAG,chageOrder.toString());

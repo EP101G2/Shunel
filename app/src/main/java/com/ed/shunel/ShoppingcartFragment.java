@@ -164,6 +164,8 @@ public class ShoppingcartFragment extends Fragment {
 
                     Shopping_Cart_List shopping_cart_list = new Shopping_Cart_List(listdatas); //清單
                     Order_Main order_main = new Order_Main(Common.getPreherences(activity).getString("id", ""), totalPrice, Common.getPreherences(activity).getString("name", ""), Common.getPreherences(activity).getString("address", ""), Common.getPreherences(activity).getString("phone", ""), 0);
+
+                    //訂單成立
                     if (Common.networkConnected(activity)) {
 
                         String url = Common.URL_SERVER + "Prouct_Servlet";
@@ -180,9 +182,9 @@ public class ShoppingcartFragment extends Fragment {
 //                        orderId=Integer.parseInt(shopGetall);
                         try {
                             String jsonIn = shopGetall.execute().get();
-                            Log.i("888888","9999999999"+jsonIn);
+//                            Log.i("888888","9999999999"+jsonIn);
                             orderId = jsonIn;
-                            Log.i("888888","9999999999"+orderId);
+//                            Log.i("888888","9999999999"+orderId);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -245,7 +247,7 @@ public class ShoppingcartFragment extends Fragment {
             jsonObject.addProperty("action", "getAllShop");
             jsonObject.addProperty("id", Common.getPreherences(activity).getString("id", ""));
             String jsonOut = jsonObject.toString();
-            Log.i("!!!!!!!!", jsonOut);
+//            Log.i("!!!!!!!!", jsonOut);
             shopGetall = new CommonTask(url, jsonOut);
 
             try {
@@ -329,12 +331,12 @@ public class ShoppingcartFragment extends Fragment {
             holder.tv_Count.setText(String.valueOf(shoppingCart.getAmount()));
             holder.tv_specification.setText("規格" + shoppingCart.getColor());
             holder.tv_Price.setText("價格：" + shoppingCart.getAmount() * shoppingCart.getPrice());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Navigation.findNavController(v).navigate(R.id.productDetailFragment);
-                }
-            });
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Navigation.findNavController(v).navigate(R.id.productDetailFragment);
+//                }
+//            });
 
             holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
