@@ -100,7 +100,7 @@ public class noticeDetailFragment extends Fragment {
             case 1:
 //                if (bundle != null) {
 //                    String BundleTForQA = bundle.getString("tvQAT");
-                String textQA = "提問通知";
+                String textQA = "貨態通知";
                 tvNoticeDetailT.append(textQA);
 //                }
                 break;
@@ -201,7 +201,7 @@ public class noticeDetailFragment extends Fragment {
                     break;
 
                 case 1:
-                    holder.ivProductMini.setImageResource(R.drawable.action_dialog);
+                    holder.ivProductMini.setImageResource(R.drawable.ic_action_box);
 
                     break;
 

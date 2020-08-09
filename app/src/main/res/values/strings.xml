@@ -135,7 +135,7 @@
 
 
     <string name="Sale_Notice">促銷訊息</string>
-    <string name="QA_zNotice">提問通知</string>
+    <string name="QA_zNotice">貨態通知</string>
     <string name="system_Notice">系統公告</string>
     <string name="typeAccountId">請輸入帳號</string>
     <string name="typeName">請輸入姓名</string>
