@@ -1,5 +1,6 @@
 package com.ed.shunel;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 
@@ -30,10 +31,37 @@ import androidx.navigation.Navigation;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.bean.User_Account;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.util.Arrays;
 import java.util.Locale;
+
+//FB
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class Login_Fragment extends Fragment {
@@ -44,17 +72,33 @@ public class Login_Fragment extends Fragment {
     private TextView tvRegisterNow, tvForgetPassword, tvMessage;
     private CommonTask loginTask;
     private String id, password;
-
+    //google
+    private GoogleSignInClient client;
+    private static final int REQ_SIGN_IN = 101;
     final String INITIALIZED = "initialized";
     Boolean user_first;
     private View view;
-
+    //FB
+    private CallbackManager callbackManager;
+    private FirebaseAuth auth;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-
+        auth = FirebaseAuth.getInstance();
+        callbackManager = CallbackManager.Factory.create();
+        //fb
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(activity);
+//google
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                // 由google-services.json轉出
+                .requestIdToken(getString(R.string.default_web_client_id))
+                // 要求輸入email
+                .requestEmail()
+                .build();
+        client = GoogleSignIn.getClient(activity, options);
 
 //
 //        AppEventsLogger.activateApp(getA);
@@ -92,6 +136,7 @@ public class Login_Fragment extends Fragment {
     }
 
 
+    @SuppressLint("WrongViewCast")
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -104,6 +149,19 @@ public class Login_Fragment extends Fragment {
         tvRegisterNow = view.findViewById(R.id.tvRegisterNow);
         tvForgetPassword = view.findViewById(R.id.tvForgetPassword);
         tvMessage = view.findViewById(R.id.tvMessage);
+
+btGoogle.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        signInGoogle();
+    }
+});
+        btFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInFB();
+            }
+        });
 
 
         tvForgetPassword.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +186,7 @@ public class Login_Fragment extends Fragment {
             public void onClick(View v) {
                 id = etTypeId.getText().toString();
                 password = etTypePassword.getText().toString();
-                String token = Common.getPreherences(activity).getString("getToken","");
+                String token = Common.getPreherences(activity).getString("getToken", "");
 
                 if (networkConnected()) {
                     String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
@@ -137,7 +195,7 @@ public class Login_Fragment extends Fragment {
                     jsonObject.addProperty("action", "getLogin");
                     jsonObject.addProperty("id", id);
                     jsonObject.addProperty("password", password);
-                    jsonObject.addProperty("getToken",token);
+                    jsonObject.addProperty("getToken", token);
                     loginTask = new CommonTask(url, jsonObject.toString());
                     String jsonIn = "";
                     try {
@@ -245,6 +303,123 @@ public class Login_Fragment extends Fragment {
         Log.i(TAG, "-------------------------------------------------------------");
         Log.i(TAG, Common.getPreherences(activity).getString("id", id));
     }
+
+    // 跳出FB登入畫面
+    private void signInFB() {
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                signInFirebase(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.e(TAG, "facebook:onError", error);
+            }
+        });
+    }
+
+
+    // 使用FB token完成Firebase驗證
+    private void signInFirebase(AccessToken token) {
+        Log.d(TAG, "signInFirebase:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // 登入成功轉至下頁；失敗則顯示錯誤訊息
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent();
+                            intent.setClass(activity, MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
+                            startActivity(intent);  //啟動跳頁動作
+                            activity.finish();//把自己關掉
+
+//                            Navigation.findNavController(textView)
+//                                    .navigate(R.id.action_mainFragment_to_resultFragment);
+                        } else {
+                            Exception exception = task.getException();
+                            String message = exception == null ? "Sign in fail." : exception.getMessage();
+                            Log.e(TAG, message);
+                            Common.showToast(activity, "阿超");
+                        }
+                    }
+                });
+    }
+
+
+    // 跳出Google登入畫面
+    private void signInGoogle() {
+        Intent signInIntent = client.getSignInIntent();
+        startActivityForResult(signInIntent, REQ_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_SIGN_IN) {
+            // 取得裝置上的Google登入帳號
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null) {
+                    firebaseAuthWithGoogle(account);
+                } else {
+                    Log.e(TAG, "GoogleSignInAccount is null");
+                }
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.e(TAG, "Google sign in failed");
+            }
+        }else {
+
+          //跑fb
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    // 使用Google帳號完成Firebase驗證
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        // get the unique ID for the Google account
+        Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // 登入成功轉至下頁；失敗則顯示錯誤訊息
+                        if (task.isSuccessful()) {
+                            Common.showToast(activity,"Edward");
+//                            Navigation.findNavController(textView)
+//                                    .navigate(R.id.action_mainFragment_to_resultFragment);
+                        } else {
+                            Exception exception = task.getException();
+                            String message = exception == null ? "Sign in fail." : exception.getMessage();
+                            Common.showToast(activity,"JIMMY");
+                        }
+
+                    }
+                });
+    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // 檢查user是否已經登入，是則FirebaseUser物件不為null
+//        FirebaseUser user = auth.getCurrentUser();
+//        if (user != null) {
+//            Navigation.findNavController(textView)
+//                    .navigate(R.id.action_mainFragment_to_resultFragment);
+//        }
+//    }
 }
 
 

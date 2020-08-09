@@ -263,7 +263,7 @@ public class OrderListFragment extends Fragment{
             final Order_Main orderMain = orderListMain.get(position);
 
             holder.tvOrderId.setText(String.valueOf(orderMain.getOrder_ID()));
-            holder.tvOrderStatus.setText(String.valueOf(orderMain.getOrder_Main_Order_Status()));
+            holder.tvOrderStatus.setText(orderStatusText(orderMain.getOrder_Main_Order_Status()));//apply method orderStatusText
 
 //            fake pic for testing
             holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
@@ -279,6 +279,24 @@ public class OrderListFragment extends Fragment{
                 }
             });
         }//ok
+//setting text for order status
+        private String orderStatusText(int status) {
+            String statusText = "";
+            if (status == 0){
+                statusText = "未付款";
+            }else if (status == 1){
+                statusText = "未出貨";
+            }else if (status == 2){
+                statusText = "已出貨";
+            }else if (status == 3){
+                statusText = "已送達";
+            }else if (status == 4){
+                statusText = "已取消";
+            }else if (status == 5){
+                statusText = "已退貨";
+            }
+            return statusText;
+        }
 
         //    set up filter
 //        @Override

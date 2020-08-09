@@ -6,12 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MemberFragment">
 
-    <View
+    <TextView
         android:id="@+id/view3"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:background="@drawable/appbar"
-
+        android:gravity="center"
+        android:text="@string/memberinfo"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
