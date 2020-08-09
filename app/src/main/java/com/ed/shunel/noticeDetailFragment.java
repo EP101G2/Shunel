@@ -182,6 +182,7 @@ public class noticeDetailFragment extends Fragment {
             int notice_ID = notice.getNotice_ID();
             switch (MainActivity.flag) {
                 case 0:
+                    holder.ivProductMini.setImageResource(R.drawable.ic_action_tags);
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
