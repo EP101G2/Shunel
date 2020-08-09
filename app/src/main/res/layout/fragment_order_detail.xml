@@ -17,7 +17,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rvOrderDetProList" />
 
     <TextView
-        android:id="@+id/tvOrderStatus"
+        android:id="@+id/tvOrderStatusDet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/textHint"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvOrderId"
+        android:id="@+id/tvOrderIdDet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -69,11 +69,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/textTotalPriceText"
-        app:layout_constraintEnd_toStartOf="@+id/tvTotalPrice"
+        app:layout_constraintEnd_toStartOf="@+id/tvTotalPriceDet"
         app:layout_constraintTop_toBottomOf="@+id/rvOrderDetProList" />
 
     <TextView
-        android:id="@+id/tvTotalPrice"
+        android:id="@+id/tvTotalPriceDet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -121,7 +121,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tvName"
+                android:id="@+id/tvNameDet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -147,7 +147,7 @@
                 android:textColor="#000000" />
 
             <TextView
-                android:id="@+id/tvPhone"
+                android:id="@+id/tvPhoneDet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -172,7 +172,7 @@
                 android:textColor="#000000" />
 
             <TextView
-                android:id="@+id/tvAddress"
+                android:id="@+id/tvAddressDet"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
