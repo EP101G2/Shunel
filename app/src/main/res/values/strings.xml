@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Shunel</string>
+    <!-- FB-->
+    <string name="facebook_app_id">192713442172647</string> <string name="fb_login_protocol_scheme">fb192713442172647</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -135,7 +138,7 @@
 
 
     <string name="Sale_Notice">促銷訊息</string>
-    <string name="QA_zNotice">提問通知</string>
+    <string name="QA_zNotice">貨態通知</string>
     <string name="system_Notice">系統公告</string>
     <string name="typeAccountId">請輸入帳號</string>
     <string name="typeName">請輸入姓名</string>
@@ -187,7 +190,12 @@
     <string name="textWrongOldPassword">舊密碼不正確</string>
     <string name="searchtext">請輸入您想找的商品</string>
     <string name="accountID" />
+
+    <string name="memberinfo">會員資料</string>
+
     <string name="productdetail">商品介紹</string>
+    <string name="pleselogin">請登入會員</string>
+
 
 
 </resources>

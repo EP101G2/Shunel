@@ -130,8 +130,6 @@ public class RegisterFragment extends Fragment {
 
                             activity.finish();//把自己關掉
 
-
-//
                         }
 
                     } catch (Exception e) {
