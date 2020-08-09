@@ -180,14 +180,19 @@ public class ChatFragment extends Fragment {
                 }.getType();
                 messages = gson.fromJson(jsonIn, listType);
 
-
-                for (ChatMessage chat : messages) {
-                    if (chat.getType().equals("image")) {
-                        chat.setBase64(String.valueOf(chat.getId()));
-                        chat.setFlag(1);
-                        Log.e("3123", "===============================" + chat.getBase64());
+                if (messages !=null){
+                    for (ChatMessage chat : messages) {
+                        if (chat.getType().equals("image")) {
+                            chat.setBase64(String.valueOf(chat.getId()));
+                            chat.setFlag(1);
+                            Log.e("3123", "===============================" + chat.getBase64());
+                        }
                     }
+                }else {
+                    return null;
                 }
+
+
 
             } catch (ExecutionException e) {
                 e.printStackTrace();

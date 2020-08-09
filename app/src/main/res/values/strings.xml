@@ -188,6 +188,7 @@
     <string name="searchtext">請輸入您想找的商品</string>
     <string name="accountID" />
     <string name="productdetail">商品介紹</string>
+    <string name="pleselogin">請登入會員</string>
 
 
 </resources>

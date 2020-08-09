@@ -380,7 +380,6 @@ public class ProductDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (Common.networkConnected(activity)) {
-                    Log.e("========set======", set + "");
                     if (set.equals("like") || follow.equals("success")) {     //succes表示已經是追蹤了
                         String account_id = Common.getPreherences(activity).getString("id", "");
                         String url = Common.URL_SERVER + "Prouct_Servlet";
@@ -427,8 +426,9 @@ public class ProductDetailFragment extends Fragment {
                                 Toast.makeText(activity, R.string.insertFollow, Toast.LENGTH_SHORT).show();
                                 set = "like";
                                 follow = "success";
+                            }else{
+                                Toast.makeText(activity,R.string.pleselogin,Toast.LENGTH_SHORT).show();
                             }
-
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
