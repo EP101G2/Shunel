@@ -90,7 +90,8 @@ public class MemberFragment extends Fragment {
         ivUser=view.findViewById(R.id.ivUser);
 
 
-
+tvId.setText(Common.getPreherences(activity).getString("id","deVal"));
+tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
 
         if (sharedPreferences.getString("id", "").equals("")) {
 

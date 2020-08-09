@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -56,10 +59,14 @@ import com.google.gson.JsonObject;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 //FB
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -71,7 +78,8 @@ public class Login_Fragment extends Fragment {
     private Button btLogin, btFacebook, btGoogle;
     private TextView tvRegisterNow, tvForgetPassword, tvMessage;
     private CommonTask loginTask;
-    private String id, password;
+    private String id, name,password, fbName, fbId, fbMail;
+
     //google
     private GoogleSignInClient client;
     private static final int REQ_SIGN_IN = 101;
@@ -150,12 +158,12 @@ public class Login_Fragment extends Fragment {
         tvForgetPassword = view.findViewById(R.id.tvForgetPassword);
         tvMessage = view.findViewById(R.id.tvMessage);
 
-btGoogle.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        signInGoogle();
-    }
-});
+        btGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInGoogle();
+            }
+        });
         btFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,6 +215,9 @@ btGoogle.setOnClickListener(new View.OnClickListener() {
                     JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
 
                     String result = jsonObject2.get("result").getAsString();
+
+
+                    savePreferences();
                     Log.i(TAG, result);
 
                     if (etTypeId.length() == 0) {
@@ -227,6 +238,9 @@ btGoogle.setOnClickListener(new View.OnClickListener() {
                             String userJstr = jsonObject2.get("user").getAsString();
                             if (userJstr != null) {
                                 User_Account user_account = gson.fromJson(userJstr, User_Account.class);
+                                id=user_account.getAccount_ID();
+                                name = user_account.getAccount_User_Name();
+                                password=user_account.getAccount_Password();
                                 savePreferences();
                                 String getToken = Common.getPreherences(activity).getString("getToken", "");
                                 Bundle bundle = new Bundle();
@@ -295,13 +309,15 @@ btGoogle.setOnClickListener(new View.OnClickListener() {
     private void savePreferences() {
 
         //置入name屬性的字串
-        Common.getPreherences(activity).edit().putString("id", id)
+        Common.getPreherences(activity).edit()
+                .putString("id", id)
                 .putString("password", password)
+                .putString("name",name)
                 .apply();
 
 
         Log.i(TAG, "-------------------------------------------------------------");
-        Log.i(TAG, Common.getPreherences(activity).getString("id", id));
+        Log.i(TAG, Common.getPreherences(activity).getString("name", "deval"));
     }
 
     // 跳出FB登入畫面
@@ -310,6 +326,33 @@ btGoogle.setOnClickListener(new View.OnClickListener() {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Logger.getLogger(object.toString());
+                        try {
+                            fbId = object.get("id").toString();
+                            fbName = object.get("name").toString();
+                            fbMail = object.get("email").toString();
+
+                            Log.e("12345", fbId);
+                            Log.e("12345", fbName);
+                            Log.e("12345", fbMail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                Bundle paramesters = new Bundle();
+                paramesters.putString("fields", "id,name,link,email");
+                request.setParameters(paramesters);
+                request.executeAsync();
+//                Log.e("12345", fbId);
+//                Log.e("12345", fbName);
+//                Log.e("12345", fbMail);
+
+
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 signInFirebase(loginResult.getAccessToken());
             }
@@ -360,6 +403,7 @@ btGoogle.setOnClickListener(new View.OnClickListener() {
     private void signInGoogle() {
         Intent signInIntent = client.getSignInIntent();
         startActivityForResult(signInIntent, REQ_SIGN_IN);
+
     }
 
     @Override
@@ -379,9 +423,9 @@ btGoogle.setOnClickListener(new View.OnClickListener() {
                 // Google Sign In failed, update UI appropriately
                 Log.e(TAG, "Google sign in failed");
             }
-        }else {
+        } else {
 
-          //跑fb
+            //跑fb
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -391,6 +435,8 @@ btGoogle.setOnClickListener(new View.OnClickListener() {
         // get the unique ID for the Google account
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
 
+
+
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -398,13 +444,15 @@ btGoogle.setOnClickListener(new View.OnClickListener() {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         // 登入成功轉至下頁；失敗則顯示錯誤訊息
                         if (task.isSuccessful()) {
-                            Common.showToast(activity,"Edward");
+                            Common.showToast(activity, "Edward");
+
+//
 //                            Navigation.findNavController(textView)
 //                                    .navigate(R.id.action_mainFragment_to_resultFragment);
                         } else {
                             Exception exception = task.getException();
                             String message = exception == null ? "Sign in fail." : exception.getMessage();
-                            Common.showToast(activity,"JIMMY");
+                            Common.showToast(activity, "JIMMY");
                         }
 
                     }
