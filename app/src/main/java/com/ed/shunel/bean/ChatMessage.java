@@ -2,10 +2,11 @@ package com.ed.shunel.bean;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class ChatMessage {
+public class ChatMessage implements Serializable {
 
     private String type;
     private String sender;
@@ -20,7 +21,11 @@ public class ChatMessage {
 
     private int flag;
 
-    public ChatMessage(String type, String sender, String receiver, String message, int chatRoom, String base64,int flag) {
+    public ChatMessage() {
+
+    }
+
+    public ChatMessage(String type, String sender, String receiver, String message, int chatRoom, String base64, int flag) {
         this.type = type;
         this.sender = sender;
         this.receiver = receiver;

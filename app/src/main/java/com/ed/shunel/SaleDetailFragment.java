@@ -119,7 +119,7 @@ public class SaleDetailFragment extends Fragment {
         Log.i("---123---", "-----------12323");
         List<Promotion> promotions = null;
         if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "Promotion_servlet";
+            String url = Common.URL_SERVER + "Promotion_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getPromotionForNotice");
             String jsonOut = jsonObject.toString();
@@ -206,7 +206,9 @@ public class SaleDetailFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+            Log.e("promotionList","promotionList");
             return promotionList == null ? 0 : promotionList.size();
+
         }
 
 
