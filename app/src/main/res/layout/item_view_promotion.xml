@@ -62,10 +62,9 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="TextView"
-            app:layout_constraintStart_toStartOf="@+id/tvOldPrice"
-            app:layout_constraintTop_toBottomOf="@+id/tvOldPrice" />
+            app:layout_constraintStart_toStartOf="@+id/tvNewPrice"
+            app:layout_constraintTop_toTopOf="@+id/textView7" />
 
         <ImageView
             android:id="@+id/imageView7"
@@ -76,6 +75,15 @@
             app:layout_constraintStart_toStartOf="@+id/tvOldPrice"
             app:layout_constraintTop_toTopOf="@+id/tvOldPrice"
             app:srcCompat="@drawable/red" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="到期日"
+            app:layout_constraintStart_toStartOf="@+id/tvOldPrice"
+            app:layout_constraintTop_toBottomOf="@+id/tvOldPrice" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
