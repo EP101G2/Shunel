@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,7 +125,6 @@ public class ChatFragment extends Fragment {
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
-        CommonTwo.connectServer(activity, loadUserName(activity));
         chatMessageList = getData();
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
@@ -180,14 +180,19 @@ public class ChatFragment extends Fragment {
                 }.getType();
                 messages = gson.fromJson(jsonIn, listType);
 
-
-                for (ChatMessage chat : messages) {
-                    if (chat.getType().equals("image")) {
-                        chat.setBase64(String.valueOf(chat.getId()));
-                        chat.setFlag(1);
-                        Log.e("3123", "===============================" + chat.getBase64());
+                if (messages !=null){
+                    for (ChatMessage chat : messages) {
+                        if (chat.getType().equals("image")) {
+                            chat.setBase64(String.valueOf(chat.getId()));
+                            chat.setFlag(1);
+                            Log.e("3123", "===============================" + chat.getBase64());
+                        }
                     }
+                }else {
+                    return null;
                 }
+
+
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -295,33 +300,6 @@ public class ChatFragment extends Fragment {
 
     }
 
-    private void sendChatDB(ChatMessage chatMessage) {
-
-        String url = Common.URL_SERVER + "Chat_Servlet";
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", "createChatID");
-        jsonObject.addProperty("chatID", chatMessage.getChatRoom());
-        jsonObject.addProperty("receiver", chatMessage.getReceiver());
-        jsonObject.addProperty("sender", chatMessage.getSender());
-        jsonObject.addProperty("msg", chatMessage.getMessage());
-        jsonObject.addProperty("msgtype", chatMessage.getType());
-        if (image != null) {
-            jsonObject.addProperty("imageBase64", Base64.encodeToString(image, Base64.DEFAULT));
-            Log.e(TAG, "///////////////////111111111" + image);
-            image = null;
-        }
-
-
-        Log.e(TAG, jsonObject.toString());
-        try {
-            chatTask = new CommonTask(url, jsonObject.toString());
-            imageID = Integer.parseInt(chatTask.execute().get());
-            Log.e(TAG, "============" + imageID);
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-
-    }
 
 
     /**
@@ -437,6 +415,8 @@ public class ChatFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
 
+
+
             final ChatMessage CM = message.get(position);
 
             Calendar mCal = Calendar.getInstance();
@@ -502,7 +482,7 @@ public class ChatFragment extends Fragment {
                         sentMessageHolder.theirTime.setText(s);
                     }
                 } else {
-                    SentImageHolder sentImageHolder = (SentImageHolder) holder;
+                    final SentImageHolder sentImageHolder = (SentImageHolder) holder;
                     String url = Common.URL_SERVER + "Chat_Servlet";
 
                     imageTask = new ChatImageView(url, Integer.parseInt(CM.getBase64()), imageSize, ((SentImageHolder) holder).imageView);
@@ -513,6 +493,14 @@ public class ChatFragment extends Fragment {
                     } else {
                         sentImageHolder.tvMyImage.setText(s);
                     }
+
+                    sentImageHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           sentImageHolder.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        }
+                    });
+
 
                 }
 

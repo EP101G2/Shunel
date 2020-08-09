@@ -247,7 +247,7 @@ public class ShoppingcartFragment extends Fragment {
             jsonObject.addProperty("action", "getAllShop");
             jsonObject.addProperty("id", Common.getPreherences(activity).getString("id", ""));
             String jsonOut = jsonObject.toString();
-            Log.i("!!!!!!!!", jsonOut);
+//            Log.i("!!!!!!!!", jsonOut);
             shopGetall = new CommonTask(url, jsonOut);
 
             try {
