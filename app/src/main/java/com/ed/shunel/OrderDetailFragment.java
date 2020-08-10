@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,12 +40,13 @@ import java.util.concurrent.ExecutionException;
  */
 //1. rv orderDetail, 2. nav main to product detail
 public class OrderDetailFragment extends Fragment {
-    private static final String ARG_COUNT = "-OrderDetailFragment-";
+    private static final String TAG = "-OrderDetailFragment-";
     private TextView tvOrderId, tvOrderStatus, tvTotalPrice, tvName, tvPhone, tvAddress;// tvProductName, tvProductPrice;
     //    private TextView tvOrderIdText, tvOrderDetStatusText, tvTotalPriceText, tvReceiverTitle, tvOrderDNameT, tvOrderDPhoneT, tvOrderDetailAddressT; need not to
 //    private ImageView ivOrderProductPic;//add later
     private RecyclerView rvOrderDetProList;
     private List<Order_Detail> orderDetailList;
+    private Order_Main orderMain;
     private Activity activity;
     private Integer counter;
     private CommonTask ordersDetGetTask;
@@ -65,7 +67,7 @@ public class OrderDetailFragment extends Fragment {
     public static OrderDetailFragment newInstance(Integer counter) {
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COUNT, counter);
+        args.putInt(TAG, counter);
         fragment.setArguments(args);
         return fragment;
     }//ok
@@ -75,7 +77,7 @@ public class OrderDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         activity = getActivity();
         if (getArguments() != null){
-            counter = getArguments().getInt(ARG_COUNT);
+            counter = getArguments().getInt(TAG);
         }
     }//ok
 
@@ -90,20 +92,58 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        bundle bring orderId, orderStatus, from OrderListFrag
-
 
         orderDetailList = getOrderDetailList();
-        tvOrderId = view.findViewById(R.id.tvOrderId);
-        tvOrderStatus = view.findViewById(R.id.tvOrderStatus);
-        tvName = view.findViewById(R.id.tvName);//=Receiver in DB
-        tvPhone = view.findViewById(R.id.tvPhone);
-        tvAddress = view.findViewById(R.id.tvAddress);
-        tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
+        tvOrderId = view.findViewById(R.id.tvOrderIdDet);
+        tvOrderStatus = view.findViewById(R.id.tvOrderStatusDet);
+        tvName = view.findViewById(R.id.tvNameDet);//=Receiver in DB
+        tvPhone = view.findViewById(R.id.tvPhoneDet);
+        tvAddress = view.findViewById(R.id.tvAddressDet);
+        tvTotalPrice = view.findViewById(R.id.tvTotalPriceDet);
+//        bundle bring orderId, orderStatus, from OrderListFrag
+        final NavController navController = Navigation.findNavController(view);
+        Bundle bundle = getArguments();
+        if (bundle == null || bundle.getSerializable("orders") == null) {
+            Common.showToast(activity, R.string.textnofound);
+            navController.popBackStack();
+            return;
+        }
+        orderMain = (Order_Main) bundle.getSerializable("orders");
+        showOrderDetails();
 
         rvOrderDetProList = view.findViewById(R.id.rvOrderDetProList);
         rvOrderDetProList.setLayoutManager(new LinearLayoutManager(activity));
         rvOrderDetProList.setAdapter(new OrderDetailAdapter(getContext(),orderDetailList)); //rvAdapter
+    }
+
+    private void showOrderDetails() {
+        int id = orderMain.getOrder_ID();
+        tvOrderId.setText(String.valueOf(id));
+        tvOrderStatus.setText(orderMain.getOrder_Main_Order_Status());
+        tvTotalPrice.setText(String.valueOf(orderMain.getOrder_Main_Total_Price()));
+
+//        get receiver name, phone, address by orderId from server(not working, can't see message)
+        String url = Common.URL_SERVER + "Orders_Servlet";
+        final Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("action", "getOrderMain");
+        jsonObject.addProperty("orderID", new Gson().toJson(id));
+        ordersDetGetTask = new CommonTask(url, jsonObject.toString());
+
+        try {
+            String jsonIn = ordersDetGetTask.execute().get();
+            Log.e(TAG, jsonIn);
+
+            JsonObject jsonObjectRec = gson.fromJson(jsonIn, JsonObject.class);
+            final String result = jsonObjectRec.get("orderMain").getAsString();
+            final Order_Main orderMainRec = gson.fromJson(result, Order_Main.class);
+
+            tvName.setText(orderMainRec.getOrder_Main_Receiver());
+            tvPhone.setText(orderMainRec.getOrder_Main_Phone());
+            tvAddress.setText(orderMainRec.getOrder_Main_Address());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.PageViewHolder>{
@@ -118,11 +158,11 @@ public class OrderDetailFragment extends Fragment {
         public int getItemCount() {
             try {
                 if (orderDetailList != null) {
-                    Log.e(ARG_COUNT,"itemCount:"+orderDetailList.size());
+                    Log.e(TAG,"itemCount:"+orderDetailList.size());
                     return orderDetailList == null ? 0 : orderDetailList.size();
                 }
             }catch (Exception e){
-                Log.e(ARG_COUNT,"null list");
+                Log.e(TAG,"null list");
             }
             return orderDetailList == null ? 0 : orderDetailList.size();
         }//ok
@@ -176,7 +216,7 @@ public class OrderDetailFragment extends Fragment {
 //                get data from orders servlet
                 String url = Common.URL_SERVER + "Orders_Servlet";
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("action", "getOrderDetShort");
+                jsonObject.addProperty("action", "getOrderDetailShort");
                 jsonObject.addProperty("Order_ID", Common.getPreherences(activity).getString("Order_ID", "defValue"));
                 String jsonOut = jsonObject.toString();
                 ordersDetGetTask = new CommonTask(url, jsonOut);
@@ -186,18 +226,14 @@ public class OrderDetailFragment extends Fragment {
                     }.getType();
                     orderDetailList = new Gson().fromJson(jsonIn, listType);
                 } catch (Exception e) {
-                    Log.e(ARG_COUNT, e.toString());
+                    Log.e(TAG, e.toString());
                 }
             } else {
                 Common.showToast(activity, R.string.textNoNetwork);
             }
         } catch (Exception e) {
-            Log.e(ARG_COUNT, e.toString());
+            Log.e(TAG, e.toString());
         }
-
         return orderDetailList;
     }
-
-
-
 }
