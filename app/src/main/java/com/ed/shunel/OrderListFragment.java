@@ -172,7 +172,7 @@ public class OrderListFragment extends Fragment{
                 String url = Common.URL_SERVER + "Orders_Servlet";
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "getOrderMainShort");
-                jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("Account_ID", "G")); //for testing
+                jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("Account_ID", "defValue")); //for testing
                 String jsonOut = jsonObject.toString();
                 ordersListGetTask = new CommonTask(url, jsonOut);
                 try {
