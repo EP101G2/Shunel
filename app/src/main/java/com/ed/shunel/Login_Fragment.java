@@ -54,11 +54,13 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 //FB
@@ -78,7 +80,8 @@ public class Login_Fragment extends Fragment {
     private Button btLogin, btFacebook, btGoogle;
     private TextView tvRegisterNow, tvForgetPassword, tvMessage;
     private CommonTask loginTask;
-    private String id, name,password, fbName, fbId, fbMail;
+    private String id, name, password, fbName, fbId, fbMail;
+    private User_Account user_account;
 
     //google
     private GoogleSignInClient client;
@@ -89,6 +92,7 @@ public class Login_Fragment extends Fragment {
     //FB
     private CallbackManager callbackManager;
     private FirebaseAuth auth;
+    private Gson gson;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -238,9 +242,9 @@ public class Login_Fragment extends Fragment {
                             String userJstr = jsonObject2.get("user").getAsString();
                             if (userJstr != null) {
                                 User_Account user_account = gson.fromJson(userJstr, User_Account.class);
-                                id=user_account.getAccount_ID();
+                                id = user_account.getAccount_ID();
                                 name = user_account.getAccount_User_Name();
-                                password=user_account.getAccount_Password();
+                                password = user_account.getAccount_Password();
                                 savePreferences();
                                 String getToken = Common.getPreherences(activity).getString("getToken", "");
                                 Bundle bundle = new Bundle();
@@ -312,7 +316,7 @@ public class Login_Fragment extends Fragment {
         Common.getPreherences(activity).edit()
                 .putString("id", id)
                 .putString("password", password)
-                .putString("name",name)
+                .putString("name", name)
                 .apply();
 
 
@@ -335,9 +339,7 @@ public class Login_Fragment extends Fragment {
                             fbName = object.get("name").toString();
                             fbMail = object.get("email").toString();
 
-                            Log.e("12345", fbId);
-                            Log.e("12345", fbName);
-                            Log.e("12345", fbMail);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -348,9 +350,7 @@ public class Login_Fragment extends Fragment {
                 paramesters.putString("fields", "id,name,link,email");
                 request.setParameters(paramesters);
                 request.executeAsync();
-//                Log.e("12345", fbId);
-//                Log.e("12345", fbName);
-//                Log.e("12345", fbMail);
+
 
 
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
@@ -371,7 +371,7 @@ public class Login_Fragment extends Fragment {
 
 
     // 使用FB token完成Firebase驗證
-    private void signInFirebase(AccessToken token) {
+    private void signInFirebase(final AccessToken token) {
         Log.d(TAG, "signInFirebase:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -381,18 +381,55 @@ public class Login_Fragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         // 登入成功轉至下頁；失敗則顯示錯誤訊息
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent();
-                            intent.setClass(activity, MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
-                            startActivity(intent);  //啟動跳頁動作
-                            activity.finish();//把自己關掉
+                            if (task.isSuccessful()) {
+                                Common.showToast(activity, "恭喜登入成功");
+                                User_Account user = new User_Account();
+                                gson = new Gson();
+                                String token = FirebaseInstanceId.getInstance().getToken();
+                                user.setAccount_ID(fbMail);
+                                user.setAccount_User_Name(fbName);
+                                user.setToken(token);
+                                if (Common.networkConnected(activity)) {
+                                    String url = Common.URL_SERVER + "User_Account_Servlet";
+                                    JsonObject jsonObject = new JsonObject();   //把東西包在jsonObject裡
+                                    jsonObject.addProperty("action", "google");
+                                    jsonObject.addProperty("user", gson.toJson(user));
+                                    loginTask = new CommonTask(url, jsonObject.toString());   //發送請球給ＳＥＶＥＲ
 
-//                            Navigation.findNavController(textView)
-//                                    .navigate(R.id.action_mainFragment_to_resultFragment);
-                        } else {
-                            Exception exception = task.getException();
-                            String message = exception == null ? "Sign in fail." : exception.getMessage();
-                            Log.e(TAG, message);
-                            Common.showToast(activity, "阿超");
+                                    String jsonIn = null;   //jsonin  SEVER丟回來的回應
+                                    try {
+                                        jsonIn = loginTask.execute().get();   //等待接收結果
+                                    } catch (ExecutionException e) {
+                                        e.printStackTrace();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+//處理接回來的資料
+                                    if(jsonIn.length()>1){
+                                        JsonObject jsonObject1 = gson.fromJson(jsonIn, JsonObject.class);
+                                        String googleLogin = jsonObject1.get("User").getAsString();
+                                        User_Account data = gson.fromJson(googleLogin, User_Account.class);
+                                        //                                字串              要解析成的類型    就變成ＵＳＥＲＡＣＣＯＵＮＴ的物件
+                                        Common.getPreherences(activity).edit()
+                                                .putString("id", data.getAccount_ID())
+                                                .putString("phone", data.getAccount_Phone())
+                                                .putString("password", data.getAccount_Password())
+                                                .putString("address", data.getAccount_Address())
+                                                .apply();
+                                        Intent intent = new Intent();
+                                        intent.setClass(activity, MainActivity.class);
+                                        startActivity(intent);
+                                    }else{
+                                        Common.showToast(activity,"註冊失敗");
+                                    }
+
+
+                                }
+                            } else {
+                                Exception exception = task.getException();
+                                String message = exception == null ? "Sign in fail." : exception.getMessage();
+                                Common.showToast(activity, "再試一下");
+                            }
                         }
                     }
                 });
@@ -431,10 +468,9 @@ public class Login_Fragment extends Fragment {
     }
 
     // 使用Google帳號完成Firebase驗證
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
         // get the unique ID for the Google account
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
-
 
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
@@ -444,15 +480,55 @@ public class Login_Fragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         // 登入成功轉至下頁；失敗則顯示錯誤訊息
                         if (task.isSuccessful()) {
-                            Common.showToast(activity, "Edward");
+                            Common.showToast(activity, "恭喜登入成功");
+                            User_Account user = new User_Account();
+                            gson = new Gson();
+                            String email = account.getEmail();
+                            String name = account.getGivenName() + account.getFamilyName();
+                            String token = FirebaseInstanceId.getInstance().getToken();
+                            user.setAccount_ID(email);
+                            user.setAccount_User_Name(name);
+                            user.setToken(token);
+                            if (Common.networkConnected(activity)) {
+                                String url = Common.URL_SERVER + "User_Account_Servlet";
+                                JsonObject jsonObject = new JsonObject();   //把東西包在jsonObject裡
+                                jsonObject.addProperty("action", "google");
+                                jsonObject.addProperty("user", gson.toJson(user));
+                                loginTask = new CommonTask(url, jsonObject.toString());   //發送請球給ＳＥＶＥＲ
 
-//
-//                            Navigation.findNavController(textView)
-//                                    .navigate(R.id.action_mainFragment_to_resultFragment);
+                                String jsonIn = null;   //jsonin  SEVER丟回來的回應
+                                try {
+                                    jsonIn = loginTask.execute().get();   //等待接收結果
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+//處理接回來的資料
+                                if(jsonIn.length()>1){
+                                    JsonObject jsonObject1 = gson.fromJson(jsonIn, JsonObject.class);
+                                    String googleLogin = jsonObject1.get("User").getAsString();
+                                    User_Account data = gson.fromJson(googleLogin, User_Account.class);
+                                    //                                字串              要解析成的類型    就變成ＵＳＥＲＡＣＣＯＵＮＴ的物件
+                                    Common.getPreherences(activity).edit()
+                                            .putString("id", data.getAccount_ID())
+                                            .putString("phone", data.getAccount_Phone())
+                                            .putString("password", data.getAccount_Password())
+                                            .putString("address", data.getAccount_Address())
+                                            .apply();
+                                    Intent intent = new Intent();
+                                    intent.setClass(activity, MainActivity.class);
+                                    startActivity(intent);
+                                }else{
+                                    Common.showToast(activity,"註冊失敗");
+                                }
+
+
+                            }
                         } else {
                             Exception exception = task.getException();
                             String message = exception == null ? "Sign in fail." : exception.getMessage();
-                            Common.showToast(activity, "JIMMY");
+                            Common.showToast(activity, "再試一下");
                         }
 
                     }
