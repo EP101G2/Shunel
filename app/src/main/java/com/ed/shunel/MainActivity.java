@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private NotificationManager notificationManager;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
         String isNotiFi = Common.getPreherences(this).getString("Notification", "N");
         Log.e("========isNotiFi", isNotiFi + "========");
+        Log.e("========isNotiFi", isNotiFi + "========");
         String pageFlag = Common.getPreherences(this).getString("pageFlag", "noFlag");
 
 
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         if (isNotiFi.equals("Y")) {
             Common.getPreherences(this).edit().putString("Notification", "N").apply();//設開關
             if (pageFlag.equals("0")) {
+                Log.e("1010101010101010","0101010101010");
                 String saleTitle = Common.getPreherences(this).getString("noticeTitle", "saleTitle");
                 String saleDetail = Common.getPreherences(this).getString("noticeDetail", "saleDetail");
                 Bundle bundle = new Bundle();
