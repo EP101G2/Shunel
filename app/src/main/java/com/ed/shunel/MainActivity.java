@@ -119,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
                 Navigation.findNavController(this, R.id.fragment3)
                         .navigate(R.id.action_homeFragment_to_systemDetailFragment, bundle);
                 Common.getPreherences(this).edit().remove("pageFlag").apply();
+            }else if(pageFlag.equals(3)){
+                String likeTitle = Common.getPreherences(this).getString("noticeTitle", "likeTitle");
+                String likeDetail = Common.getPreherences(this).getString("noticeDetail", "likeDetail");
             }
 
         }
