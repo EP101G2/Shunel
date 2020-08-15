@@ -103,7 +103,7 @@ public class Login_Fragment extends Fragment {
         //fb
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(activity);
-//google
+        //google
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 // 由google-services.json轉出
                 .requestIdToken(getString(R.string.default_web_client_id))
