@@ -72,7 +72,8 @@ public class ProductDetailFragment extends Fragment {
     private int totalPrice = 0;
     private Shopping_Cart_List shopping_cart_list;
     private Product_List product_list;
-    private String product_id, promotionPrice;
+    int product_id,id;
+
 
 
     public ProductDetailFragment() {
@@ -116,8 +117,11 @@ public class ProductDetailFragment extends Fragment {
             Bundle bundle = getArguments();
             product = (Product) bundle.getSerializable("product");
             promotionProduct = (Promotion) bundle.getSerializable("promotion");
-
-            int product_id = product.getProduct_ID();
+            if(promotionProduct != null){
+                 product_id = promotionProduct.getProduct_ID();
+            }else {
+                 product_id = product.getProduct_ID();
+            }
             String account_id = Common.getPreherences(activity).getString("id", "");
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
@@ -165,7 +169,7 @@ public class ProductDetailFragment extends Fragment {
 
         final NavController navController = Navigation.findNavController(view);
         Bundle bundle = getArguments();
-        if (bundle == null || bundle.getSerializable("product") == null) {
+        if (bundle == null && bundle.getSerializable("product") == null && bundle.getSerializable("promotion") == null) {
             Common.showToast(activity, R.string.textNoFound);
             navController.popBackStack();
             return;
@@ -184,7 +188,11 @@ public class ProductDetailFragment extends Fragment {
     private void showTest() {
 
         String url = Common.URL_SERVER + "Prouct_Servlet";
-        int id = product.getProduct_ID();
+        if(promotionProduct != null){
+          id =  promotionProduct.getProduct_ID();
+        }else{
+            id = product.getProduct_ID();
+        }
         int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
         Bitmap bitmap = null;
 //        int price = promotionProduct.getPromotion_Price();
@@ -199,18 +207,30 @@ public class ProductDetailFragment extends Fragment {
             iv_Prouduct.setImageResource(R.drawable.no_image);
         }
 
-        if (product.getProduct_Name() != null && product.getProduct_Color() != null && product.getProduct_Ditail() != null) {
-            tvPdName.setText("商品名稱：" + product.getProduct_Name());
 
-            if (promotionProduct != null) {   //從促銷頁面過來
-                tvPdPrice.setText("價格：" + String.valueOf(promotionProduct.getPromotion_Price()));
-            } else {
-                tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
-            }
-            tv_Dital.setText(product.getProduct_Ditail());
-            tvColor.setText("規格：" + product.getProduct_Color());
-        } else {
+//        if (product.getProduct_Name() != null && product.getProduct_Color() != null && product.getProduct_Ditail() != null) {
+//            tvPdName.setText("商品名稱：" + product.getProduct_Name());
+//
+//            if (promotionProduct != null) {   //從促銷頁面過來
+//                tvPdPrice.setText("價格：" + String.valueOf(promotionProduct.getPromotion_Price()));
+//            } else {
+//                tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
+//            }
+//            tv_Dital.setText(product.getProduct_Ditail());
+//            tvColor.setText("規格：" + product.getProduct_Color());
+         if(promotionProduct != null) {
+             tvPdName.setText("商品名稱：" + promotionProduct.getProduct_Name());
+             tvColor.setText("顏色：" + promotionProduct.getColor());
+             tvPdPrice.setText("價格：" + String.valueOf(promotionProduct.getProduct_Price()));
+             tv_Dital.setText(promotionProduct.getDital());
+         }else if(product != null){
+             tvPdName.setText("商品名稱：" + product.getProduct_Name());
+             tvColor.setText("顏色：" + product.getProduct_Color());
+             tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
+             tv_Dital.setText(product.getProduct_Ditail());
 
+        }
+         else  {
             if (Common.networkConnected(activity)) {
                 String url1 = Common.URL_SERVER + "Prouct_Servlet";
                 Gson gson = new Gson();
