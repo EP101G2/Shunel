@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item android:title="@string/textNotYetPayed"-->
+<!--        android:id="@+id/status0Fragment"/>-->
+    <item android:title="@string/textNotYetDelivered"
+        android:id="@+id/status1Fragment"/>
+    <item android:title="@string/textDelivered"
+        android:id="@+id/status2Fragment"/>
+    <item android:title="@string/textReceived"
+        android:id="@+id/status3Fragment"/>
+    <item android:title="@string/textCanceled"
+        android:id="@+id/status4Fragment"/>
+    <item android:title="@string/textRefunds"
+        android:id="@+id/status5Fragment"/>
 
 </menu>
