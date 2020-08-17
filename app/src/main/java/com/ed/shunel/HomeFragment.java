@@ -65,10 +65,6 @@ public class HomeFragment extends Fragment {
         }
 
 
-//        if (getToken ==)
-
-//        Log.e("11111", getToken);
-
 
         searchView = view.findViewById(R.id.rearchitem);
         searchView.setOnClickListener(new View.OnClickListener() {

@@ -85,7 +85,9 @@
 
         <receiver android:name= ".NotificationClickReceiver">
             <intent-filter>
-                <action android:name="com.android.broadcast.RECEIVER_ACTION"/>
+                <action android:name="com.android.broadcast.RECEIVER_ACTION"
+
+                    />
             </intent-filter>
 
         </receiver>
