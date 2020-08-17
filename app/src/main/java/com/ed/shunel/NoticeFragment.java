@@ -257,6 +257,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             String url = Common.URL_SERVER + "Notice_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getNoticeAll");
+            jsonObject.addProperty("account_ID",Common.getPreherences(activity).getString("id",""));
             String jsonOut = jsonObject.toString();
             noticeGetAllTask = new CommonTask(url, jsonOut);
             try {
@@ -314,6 +315,20 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             holder.tvNoticeT.setText(notice.getNotice_Title());
             holder.tvNoticeD.setText(notice.getNotice_time().toString());
 
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    String product_ID = String.valueOf(notice.getCATEGORY_MESSAGE_ID());
+                    bundle.putString("product_ID",product_ID);
+                    bundle.putInt("number",1);
+                    Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_productDetailFragment,bundle);
+
+
+                }
+            });
+
         }
 
         @Override
@@ -327,11 +342,13 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             TextView tvNoticeD;
 
 
+
             public Myviewholder(View view) {
                 super(view);
                 ivProductMini = view.findViewById(R.id.ivProductMini);
                 tvNoticeT = view.findViewById(R.id.tvNoticeT);
                 tvNoticeD = view.findViewById(R.id.tvNoticeD);
+
 
             }
         }

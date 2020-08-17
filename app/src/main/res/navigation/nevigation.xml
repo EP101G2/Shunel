@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_noticeFragment_to_noticeDetailFragment"
             app:destination="@id/noticeDetailFragment" />
+        <action
+            android:id="@+id/action_noticeFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingcartFragment"

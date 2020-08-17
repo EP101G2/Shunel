@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         //通知
         notificationManager = (NotificationManager) MainActivity.this.getSystemService(NOTIFICATION_SERVICE);
 
+
+
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
         registerChatReceiver();

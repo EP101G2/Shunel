@@ -75,6 +75,7 @@ public class ProductDetailFragment extends Fragment {
     private String product_id, promotionPrice;
 
 
+
     public ProductDetailFragment() {
         // Required empty public constructor
     }
@@ -98,7 +99,7 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.e("===商品詳細頁面的flag===",""+MainActivity.flag);
+        Log.e("===商品詳細頁面的flag===", "" + MainActivity.flag);
 
         sharedPreferences = Common.getPreherences(activity);
         Log.e("TAG", "_____" + sharedPreferences.getString("id", ""));
@@ -114,16 +115,24 @@ public class ProductDetailFragment extends Fragment {
         if (Common.networkConnected(activity)) {
 
             Bundle bundle = getArguments();
-            product = (Product) bundle.getSerializable("product");
+            if (bundle.getInt("number") == 1) {
+                product_id = bundle.getString("product_ID");
+                Log.e("number == 1", product_id+ "-----------");
+            } else {
+                product = (Product) bundle.getSerializable("product");
+                int product_id = product.getProduct_ID();
+                Log.e("number != 1", product_id+ "-----------");
+            }
             promotionProduct = (Promotion) bundle.getSerializable("promotion");
 
-            int product_id = product.getProduct_ID();
+
             String account_id = Common.getPreherences(activity).getString("id", "");
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "searchLike");
             jsonObject.addProperty("account_id", account_id);
             jsonObject.addProperty("product_id", product_id);
+
             Log.e("Tag 阿超我老婆", account_id + product_id);
             like = new CommonTask(url, jsonObject.toString());
             try {
@@ -175,8 +184,6 @@ public class ProductDetailFragment extends Fragment {
 
 
         showTest();
-
-
 
 
     }
@@ -329,12 +336,11 @@ public class ProductDetailFragment extends Fragment {
                         Log.i(TAG, "id");
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
-                       if (promotionProduct != null){
-                        shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
-                       }else {
-                         shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
-                       }
-
+                        if (promotionProduct != null) {
+                            shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
+                        } else {
+                            shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
+                        }
 
 
                         jsonObject.addProperty("action", "addShop");
@@ -422,8 +428,8 @@ public class ProductDetailFragment extends Fragment {
                                 Toast.makeText(activity, R.string.insertFollow, Toast.LENGTH_SHORT).show();
                                 set = "like";
                                 follow = "success";
-                            }else{
-                                Toast.makeText(activity,R.string.pleselogin,Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(activity, R.string.pleselogin, Toast.LENGTH_SHORT).show();
                             }
                         } catch (ExecutionException e) {
                             e.printStackTrace();
@@ -461,12 +467,11 @@ public class ProductDetailFragment extends Fragment {
                         Log.i(TAG, "id");
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
-                        if (promotionProduct != null){
+                        if (promotionProduct != null) {
                             shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
-                        }else {
+                        } else {
                             shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
                         }
-
 
 
                         jsonObject.addProperty("action", "addShop");
