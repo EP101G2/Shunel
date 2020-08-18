@@ -91,6 +91,7 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("product", product);
+                bundle.putInt("number",2);
                 Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
             }
         });

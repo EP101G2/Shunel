@@ -13,7 +13,20 @@ public class Notice implements Serializable {
     private String ACCOUNT_ID;
 
 
-    public Notice(int notice_ID, String notice_Content, String notice_Title, Timestamp notice_time, int NOTICE_CATEGORY_ID, int CATEGORY_MESSAGE_ID,String ACCOUNT_ID) {
+    private int PRODUCT_STATUS;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    private int price;
+
+
+    public Notice(int notice_ID, String notice_Content, String notice_Title, Timestamp notice_time, int NOTICE_CATEGORY_ID, int CATEGORY_MESSAGE_ID, String ACCOUNT_ID) {
         Notice_ID = notice_ID;
         Notice_Content = notice_Content;
         Notice_Title = notice_Title;
@@ -71,6 +84,7 @@ public class Notice implements Serializable {
     public void setCATEGORY_MESSAGE_ID(int CATEGORY_MESSAGE_ID) {
         this.CATEGORY_MESSAGE_ID = CATEGORY_MESSAGE_ID;
     }
+
     public String getACCOUNT_ID() {
         return ACCOUNT_ID;
     }
@@ -78,4 +92,14 @@ public class Notice implements Serializable {
     public void setACCOUNT_ID(String ACCOUNT_ID) {
         this.ACCOUNT_ID = ACCOUNT_ID;
     }
+
+    public int getPRODUCT_STATUS() {
+        return PRODUCT_STATUS;
+    }
+
+    public void setPRODUCT_STATUS(int PRODUCT_STATUS) {
+        this.PRODUCT_STATUS = PRODUCT_STATUS;
+    }
+
 }
+
