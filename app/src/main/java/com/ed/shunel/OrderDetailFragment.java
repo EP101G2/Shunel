@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 //import com.ed.shunel.bean.Order_Detail;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Order_Detail;
 import com.ed.shunel.bean.Order_Main;
 import com.google.gson.Gson;
@@ -33,11 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OrderDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 //1. rv orderDetail, 2. nav main to product detail
 public class OrderDetailFragment extends Fragment {
     private static final String TAG = "-OrderDetailFragment-";
@@ -50,15 +46,6 @@ public class OrderDetailFragment extends Fragment {
     private Activity activity;
     private Integer counter;
     private CommonTask ordersDetGetTask;
-
-//    product ID
-//    private commonTask orderGetAllTask;
-//    private ImageTask orderImageTask;
-
-//    public OrderDetailFragment() {
-//        // Required empty public constructor
-//    }
-//    // TODO: Rename and change types and number of parameters
 
     public OrderDetailFragment(){
 //        Required empty public constructor
@@ -109,14 +96,47 @@ public class OrderDetailFragment extends Fragment {
             return;
         }
         orderMain = (Order_Main) bundle.getSerializable("orders");
-        showOrderDetails();
+        showOrderDetails(orderMain);
+
+        Log.e(TAG, "bundleGet"+orderMain);
 
         rvOrderDetProList = view.findViewById(R.id.rvOrderDetProList);
         rvOrderDetProList.setLayoutManager(new LinearLayoutManager(activity));
         rvOrderDetProList.setAdapter(new OrderDetailAdapter(getContext(),orderDetailList)); //rvAdapter
     }
 
-    private void showOrderDetails() {
+    private List<Order_Detail> getOrderDetailList(){
+        List<Order_Detail> orderDetailList = new ArrayList<>();
+        try {
+            int orderId = Integer.valueOf(tvOrderId.getText().toString());
+            if (Common.networkConnected(activity)) {
+//                get data from orders servlet
+                String url = Common.URL_SERVER + "Orders_Servlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "getOrderedProducts");
+                jsonObject.addProperty("order_Id", orderId);
+                String jsonOut = jsonObject.toString();
+                ordersDetGetTask = new CommonTask(url, jsonOut);
+                Log.e(TAG, "getOrderedProducts: out -> "+jsonOut);
+                try {
+                    String jsonIn = ordersDetGetTask.execute().get();
+                    Type listType = new TypeToken<List<Order_Detail>>() {
+                    }.getType();
+                    orderDetailList = new Gson().fromJson(jsonIn, listType);
+//                    Log.e(TAG, "getOrderedProducts: in -> "+jsonIn);
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            } else {
+                Common.showToast(activity, R.string.textNoNetwork);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderDetailList;
+    }
+
+    private void showOrderDetails(Order_Main orderMain) {
         int id = orderMain.getOrder_ID();
         tvOrderId.setText(String.valueOf(id));
         tvOrderStatus.setText(orderMain.getOrder_Main_Order_Status());
@@ -145,14 +165,21 @@ public class OrderDetailFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
+//adapter
     private class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.PageViewHolder>{
         Context context;
         List<Order_Detail> orderDetailList;
-        public OrderDetailAdapter (Context context, List<Order_Detail> orderDetailList){
-            this.context = context;
-            this.orderDetailList = orderDetailList;
-        }//ok
+        ImageTask orderDetProdImgTask;
+        private int imageSize;
+        private LayoutInflater inflater;
+
+
+    public OrderDetailAdapter (Context context, List<Order_Detail> orderDetailList){
+        this.context = context;
+        this.orderDetailList = orderDetailList;
+        imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
+        inflater = LayoutInflater.from(context);
+    }//ok
 
         @Override
         public int getItemCount() {
@@ -170,13 +197,13 @@ public class OrderDetailFragment extends Fragment {
         private class PageViewHolder extends RecyclerView.ViewHolder {
             //           TextView tvOrderId, tvOrderStatus, tvTotalPrice, tvName, tvPhoneNum, tvAddress;
             TextView tvProductName, tvProductPrice;
-            ImageView ivOrderProductPic;
+            ImageView ivOrderProductPicDet;
 
             public PageViewHolder(@NonNull View itemView) {
                 super(itemView);
                 tvProductName = itemView.findViewById(R.id.tvProductName);
                 tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
-                ivOrderProductPic = itemView.findViewById(R.id.ivOrderProductPic);
+                ivOrderProductPicDet = itemView.findViewById(R.id.ivOrderProductPic);
             }
         }
 
@@ -193,8 +220,17 @@ public class OrderDetailFragment extends Fragment {
             holder.tvProductName.setText(orderDetail.getProduct_ID());
             holder.tvProductPrice.setText(orderDetail.getOrder_Detail_Buy_Price());
 
-//            ---fake pic for testing---
-            holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
+////            ---fake pic for testing---
+//            holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
+//            get product pic through product ID
+            try {
+                String url = Common.URL_SERVER + "Prouct_Servlet";
+                int productIdOD = orderDetail.getProduct_ID();
+                orderDetProdImgTask = new ImageTask(url, productIdOD, imageSize, holder.ivOrderProductPicDet);
+                orderDetProdImgTask.execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -209,31 +245,4 @@ public class OrderDetailFragment extends Fragment {
     }
 
 
-    private List<Order_Detail> getOrderDetailList(){
-        List<Order_Detail> orderDetailList = new ArrayList<>();;
-        try {
-            if (Common.networkConnected(activity)) {
-//                get data from orders servlet
-                String url = Common.URL_SERVER + "Orders_Servlet";
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("action", "getOrderDetailShort");
-                jsonObject.addProperty("Order_ID", Common.getPreherences(activity).getString("Order_ID", "defValue"));
-                String jsonOut = jsonObject.toString();
-                ordersDetGetTask = new CommonTask(url, jsonOut);
-                try {
-                    String jsonIn = ordersDetGetTask.execute().get();
-                    Type listType = new TypeToken<List<Order_Main>>() {
-                    }.getType();
-                    orderDetailList = new Gson().fromJson(jsonIn, listType);
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
-                }
-            } else {
-                Common.showToast(activity, R.string.textNoNetwork);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-        return orderDetailList;
-    }
 }

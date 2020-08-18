@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".OrderListFragment">
 
     <View
@@ -19,17 +19,18 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:background="@drawable/back_white"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toTopOf="@+id/view" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/tvOrderHisTitle"
         android:textAllCaps="false"
         android:textColor="@color/colorTitleWord"
@@ -38,98 +39,53 @@
         app:layout_constraintBottom_toBottomOf="@+id/btBack"
         app:layout_constraintStart_toEndOf="@+id/btBack"
         app:layout_constraintTop_toTopOf="@+id/btBack"
-        app:layout_constraintVertical_bias="0.272"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintVertical_bias="0.272" />
 
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="49dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view"
-        android:layout_marginRight="16dp">
+<!--    <SearchView-->
+<!--        android:id="@+id/svOL"-->
+<!--        android:layout_width="49dp"-->
+<!--        android:layout_height="49dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/view"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/view">-->
 
-    </SearchView>
+<!--    </SearchView>-->
 
     <LinearLayout
-
-
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
-
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
+        <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="2dp"
-            android:orientation="horizontal">
+            android:id="@+id/tabOL"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"/>
 
-            <ImageButton
-                android:id="@+id/btNotYetDelivered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/notyetdelivered" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnOLStatus"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/light_background"
+            app:itemTextColor="@drawable/selector"
+            app:menu="@menu/order_status_menu" />
 
-            <ImageButton
-                android:id="@+id/btDelivered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/delivered" />
-
-            <ImageButton
-                android:id="@+id/btReceived"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/received" />
-
-            <ImageButton
-                android:id="@+id/btCanceled"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/canceled" />
-
-            <ImageButton
-                android:id="@+id/btRefounded"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/refounded" />
-        </LinearLayout>
+        <fragment
+            android:id="@+id/fragmentOL"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/order_main" />
 
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="16dp">
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefreshLayoutOrder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="6dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvOrderList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginEnd="16dp" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

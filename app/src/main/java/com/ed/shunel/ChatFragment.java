@@ -122,6 +122,7 @@ public class ChatFragment extends Fragment {
         friend = "Shunel";
         user_ID = Common.getPreherences(activity).getString("id", "");
         user_Name = Common.getPreherences(activity).getString("name", "");
+        Log.e(TAG,user_ID);
         // 初始化LocalBroadcastManager並註冊BroadcastReceiver
         broadcastManager = LocalBroadcastManager.getInstance(activity);
         registerChatReceiver();
@@ -601,8 +602,6 @@ public class ChatFragment extends Fragment {
             image = out.toByteArray();
 
             base61ToStr = Base64.encodeToString(image, Base64.DEFAULT);
-//            base61ToStr = Base64.encodeToString(image, Base64.DEFAULT);
-//            Log.e(TAG, "234567890-" + base61ToStr);
 
         } catch (IOException e) {
             Log.e(TAG, e.toString());
@@ -645,16 +644,6 @@ public class ChatFragment extends Fragment {
     }
 
 
-//    private String imageToStr(byte[] image) {
-//        /*btmapToStr*/
-//        Bitmap bitmap = null;
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-//        image = out.toByteArray();
-//        base61ToStr = Base64.encodeToString(image, Base64.DEFAULT);
-//
-//        return base61ToStr;
-//    }
 
     private Bitmap btyeToBitmap(byte[] image) {
         if (image.length != 0) {

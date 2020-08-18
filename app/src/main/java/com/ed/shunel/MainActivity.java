@@ -62,7 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
         /* jack-------------------------------------------------------------------------------------------*/
         //一開APP就連上聊天室
-        CommonTwo.connectServer(this, loadUserName(this));
+        if (loadUserName(this)==null){
+            return;
+        }else {
+            CommonTwo.connectServer(this, loadUserName(this));
+        }
+
+
         //通知
         notificationManager = (NotificationManager) MainActivity.this.getSystemService(NOTIFICATION_SERVICE);
 
@@ -177,10 +183,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        CommonTwo.connectServer(this, loadUserName(this));
-        // 初始化LocalBroadcastManager並註冊BroadcastReceiver
-        broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
-        registerChatReceiver();
+
+        if (Common.getPreherences(this).getString("id","")!=null){
+            CommonTwo.connectServer(this, loadUserName(this));
+            // 初始化LocalBroadcastManager並註冊BroadcastReceiver
+            broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
+            registerChatReceiver();
+        }
+
+
 
 
         Log.e(TAG, "2");
@@ -189,11 +200,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        CommonTwo.connectServer(this, loadUserName(this));
-        // 初始化LocalBroadcastManager並註冊BroadcastReceiver
-        broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
-        registerChatReceiver();
-
+        if (Common.getPreherences(this).getString("id","")!=null){
+            CommonTwo.connectServer(this, loadUserName(this));
+            // 初始化LocalBroadcastManager並註冊BroadcastReceiver
+            broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
+            registerChatReceiver();
+        }
 
 
         Log.e(TAG, "3");
@@ -202,11 +214,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        CommonTwo.connectServer(this, loadUserName(this));
-        // 初始化LocalBroadcastManager並註冊BroadcastReceiver
-        broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
-        registerChatReceiver();
-        Log.e(TAG, "4");
+        if (Common.getPreherences(this).getString("id","")!=null){
+            CommonTwo.connectServer(this, loadUserName(this));
+            // 初始化LocalBroadcastManager並註冊BroadcastReceiver
+            broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
+            registerChatReceiver();
+        }
     }
 
 

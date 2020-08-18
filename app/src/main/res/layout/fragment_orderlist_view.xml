@@ -35,7 +35,8 @@
             android:text="@string/textOrderIdText"
             android:textColor="#707070"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic" />
+            app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic"
+            android:layout_marginLeft="72dp" />
 
         <TextView
             android:id="@+id/tvOrderId"
@@ -46,7 +47,8 @@
             android:hint="@string/textHint"
             android:text="@string/textOrderId"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/tvOrderIdText" />
+            app:layout_constraintStart_toEndOf="@+id/tvOrderIdText"
+            android:layout_marginLeft="152dp" />
 
         <TextView
             android:id="@+id/tvOrderStatusText"
@@ -54,9 +56,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
             android:layout_marginTop="40dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/textOrderStatusText"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic" />
+            app:layout_constraintStart_toEndOf="@+id/ivOrderProductPic"
+            android:layout_marginLeft="72dp" />
 
         <TextView
             android:id="@+id/tvOrderStatus"
@@ -67,6 +71,18 @@
             android:hint="@string/textHint"
             android:text="@string/textOrderStatus"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/tvOrderStatusText" />
+            app:layout_constraintStart_toEndOf="@+id/tvOrderStatusText"
+            android:layout_marginLeft="142dp" />
+
+        <TextView
+            android:id="@+id/tvOrderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:hint="@string/textHint"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="end"
+            />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
