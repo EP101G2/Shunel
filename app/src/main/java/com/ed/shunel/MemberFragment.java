@@ -1,7 +1,10 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,11 +21,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.Navigation;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTaskUser;
+import com.ed.shunel.bean.ChatMessage;
 import com.ed.shunel.bean.User_Account;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -48,6 +53,8 @@ public class MemberFragment extends Fragment {
     private CommonTask chatTask;
     private String id, name;
     private String user_Id;
+
+    private LocalBroadcastManager broadcastManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,7 +133,11 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
                 final View view = inflater.inflate(R.layout.logoutsuccess, null);
                 builder.setView(view);
                 builder.create().show();
+
                 Logout();
+
+                broadcastManager.unregisterReceiver(chatReceiver);
+
             }
         });
         cvChat.setOnClickListener(new View.OnClickListener() {
@@ -236,4 +247,25 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
 
 
     }
+
+    /**
+     * 註冊廣播接收器攔截聊天資訊
+     * 因為是在Fragment註冊，所以Fragment頁面未開時不會攔截廣播
+     */
+    private void registerChatReceiver() {
+        IntentFilter chatFilter = new IntentFilter("chat");
+        broadcastManager.registerReceiver(chatReceiver, chatFilter);
+    }
+
+    // 接收到聊天訊息會在TextView呈現
+    private BroadcastReceiver chatReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            ChatMessage chatMessage = new Gson().fromJson(message, ChatMessage.class);
+            String sender = chatMessage.getSender();
+            // 接收到聊天訊息，若發送者與目前聊天對象相同，就將訊息顯示在TextView
+            Log.d(TAG, message);
+        }
+    };
 }

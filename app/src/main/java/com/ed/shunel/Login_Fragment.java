@@ -67,9 +67,12 @@ import java.util.logging.Logger;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
+import org.java_websocket.client.WebSocketClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.ed.shunel.CommonTwo.loadUserName;
+import static com.ed.shunel.CommonTwo.saveUserName;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
@@ -80,7 +83,7 @@ public class Login_Fragment extends Fragment {
     private Button btLogin, btFacebook, btGoogle;
     private TextView tvRegisterNow, tvForgetPassword, tvMessage;
     private CommonTask loginTask;
-    private String id, name, password, fbName, fbId, fbMail;
+    private String id, name, password, fbName, fbId, fbMail,iphone,address;
     private User_Account user_account;
 
     //google
@@ -245,21 +248,30 @@ public class Login_Fragment extends Fragment {
                                 id = user_account.getAccount_ID();
                                 name = user_account.getAccount_User_Name();
                                 password = user_account.getAccount_Password();
+                                iphone=  user_account.getAccount_Phone();
+                                address= user_account.getAccount_Address();
                                 savePreferences();
                                 String getToken = Common.getPreherences(activity).getString("getToken", "");
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("User", user_account);
+
+                                CommonTwo.saveUserName(activity,String.valueOf(id));
+                                CommonTwo.connectServer(activity,loadUserName(activity));
+
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
                                 LayoutInflater inflater = LayoutInflater.from(activity);
                                 final View view = inflater.inflate(R.layout.loginsuccess, null);
                                 builder.setView(view);
-                                builder.create().show();
+//                                builder.create().show();
 
                                 Intent intent = new Intent();
                                 intent.putExtras(bundle);
                                 intent.setClass(activity, MainActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
                                 startActivity(intent);  //啟動跳頁動作
                                 activity.finish();//把自己關掉
+
+//                                CommonTwo.connectServer(activity, saveUserName());
+                                Log.e(TAG,"id"+id+"\t"+loadUserName(activity));
                             }
                             break;
                     }
@@ -317,6 +329,8 @@ public class Login_Fragment extends Fragment {
                 .putString("id", id)
                 .putString("password", password)
                 .putString("name", name)
+                .putString("phone",iphone)
+                .putString("address",address)
                 .apply();
 
 
@@ -504,7 +518,7 @@ public class Login_Fragment extends Fragment {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-//處理接回來的資料
+                                //處理接回來的資料
                                 if(jsonIn.length()>1){
                                     JsonObject jsonObject1 = gson.fromJson(jsonIn, JsonObject.class);
                                     String googleLogin = jsonObject1.get("User").getAsString();
