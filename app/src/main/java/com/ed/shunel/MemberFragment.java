@@ -171,10 +171,11 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
                 Navigation.findNavController(v).navigate(R.id.chatFragment,bundle);
             }
         });
+
         cvOrderlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2);//
+                Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_orderListFragment2);
             }
         });
 
