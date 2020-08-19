@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Shunel</string>
     <!-- FB-->
-    <string name="facebook_app_id">192713442172647</string> <string name="fb_login_protocol_scheme">fb192713442172647</string>
+    <string name="facebook_app_id">192713442172647</string>
+    <string name="fb_login_protocol_scheme">fb192713442172647</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -46,6 +47,7 @@
 
     <string name="tvOrderHisTitle">訂單詳情</string>
     <string name="textOrderStatusText">訂購狀態：</string>
+    <string name="textNotYetPayed">未付款</string>
     <string name="textNotYetDelivered">未出貨</string>
     <string name="textDelivered">已出貨</string>
     <string name="textReceived">已送達</string>
@@ -195,7 +197,6 @@
 
     <string name="productdetail">商品介紹</string>
     <string name="pleselogin">請登入會員</string>
-
 
 
 </resources>

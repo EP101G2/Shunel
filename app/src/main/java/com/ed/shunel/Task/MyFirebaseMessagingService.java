@@ -12,7 +12,7 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
 
-import androidx.core.app.NotificationCompat;
+
 
 import com.ed.shunel.MainActivity;
 import com.ed.shunel.NotificationClickReceiver;
@@ -41,11 +41,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         preferences.edit().putString("noticeTitle", remoteMessage.getData().get("title")).apply(); //從偏好設定
         preferences.edit().putString("noticeDetail", remoteMessage.getData().get("msg")).apply();
         preferences.edit().putString("pageFlag", remoteMessage.getData().get("flag")).apply();
+        final Notification.BigTextStyle bigTextStyle = new Notification.BigTextStyle(); // 建立BigTextStyle
+        bigTextStyle.setBigContentTitle(remoteMessage.getData().get("title")); // 當BigTextStyle顯示時，用BigTextStyle的setBigContentTitle覆蓋setContentTitle的設定
+        bigTextStyle.bigText(remoteMessage.getData().get("msg")); // 設定BigTextStyle的文字內容
 
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification notification = new NotificationCompat.Builder(this, "msg")
+        Notification notification = new Notification.Builder(this, "msg")
                 .setContentTitle(remoteMessage.getData().get("title"))//Data收到
                 .setContentText(remoteMessage.getData().get("msg"))//Data收到
                 .setWhen(System.currentTimeMillis())
@@ -55,6 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
+                .setStyle(bigTextStyle)
                 .build();
         wakeUpAndUnlock(this);
 

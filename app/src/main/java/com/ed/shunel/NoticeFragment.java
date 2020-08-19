@@ -52,6 +52,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     private CardView cdSystem, cdSale, cdQA;
     private TextView tvSaleT, tvSaleD, tvQAT, tvQAD, tvSystemT, tvSystemD;
     private String i = "";
+    private int id;
 //    private LayoutInflater layoutInflater;
 
 
@@ -130,31 +131,37 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
 
     private void findViews(View view) {
-        if (notice == null || notice.isEmpty()) {
-            Common.showToast(activity, R.string.textnofound);
-        } else {
-            rvNotice = view.findViewById(R.id.rvNotice);
-            cdSystem = view.findViewById(R.id.cdSystem);
-            cdQA = view.findViewById(R.id.cdQA);
-            cdSale = view.findViewById(R.id.cdSale);
-            searchView = view.findViewById(R.id.searchView);
-            tvSaleT = view.findViewById(R.id.tvSaleT);
-            tvSaleD = view.findViewById(R.id.tvSaleD);
-            tvQAT = view.findViewById(R.id.tvQAT);
-            tvQAD = view.findViewById(R.id.tvQAD);
-            tvSystemT = view.findViewById(R.id.tvSystemT);
-            tvSystemD = view.findViewById(R.id.tvSystemDetailD);
-            tvSaleD.setText(saleLast.getNotice_Title());
-            tvQAD.setText(qaLast.getNotice_Title());
-            tvSystemD.setText(systemLast.getNotice_Title());
-            rvNotice.setLayoutManager(new LinearLayoutManager(activity));
-            rvNotice.setAdapter(new NoticeAdapter(activity, notice));
-        }
+//        if (notice == null && notice.isEmpty()) {
+//            Log.e("saleLast", "無資料" + saleLast);
+//            Common.showToast(activity, R.string.textnofound);
+//        } else {
+
+        Log.e("saleLast", "有街道" + saleLast);
+        rvNotice = view.findViewById(R.id.rvNotice);
+
+        cdSystem = view.findViewById(R.id.cdSystem);
+        cdQA = view.findViewById(R.id.cdQA);
+        cdSale = view.findViewById(R.id.cdSale);
+        searchView = view.findViewById(R.id.searchView);
+        tvSaleT = view.findViewById(R.id.tvSaleT);
+        tvSaleD = view.findViewById(R.id.tvSaleD);
+        tvQAT = view.findViewById(R.id.tvQAT);
+        tvQAD = view.findViewById(R.id.tvQAD);
+        tvSystemT = view.findViewById(R.id.tvSystemT);
+        tvSystemD = view.findViewById(R.id.tvSystemDetailD);
+        tvSaleD.setText(saleLast.getNotice_Title());
+        tvQAD.setText(qaLast.getNotice_Title());
+        tvSystemD.setText(systemLast.getNotice_Title());
+//        rvNotice.setLayoutManager(new LinearLayoutManager(activity));
+        rvNotice.setLayoutManager(new MyLinearLayoutManager(activity,false));
+        rvNotice.setAdapter(new NoticeAdapter(activity, notice));
+//        }
     }
 
     private void initData() {
 //        MainActivity.flag = 0;
 //        for (MainActivity.flag = 0; MainActivity.flag <= 3; MainActivity.flag++) {
+
         notice = getDate();
         saleLast = getLastSaleN();
         qaLast = getLastQAN();
@@ -179,7 +186,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     }
 
     private Notice getLastSystemN() {
-        Notice systemLast = null;
+        systemLast = null;
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Notice_Servlet";
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -240,7 +247,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
                 saleLast = gson.fromJson(jsonIn, Notice.class);
 //                JsonObject jsonObject2 = gson.fromJson(jsonIn, JsonObject.class);
 //                Log.d(TAG,jsonObject2+"-------------------");
-                Log.d(TAG, saleLast.getNotice_Content() + "-------------------");
+
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }
@@ -257,6 +264,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             String url = Common.URL_SERVER + "Notice_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getNoticeAll");
+            jsonObject.addProperty("account_ID", Common.getPreherences(activity).getString("id", ""));
             String jsonOut = jsonObject.toString();
             noticeGetAllTask = new CommonTask(url, jsonOut);
             try {
@@ -267,6 +275,9 @@ public class NoticeFragment<layoutInflater> extends Fragment {
                 //MMM 是英文月份縮寫，7月是Jul
                 //a = AM/PM
                 notices = gson.fromJson(jsonIn, listType);
+                Log.e(TAG, String.valueOf(notices.get(0).getPRODUCT_STATUS()));
+                Log.e(TAG, String.valueOf(notices.get(0).getPrice()));
+
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }
@@ -278,6 +289,29 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     }
 
     private void setSystemServices() {
+    }
+
+
+
+    public class MyLinearLayoutManager extends LinearLayoutManager {
+        private  final String TAG  = MyLinearLayoutManager.class.getSimpleName();
+
+        private boolean isScrollEnabled = true;
+
+        public MyLinearLayoutManager(Context context, boolean isScrollEnabled) {
+            super(context);
+            this.isScrollEnabled = isScrollEnabled;
+        }
+
+        public MyLinearLayoutManager(Context context,int orientation,boolean reverseLayout){
+            super(context, orientation, reverseLayout);
+        }
+
+        @Override
+        public boolean canScrollVertically() {
+            //設定是否禁止滑動
+            return isScrollEnabled && super.canScrollVertically();
+        }
     }
 
 
@@ -309,12 +343,40 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             final Notice notice = noticeList.get(position);
 
 
-
             int notice_ID = notice.getNotice_ID();
-            holder.tvNoticeT.setText(notice.getNotice_Title());
+            holder.tvNoticeT.setText(notice.getNotice_Content());
             holder.tvNoticeD.setText(notice.getNotice_time().toString());
 
+            int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+            Bitmap bitmap = null;
+//        int price = promotionProduct.getPromotion_Price();
+
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+            id = notice.getCATEGORY_MESSAGE_ID();
+            try {
+                bitmap = new ImageTask(url, id, imageSize,holder.ivProductMini).execute().get();
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    int product_ID = notice.getCATEGORY_MESSAGE_ID();
+                    bundle.putInt("product_ID", product_ID);
+                    bundle.putInt("number", 1);
+                    bundle.putSerializable("notice", notice);
+                    Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_productDetailFragment, bundle);
+
+
+                }
+            });
+
         }
+
+
 
         @Override
         public int getItemCount() {
@@ -332,6 +394,8 @@ public class NoticeFragment<layoutInflater> extends Fragment {
                 ivProductMini = view.findViewById(R.id.ivProductMini);
                 tvNoticeT = view.findViewById(R.id.tvNoticeT);
                 tvNoticeD = view.findViewById(R.id.tvNoticeD);
+
+
 
             }
         }

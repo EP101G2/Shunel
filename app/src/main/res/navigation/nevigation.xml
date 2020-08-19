@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_noticeFragment_to_noticeDetailFragment"
             app:destination="@id/noticeDetailFragment" />
+        <action
+            android:id="@+id/action_noticeFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingcartFragment"
@@ -131,11 +134,7 @@
         android:id="@+id/orderListFragment2"
         android:name="com.ed.shunel.OrderListFragment"
         android:label="fragment_order_list"
-        tools:layout="@layout/fragment_order_list" >
-        <action
-            android:id="@+id/action_orderListFragment2_to_orderDetailFragment"
-            app:destination="@id/orderDetailFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_order_list" />
     <fragment
         android:id="@+id/deliveryFragment"
         android:name="com.ed.shunel.DeliveryFragment"
@@ -223,12 +222,6 @@
         android:name="com.ed.shunel.ModifyNameFragment"
         android:label="fragment_modify_name"
         tools:layout="@layout/fragment_modify_name" />
-    <fragment
-        android:id="@+id/orderDetailFragment"
-        android:name="com.ed.shunel.OrderDetailFragment"
-        android:label="fragment_order_detail"/>
-
-
 
 
     <fragment

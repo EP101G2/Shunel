@@ -71,6 +71,7 @@ public class PromotionAdapter_Sam extends RecyclerView.Adapter<PromotionAdapter_
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("promotion", promotionProduct);
+                bundle.putInt("number",3);
                 //bundle.putSerializable("product",  product);
                 Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
             }

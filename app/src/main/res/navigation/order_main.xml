@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/order_main"
+    app:startDestination="@id/status1Fragment">
+
+    <fragment
+        android:id="@+id/status0Fragment"
+        android:name="com.ed.shunel.Status0Fragment"
+        android:label="fragment_status0"
+        tools:layout="@layout/fragment_status0" >
+        <action
+            android:id="@+id/action_status0Fragment_to_orderDetailFragment2"
+            app:destination="@id/orderDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/status1Fragment"
+        android:name="com.ed.shunel.Status1Fragment"
+        android:label="fragment_status1"
+        tools:layout="@layout/fragment_status1" >
+        <action
+            android:id="@+id/action_status1Fragment_to_orderDetailFragment2"
+            app:destination="@id/orderDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/status2Fragment"
+        android:name="com.ed.shunel.Status2Fragment"
+        android:label="fragment_status2"
+        tools:layout="@layout/fragment_status2" >
+        <action
+            android:id="@+id/action_status2Fragment_to_orderDetailFragment2"
+            app:destination="@id/orderDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/status3Fragment"
+        android:name="com.ed.shunel.Status3Fragment"
+        android:label="fragment_status3"
+        tools:layout="@layout/fragment_status3" >
+        <action
+            android:id="@+id/action_status3Fragment_to_orderDetailFragment2"
+            app:destination="@id/orderDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/status4Fragment"
+        android:name="com.ed.shunel.Status4Fragment"
+        android:label="fragment_status4"
+        tools:layout="@layout/fragment_status4" >
+        <action
+            android:id="@+id/action_status4Fragment_to_orderDetailFragment2"
+            app:destination="@id/orderDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/status5Fragment"
+        android:name="com.ed.shunel.Status5Fragment"
+        android:label="fragment_status5"
+        tools:layout="@layout/fragment_status5" >
+        <action
+            android:id="@+id/action_status5Fragment_to_orderDetailFragment2"
+            app:destination="@id/orderDetailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment2"
+        android:name="com.ed.shunel.OrderDetailFragment"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" />
+</navigation>

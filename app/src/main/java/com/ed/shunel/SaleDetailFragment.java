@@ -197,6 +197,7 @@ public class SaleDetailFragment extends Fragment {
 //                    int product_id = promotion.getProuct_ID();
 //                    int promotionPrice = promotion.getPromotion_Price();
                     bundle.putSerializable("product",product);
+                    bundle.putInt("number",4);
 //                    bundle.putInt("product_id", product_id);
 //                    bundle.putInt("promotionPrice", promotionPrice);
                     Navigation.findNavController(v).navigate(R.id.action_saleDetailFragment_to_productDetailFragment,bundle);
