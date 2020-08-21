@@ -180,7 +180,7 @@ public class Status4Fragment extends Fragment {
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Order", orderMain);
-                    Navigation.findNavController(v).navigate(R.id.action_status4Fragment_to_orderDetailFragment2);
+                    Navigation.findNavController(v).navigate(R.id.action_status4Fragment_to_orderDetailFragment2, bundle);
                 }
             });
         }

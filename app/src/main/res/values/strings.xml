@@ -197,6 +197,7 @@
 
     <string name="productdetail">商品介紹</string>
     <string name="pleselogin">請登入會員</string>
+    <string name="textProductId" />
 
 
 </resources>

@@ -4,10 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -21,12 +23,14 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            tools:srcCompat="@drawable/photos_pink" />
+            tools:srcCompat="@drawable/photos_pink"
+            tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/tvProductName"
+            android:id="@+id/tvProductNameOD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
@@ -34,7 +38,8 @@
             android:hint="@string/textHint"
             android:text="@string/textProductName"
             android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginLeft="64dp" />
 
         <TextView
             android:id="@+id/tvProductPriceT"
@@ -43,16 +48,69 @@
             android:layout_marginStart="64dp"
             android:layout_marginTop="37dp"
             android:text="@string/textProductPriceT"
-            android:textColor="@color/colorGray" />
+            android:textColor="#707070"
+            android:layout_marginLeft="64dp" />
 
         <TextView
-            android:id="@+id/tvProductPrice"
+            android:id="@+id/tvProductPriceOD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="108dp"
             android:layout_marginTop="37dp"
             android:hint="@string/textHint"
             android:text="@string/textProductPrice"
-            android:textColor="@color/colorGray" />
+            android:textColor="@color/colorGray"
+            android:layout_marginLeft="108dp" />
     </androidx.cardview.widget.CardView>
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="0dp"-->
+<!--        android:layout_marginTop="6dp"-->
+<!--        android:layout_marginEnd="0dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/ivOrderProductPicDet"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            tools:srcCompat="@drawable/photos_pink" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvProductNameOD"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="64dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:hint="@string/textHint"-->
+<!--            android:text="@string/textProductName"-->
+<!--            android:textColor="#000000"-->
+<!--            android:textSize="16sp" />-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvProductPriceT"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="64dp"-->
+<!--            android:layout_marginTop="37dp"-->
+<!--            android:text="@string/textProductPriceT"-->
+<!--            android:textColor="@color/colorGray" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvProductPriceOD"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="108dp"-->
+<!--            android:layout_marginTop="37dp"-->
+<!--            android:hint="@string/textHint"-->
+<!--            android:text="@string/textProductPrice"-->
+<!--            android:textColor="@color/colorGray" />-->
+<!--    </androidx.cardview.widget.CardView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

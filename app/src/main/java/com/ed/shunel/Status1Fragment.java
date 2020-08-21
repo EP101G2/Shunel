@@ -147,15 +147,15 @@ public class Status1Fragment extends Fragment {
         private LayoutInflater layoutInflater;
         Context context;
         List<Order_Main> orderMainList;
-        Order_Detail orderDetail;
-        private ImageTask orderDetProdImgTask;
-        private int imageSize;
+//        Order_Detail orderDetail;
+//        private ImageTask orderDetProdImgTask;
+//        private int imageSize;
 
         public OrderMainAdapter1(Context context, List<Order_Main> orderMainList) {
             this.context = context;
             this.orderMainList = orderMainList;
             layoutInflater = LayoutInflater.from(context);
-            imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
+//            imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
 
         }
 
@@ -168,13 +168,13 @@ public class Status1Fragment extends Fragment {
 
         class PageViewHolder extends RecyclerView.ViewHolder {
             TextView tvOrderId, tvOrderDate, tvOrderStatus;
-            ImageView ivOrderProductPic;
+//            ImageView ivOrderProductPic;
             public PageViewHolder(@NonNull View itemView) {
                 super(itemView);
                 tvOrderDate = itemView.findViewById(R.id.tvOrderDate);
                 tvOrderId = itemView.findViewById(R.id.tvOrderId);
                 tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
-                ivOrderProductPic = itemView.findViewById(R.id.ivOrderProductPic);
+//                ivOrderProductPic = itemView.findViewById(R.id.ivOrderProductPic);
             }
         }
 
@@ -185,15 +185,15 @@ public class Status1Fragment extends Fragment {
             holder.tvOrderStatus.setText(orderStatusText(orderMain.getOrder_Main_Order_Status()));
             holder.tvOrderDate.setText(orderMain.getOrder_Main_Order_Date().toString());
 
-            try {
-                String url = Common.URL_SERVER + "Prouct_Servlet";
-                int productIdOM = orderDetail.getProduct_ID();
-                Log.e(TAG, "productId: "+productIdOM);
-                orderDetProdImgTask = new ImageTask(url, productIdOM, imageSize, holder.ivOrderProductPic);
-                orderDetProdImgTask.execute();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                String url = Common.URL_SERVER + "Prouct_Servlet";
+//                int productIdOM = orderDetail.getProduct_ID();
+//                Log.e(TAG, "productId: "+productIdOM);
+//                orderDetProdImgTask = new ImageTask(url, productIdOM, imageSize, holder.ivOrderProductPic);
+//                orderDetProdImgTask.execute();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             Log.e(TAG,"--onBindViewHolder-->"+orderMain.getOrder_ID());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +201,8 @@ public class Status1Fragment extends Fragment {
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Order", orderMain);
-                    Navigation.findNavController(v).navigate(R.id.action_status1Fragment_to_orderDetailFragment2);
+                    Navigation.findNavController(v).navigate(R.id.action_status1Fragment_to_orderDetailFragment2, bundle);
+                    Log.e(TAG, "bundeled: "+orderMain);
                 }
             });
         }

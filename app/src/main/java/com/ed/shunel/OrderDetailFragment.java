@@ -37,7 +37,7 @@ import java.util.concurrent.ExecutionException;
 //1. rv orderDetail, 2. nav main to product detail
 public class OrderDetailFragment extends Fragment {
     private static final String TAG = "-OrderDetailFragment-";
-    private TextView tvOrderId, tvOrderStatus, tvTotalPrice, tvName, tvPhone, tvAddress;// tvProductName, tvProductPrice;
+    private TextView tvOrderIdDet, tvOrderStatus, tvTotalPrice, tvName, tvPhone, tvAddress;// tvProductName, tvProductPrice;
     //    private TextView tvOrderIdText, tvOrderDetStatusText, tvTotalPriceText, tvReceiverTitle, tvOrderDNameT, tvOrderDPhoneT, tvOrderDetailAddressT; need not to
 //    private ImageView ivOrderProductPic;//add later
     private RecyclerView rvOrderDetProList;
@@ -46,18 +46,19 @@ public class OrderDetailFragment extends Fragment {
     private Activity activity;
     private Integer counter;
     private CommonTask ordersDetGetTask;
+    private int productId;
 
     public OrderDetailFragment(){
 //        Required empty public constructor
     }
 
-    public static OrderDetailFragment newInstance(Integer counter) {
-        OrderDetailFragment fragment = new OrderDetailFragment();
-        Bundle args = new Bundle();
-        args.putInt(TAG, counter);
-        fragment.setArguments(args);
-        return fragment;
-    }//ok
+//    public static OrderDetailFragment newInstance(Integer counter) {
+//        OrderDetailFragment fragment = new OrderDetailFragment();
+//        Bundle args = new Bundle();
+//        args.putInt(TAG, counter);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }//ok
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,8 +81,8 @@ public class OrderDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        orderDetailList = getOrderDetailList();
-        tvOrderId = view.findViewById(R.id.tvOrderIdDet);
+
+        tvOrderIdDet = view.findViewById(R.id.tvOrderIdDet);
         tvOrderStatus = view.findViewById(R.id.tvOrderStatusDet);
         tvName = view.findViewById(R.id.tvNameDet);//=Receiver in DB
         tvPhone = view.findViewById(R.id.tvPhoneDet);
@@ -90,16 +91,18 @@ public class OrderDetailFragment extends Fragment {
 //        bundle bring orderId, orderStatus, from OrderListFrag
         final NavController navController = Navigation.findNavController(view);
         Bundle bundle = getArguments();
-        if (bundle == null || bundle.getSerializable("orders") == null) {
+        if (bundle == null || bundle.getSerializable("Order") == null) {
             Common.showToast(activity, R.string.textnofound);
             navController.popBackStack();
             return;
         }
-        orderMain = (Order_Main) bundle.getSerializable("orders");
+        orderMain = (Order_Main) bundle.getSerializable("Order");
+
+        Log.e(TAG, "bundleGet"+orderMain.getOrder_ID()+","+orderMain.getOrder_Main_Order_Status()+","+orderMain.getOrder_Main_Total_Price()+","+orderMain.getOrder_Main_Receiver());
+
         showOrderDetails(orderMain);
 
-        Log.e(TAG, "bundleGet"+orderMain);
-
+        orderDetailList = getOrderDetailList();
         rvOrderDetProList = view.findViewById(R.id.rvOrderDetProList);
         rvOrderDetProList.setLayoutManager(new LinearLayoutManager(activity));
         rvOrderDetProList.setAdapter(new OrderDetailAdapter(getContext(),orderDetailList)); //rvAdapter
@@ -108,7 +111,8 @@ public class OrderDetailFragment extends Fragment {
     private List<Order_Detail> getOrderDetailList(){
         List<Order_Detail> orderDetailList = new ArrayList<>();
         try {
-            int orderId = Integer.valueOf(tvOrderId.getText().toString());
+            int orderId = Integer.parseInt(tvOrderIdDet.getText().toString());
+            Log.e(TAG, "getOrderIdFromTvOrderIdDet: "+orderId);
             if (Common.networkConnected(activity)) {
 //                get data from orders servlet
                 String url = Common.URL_SERVER + "Orders_Servlet";
@@ -123,7 +127,12 @@ public class OrderDetailFragment extends Fragment {
                     Type listType = new TypeToken<List<Order_Detail>>() {
                     }.getType();
                     orderDetailList = new Gson().fromJson(jsonIn, listType);
-//                    Log.e(TAG, "getOrderedProducts: in -> "+jsonIn);
+                    for (Order_Detail od:orderDetailList
+                         ) {
+                        productId = od.getorderDetProductId();
+                        Log.e(TAG, "productid get: "+productId);
+                    }
+                    Log.e(TAG, "getOrderedProducts: in -> "+jsonIn);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -138,47 +147,74 @@ public class OrderDetailFragment extends Fragment {
 
     private void showOrderDetails(Order_Main orderMain) {
         int id = orderMain.getOrder_ID();
-        tvOrderId.setText(String.valueOf(id));
-        tvOrderStatus.setText(orderMain.getOrder_Main_Order_Status());
+
+        tvOrderIdDet.setText(String.valueOf(id));
+        String orderIdStr = tvOrderIdDet.getText().toString();
+        Log.e(TAG, "showOrderDetail-orderId: "+orderIdStr);
+
+        tvOrderStatus.setText(orderStatusText(orderMain.getOrder_Main_Order_Status()));
         tvTotalPrice.setText(String.valueOf(orderMain.getOrder_Main_Total_Price()));
 
-//        get receiver name, phone, address by orderId from server(not working, can't see message)
-        String url = Common.URL_SERVER + "Orders_Servlet";
-        final Gson gson = new Gson();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("action", "getOrderMain");
-        jsonObject.addProperty("orderID", new Gson().toJson(id));
-        ordersDetGetTask = new CommonTask(url, jsonObject.toString());
+        tvName.setText(orderMain.getOrder_Main_Receiver());
+        tvPhone.setText(orderMain.getOrder_Main_Phone());
+        tvAddress.setText(orderMain.getOrder_Main_Address());
 
-        try {
-            String jsonIn = ordersDetGetTask.execute().get();
-            Log.e(TAG, jsonIn);
-
-            JsonObject jsonObjectRec = gson.fromJson(jsonIn, JsonObject.class);
-            final String result = jsonObjectRec.get("orderMain").getAsString();
-            final Order_Main orderMainRec = gson.fromJson(result, Order_Main.class);
-
-            tvName.setText(orderMainRec.getOrder_Main_Receiver());
-            tvPhone.setText(orderMainRec.getOrder_Main_Phone());
-            tvAddress.setText(orderMainRec.getOrder_Main_Address());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+////        get receiver name, phone, address by orderId from server(not working, can't see message)
+//        String url = Common.URL_SERVER + "Orders_Servlet";
+//        final Gson gson = new Gson();
+//        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("action", "getOrderMain");
+//        jsonObject.addProperty("orderID", new Gson().toJson(id));
+//        ordersDetGetTask = new CommonTask(url, jsonObject.toString());
+//
+//        try {
+//            String jsonIn = ordersDetGetTask.execute().get();
+//            Log.e(TAG, jsonIn);
+//
+////            JsonObject jsonObjectRec = gson.fromJson(jsonIn, JsonObject.class);
+////            final String result = jsonObjectRec.get("orderMain").getAsString();
+//            Order_Main orderMainRec = gson.fromJson(jsonIn, Order_Main.class);
+//
+//            tvName.setText(orderMainRec.getOrder_Main_Receiver());
+//            tvPhone.setText(orderMainRec.getOrder_Main_Phone());
+//            tvAddress.setText(orderMainRec.getOrder_Main_Address());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
-//adapter
+
+    private String orderStatusText(int status) {
+        String statusText = "";
+//            Log.e(TAG, "status"+status);
+        if (status == 0){
+            statusText = "未付款";
+        }else if (status == 1){
+            statusText = "未出貨";
+        }else if (status == 2){
+            statusText = "已出貨";
+        }else if (status == 3){
+            statusText = "已送達";
+        }else if (status == 4){
+            statusText = "已取消";
+        }else if (status == 5){
+            statusText = "已退貨";
+        }
+        return statusText;
+    }
+
+    //adapter
     private class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.PageViewHolder>{
         Context context;
         List<Order_Detail> orderDetailList;
         ImageTask orderDetProdImgTask;
         private int imageSize;
-        private LayoutInflater inflater;
-
+//        private LayoutInflater inflater;
 
     public OrderDetailAdapter (Context context, List<Order_Detail> orderDetailList){
         this.context = context;
         this.orderDetailList = orderDetailList;
-        imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
-        inflater = LayoutInflater.from(context);
+        imageSize = context.getResources().getDisplayMetrics().widthPixels / 100;
+//        inflater = LayoutInflater.from(context);
     }//ok
 
         @Override
@@ -194,6 +230,11 @@ public class OrderDetailFragment extends Fragment {
             return orderDetailList == null ? 0 : orderDetailList.size();
         }//ok
 
+        public void setOrderedProduct(List<Order_Detail> orderDetailList) {
+            this.orderDetailList = orderDetailList;
+            Log.e(TAG, "orderDetList"+orderDetailList);
+        }
+
         private class PageViewHolder extends RecyclerView.ViewHolder {
             //           TextView tvOrderId, tvOrderStatus, tvTotalPrice, tvName, tvPhoneNum, tvAddress;
             TextView tvProductName, tvProductPrice;
@@ -201,9 +242,9 @@ public class OrderDetailFragment extends Fragment {
 
             public PageViewHolder(@NonNull View itemView) {
                 super(itemView);
-                tvProductName = itemView.findViewById(R.id.tvProductName);
-                tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
-                ivOrderProductPicDet = itemView.findViewById(R.id.ivOrderProductPic);
+                tvProductName = itemView.findViewById(R.id.tvProductNameOD);
+                tvProductPrice = itemView.findViewById(R.id.tvProductPriceOD);
+                ivOrderProductPicDet = itemView.findViewById(R.id.ivOrderProductPicDet);
             }
         }
 
@@ -217,20 +258,25 @@ public class OrderDetailFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull PageViewHolder holder, int position) { //after added orderId & orderStatus to orderDetail(checked), modify this section
             final Order_Detail orderDetail = orderDetailList.get(position);
-            holder.tvProductName.setText(orderDetail.getProduct_ID());
-            holder.tvProductPrice.setText(orderDetail.getOrder_Detail_Buy_Price());
-
-////            ---fake pic for testing---
-//            holder.ivOrderProductPic.setImageResource(R.drawable.photos_pink);
-//            get product pic through product ID
             try {
                 String url = Common.URL_SERVER + "Prouct_Servlet";
-                int productIdOD = orderDetail.getProduct_ID();
-                orderDetProdImgTask = new ImageTask(url, productIdOD, imageSize, holder.ivOrderProductPicDet);
+                int productIdOD = orderDetail.getorderDetProductId();
+                orderDetProdImgTask = new ImageTask(url, productIdOD, imageSize,holder.ivOrderProductPicDet);
                 orderDetProdImgTask.execute();
+//                holder.ivOrderProductPicDet.setVisibility(View.VISIBLE);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
+            holder.tvProductName.setText(orderDetail.getProduct_Name());
+            holder.tvProductPrice.setText("$" + orderDetail.getOrder_Detail_Buy_Price());
+//            holder.ivOrderProductPicDet.setImageResource(R.drawable.photos_pink);
+
+//            get product pic through product ID
+            Log.e(TAG, "orderDetail's id: "+orderDetail.getorderDetProductId());
+
 
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
