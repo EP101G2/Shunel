@@ -249,7 +249,7 @@ public class ProductDetailFragment extends Fragment {
         if (promotionProduct != null) {
             tvPdName.setText("商品名稱：" + promotionProduct.getProduct_Name());
             tvColor.setText("顏色：" + promotionProduct.getColor());
-            tvPdPrice.setText("價格：" + String.valueOf(promotionProduct.getProduct_Price()));
+            tvPdPrice.setText("價格：" + String.valueOf(promotionProduct.getPromotion_Price()));
             tv_Dital.setText(promotionProduct.getDital());
         } else if (product != null) {
             tvPdName.setText("商品名稱：" + product.getProduct_Name());
@@ -288,31 +288,21 @@ public class ProductDetailFragment extends Fragment {
                     tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
                     tv_Dital.setText(productSale.getProduct_Ditail());
                     tvColor.setText("規格：" + productSale.getProduct_Color());
-
-
                     break;
-
                 case 2:
                     tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
-
                     //product 是接從promotion bundle過去的值
-
-
                     tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
                     tv_Dital.setText(productSale.getProduct_Ditail());
                     tvColor.setText("規格：" + productSale.getProduct_Color());
                     break;
                 case 3:
-                    tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
-
-                    //product 是接從promotion bundle過去的值
-
-
-                    tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
-                    tv_Dital.setText(productSale.getProduct_Ditail());
-                    tvColor.setText("規格：" + productSale.getProduct_Color());
+//                    tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
+//                    //product 是接從promotion bundle過去的值
+//                    tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
+//                    tv_Dital.setText(productSale.getProduct_Ditail());
+//                    tvColor.setText("規格：" + productSale.getProduct_Color());
                     break;
-
                 case 4:
                     tvPdPrice.setText("價格：" + String.valueOf(productNotice.getProduct_Price()));
                     tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
