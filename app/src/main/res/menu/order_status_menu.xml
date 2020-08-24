@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <!--    <item android:title="@string/textNotYetPayed"-->
 <!--        android:id="@+id/status0Fragment"/>-->
-    <item android:title="@string/textNotYetDelivered"
-        android:id="@+id/status1Fragment"/>
-    <item android:title="@string/textDelivered"
-        android:id="@+id/status2Fragment"/>
-    <item android:title="@string/textReceived"
-        android:id="@+id/status3Fragment"/>
-    <item android:title="@string/textCanceled"
-        android:id="@+id/status4Fragment"/>
-    <item android:title="@string/textRefunds"
-        android:id="@+id/status5Fragment"/>
+    <item
+        android:id="@+id/status1Fragment"
+        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:iconTint="@color/colorPrimary"
+        android:title="@string/textNotYetDelivered"
+        android:visible="true"
+        app:itemTextColor="@color/colorPrimary" />
+    <item
+        android:id="@+id/status2Fragment"
+        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:iconTint="@color/colorPrimary"
+        android:title="@string/textDelivered"
+        android:visible="true"
+        app:itemTextColor="@color/colorPrimary" />
+    <item
+        android:id="@+id/status3Fragment"
+        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:iconTint="@color/colorPrimary"
+        android:title="@string/textReceived"
+        android:visible="true"
+        app:itemTextColor="@color/colorPrimary" />
+    <item
+        android:id="@+id/status4Fragment"
+        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:iconTint="@color/colorPrimary"
+        android:title="@string/textCanceled"
+        android:visible="true"
+        app:itemTextColor="@color/colorPrimary" />
+    <item
+        android:id="@+id/status5Fragment"
+        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:iconTint="@color/colorPrimary"
+        android:title="@string/textRefunds"
+        android:visible="true"
+        app:itemTextColor="@color/colorPrimary" />
 
 </menu>
