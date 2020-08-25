@@ -83,6 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rvOrderDetProList" />
 
     <LinearLayout
+        android:id="@+id/linearLayout9"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -180,7 +181,21 @@
                 android:hint="@string/textHint"
                 android:text="@string/textAddress"
                 android:textColor="#000000" />
+
+
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/btnOrderBuy"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:duplicateParentState="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/gpay_button_content" />
+
+
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

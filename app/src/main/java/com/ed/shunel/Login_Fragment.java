@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.Navigation;
 
 import com.ed.shunel.Task.Common;
@@ -115,27 +116,6 @@ public class Login_Fragment extends Fragment {
                 .build();
         client = GoogleSignIn.getClient(activity, options);
 
-//
-//        AppEventsLogger.activateApp(getA);
-//        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//move the title
-//
-//        setting=getSharedPreferences("setting", 0);//開啟Preferences,名稱為setting,如果存在則開啟它,否則建立新的Preferences
-//
-//        user_first = setting.getBoolean("FIRST",true);//取得相應的值,如果沒有該值,說明還未寫入,用true作為預設值
-//
-//        if(user_first){
-//            //第一次登入,正常載入
-//            setContentView(R.layout.activity_sign_up);
-//
-//        }else{
-//
-////如果不是第一次登入,直接跳轉到下一個介面
-//            Intent intent=new Intent(this, activity.class);
-//            startActivity(intent);
-//            finish();
-//        }
-//
-//        setting.edit().putBoolean("FIRST", false).commit();
 
 
     }
@@ -202,7 +182,7 @@ public class Login_Fragment extends Fragment {
                 id = etTypeId.getText().toString();
                 password = etTypePassword.getText().toString();
                 String token = FirebaseInstanceId.getInstance().getToken();
-
+                Log.e(TAG,"token"+token);
                 if (networkConnected()) {
                     String url = Common.URL_SERVER + "User_Account_Servlet";                           //connect servlet(eclipse)
                     Gson gson = new Gson();
@@ -251,11 +231,14 @@ public class Login_Fragment extends Fragment {
                                 iphone=  user_account.getAccount_Phone();
                                 address= user_account.getAccount_Address();
                                 savePreferences();
+
+
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("User", user_account);
 
-                                CommonTwo.saveUserName(activity,String.valueOf(id));
-                                CommonTwo.connectServer(activity,loadUserName(activity));
+//                                CommonTwo.saveUserName(activity,String.valueOf(id));
+//                                CommonTwo.connectServer(activity,loadUserName(activity));
+                                Log.e(TAG,"///////////////////////////////////////////////"+loadUserName(activity));
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);    //當你在使用物件後還有其他動作要執行，補充資料在JAVA-slide-ch0805
                                 LayoutInflater inflater = LayoutInflater.from(activity);
@@ -269,7 +252,7 @@ public class Login_Fragment extends Fragment {
                                 startActivity(intent);  //啟動跳頁動作
                                 activity.finish();//把自己關掉
 
-//                                CommonTwo.connectServer(activity, saveUserName());
+
                                 Log.e(TAG,"id"+id+"\t"+loadUserName(activity));
                             }
                             break;
@@ -546,6 +529,10 @@ public class Login_Fragment extends Fragment {
 
                     }
                 });
+
+
+
+
     }
 //    @Override
 //    public void onStart() {
@@ -557,6 +544,9 @@ public class Login_Fragment extends Fragment {
 //                    .navigate(R.id.action_mainFragment_to_resultFragment);
 //        }
 //    }
+
+
+
 }
 
 

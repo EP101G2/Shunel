@@ -88,27 +88,28 @@ public class Status1Fragment extends Fragment {
 
     private List<Order_Main> getOrders() {
         List<Order_Main> orderMainList = new ArrayList<>();
-
+        Type listType;
         try {
             if (Common.networkConnected(activity)) {
 //                get data from orders servlet
                 String url = Common.URL_SERVER + "Orders_Servlet";
+
                 Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create(); //add dates in layout
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("action", "getOrderMains");
                 jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("id", "id"));
-//                jsonObject.addProperty("Account_ID", orderMain.getAccount_ID()); //get account id from preference?
                 jsonObject.addProperty("status", 0);//get status 0 and 1
                 jsonObject.addProperty("status1", 1);//get status 0 and 1
                 String jsonOut = jsonObject.toString();
-                Log.e("jsonOut","這是jsonOut"+jsonOut);
+
                 orderListGetTask = new CommonTask(url, jsonOut);
                 try {
                     String jsonIn = orderListGetTask.execute().get();
-                    Type listType = new TypeToken<List<Order_Main>>() {
-                    }.getType();
-                    orderMainList = gson.fromJson(jsonIn, listType);
-                    Log.e(TAG, jsonIn);
+                    Log.e(TAG,"======+"+jsonIn);
+                           listType = new TypeToken<List<Order_Main>>() {
+                           }.getType();
+                           orderMainList = gson.fromJson(jsonIn, listType);
+                    Log.e(TAG,"========" +jsonIn);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -209,7 +210,7 @@ public class Status1Fragment extends Fragment {
 
         private String orderStatusText(int status) {
             String statusText = "";
-//            Log.e(TAG, "status"+status);
+            Log.e(TAG, "status"+status);
             if (status == 0) {
                 statusText = "未付款";
             } else if (status == 1) {

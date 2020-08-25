@@ -26,17 +26,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!--    <TextView-->
-<!--        android:id="@+id/tv_BuyTotal"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="176dp"-->
-<!--        android:layout_marginLeft="176dp"-->
-<!--        android:text="TextView"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/btn_Pagenext"-->
-
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--         />-->
 
 
     <LinearLayout
@@ -171,11 +160,14 @@
         android:id="@+id/rv_Product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
+        android:layout_marginBottom="44dp"
 
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:visibility="visible">
 
     </androidx.recyclerview.widget.RecyclerView>
 

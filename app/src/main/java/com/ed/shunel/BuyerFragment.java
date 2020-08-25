@@ -66,7 +66,6 @@ public class BuyerFragment extends Fragment {
     private final static String TAG = "BuyerFragment";
     private Activity activity;
     private List<Product> productList;
-    //    private List<Shopping_Cart> shopping_carts;
     private List<Shopping_Cart> listdatas;
     private Shopping_Cart_List shopping_cart_list;
 
@@ -314,7 +313,6 @@ public class BuyerFragment extends Fragment {
             holder.checkBox.setVisibility(View.GONE);
             holder.tv_Less.setVisibility(View.GONE);
             holder.tv_Add.setVisibility(View.GONE);
-//            holder.tv_Count.setText("數量");
 
 
         }
@@ -355,6 +353,7 @@ public class BuyerFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.requestCode = requestCode;
         this.resultCode = resultCode;
+        View view = null;
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
             switch (resultCode) {
@@ -366,6 +365,7 @@ public class BuyerFragment extends Fragment {
                         showPaymentInfo(paymentData);
                         getPrimeFromTapPay(paymentData);
                         changeOrderStatus();
+//                        Navigation.findNavController(view).navigate(R.id.action_buyerFragment_to_orderListFragment2);
                         Common.showToast(activity,"交易成功");
                     }
                     break;
@@ -427,8 +427,7 @@ public class BuyerFragment extends Fragment {
                                 + ApiUtil.generatePayByPrimeCURLForSandBox(prime,
                                 getString(R.string.TapPay_PartnerKey),
                                 getString(R.string.TapPay_MerchantID), total, name, phone);
-//                        Log.d(TAG, text);
-//                        tvResult.setText(text);
+
                     }
                 },
                 new TPDTokenFailureCallback() {
@@ -440,6 +439,10 @@ public class BuyerFragment extends Fragment {
 //                        tvResult.setText(text);
                     }
                 });
+    }
+
+    private void next(View view) {
+
     }
 
     public ProgressDialog mProgressDialog;
