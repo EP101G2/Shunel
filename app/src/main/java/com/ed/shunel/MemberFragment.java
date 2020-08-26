@@ -136,8 +136,6 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
 
                 Logout();
 
-                broadcastManager.unregisterReceiver(chatReceiver);
-
             }
         });
         cvChat.setOnClickListener(new View.OnClickListener() {
