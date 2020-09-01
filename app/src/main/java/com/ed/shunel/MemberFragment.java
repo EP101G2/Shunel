@@ -29,12 +29,14 @@ import com.ed.shunel.Task.CommonTask;
 import com.ed.shunel.Task.ImageTaskUser;
 import com.ed.shunel.bean.ChatMessage;
 import com.ed.shunel.bean.User_Account;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.concurrent.ExecutionException;
 
 import static android.content.ContentValues.TAG;
+import static com.ed.shunel.CommonTwo.loadUserName;
 
 
 public class MemberFragment extends Fragment {
@@ -94,11 +96,11 @@ public class MemberFragment extends Fragment {
         btn_Logout = view.findViewById(R.id.btn_Logout);
         tvId = view.findViewById(R.id.tvId);
         tv_Name = view.findViewById(R.id.tv_Name);
-        ivUser=view.findViewById(R.id.ivUser);
+        ivUser = view.findViewById(R.id.ivUser);
 
 
-tvId.setText(Common.getPreherences(activity).getString("id","deVal"));
-tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
+        tvId.setText(Common.getPreherences(activity).getString("id", "deVal"));
+        tv_Name.setText(Common.getPreherences(activity).getString("name", "無名稱"));
 
         if (sharedPreferences.getString("id", "").equals("")) {
 
@@ -106,7 +108,6 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
             intent.setClass(activity, LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
             startActivity(intent);
             activity.finish();//把自己關掉
-
         }
 
         cvLike.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +134,7 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
                 final View view = inflater.inflate(R.layout.logoutsuccess, null);
                 builder.setView(view);
                 builder.create().show();
-
+                Log.e(TAG,"======================================"+Common.getPreherences(activity).getString("id", ""));
                 Logout();
 
             }
@@ -144,7 +145,7 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
 
                 /********************************建立聊天室 Jack*****************************************/
                 int chat_ID = 0;
-                user_Id = Common.getPreherences(activity).getString("id","");
+                user_Id = Common.getPreherences(activity).getString("id", "");
 
                 String url = Common.URL_SERVER + "Chat_Servlet";
                 JsonObject jsonObject = new JsonObject();
@@ -157,16 +158,16 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
                     chatTask = new CommonTask(url, jsonObject.toString());
                     String result = chatTask.execute().get();
                     chat_ID = Integer.parseInt(result);
-                    Log.e(TAG, "============"+result);
+                    Log.e(TAG, "============" + result);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("chatroom",chat_ID);
+                bundle.putInt("chatroom", chat_ID);
 
                 /********************************建立聊天室 Jack*****************************************/
-                Navigation.findNavController(v).navigate(R.id.chatFragment,bundle);
+                Navigation.findNavController(v).navigate(R.id.chatFragment, bundle);
             }
         });
 
@@ -183,6 +184,7 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
         jsonObject.addProperty("action", "getLogin");
         jsonObject.addProperty("id", Common.getPreherences(activity).getString("id", ""));
         jsonObject.addProperty("password", Common.getPreherences(activity).getString("password", ""));
+        jsonObject.addProperty("getToken", FirebaseInstanceId.getInstance().getToken());
         Log.e("ID_PAS", Common.getPreherences(activity).getString("id", ""));
         memberTask = new CommonTask(url, jsonObject.toString());
         String jsonIn = "";
@@ -193,29 +195,24 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
-        Log.e("------------",jsonIn);
-        Log.e("------------",sharedPreferences.getString("id", ""));
-        Log.e("------------",sharedPreferences.getString("password", ""));
+        Log.e("------------", jsonIn);
+        Log.e("------------", sharedPreferences.getString("id", ""));
+        Log.e("------------", sharedPreferences.getString("password", ""));
 
-
-
-
-        
 
         User_Account user_account = gson.fromJson(jsonIn, User_Account.class);
 //        tv_Name.setText(user_account.getAccount_User_Name());
 //        tvId.setText(user_account.getAccount_ID());
 
 
-
-        String Pic=Common.getPreherences(activity).getString("id","");
+        String Pic = Common.getPreherences(activity).getString("id", "");
         imageSize = getResources().getDisplayMetrics().widthPixels / 4;
-        imageTask= new ImageTaskUser(url,Pic,imageSize);
+        imageTask = new ImageTaskUser(url, Pic, imageSize);
         try {
-            Bitmap bitmap=imageTask.execute().get();
-            if (bitmap == null){
+            Bitmap bitmap = imageTask.execute().get();
+            if (bitmap == null) {
                 ivUser.setImageResource(R.drawable.no_image);
-            }else {
+            } else {
                 ivUser.setImageBitmap(bitmap);
             }
         } catch (ExecutionException e) {
@@ -227,12 +224,7 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
         Common.getPreherences(activity).edit().apply();
 
 
-
-
-
     }
-
-
 
 
     private void Logout() {
@@ -242,29 +234,15 @@ tv_Name.setText(Common.getPreherences(activity).getString("name","deVal"));
         Intent intent = new Intent();
         intent.setClass(activity, LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
         startActivity(intent);
-//        if (MainActivity.preferences.edit())
-
+        CommonTwo.disconnectServer();
+        activity.finish();
 
     }
 
-    /**
-     * 註冊廣播接收器攔截聊天資訊
-     * 因為是在Fragment註冊，所以Fragment頁面未開時不會攔截廣播
-     */
-    private void registerChatReceiver() {
-        IntentFilter chatFilter = new IntentFilter("chat");
-        broadcastManager.registerReceiver(chatReceiver, chatFilter);
-    }
 
-    // 接收到聊天訊息會在TextView呈現
-    private BroadcastReceiver chatReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("message");
-            ChatMessage chatMessage = new Gson().fromJson(message, ChatMessage.class);
-            String sender = chatMessage.getSender();
-            // 接收到聊天訊息，若發送者與目前聊天對象相同，就將訊息顯示在TextView
-            Log.d(TAG, message);
-        }
-    };
-}
+
+
+
+
+
+    }

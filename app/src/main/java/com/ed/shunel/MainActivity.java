@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private final static int NOTIFICATION_ID = 0;
     private final static String NOTIFICATION_CHANNEL_ID = "Channel01";
     private NotificationManager notificationManager;
-
+    private String id;
 
 
 
@@ -59,13 +59,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        id= Common.getPreherences(this).getString("id","");
         /* jack-------------------------------------------------------------------------------------------*/
         //一開APP就連上聊天室
-        if (loadUserName(this)==null){
+        if(id==null){
+            Log.e(TAG,"1id"+id);
             return;
         }else {
-            CommonTwo.connectServer(this, loadUserName(this));
+            Log.e(TAG,"2id"+id);
+            CommonTwo.connectServer(this, id);
         }
 
 
@@ -184,28 +186,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        if (Common.getPreherences(this).getString("id","")!=null){
-            CommonTwo.connectServer(this, loadUserName(this));
-            // 初始化LocalBroadcastManager並註冊BroadcastReceiver
-            broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
-            registerChatReceiver();
+
         }
 
-
-
-
-        Log.e(TAG, "2");
-    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (Common.getPreherences(this).getString("id","")!=null){
-            CommonTwo.connectServer(this, loadUserName(this));
-            // 初始化LocalBroadcastManager並註冊BroadcastReceiver
-            broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
-            registerChatReceiver();
+        Log.e(TAG,"測試資料"+id+"==============");
+        if (id==null){
+            broadcastManager.unregisterReceiver(chatReceiver);
+        }else {
+            Log.e(TAG, "31");
+                CommonTwo.connectServer(this, loadUserName(this));
+                // 初始化LocalBroadcastManager並註冊BroadcastReceiver
+                broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
+                registerChatReceiver();
+
         }
+
 
 
         Log.e(TAG, "3");
@@ -214,12 +213,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Common.getPreherences(this).getString("id","")!=null){
+        Log.e(TAG,"測試資料"+id+"==============");
+        if (id==null){
+            broadcastManager.unregisterReceiver(chatReceiver);
+        }else {
+            Log.e(TAG, "31");
             CommonTwo.connectServer(this, loadUserName(this));
             // 初始化LocalBroadcastManager並註冊BroadcastReceiver
             broadcastManager = LocalBroadcastManager.getInstance(MainActivity.this);
             registerChatReceiver();
+
         }
+
+
     }
 
 

@@ -171,6 +171,15 @@ public class ProductDetailFragment extends Fragment {
 //                    }
             }
 
+            //=============歷史紀錄
+
+            if( Common.getPreherences(activity) != null){
+
+
+            }
+
+
+            //=============
 
             String account_id = Common.getPreherences(activity).getString("id", "");
             String url = Common.URL_SERVER + "Prouct_Servlet";

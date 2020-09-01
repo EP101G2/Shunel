@@ -31,11 +31,18 @@ public class CommonTwo {
     public static void connectServer(Context context, String userName) {
         URI uri = null;
         try {
+
             uri = new URI(SERVER_URI + userName);
+            Log.e(TAG, "1                 connectServer"+userName);
         } catch (URISyntaxException e) {
             Log.e(TAG, e.toString());
         }
         if (chatWebSocketClient == null) {
+            Log.e(TAG, "2                 connectServer"+userName);
+            chatWebSocketClient = new ChatWebSocketClient(uri, context);
+            chatWebSocketClient.connect();
+        }else {
+            Log.e(TAG, "3                 connectServer"+userName);
             chatWebSocketClient = new ChatWebSocketClient(uri, context);
             chatWebSocketClient.connect();
         }

@@ -47,7 +47,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
     private NoticeAdapter noticeAdapter;
     private List<Notice> notice;
     private Product productImageMini;
-    private Notice saleLast, qaLast, systemLast;
+    private Notice saleLast, goodLast, systemLast;
     private CommonTask noticeGetAllTask;
     private CardView cdSystem, cdSale, cdQA;
     private TextView tvSaleT, tvSaleD, tvQAT, tvQAD, tvSystemT, tvSystemD;
@@ -80,8 +80,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
         findViews(view);
 
-        /* 設置必要的系統服務元件如: Services、BroadcastReceiver */
-        setSystemServices();
+
         /* 設置View元件對應的linstener事件,讓UI可以與用戶產生互動 */
         setLinstener();
     }
@@ -92,9 +91,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 //        final String BundleTForSale = tvSaleT.getText().toString();
 //        final String BundleTForQA = tvQAT.getText().toString();
 //        final String BundleTForSystem = tvSystemT.getText().toString();
-        if (notice == null || notice.isEmpty()) {
-            return;
-        } else {
+
 
             cdSale.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -110,6 +107,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
                 @Override
                 public void onClick(View v) {
                     MainActivity.flag = 1;
+                    Log.e("flag","flag"+MainActivity.flag);
 //                Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment,bundle);
                     Navigation.findNavController(v).navigate(R.id.action_noticeFragment_to_noticeDetailFragment);
 //                bundle.putString("tvQAT",BundleTForQA);
@@ -127,7 +125,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             });
         }
 
-    }
+
 
 
     private void findViews(View view) {
@@ -136,7 +134,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 //            Common.showToast(activity, R.string.textnofound);
 //        } else {
 
-        Log.e("saleLast", "有街道" + saleLast);
+        Log.e("goodLast", "有街道" + goodLast);
         rvNotice = view.findViewById(R.id.rvNotice);
 
         cdSystem = view.findViewById(R.id.cdSystem);
@@ -150,7 +148,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         tvSystemT = view.findViewById(R.id.tvSystemT);
         tvSystemD = view.findViewById(R.id.tvSystemDetailD);
         tvSaleD.setText(saleLast.getNotice_Title());
-        tvQAD.setText(qaLast.getNotice_Title());
+        tvQAD.setText(goodLast.getNotice_Title());
         tvSystemD.setText(systemLast.getNotice_Title());
 //        rvNotice.setLayoutManager(new LinearLayoutManager(activity));
         rvNotice.setLayoutManager(new MyLinearLayoutManager(activity,false));
@@ -164,7 +162,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
         notice = getDate();
         saleLast = getLastSaleN();
-        qaLast = getLastQAN();
+        goodLast = getLastGoodN();
         systemLast = getLastSystemN();
 
 
@@ -206,15 +204,16 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         return systemLast;
     }
 
-    private Notice getLastQAN() {
+    private Notice getLastGoodN() {
         Notice qaLast = null;
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Notice_Servlet";
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getLastQAN");
-            String jsonOutSystem = jsonObject.toString();
-            noticeGetAllTask = new CommonTask(url, jsonOutSystem);
+            jsonObject.addProperty("action", "getLastGoodN");
+            jsonObject.addProperty("account_ID", Common.getPreherences(activity).getString("id", ""));
+            String jsonOutGoods = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOutGoods);
             try {
                 String jsonIn = noticeGetAllTask.execute().get();
                 qaLast = gson.fromJson(jsonIn, Notice.class);
@@ -238,8 +237,8 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             jsonObject.addProperty("action", "getLastSaleN");
 //            jsonObject.addProperty("action", "getLastQAN");
 //                    jsonObject.addProperty("action", "getLastSystemN");
-            String jsonOutSystem = jsonObject.toString();
-            noticeGetAllTask = new CommonTask(url, jsonOutSystem);
+            String jsonOutSale = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOutSale);
             try {
                 String jsonIn = noticeGetAllTask.execute().get();
 //                JsonArray jsonArray = gson.fromJson(jsonIn, JsonArray.class);
@@ -288,8 +287,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         return notices;
     }
 
-    private void setSystemServices() {
-    }
+
 
 
 
@@ -345,7 +343,9 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
             int notice_ID = notice.getNotice_ID();
             holder.tvNoticeT.setText(notice.getNotice_Content());
-            holder.tvNoticeD.setText(notice.getNotice_time().toString());
+            String dateStr = notice.getNotice_time().toString();
+//            holder.tvNoticeD.setText(notice.getNotice_time().toString());
+            holder.tvNoticeD.setText(dateStr.substring(0,dateStr.length()-5));
 
             int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
             Bitmap bitmap = null;
@@ -402,5 +402,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
 
     }
+
+
 
 }
