@@ -141,17 +141,16 @@ public class Status1Fragment extends Fragment {
                 jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("id", "id"));
                 jsonObject.addProperty("status", 0);//get status 0 and 1
                 jsonObject.addProperty("status1", 1);//get status 0 and 1
-//                jsonObject.addProperty("status", 1);
                 String jsonOut = jsonObject.toString();
 
                 orderListGetTask = new CommonTask(url, jsonOut);
                 try {
                     String jsonIn = orderListGetTask.execute().get();
-                    Log.e(TAG,"getOrders: "+jsonIn);
+//                    Log.e(TAG,"getOrders: "+jsonIn);
                            listType = new TypeToken<List<Order_Main>>() {
                            }.getType();
                            orderMainList = gson.fromJson(jsonIn, listType);
-                    Log.e(TAG,"getOrders: " +jsonIn);
+//                    Log.e(TAG,"getOrders: " +orderMainList);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -236,7 +235,7 @@ public class Status1Fragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Order", orderMain);
                     Navigation.findNavController(v).navigate(R.id.action_status1Fragment_to_orderDetailFragment2, bundle);
-                    Log.e(TAG, "bundeled: "+orderMain);
+//                    Log.e(TAG, "bundel: "+orderMain);
                 }
             });
         }
