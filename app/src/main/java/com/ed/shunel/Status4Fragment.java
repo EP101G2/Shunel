@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.ed.shunel.Task.Common;
@@ -37,6 +38,7 @@ public class Status4Fragment extends Fragment {
     private Activity activity;
     private SwipeRefreshLayout srlOdStatus4;
     private RecyclerView rvOdLStatus4;
+    private SearchView svOrderStatus4;
     List<Order_Main> orderMainList;
     //    Order_Main orderMain;
     private CommonTask orderListGetTask;
@@ -80,6 +82,46 @@ public class Status4Fragment extends Fragment {
                 showOrders(getOrders());//method in next paragraph
                 //直到讀取完 結束
                 srlOdStatus4.setRefreshing(false);
+            }
+        });
+
+//        setting search view
+        svOrderStatus4 = view.findViewById(R.id.svOrderStatus4);
+        svOrderStatus4.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Status4Fragment.OrderMainAdapter4 adapter = (Status4Fragment.OrderMainAdapter4) rvOdLStatus4.getAdapter(); //強迫子型recyclerview.getadapter轉型成父型friendadapter
+                try{
+                    if (adapter != null) { //先檢查是否為空值：空值會執行錯誤
+                        // 如果搜尋條件為空字串，就顯示原始資料；否則就顯示搜尋後結果
+                        if (newText.isEmpty()) { //空字串“” =/ 空值 null ＝/ 空白字串"/s"; 空值呼叫方法會造成執行錯誤：nullpointer exception
+                            adapter.setOrders(orderMainList);
+                        } else {
+                            List<Order_Main> searchOrders = new ArrayList<>();
+                            // 搜尋原始資料內有無包含關鍵字(不區別大小寫)
+                            for (Order_Main orderMain : orderMainList) { //get searched data from origin data
+//                            search by account id
+                                if (orderMain.getAccount_ID().toUpperCase().contains(newText.toUpperCase())) { //ignore upper/lower case: all input change into upper case
+                                    searchOrders.add(orderMain);
+                                }
+//                            search by orderId
+                                else if (orderMain.getOrder_ID() == Integer.parseInt(newText)) { //turn newtext into int and compare to orderid
+                                    searchOrders.add(orderMain);
+                                }
+                            }
+                            adapter.setOrders(searchOrders);
+                        }
+                        adapter.notifyDataSetChanged(); //重刷畫面
+                        return true;
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
         });
     }
