@@ -1,6 +1,7 @@
 package com.ed.shunel;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -148,7 +149,11 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         tvSystemT = view.findViewById(R.id.tvSystemT);
         tvSystemD = view.findViewById(R.id.tvSystemDetailD);
         tvSaleD.setText(saleLast.getNotice_Title());
-        tvQAD.setText(goodLast.getNotice_Title());
+        if(goodLast != null) {
+            tvQAD.setText(goodLast.getNotice_Title());
+        }else {
+            tvQAD.setText("還沒有購買過商品喔！");
+        }
         tvSystemD.setText(systemLast.getNotice_Title());
 //        rvNotice.setLayoutManager(new LinearLayoutManager(activity));
         rvNotice.setLayoutManager(new MyLinearLayoutManager(activity,false));
@@ -402,6 +407,8 @@ public class NoticeFragment<layoutInflater> extends Fragment {
 
 
     }
+
+
 
 
 
