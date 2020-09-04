@@ -54,7 +54,6 @@ public class SearchAdapter_Sam extends RecyclerView.Adapter<SearchAdapter_Sam.se
             ivsearch = view.findViewById(R.id.ivsearch);
             tvname = view.findViewById(R.id.tvname);
             tvprice = view.findViewById(R.id.tvprice);
-
         }
     }
 
@@ -72,6 +71,7 @@ public class SearchAdapter_Sam extends RecyclerView.Adapter<SearchAdapter_Sam.se
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("product", product);
+                bundle.putSerializable("number", 2);
                 Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
             }
         });

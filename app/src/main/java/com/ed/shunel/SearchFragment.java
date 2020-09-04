@@ -76,9 +76,7 @@ public class SearchFragment extends Fragment {
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Navigation.findNavController(v).popBackStack();
-
             }
         });
 
@@ -92,8 +90,6 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-
                     if (newText.isEmpty()) {   //沒有輸入東西 就是輸出所有的東西
                         showBooks(product);
                     } else {
@@ -108,13 +104,9 @@ public class SearchFragment extends Fragment {
                         }
                         showBooks(products);
                     }
-
                 return true;
             }
         });
-
-
-
 
 
     }

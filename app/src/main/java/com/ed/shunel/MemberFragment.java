@@ -100,7 +100,7 @@ public class MemberFragment extends Fragment {
 
 
         tvId.setText(Common.getPreherences(activity).getString("id", "deVal"));
-        tv_Name.setText(Common.getPreherences(activity).getString("name", "deVal"));
+        tv_Name.setText(Common.getPreherences(activity).getString("name", "無名稱"));
 
         if (sharedPreferences.getString("id", "").equals("")) {
 
@@ -108,7 +108,6 @@ public class MemberFragment extends Fragment {
             intent.setClass(activity, LoginActivity.class);   //前放目前ＡＣＴＩＶＩＴＹ，後放目標的ＡＣＴ
             startActivity(intent);
             activity.finish();//把自己關掉
-
         }
 
         cvLike.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +136,6 @@ public class MemberFragment extends Fragment {
                 builder.create().show();
                 Log.e(TAG,"======================================"+Common.getPreherences(activity).getString("id", ""));
                 Logout();
-
 
             }
         });

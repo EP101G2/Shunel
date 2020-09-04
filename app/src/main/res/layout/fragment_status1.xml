@@ -16,6 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <SearchView
+            android:id="@+id/svOrderStatus1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/srlOdStatus1"
             android:layout_width="match_parent"
