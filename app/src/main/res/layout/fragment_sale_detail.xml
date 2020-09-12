@@ -63,4 +63,56 @@
         app:layout_constraintEnd_toEndOf="@+id/tvPromotionFND"
         app:layout_constraintStart_toStartOf="@+id/tvPromotionFND"
         app:layout_constraintTop_toBottomOf="@+id/tvPromotionFND" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvProduct"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvSaleDetail">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cvLike"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvNoticeT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:maxEms="10"
+                android:singleLine="true"
+                android:text="TextView"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/ivProductMini"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNoticeD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:maxEms="15"
+                android:text="TextView"
+                app:layout_constraintStart_toStartOf="@+id/tvNoticeT"
+                app:layout_constraintTop_toBottomOf="@+id/tvNoticeT" />
+
+            <ImageView
+                android:id="@+id/ivProductMini"
+                android:layout_width="86dp"
+                android:layout_height="72dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/unknown" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

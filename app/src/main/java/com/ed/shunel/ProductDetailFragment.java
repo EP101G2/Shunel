@@ -294,27 +294,27 @@ public class ProductDetailFragment extends Fragment {
 
             }
             switch (flag) {
-                case 1:
+                case showNoticeProductPrice:
                     tvPdPrice.setText("價格：" + notice.getPrice());
                     tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
                     tv_Dital.setText(productSale.getProduct_Ditail());
                     tvColor.setText("規格：" + productSale.getProduct_Color());
                     break;
-                case 2:
+                case showNormalProductPrice:
                     tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
                     //product 是接從promotion bundle過去的值
                     tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
                     tv_Dital.setText(productSale.getProduct_Ditail());
                     tvColor.setText("規格：" + productSale.getProduct_Color());
                     break;
-                case 3:
+                case showPromotionProductPrice:
 //                    tvPdPrice.setText("價格：" + String.valueOf(product.getProduct_Price()));
 //                    //product 是接從promotion bundle過去的值
 //                    tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
 //                    tv_Dital.setText(productSale.getProduct_Ditail());
 //                    tvColor.setText("規格：" + productSale.getProduct_Color());
                     break;
-                case 4:
+                case showNoticePromotionPrice:
                     tvPdPrice.setText("價格：" + String.valueOf(productNotice.getProduct_Price()));
                     tvPdName.setText("商品名稱：" + productSale.getProduct_Name());
                     tv_Dital.setText(productSale.getProduct_Ditail());

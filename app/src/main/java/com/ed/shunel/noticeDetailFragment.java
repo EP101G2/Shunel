@@ -193,11 +193,13 @@ public class noticeDetailFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             String saleTitle = notice.getNotice_Title().trim();
                             String saleDetail = notice.getNotice_Content().trim();
+                            int product_ID = notice.getCATEGORY_MESSAGE_ID();
                             if (saleTitle.isEmpty() || saleDetail.isEmpty()) {
                                 Common.showToast(activity, R.string.textnofound);
                             }
                             bundle.putString("noticeTitle", saleTitle);//title
                             bundle.putString("noticeDetail", saleDetail);
+                            bundle.putInt("product_ID",product_ID);
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_noticeDetailFragment_to_saleDetailFragment, bundle);
 
