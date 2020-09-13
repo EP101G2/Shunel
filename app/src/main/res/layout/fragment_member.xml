@@ -188,12 +188,12 @@
             android:layout_height="48dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="33dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center|left"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:background="@android:drawable/ic_dialog_map" />
+                android:background="@drawable/map_coustom" />
 
             <TextView
                 android:layout_width="wrap_content"

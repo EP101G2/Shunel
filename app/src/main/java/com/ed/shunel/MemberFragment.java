@@ -10,6 +10,8 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,6 +57,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -71,7 +75,7 @@ public class MemberFragment extends Fragment {
     private boolean login = false;
     private SharedPreferences sharedPreferences;
     private TextView tvId, tv_Name;
-    private CommonTask memberTask;
+    private CommonTask memberTask,getAddress;
     private ImageTaskUser imageTask;
     private int imageSize;
     private ImageView ivUser;
@@ -157,6 +161,7 @@ public class MemberFragment extends Fragment {
             activity.finish();//把自己關掉
         }
 
+        final String getAddressString = getAddress() ;
         //google地圖 導航到店家
         cvMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,10 +173,13 @@ public class MemberFragment extends Fragment {
                     Toast.makeText(activity, R.string.textLocationNotFound, Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                Address address = geocode(getAddressString);
+
                 String uriStr = String.format(Locale.US,
                         "https://www.google.com/maps/dir/?api=1" +
                                 "&origin=%f,%f&destination=%f,%f&travelmode=driving",
-                        lastLocation.getLatitude(), lastLocation.getLongitude(), 24.838294, 121.334577);
+                        lastLocation.getLatitude(), lastLocation.getLongitude(), address.getLatitude(),address.getLongitude());
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uriStr));
                 intent.setClassName("com.google.android.apps.maps",
                         "com.google.android.maps.MapsActivity");
@@ -296,6 +304,30 @@ public class MemberFragment extends Fragment {
 
     }
 
+    private String getAddress() {
+        String rp = "";
+        JsonObject jsonObject = new JsonObject();
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+            jsonObject.addProperty("action", "getAddress");
+            getAddress = new CommonTask(url, jsonObject.toString());
+            try {
+                rp = getAddress.execute().get();
+                if (rp == null) {
+                    Common.showToast(activity,"資料庫無位址");
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        return rp;
+    }
+
 
     private void Logout() {
         Common.getPreherences(activity).edit().clear().apply();
@@ -410,6 +442,22 @@ public class MemberFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private Address geocode(String locationName) {
+        Geocoder geocoder = new Geocoder(activity);
+        List<Address> addressList = null;
+        try {
+            addressList = geocoder.getFromLocationName(locationName, 1);
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
+        }
+
+        if (addressList == null || addressList.isEmpty()) {
+            return null;
+        } else {
+            return addressList.get(0);
+        }
     }
 
 
