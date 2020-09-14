@@ -388,7 +388,11 @@ public class MemberFragment extends Fragment {
         };
 
         int result = ActivityCompat.checkSelfPermission(activity, permissions[0]);
-        if (result == PackageManager.PERMISSION_DENIED) {
+
+        Log.e("result======",result+"");
+        //|| result == PackageManager.PERMISSION_GRANTED
+        if (result == PackageManager.PERMISSION_DENIED ) {
+            Log.e("我愛超哥",result+"");
             requestPermissions(permissions, PER_ACCESS_LOCATION);
         }
     }
