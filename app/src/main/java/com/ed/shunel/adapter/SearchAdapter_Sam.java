@@ -65,7 +65,7 @@ public class SearchAdapter_Sam extends RecyclerView.Adapter<SearchAdapter_Sam.se
         productimageTask = new ImageTask(url, id_product, imageSize, holder.ivsearch);
         productimageTask.execute();
         holder.tvname.setText(products.get(position).getProduct_Name());
-        holder.tvprice.setText(String.valueOf(product.getProduct_Price()));
+        holder.tvprice.setText("$ "+String.valueOf(product.getProduct_Price()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
