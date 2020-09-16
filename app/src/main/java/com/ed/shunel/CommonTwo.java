@@ -43,8 +43,7 @@ public class CommonTwo {
             chatWebSocketClient.connect();
         }else {
             Log.e(TAG, "3                 connectServer"+userName);
-            chatWebSocketClient = new ChatWebSocketClient(uri, context);
-            chatWebSocketClient.connect();
+
         }
     }
 
