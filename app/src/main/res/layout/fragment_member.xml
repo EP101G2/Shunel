@@ -80,7 +80,7 @@
                 android:layout_gravity="center|left"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/heart_empty" />
+                android:background="@drawable/heart_full" />
 
             <TextView
                 android:id="@+id/tvFollow"
@@ -137,27 +137,7 @@
                 android:textSize="20sp" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvHistory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|left"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/history" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginLeft="60dp"
-                android:gravity="center|left"
-                android:text="@string/history"
-                android:textSize="20sp" />
-        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvSetting"
