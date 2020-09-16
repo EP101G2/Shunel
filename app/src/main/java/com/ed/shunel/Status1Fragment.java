@@ -140,7 +140,7 @@ public class Status1Fragment extends Fragment {
                 jsonObject.addProperty("action", "getOrderMains");
                 jsonObject.addProperty("Account_ID", Common.getPreherences(activity).getString("id", "id"));
                 jsonObject.addProperty("status", 0);//get status 0 and 1
-                jsonObject.addProperty("status1", 1);//get status 0 and 1
+                jsonObject.addProperty("status1", 1);
                 String jsonOut = jsonObject.toString();
 
                 orderListGetTask = new CommonTask(url, jsonOut);
