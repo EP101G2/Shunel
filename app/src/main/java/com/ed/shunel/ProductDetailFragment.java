@@ -278,7 +278,7 @@ public class ProductDetailFragment extends Fragment {
                     jsonObject.addProperty("PRODUCT_Id", product.getProduct_ID());
                 } else {
                     jsonObject.addProperty("PRODUCT_Id", product_id);
-                    Log.e("product_id", "uuuuuu" + product_id);
+
                 }
                 String jsonOutSystem = jsonObject.toString();
                 addTask = new CommonTask(url1, jsonOutSystem);

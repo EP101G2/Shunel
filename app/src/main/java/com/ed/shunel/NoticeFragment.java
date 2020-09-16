@@ -141,7 +141,6 @@ public class NoticeFragment<layoutInflater> extends Fragment {
         cdSystem = view.findViewById(R.id.cdSystem);
         cdQA = view.findViewById(R.id.cdQA);
         cdSale = view.findViewById(R.id.cdSale);
-        searchView = view.findViewById(R.id.searchView);
         tvSaleT = view.findViewById(R.id.tvSaleT);
         tvSaleD = view.findViewById(R.id.tvSaleD);
         tvQAT = view.findViewById(R.id.tvQAT);
