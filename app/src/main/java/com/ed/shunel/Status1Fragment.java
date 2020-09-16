@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.ed.shunel.Task.Common;
@@ -39,6 +40,7 @@ public class Status1Fragment extends Fragment {
     private Activity activity;
     private SwipeRefreshLayout srlOdStatus1;
     private RecyclerView rvOdLStatus1;
+    private SearchView svOrderStatus1;
     List<Order_Main> orderMainList;
     //    Order_Main orderMain;
     private CommonTask orderListGetTask;
@@ -84,6 +86,45 @@ public class Status1Fragment extends Fragment {
                 srlOdStatus1.setRefreshing(false);
             }
         });
+//        setting search view
+        svOrderStatus1 = view.findViewById(R.id.svOrderStatus1);
+        svOrderStatus1.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                OrderMainAdapter1 adapter = (OrderMainAdapter1) rvOdLStatus1.getAdapter(); //強迫子型recyclerview.getadapter轉型成父型friendadapter
+                try{
+                    if (adapter != null) { //先檢查是否為空值：空值會執行錯誤
+                        // 如果搜尋條件為空字串，就顯示原始資料；否則就顯示搜尋後結果
+                        if (newText.isEmpty()) { //空字串“” =/ 空值 null ＝/ 空白字串"/s"; 空值呼叫方法會造成執行錯誤：nullpointer exception
+                            adapter.setOrders(orderMainList);
+                        } else {
+                            List<Order_Main> searchOrders = new ArrayList<>();
+                            // 搜尋原始資料內有無包含關鍵字(不區別大小寫)
+                            for (Order_Main orderMain : orderMainList) { //get searched data from origin data
+//                            search by account id
+                                if (orderMain.getAccount_ID().toUpperCase().contains(newText.toUpperCase())) { //ignore upper/lower case: all input change into upper case
+                                    searchOrders.add(orderMain);
+                                }
+//                            search by orderId
+                                else if (orderMain.getOrder_ID() == Integer.parseInt(newText)) { //turn newtext into int and compare to orderid
+                                    searchOrders.add(orderMain);
+                                }
+                            }
+                            adapter.setOrders(searchOrders);
+                        }
+                        adapter.notifyDataSetChanged(); //重刷畫面
+                        return true;
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+        });
     }
 
     private List<Order_Main> getOrders() {
@@ -105,11 +146,11 @@ public class Status1Fragment extends Fragment {
                 orderListGetTask = new CommonTask(url, jsonOut);
                 try {
                     String jsonIn = orderListGetTask.execute().get();
-                    Log.e(TAG,"======+"+jsonIn);
+//                    Log.e(TAG,"getOrders: "+jsonIn);
                            listType = new TypeToken<List<Order_Main>>() {
                            }.getType();
                            orderMainList = gson.fromJson(jsonIn, listType);
-                    Log.e(TAG,"========" +jsonIn);
+//                    Log.e(TAG,"getOrders: " +orderMainList);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -186,24 +227,15 @@ public class Status1Fragment extends Fragment {
             holder.tvOrderStatus.setText(orderStatusText(orderMain.getOrder_Main_Order_Status()));
             holder.tvOrderDate.setText(orderMain.getOrder_Main_Order_Date().toString());
 
-//            try {
-//                String url = Common.URL_SERVER + "Prouct_Servlet";
-//                int productIdOM = orderDetail.getProduct_ID();
-//                Log.e(TAG, "productId: "+productIdOM);
-//                orderDetProdImgTask = new ImageTask(url, productIdOM, imageSize, holder.ivOrderProductPic);
-//                orderDetProdImgTask.execute();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
-            Log.e(TAG,"--onBindViewHolder-->"+orderMain.getOrder_ID());
+            Log.e(TAG,"--onBindViewHolder--> id: "+orderMain.getOrder_ID());
+            Log.e(TAG,"--onBindViewHolder--> status: "+orderMain.getOrder_Main_Order_Status());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Order", orderMain);
                     Navigation.findNavController(v).navigate(R.id.action_status1Fragment_to_orderDetailFragment2, bundle);
-                    Log.e(TAG, "bundeled: "+orderMain);
+//                    Log.e(TAG, "bundel: "+orderMain);
                 }
             });
         }

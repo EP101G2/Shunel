@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 29
+
     buildToolsVersion "29.0.3"
 
     defaultConfig {
@@ -45,6 +46,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     //google
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 
     implementation 'com.android.support:multidex:1.0.3'
@@ -54,6 +56,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
 
+    //google 地圖
+    implementation 'com.google.android.gms:play-services-location:8.1.0'
 
 //    implementation 'com.facebook.android:facebook-android-sdk:4.42.0'
 

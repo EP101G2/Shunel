@@ -1,5 +1,7 @@
 package com.ed.shunel;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,12 +11,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -54,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         id= Common.getPreherences(this).getString("id","");
         /* jack-------------------------------------------------------------------------------------------*/
@@ -99,14 +103,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("1010101010101010","0101010101010");
                 String saleTitle = Common.getPreherences(this).getString("noticeTitle", "saleTitle");
                 String saleDetail = Common.getPreherences(this).getString("noticeDetail", "saleDetail");
+                int product_ID = Common.getPreherences(this).getInt("product_ID",0);
                 Bundle bundle = new Bundle();
                 bundle.putString("noticeTitle", saleTitle);
                 bundle.putString("noticeDetail", saleDetail);
+                bundle.putInt("product_ID",product_ID);
+
                 Log.e("=====saleTitle=====", saleTitle + "=========");
                 Log.e("saleTitle=====", bundle.getString("noticeTitle") + "saleTitle");
                 Navigation.findNavController(this, R.id.fragment3)
                         .navigate(R.id.action_homeFragment_to_saleDetailFragment, bundle);
                 Common.getPreherences(this).edit().remove("pageFlag").apply();//移除偏好設定中的flag
+
             } else if (pageFlag.equals("1")) {
                 String orderTitle = Common.getPreherences(this).getString("noticeTitle", "orderTitle");
                 String orderDetail = Common.getPreherences(this).getString("noticeDetail", "orderDetail");
@@ -282,4 +290,12 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     /*JACK------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
 }

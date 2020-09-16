@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -131,10 +132,13 @@ public class noticeDetailFragment extends Fragment {
                     jsonObject.addProperty("action", "getSaleAll");
 
                     break;
+
                 case 1:
-                    jsonObject.addProperty("action", "getQAAll");
+                    jsonObject.addProperty("action", "getGoodAll");
+                    jsonObject.addProperty("account_ID", Common.getPreherences(activity).getString("id", ""));
 
                     break;
+
                 case 2:
                     jsonObject.addProperty("action", "getSystemAll");
 
@@ -189,11 +193,13 @@ public class noticeDetailFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             String saleTitle = notice.getNotice_Title().trim();
                             String saleDetail = notice.getNotice_Content().trim();
+                            int product_ID = notice.getCATEGORY_MESSAGE_ID();
                             if (saleTitle.isEmpty() || saleDetail.isEmpty()) {
                                 Common.showToast(activity, R.string.textnofound);
                             }
                             bundle.putString("noticeTitle", saleTitle);//title
                             bundle.putString("noticeDetail", saleDetail);
+                            bundle.putInt("product_ID",product_ID);
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_noticeDetailFragment_to_saleDetailFragment, bundle);
 
@@ -203,6 +209,14 @@ public class noticeDetailFragment extends Fragment {
 
                 case 1:
                     holder.ivProductMini.setImageResource(R.drawable.ic_action_box);
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            NavController navController = Navigation.findNavController(activity, R.id.fragment3);
+                            navController.navigate(R.id.orderListFragment2);
+
+                        }
+                    });
 
                     break;
 
@@ -227,7 +241,8 @@ public class noticeDetailFragment extends Fragment {
                     break;
             }
             holder.tvNoticeT.setText(notice.getNotice_Title());
-            holder.tvNoticeD.setText(notice.getNotice_time().toString());
+            String dateStr = notice.getNotice_time().toString();
+            holder.tvNoticeD.setText(dateStr.substring(0,dateStr.length()-5));
 
 
         }

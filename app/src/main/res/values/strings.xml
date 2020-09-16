@@ -198,6 +198,7 @@
     <string name="productdetail">商品介紹</string>
     <string name="pleselogin">請登入會員</string>
     <string name="textProductId" />
+    <string name="textLocationNotFound">無位址資訊</string>
 
 
 </resources>

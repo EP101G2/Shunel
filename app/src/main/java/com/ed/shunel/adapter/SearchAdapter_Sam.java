@@ -54,7 +54,6 @@ public class SearchAdapter_Sam extends RecyclerView.Adapter<SearchAdapter_Sam.se
             ivsearch = view.findViewById(R.id.ivsearch);
             tvname = view.findViewById(R.id.tvname);
             tvprice = view.findViewById(R.id.tvprice);
-
         }
     }
 
@@ -66,12 +65,13 @@ public class SearchAdapter_Sam extends RecyclerView.Adapter<SearchAdapter_Sam.se
         productimageTask = new ImageTask(url, id_product, imageSize, holder.ivsearch);
         productimageTask.execute();
         holder.tvname.setText(products.get(position).getProduct_Name());
-        holder.tvprice.setText(String.valueOf(product.getProduct_Price()));
+        holder.tvprice.setText("$ "+String.valueOf(product.getProduct_Price()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("product", product);
+                bundle.putSerializable("number", 2);
                 Navigation.findNavController(v).navigate(R.id.productDetailFragment, bundle);
             }
         });

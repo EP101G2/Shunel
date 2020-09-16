@@ -18,7 +18,7 @@
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
+        android:layout_height="530dp"
         app:layout_constraintBottom_toTopOf="@+id/iv_Shoppcard"
         app:layout_constraintTop_toBottomOf="@+id/view"
         tools:layout_editor_absoluteX="10dp">
@@ -90,30 +90,11 @@
         android:id="@+id/btBack"
         android:layout_width="125dp"
         android:layout_height="46dp"
-        android:layout_marginEnd="225dp"
-        android:layout_marginRight="225dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/logtitle"
         app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toStartOf="@+id/searchView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="49dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="7dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="parent" >
-
-    </SearchView>
-
 
 
     <TextView

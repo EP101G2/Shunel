@@ -47,35 +47,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/view">
-
-        <TextView
-            android:id="@+id/tvNews"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:background="#FFFFFF"
-            android:gravity="center|left"
-            android:text="@string/searchHistory"
-            android:textColor="#898989"
-            android:textColorHint="#FFFFFF"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="208dp"
-            android:layout_weight="1"
-            android:text="@string/clearSearch"
-            android:textSize="20dp" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/view"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-
-        app:layout_constraintTop_toBottomOf="@+id/lnHistory" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lnHistory"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,9 +48,14 @@ public class SaleDetailFragment extends Fragment {
     private CommonTask noticeGetAllTask;
     private SaleAdapter SaleAdapter;
     private Notice notice;
-    private String saleTitle,saleDetail;
+    private String saleTitle, saleDetail;
     private ImageTask imageTask;
-
+    private Product product;
+    private int product_ID, promotionPrice;
+    ImageView ivProductMini;
+    TextView tvNoticeT;
+    TextView tvNoticeD;
+    CardView cvProduct;
 
 
     @Override
@@ -64,7 +70,10 @@ public class SaleDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Common.getPreherences(activity).edit().remove("noticeTitle").apply();
-        Common.getPreherences(activity).edit().remove("noticeDetail").apply();//清除放在偏好設定的通知標題跟內文
+        Common.getPreherences(activity).edit().remove("noticeDetail").apply();
+        Common.getPreherences(activity).edit().remove("product_ID").apply();
+
+        //清除放在偏好設定的通知標題跟內文
 
         return inflater.inflate(R.layout.fragment_sale_detail, container, false);
     }
@@ -77,6 +86,7 @@ public class SaleDetailFragment extends Fragment {
         if (bundle != null) {
             saleTitle = bundle.getString("noticeTitle");
             saleDetail = bundle.getString("noticeDetail");
+            product_ID = bundle.getInt("product_ID");
         }
         initData();
         findViews(view);
@@ -92,36 +102,148 @@ public class SaleDetailFragment extends Fragment {
 
     private void findViews(View view) {
 
+
         tvPromotionFNT = view.findViewById(R.id.tvPromotionFNT);
         tvPromotionFND = view.findViewById(R.id.tvPromotionFND);
         rvSaleDetail = view.findViewById(R.id.rvSaleDetail);
-
+        cvProduct = view.findViewById(R.id.cvProduct);
         rvSaleDetail.setLayoutManager(new LinearLayoutManager(activity));
         rvSaleDetail.setAdapter(new SaleAdapter(activity, promotion));
+        ivProductMini = view.findViewById(R.id.ivProductMini);
+        tvNoticeT = view.findViewById(R.id.tvNoticeT);
+        tvNoticeD = view.findViewById(R.id.tvNoticeD);
+
+        if (product_ID != 0) {
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+//            Log.e("555555","product_id:"+product_id);
+            int imageSize = getResources().getDisplayMetrics().widthPixels / 5;
+//            Bitmap bitmap = null;
+            try {
+                imageTask = (ImageTask) new ImageTask(url, product_ID, imageSize, ivProductMini).execute();
+
+            } catch (Exception e) {
+//                Log.e(TAG, e.toString());
+                e.printStackTrace();
+            }
+
+
+
+
+
+            cvProduct.setVisibility(View.VISIBLE);
+            rvSaleDetail.setVisibility(View.GONE);
+            tvNoticeT.setText(product.getProduct_Name());
+            tvNoticeD.setText(product.getProduct_Color());
+
+
+
+        }
     }
 
 
     private void initData() {
-        promotion = getDate();
+        if (product_ID != 0) {
+
+            product = getProductData();
+
+        } else {
+            promotion = getPromotionDate();
+        }
+
 
     }
+
 
     private void setSystemServices() {
 
     }
 
+
     private void setLinstener() {
         tvPromotionFNT.setText(saleTitle);
         tvPromotionFND.setText(saleDetail);
+        cvProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("product.getProduct_Status()",""+product.getProduct_Status());
+
+
+                if (product.getProduct_Status() == 2) {
+                    product.setProduct_Price(getPromotionPrice());
+                    Log.e("getPromotionPrice","getPromotionPrice"+getPromotionPrice());
+                }
+
+                Bundle bundle = new Bundle();
+
+                bundle.putSerializable("product", product);
+                bundle.putInt("number", 2);
+
+
+                Navigation.findNavController(v).navigate(R.id.action_saleDetailFragment_to_productDetailFragment, bundle);
+
+            }
+        });
     }
 
-    private List<Promotion> getDate() {
+    private int getPromotionPrice() {
+
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Promotion_Servlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getPromotionPrice");
+            jsonObject.addProperty("PRODUCT_Id", product_ID);
+            String jsonOut = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOut);
+            try {
+                String JsonIn = noticeGetAllTask.execute().get();
+                promotionPrice = Integer.parseInt(JsonIn);
+                Log.e(" promotionPrice", "promotionPrice" + promotionPrice);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        Log.e("product", "product:" + product.getProduct_Price());
+        return promotionPrice;
+    }
+
+    private Product getProductData() {
+        product = null;
+
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "findById");
+            jsonObject.addProperty("PRODUCT_Id", product_ID);
+            String jsonOut = jsonObject.toString();
+            noticeGetAllTask = new CommonTask(url, jsonOut);
+            try {
+                String JsonIn = noticeGetAllTask.execute().get();
+
+                product = gson.fromJson(JsonIn, Product.class);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+
+        return product;
+    }
+
+
+    private List<Promotion> getPromotionDate() {
+
+
         Log.i("---123---", "-----------12323");
         List<Promotion> promotions = null;
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "Promotion_Servlet";
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getPromotionForNotice");
+            jsonObject.addProperty("action", "getPromotionAll");
             String jsonOut = jsonObject.toString();
             noticeGetAllTask = new CommonTask(url, jsonOut);
             try {
@@ -160,7 +282,7 @@ public class SaleDetailFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
-            Log.e("test","測試");
+            Log.e("test", "測試");
             final Promotion promotion = promotionList.get(position);
 
 //            Log.e(TAG,"Name"+promotion.getPromotion_Name());
@@ -173,7 +295,7 @@ public class SaleDetailFragment extends Fragment {
             int imageSize = getResources().getDisplayMetrics().widthPixels / 5;
 //            Bitmap bitmap = null;
             try {
-                imageTask = (ImageTask) new ImageTask(url, product_id, imageSize,holder.ivProductMini).execute();
+                imageTask = (ImageTask) new ImageTask(url, product_id, imageSize, holder.ivProductMini).execute();
 
             } catch (Exception e) {
 //                Log.e(TAG, e.toString());
@@ -189,25 +311,25 @@ public class SaleDetailFragment extends Fragment {
             holder.tvNoticeD.setText(String.valueOf(promotion.getPromotion_Price()));
 
 
-            final Product product = new Product(promotion.getProuct_ID(),promotion.getPromotion_Price());
+            final Product product = new Product(promotion.getProuct_ID(), promotion.getPromotion_Price());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
 //                    int product_id = promotion.getProuct_ID();
 //                    int promotionPrice = promotion.getPromotion_Price();
-                    bundle.putSerializable("product",product);
-                    bundle.putInt("number",4);
+                    bundle.putSerializable("product", product);
+                    bundle.putInt("number", 4);
 //                    bundle.putInt("product_id", product_id);
 //                    bundle.putInt("promotionPrice", promotionPrice);
-                    Navigation.findNavController(v).navigate(R.id.action_saleDetailFragment_to_productDetailFragment,bundle);
+                    Navigation.findNavController(v).navigate(R.id.action_saleDetailFragment_to_productDetailFragment, bundle);
                 }
             });
         }
 
         @Override
         public int getItemCount() {
-            Log.e("promotionList","promotionList");
+            Log.e("promotionList", "promotionList");
             return promotionList == null ? 0 : promotionList.size();
 
         }
