@@ -276,6 +276,8 @@ public class ChatFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, REQ_PICK_PICTURE);
+
+                etMessage.setText("請點選送出");
             }
         });
 
@@ -292,6 +294,7 @@ public class ChatFragment extends Fragment {
 
                 if (intent.resolveActivity(activity.getPackageManager()) != null) {
                     startActivityForResult(intent, REQ_TAKE_PICTURE);
+                    etMessage.setText("請點選送出");
                 } else {
                     Common.showToast(activity, R.string.textNoCameraApp);
                 }
