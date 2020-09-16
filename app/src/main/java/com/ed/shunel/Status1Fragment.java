@@ -242,7 +242,7 @@ public class Status1Fragment extends Fragment {
 
         private String orderStatusText(int status) {
             String statusText = "";
-            Log.e(TAG, "status"+status);
+            Log.e(TAG, "status這是111111"+status);
             if (status == 0) {
                 statusText = "未付款";
             } else if (status == 1) {
