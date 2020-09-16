@@ -103,14 +103,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("1010101010101010","0101010101010");
                 String saleTitle = Common.getPreherences(this).getString("noticeTitle", "saleTitle");
                 String saleDetail = Common.getPreherences(this).getString("noticeDetail", "saleDetail");
+                int product_ID = Common.getPreherences(this).getInt("product_ID",0);
                 Bundle bundle = new Bundle();
                 bundle.putString("noticeTitle", saleTitle);
                 bundle.putString("noticeDetail", saleDetail);
+                bundle.putInt("product_ID",product_ID);
+
                 Log.e("=====saleTitle=====", saleTitle + "=========");
                 Log.e("saleTitle=====", bundle.getString("noticeTitle") + "saleTitle");
                 Navigation.findNavController(this, R.id.fragment3)
                         .navigate(R.id.action_homeFragment_to_saleDetailFragment, bundle);
                 Common.getPreherences(this).edit().remove("pageFlag").apply();//移除偏好設定中的flag
+
             } else if (pageFlag.equals("1")) {
                 String orderTitle = Common.getPreherences(this).getString("noticeTitle", "orderTitle");
                 String orderDetail = Common.getPreherences(this).getString("noticeDetail", "orderDetail");

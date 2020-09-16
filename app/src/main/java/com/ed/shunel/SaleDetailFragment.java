@@ -70,7 +70,10 @@ public class SaleDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Common.getPreherences(activity).edit().remove("noticeTitle").apply();
-        Common.getPreherences(activity).edit().remove("noticeDetail").apply();//清除放在偏好設定的通知標題跟內文
+        Common.getPreherences(activity).edit().remove("noticeDetail").apply();
+        Common.getPreherences(activity).edit().remove("product_ID").apply();
+
+        //清除放在偏好設定的通知標題跟內文
 
         return inflater.inflate(R.layout.fragment_sale_detail, container, false);
     }
@@ -109,11 +112,29 @@ public class SaleDetailFragment extends Fragment {
         ivProductMini = view.findViewById(R.id.ivProductMini);
         tvNoticeT = view.findViewById(R.id.tvNoticeT);
         tvNoticeD = view.findViewById(R.id.tvNoticeD);
+
         if (product_ID != 0) {
+            String url = Common.URL_SERVER + "Prouct_Servlet";
+//            Log.e("555555","product_id:"+product_id);
+            int imageSize = getResources().getDisplayMetrics().widthPixels / 5;
+//            Bitmap bitmap = null;
+            try {
+                imageTask = (ImageTask) new ImageTask(url, product_ID, imageSize, ivProductMini).execute();
+
+            } catch (Exception e) {
+//                Log.e(TAG, e.toString());
+                e.printStackTrace();
+            }
+
+
+
+
+
             cvProduct.setVisibility(View.VISIBLE);
             rvSaleDetail.setVisibility(View.GONE);
             tvNoticeT.setText(product.getProduct_Name());
             tvNoticeD.setText(product.getProduct_Color());
+
 
 
         }
@@ -144,9 +165,12 @@ public class SaleDetailFragment extends Fragment {
         cvProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("product.getProduct_Status()",""+product.getProduct_Status());
+
 
                 if (product.getProduct_Status() == 2) {
                     product.setProduct_Price(getPromotionPrice());
+                    Log.e("getPromotionPrice","getPromotionPrice"+getPromotionPrice());
                 }
 
                 Bundle bundle = new Bundle();
@@ -206,7 +230,7 @@ public class SaleDetailFragment extends Fragment {
         } else {
             Common.showToast(activity, R.string.textNoNetwork);
         }
-        Log.e("product", "product:" + product.getProduct_Price());
+
         return product;
     }
 
