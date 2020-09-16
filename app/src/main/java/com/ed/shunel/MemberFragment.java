@@ -161,12 +161,12 @@ public class MemberFragment extends Fragment {
             activity.finish();//把自己關掉
         }
 
-        final String getAddressString = getAddress() ;
+
         //google地圖 導航到店家
         cvMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                final String getAddressString = getAddress() ;
 
 
                 if (lastLocation == null) {
@@ -176,14 +176,19 @@ public class MemberFragment extends Fragment {
 
                 Address address = geocode(getAddressString);
 
-                String uriStr = String.format(Locale.US,
-                        "https://www.google.com/maps/dir/?api=1" +
-                                "&origin=%f,%f&destination=%f,%f&travelmode=driving",
-                        lastLocation.getLatitude(), lastLocation.getLongitude(), address.getLatitude(),address.getLongitude());
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uriStr));
-                intent.setClassName("com.google.android.apps.maps",
-                        "com.google.android.maps.MapsActivity");
-                startActivity(intent);
+                if(address != null) {
+
+                    String uriStr = String.format(Locale.US,
+                            "https://www.google.com/maps/dir/?api=1" +
+                                    "&origin=%f,%f&destination=%f,%f&travelmode=driving",
+                            lastLocation.getLatitude(), lastLocation.getLongitude(), address.getLatitude(), address.getLongitude());
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uriStr));
+                    intent.setClassName("com.google.android.apps.maps",
+                            "com.google.android.maps.MapsActivity");
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(activity, "資料庫無位址", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -344,6 +349,7 @@ public class MemberFragment extends Fragment {
 
 
     private void showLastLocation() {
+        Log.e("showLastLocation==========","");
         if (fusedLocationClient == null) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
             fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -388,8 +394,14 @@ public class MemberFragment extends Fragment {
         };
 
         int result = ActivityCompat.checkSelfPermission(activity, permissions[0]);
-        if (result == PackageManager.PERMISSION_DENIED) {
+
+        Log.e("result======",result+"");
+        //|| result == PackageManager.PERMISSION_GRANTED
+        if (result == PackageManager.PERMISSION_DENIED ) {
+            Log.e("我愛超哥",result+"");
             requestPermissions(permissions, PER_ACCESS_LOCATION);
+        }else{
+            showLastLocation();
         }
     }
 
@@ -409,6 +421,7 @@ public class MemberFragment extends Fragment {
 
     // 檢查裝置是否開啟Location設定
     private void checkLocationSettings() {
+
         // 必須將LocationRequest設定加入檢查,檢查有沒有開啟
         LocationSettingsRequest.Builder builder =
                 new LocationSettingsRequest.Builder()
