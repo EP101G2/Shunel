@@ -63,7 +63,6 @@ public class ShoppingcartFragment extends Fragment {
     private CommonTask shopGetall;
     private int totalPrice = 0;
 
-    //    test
     private List<Product> productList;
 
 
@@ -194,8 +193,8 @@ public class ShoppingcartFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("shopcard", shopping_cart_list);
                     bundle.putString("total", String.valueOf(totalPrice));
-                    bundle.putString("orderId",orderId);
-                    Log.i("888888","7777777777"+orderId);
+                    bundle.putString("orderId", orderId);
+                    Log.i("888888", "7777777777" + orderId);
 //                    bu
                     Navigation.findNavController(v).navigate(R.id.action_shoppingcartFragment_to_buyerFragment, bundle);
 //                    map.clear(listdatas.removeAll());
@@ -231,9 +230,7 @@ public class ShoppingcartFragment extends Fragment {
         shopping_cartList = getDate();
 
 
-
     }
-
 
 
     private List<Shopping_Cart> getDate() {
@@ -281,6 +278,8 @@ public class ShoppingcartFragment extends Fragment {
         List<Shopping_Cart> shopping_cartList;
         private HashMap<Integer, Boolean> maps = new HashMap<Integer, Boolean>();//多选
 
+        int add = 0;
+
         public shopp_cart_adapter(Context context, List<Shopping_Cart> shopping_cartList) {
             this.context = context;
             this.shopping_cartList = shopping_cartList;
@@ -309,6 +308,7 @@ public class ShoppingcartFragment extends Fragment {
 
 
             final Shopping_Cart shoppingCart = shopping_cartList.get(position);
+
             String url = Common.URL_SERVER + "Prouct_Servlet";
             int id = shoppingCart.getProduct_ID();
             int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
@@ -316,7 +316,6 @@ public class ShoppingcartFragment extends Fragment {
             try {
                 bitmap = new ImageTask(url, id, imageSize).execute().get();
             } catch (Exception e) {
-//                Log.e(TAG, e.toString());
                 e.printStackTrace();
             }
             if (bitmap != null) {
@@ -324,6 +323,8 @@ public class ShoppingcartFragment extends Fragment {
             } else {
                 holder.iv_Prouct.setImageResource(R.drawable.no_image);
             }
+
+
             holder.tv_Name.setText("商品:" + shoppingCart.getProduct_Name());
             holder.tv_Count.setText(String.valueOf(shoppingCart.getAmount()));
             holder.tv_specification.setText("規格" + shoppingCart.getColor());
@@ -355,10 +356,39 @@ public class ShoppingcartFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-//                    int price = Integer.parseInt()
 
                 }
             });
+
+
+            holder.bt_Add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (shoppingCart.getAmount()!=0){
+
+                        add++;
+                        Log.e(TAG,"+++++++++++++++++++++++"+add);
+                        holder.tv_Count.setText(String.valueOf(shoppingCart.getAmount() + add));
+
+                        Log.e(TAG, "=====================" + String.valueOf(shoppingCart.getAmount()));
+                    }
+
+
+
+                }
+            });
+
+            holder.bt_Less.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int less = 0;
+                    less--;
+                    Log.e(TAG,"----------------------"+less);
+                    holder.tv_Count.setText(String.valueOf(shoppingCart.getAmount() + less));
+                }
+            });
+
         }
 
 
