@@ -69,6 +69,7 @@ public class BuyerFragment extends Fragment {
     private List<Shopping_Cart> listdatas;
     private Shopping_Cart_List shopping_cart_list;
 
+
     private String total;
     private CommonTask orderMainUpdata;
     private Order_Main oM = null;
@@ -185,7 +186,7 @@ public class BuyerFragment extends Fragment {
 
     private void findViews(View view) {
 
-        rv_Product = view.findViewById(R.id.rv_Product);
+        rv_Product = view.findViewById(R.id.rv_xxxxx);
 
         tv_Buyer_Name = view.findViewById(R.id.tv_Buyer_Name);
         tv_Buyer_Phone = view.findViewById(R.id.tv_Phone);
@@ -207,9 +208,13 @@ public class BuyerFragment extends Fragment {
 
 
         shopping_cart_list = (Shopping_Cart_List) bundle.getSerializable("shopcard");
+        listdatas = shopping_cart_list.getCart();
+
         total = bundle.getString("total");
         orderId = bundle.getString("orderId");
         /*bundle 接收---------------------------------------------------------------------*/
+        rv_Product.setLayoutManager(new LinearLayoutManager(activity));
+        rv_Product.setAdapter(new BuyProductAdapter(activity, listdatas));
 
     }
 
@@ -253,13 +258,14 @@ public class BuyerFragment extends Fragment {
 
         tv_BuyTotal.setText("總金額：" + total);
 
-        rv_Product.setAdapter(new productAdapter(activity, shopping_cart_list.getCart()));
-        rv_Product.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+
+        Log.e("-----rv_Product-----", rv_Product.getAdapter() == null ? "empty" : "notEmpty");
+
         oM = new Order_Main(id, Integer.parseInt(total), name, address, phone, 0);
         btn_Pagenext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//
+
                 Navigation.findNavController(v).navigate(R.id.action_buyerFragment_to_orderListFragment2);
 
 
@@ -269,11 +275,13 @@ public class BuyerFragment extends Fragment {
 
     }
 
-    private class productAdapter extends RecyclerView.Adapter<productAdapter.Myviewholder> {
+    private class BuyProductAdapter extends RecyclerView.Adapter<BuyProductAdapter.Myviewholder> {
         Context context;
         List<Shopping_Cart> productList;
 
-        public productAdapter(Context context, List<Shopping_Cart> productList) {
+        public BuyProductAdapter(Context context, List<Shopping_Cart> productList) {
+
+            Log.e("","eeeeeeeeee");
             this.context = context;
             this.productList = productList;
 
@@ -283,15 +291,26 @@ public class BuyerFragment extends Fragment {
         @Override
         public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(context).inflate(R.layout.fragment_shoppingcart_itemview, parent, false);
+            Log.e("","oooooooooo");
             return new Myviewholder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
             final Shopping_Cart list = productList.get(position);
-
+    Log.e(TAG,"00000000");
             String url = Common.URL_SERVER + "Prouct_Servlet";
             int id = list.getProduct_ID();
+
+            holder.tv_Name.setText(list.getProduct_Name());
+            holder.tv_Count.setText("數量：" + String.valueOf(list.getAmount()));
+            holder.tv_Price.setText(String.valueOf(list.getPrice() * list.getAmount()));
+            holder.checkBox.setVisibility(View.GONE);
+            holder.tv_Less.setVisibility(View.GONE);
+            holder.tv_Add.setVisibility(View.GONE);
+
+
+
             int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
             Bitmap bitmap = null;
             try {
@@ -307,18 +326,13 @@ public class BuyerFragment extends Fragment {
             }
 
 
-            holder.tv_Name.setText(list.getProduct_Name());
-            holder.tv_Count.setText("數量：" + String.valueOf(list.getAmount()));
-            holder.tv_Price.setText(String.valueOf(list.getPrice() * list.getAmount()));
-            holder.checkBox.setVisibility(View.GONE);
-            holder.tv_Less.setVisibility(View.GONE);
-            holder.tv_Add.setVisibility(View.GONE);
 
 
         }
 
         @Override
         public int getItemCount() {
+            Log.e("",productList.size()+"123");
             return product_list == null ? 0 : productList.size();
         }
 
@@ -397,7 +411,6 @@ public class BuyerFragment extends Fragment {
             JSONObject paymentDataJO = new JSONObject(paymentData.toJson());
             String cardDescription = paymentDataJO.getJSONObject("paymentMethodData").getString
                     ("description");
-//            tvPaymentInfo.setText(cardDescription);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -480,7 +493,6 @@ public class BuyerFragment extends Fragment {
             Log.i(TAG,chageOrder.toString());
             try {
                 String jsonIn = chageOrder.execute().get();
-//                jsonObject = new Gson().fromJson(jsonIn,JsonObject.class);
                 Log.i(TAG,jsonObject.toString());
 
             } catch (ExecutionException e) {

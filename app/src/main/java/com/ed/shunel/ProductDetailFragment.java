@@ -546,7 +546,7 @@ public class ProductDetailFragment extends Fragment {
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
                         if (promotionProduct != null) {
-                            shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
+                            shopping_cart = new Shopping_Cart(account, promotionProduct.getProduct_ID(), promotionProduct.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
                         } else {
                             shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
                         }

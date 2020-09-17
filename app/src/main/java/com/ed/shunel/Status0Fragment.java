@@ -170,16 +170,14 @@ public class Status0Fragment extends Fragment {
         public void onBindViewHolder(@NonNull OrderMainAdapter0.PageViewHolder holder, int position) {
             final Order_Main orderMain = orderMainList.get(position);
             holder.tvOrderId.setText(String.valueOf(orderMain.getOrder_ID()));
-<<<<<<< HEAD
 
-            holder.tvOrderStatus.setText(R.string.textNotYetPayed);
-=======
+
             if(orderMain.getOrder_Main_Order_Status() == 0) {
                 holder.tvOrderStatus.setText(R.string.textNotYetPayed);
             }else {
                 holder.tvOrderStatus.setText("未出貨");
             }
->>>>>>> 26a85d2cbb720732025a1dd56d06ab69102b598b
+
             holder.tvOrderDate.setText(orderMain.getOrder_Main_Order_Date().toString());
 
             Log.e(TAG,"--onBindViewHolder-->"+orderMain.getOrder_ID());
