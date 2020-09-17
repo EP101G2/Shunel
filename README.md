@@ -1,6 +1,6 @@
 # Shunel
 
-商品展示 /n
+商品展示 \n
 ![image](https://github.com/EP101G2/Shunel/blob/master/%E6%88%AA%E5%9C%96%202020-09-18%2001.10.12.png)
 
 商品詳情
