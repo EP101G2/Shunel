@@ -155,7 +155,6 @@ public class ChatFragment extends Fragment {
         cv_Picture = view.findViewById(R.id.cv_Picture);
         btnTakePicture = view.findViewById(R.id.btnTakePicture);
         btnPickPicture = view.findViewById(R.id.btnPickPicture);
-        btnPicture = view.findViewById(R.id.btnPicture);
         cv_Picture.setVisibility(View.GONE);
 
     }
@@ -254,21 +253,7 @@ public class ChatFragment extends Fragment {
 
 
 
-        /*拍照*/
-        btnPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean cardview = true;
 
-                if (cardview) {
-                    cv_Picture.setVisibility(View.VISIBLE);
-                    cardview = false;
-                } else {
-                    cv_Picture.setVisibility(View.GONE);
-                    cardview = true;
-                }
-            }
-        });
 
         btnPickPicture.setOnClickListener(new View.OnClickListener() {
             @Override
