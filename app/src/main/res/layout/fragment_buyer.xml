@@ -25,30 +25,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_xxxxx"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-
-        android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:visibility="visible">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="104dp"
+        android:layout_marginBottom="244dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/tv_BuyTotal"
-        tools:layout_editor_absoluteX="1dp">
+        tools:layout_editor_absoluteX="-1dp">
 
         <TextView
             android:id="@+id/textView4"
@@ -99,7 +84,7 @@
 
             <EditText
                 android:id="@+id/tv_Address"
-                android:layout_width="315dp"
+                android:layout_width="351dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:text="@string/default_data"

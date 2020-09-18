@@ -38,6 +38,7 @@ import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
 import com.google.android.gms.wallet.TransactionInfo;
 import com.google.android.gms.wallet.WalletConstants;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -77,7 +78,7 @@ public class BuyerFragment extends Fragment {
     private String orderId;
 
     /*UI元件*/
-    private RecyclerView rv_Product;
+
     private RadioButton radioButton_Default_Address;
     private RadioButton radioButton_New_Address;
     private TextView tv_Buyer_Name;
@@ -186,7 +187,6 @@ public class BuyerFragment extends Fragment {
 
     private void findViews(View view) {
 
-        rv_Product = view.findViewById(R.id.rv_xxxxx);
 
         tv_Buyer_Name = view.findViewById(R.id.tv_Buyer_Name);
         tv_Buyer_Phone = view.findViewById(R.id.tv_Phone);
@@ -213,8 +213,7 @@ public class BuyerFragment extends Fragment {
         total = bundle.getString("total");
         orderId = bundle.getString("orderId");
         /*bundle 接收---------------------------------------------------------------------*/
-        rv_Product.setLayoutManager(new LinearLayoutManager(activity));
-        rv_Product.setAdapter(new BuyProductAdapter(activity, listdatas));
+
 
     }
 
@@ -232,19 +231,24 @@ public class BuyerFragment extends Fragment {
         name = Common.getPreherences(activity).getString("name", "");
         phone = Common.getPreherences(activity).getString("phone", "");
         address = Common.getPreherences(activity).getString("address", "");
-//        Log.e(TAG,id);
-//        Log.e(TAG,name);
-//        Log.e(TAG,phone);
-//        Log.e(TAG,address);
-        tv_Buyer_Name.setText(name);
+        tv_Buyer_Name.setText(id);
         tv_Buyer_Address.setText(address);
         tv_Buyer_Phone.setText(phone);
+
+
+
 
         btBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 跳出user資訊視窗讓user確認，確認後會呼叫onActivityResult()
-                Log.i(TAG, "btbuy1");
+
+                String edName = tv_Buyer_Name.getText().toString();
+                String edPhone = tv_Buyer_Phone.getText().toString();
+                String edAddress = tv_Buyer_Address.getText().toString();
+
+                oM = new Order_Main(id, Integer.parseInt(total), edName, edAddress, edPhone, 0);
+//                Log.e(TAG,"========================================================="+oM.getOrder_Main_Receiver()+oM.getOrder_Main_Phone()+oM.getOrder_Main_Address());
+
                 tpdGooglePay.requestPayment(TransactionInfo.newBuilder()
                         .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
                         // 消費總金額
@@ -259,9 +263,7 @@ public class BuyerFragment extends Fragment {
         tv_BuyTotal.setText("總金額：" + total);
 
 
-        Log.e("-----rv_Product-----", rv_Product.getAdapter() == null ? "empty" : "notEmpty");
 
-        oM = new Order_Main(id, Integer.parseInt(total), name, address, phone, 0);
         btn_Pagenext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,93 +275,6 @@ public class BuyerFragment extends Fragment {
         });
 
 
-    }
-
-    private class BuyProductAdapter extends RecyclerView.Adapter<BuyProductAdapter.Myviewholder> {
-        Context context;
-        List<Shopping_Cart> productList;
-
-        public BuyProductAdapter(Context context, List<Shopping_Cart> productList) {
-
-            Log.e("","eeeeeeeeee");
-            this.context = context;
-            this.productList = productList;
-
-        }
-
-        @NonNull
-        @Override
-        public Myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(context).inflate(R.layout.fragment_shoppingcart_itemview, parent, false);
-            Log.e("","oooooooooo");
-            return new Myviewholder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull Myviewholder holder, int position) {
-            final Shopping_Cart list = productList.get(position);
-    Log.e(TAG,"00000000");
-            String url = Common.URL_SERVER + "Prouct_Servlet";
-            int id = list.getProduct_ID();
-
-            holder.tv_Name.setText(list.getProduct_Name());
-            holder.tv_Count.setText("數量：" + String.valueOf(list.getAmount()));
-            holder.tv_Price.setText(String.valueOf(list.getPrice() * list.getAmount()));
-            holder.checkBox.setVisibility(View.GONE);
-            holder.tv_Less.setVisibility(View.GONE);
-            holder.tv_Add.setVisibility(View.GONE);
-
-
-
-            int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
-            Bitmap bitmap = null;
-            try {
-                bitmap = new ImageTask(url, id, imageSize).execute().get();
-            } catch (Exception e) {
-//                Log.e(TAG, e.toString());
-                e.printStackTrace();
-            }
-            if (bitmap != null) {
-                holder.iv_Prouct.setImageBitmap(bitmap);
-            } else {
-                holder.iv_Prouct.setImageResource(R.drawable.no_image);
-            }
-
-
-
-
-        }
-
-        @Override
-        public int getItemCount() {
-            Log.e("",productList.size()+"123");
-            return product_list == null ? 0 : productList.size();
-        }
-
-        private class Myviewholder extends RecyclerView.ViewHolder {
-            ImageView iv_Prouct;
-            TextView tv_Name;
-            TextView tv_specification;
-            TextView tv_Price;
-            TextView tv_Add;
-            TextView tv_Count;
-            TextView tv_Less;
-            CheckBox checkBox;
-
-
-            public Myviewholder(View view) {
-                super(view);
-                iv_Prouct = view.findViewById(R.id.iv_Prouct);
-                tv_Name = view.findViewById(R.id.tv_Name);
-                tv_specification = view.findViewById(R.id.tv_specification);
-                tv_Price = view.findViewById(R.id.tv_Price);
-                tv_Add = view.findViewById(R.id.btAdd);
-                tv_Count = view.findViewById(R.id.tv_Count);
-                tv_Less = view.findViewById(R.id.btLess);
-                checkBox = view.findViewById(R.id.checkBox);
-
-            }
-        }
     }
 
 
@@ -380,13 +295,13 @@ public class BuyerFragment extends Fragment {
                         getPrimeFromTapPay(paymentData);
                         changeOrderStatus();
 //                        Navigation.findNavController(view).navigate(R.id.action_buyerFragment_to_orderListFragment2);
-                        Common.showToast(activity,"交易成功");
+                        Common.showToast(activity, "交易成功");
                     }
                     break;
                 case Activity.RESULT_CANCELED:
 //                    btConfirm.setEnabled(false);
 //                    tvResult.setText(R.string.textCanceled);
-                    Common.showToast(activity,"交易失敗");
+                    Common.showToast(activity, "交易失敗");
                     break;
                 case AutoResolveHelper.RESULT_ERROR:
 //                    btConfirm.setEnabled(false);
@@ -454,9 +369,6 @@ public class BuyerFragment extends Fragment {
                 });
     }
 
-    private void next(View view) {
-
-    }
 
     public ProgressDialog mProgressDialog;
 
@@ -487,13 +399,14 @@ public class BuyerFragment extends Fragment {
             String url = Common.URL_SERVER + "Orders_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "changeOrderStatus");
-            jsonObject.addProperty("OrderID",Integer.valueOf(orderId));
-            chageOrder= new CommonTask(url, jsonObject.toString());
+            jsonObject.addProperty("OrderID", Integer.valueOf(orderId));
+            jsonObject.addProperty("oM",new Gson().toJson(oM));
+            chageOrder = new CommonTask(url, jsonObject.toString());
 
-            Log.i(TAG,chageOrder.toString());
+            Log.i(TAG, chageOrder.toString());
             try {
                 String jsonIn = chageOrder.execute().get();
-                Log.i(TAG,jsonObject.toString());
+                Log.i(TAG, jsonObject.toString());
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -503,9 +416,6 @@ public class BuyerFragment extends Fragment {
         } else {
             Common.showToast(activity, R.string.textNoNetwork);
         }
-
-
-
 
 
     }
