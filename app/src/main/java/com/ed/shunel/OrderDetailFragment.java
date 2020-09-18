@@ -86,8 +86,9 @@ public class OrderDetailFragment extends Fragment {
     String price = "";
     int orderFinalID = 0;
     private CommonTask chageOrder;
+
     /*Jack*/
-    public OrderDetailFragment(){
+    public OrderDetailFragment() {
 //        Required empty public constructor
     }
 
@@ -103,7 +104,7 @@ public class OrderDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-        if (getArguments() != null){
+        if (getArguments() != null) {
             counter = getArguments().getInt(TAG);
         }
     }//ok
@@ -119,9 +120,6 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-
 
 
         tvOrderIdDet = view.findViewById(R.id.tvOrderIdDet);
@@ -142,7 +140,6 @@ public class OrderDetailFragment extends Fragment {
         /*Jack*/
 
 
-
         final NavController navController = Navigation.findNavController(view);
         Bundle bundle = getArguments();
         if (bundle == null || bundle.getSerializable("Order") == null) {
@@ -152,15 +149,18 @@ public class OrderDetailFragment extends Fragment {
         }
         orderMain = (Order_Main) bundle.getSerializable("Order");
 
-        Log.e(TAG, "bundleGet"+orderMain.getOrder_ID()+","+orderMain.getOrder_Main_Order_Status()+","+orderMain.getOrder_Main_Total_Price()+","+orderMain.getOrder_Main_Receiver());
+        Log.e(TAG, "bundleGet" + orderMain.getOrder_ID() + "," + orderMain.getOrder_Main_Order_Status() + "," + orderMain.getOrder_Main_Total_Price() + "," + orderMain.getOrder_Main_Receiver());
 
         showOrderDetails(orderMain);
 
         orderDetailList = getOrderDetailList();
         rvOrderDetProList = view.findViewById(R.id.rvOrderDetProList);
         rvOrderDetProList.setLayoutManager(new LinearLayoutManager(activity));
-        rvOrderDetProList.setAdapter(new OrderDetailAdapter(getContext(),orderDetailList)); //rvAdapter
+        rvOrderDetProList.setAdapter(new OrderDetailAdapter(getContext(), orderDetailList)); //rvAdapter
 
+        if (orderMain.getOrder_Main_Order_Status() != 0) {
+            btnOrderBuy.setVisibility(View.GONE);
+        }
 
         btnOrderBuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,11 +210,11 @@ public class OrderDetailFragment extends Fragment {
 
     }
 
-    private List<Order_Detail> getOrderDetailList(){
+    private List<Order_Detail> getOrderDetailList() {
         List<Order_Detail> orderDetailList = new ArrayList<>();
         try {
             int orderId = Integer.parseInt(tvOrderIdDet.getText().toString());
-            Log.e(TAG, "getOrderIdFromTvOrderIdDet: "+orderId);
+            Log.e(TAG, "getOrderIdFromTvOrderIdDet: " + orderId);
             if (Common.networkConnected(activity)) {
 //                get data from orders servlet
                 String url = Common.URL_SERVER + "Orders_Servlet";
@@ -223,18 +223,18 @@ public class OrderDetailFragment extends Fragment {
                 jsonObject.addProperty("order_Id", orderId);
                 String jsonOut = jsonObject.toString();
                 ordersDetGetTask = new CommonTask(url, jsonOut);
-                Log.e(TAG, "getOrderedProducts: out -> "+jsonOut);
+                Log.e(TAG, "getOrderedProducts: out -> " + jsonOut);
                 try {
                     String jsonIn = ordersDetGetTask.execute().get();
                     Type listType = new TypeToken<List<Order_Detail>>() {
                     }.getType();
                     orderDetailList = new Gson().fromJson(jsonIn, listType);
-                    for (Order_Detail od:orderDetailList
-                         ) {
+                    for (Order_Detail od : orderDetailList
+                    ) {
                         productId = od.getorderDetProductId();
-                        Log.e(TAG, "productid get: "+productId);
+                        Log.e(TAG, "productid get: " + productId);
                     }
-                    Log.e(TAG, "getOrderedProducts: in -> "+jsonIn);
+                    Log.e(TAG, "getOrderedProducts: in -> " + jsonIn);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -253,15 +253,15 @@ public class OrderDetailFragment extends Fragment {
         /*Jack*/
         orderFinalID = orderMain.getOrder_ID();
         status = orderStatusText(orderMain.getOrder_Main_Order_Status());
-        name =orderMain.getOrder_Main_Receiver();
-        address =orderMain.getOrder_Main_Address();
-        price =String.valueOf(orderMain.getOrder_Main_Total_Price());
+        name = orderMain.getOrder_Main_Receiver();
+        address = orderMain.getOrder_Main_Address();
+        price = String.valueOf(orderMain.getOrder_Main_Total_Price());
         /*Jack*/
 
 
         tvOrderIdDet.setText(String.valueOf(id));
         String orderIdStr = tvOrderIdDet.getText().toString();
-        Log.e(TAG, "showOrderDetail-orderId: "+orderIdStr);
+        Log.e(TAG, "showOrderDetail-orderId: " + orderIdStr);
 
         tvOrderStatus.setText(status);
         tvTotalPrice.setText(String.valueOf(orderMain.getOrder_Main_Total_Price()));
@@ -271,59 +271,58 @@ public class OrderDetailFragment extends Fragment {
         tvAddress.setText(orderMain.getOrder_Main_Address());
 
 
-
     }
 
     private String orderStatusText(int status) {
         String statusText = "";
 //            Log.e(TAG, "status"+status);
-        if (status == 0){
+        if (status == 0) {
             statusText = "未付款";
-        }else if (status == 1){
+        } else if (status == 1) {
             statusText = "未出貨";
-        }else if (status == 2){
+        } else if (status == 2) {
             statusText = "已出貨";
-        }else if (status == 3){
+        } else if (status == 3) {
             statusText = "已送達";
-        }else if (status == 4){
+        } else if (status == 4) {
             statusText = "已取消";
-        }else if (status == 5){
+        } else if (status == 5) {
             statusText = "已退貨";
         }
         return statusText;
     }
 
     //adapter
-    private class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.PageViewHolder>{
+    private class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.PageViewHolder> {
         Context context;
         List<Order_Detail> orderDetailList;
         ImageTask orderDetProdImgTask;
         private int imageSize;
 //        private LayoutInflater inflater;
 
-    public OrderDetailAdapter (Context context, List<Order_Detail> orderDetailList){
-        this.context = context;
-        this.orderDetailList = orderDetailList;
-        imageSize = context.getResources().getDisplayMetrics().widthPixels / 100;
+        public OrderDetailAdapter(Context context, List<Order_Detail> orderDetailList) {
+            this.context = context;
+            this.orderDetailList = orderDetailList;
+            imageSize = context.getResources().getDisplayMetrics().widthPixels / 100;
 //        inflater = LayoutInflater.from(context);
-    }//ok
+        }//ok
 
         @Override
         public int getItemCount() {
             try {
                 if (orderDetailList != null) {
-                    Log.e(TAG,"itemCount:"+orderDetailList.size());
+                    Log.e(TAG, "itemCount:" + orderDetailList.size());
                     return orderDetailList == null ? 0 : orderDetailList.size();
                 }
-            }catch (Exception e){
-                Log.e(TAG,"null list");
+            } catch (Exception e) {
+                Log.e(TAG, "null list");
             }
             return orderDetailList == null ? 0 : orderDetailList.size();
         }//ok
 
         public void setOrderedProduct(List<Order_Detail> orderDetailList) {
             this.orderDetailList = orderDetailList;
-            Log.e(TAG, "orderDetList"+orderDetailList);
+            Log.e(TAG, "orderDetList" + orderDetailList);
         }
 
         private class PageViewHolder extends RecyclerView.ViewHolder {
@@ -352,7 +351,7 @@ public class OrderDetailFragment extends Fragment {
             try {
                 String url = Common.URL_SERVER + "Prouct_Servlet";
                 int productIdOD = orderDetail.getorderDetProductId();
-                orderDetProdImgTask = new ImageTask(url, productIdOD, imageSize,holder.ivOrderProductPicDet);
+                orderDetProdImgTask = new ImageTask(url, productIdOD, imageSize, holder.ivOrderProductPicDet);
                 orderDetProdImgTask.execute();
 //                holder.ivOrderProductPicDet.setVisibility(View.VISIBLE);
 
@@ -366,8 +365,7 @@ public class OrderDetailFragment extends Fragment {
 //            holder.ivOrderProductPicDet.setImageResource(R.drawable.photos_pink);
 
 //            get product pic through product ID
-            Log.e(TAG, "orderDetail's id: "+orderDetail.getorderDetProductId());
-
+            Log.e(TAG, "orderDetail's id: " + orderDetail.getorderDetProductId());
 
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -385,6 +383,7 @@ public class OrderDetailFragment extends Fragment {
         } //need to be fixed!!
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.requestCode = requestCode;
@@ -401,13 +400,13 @@ public class OrderDetailFragment extends Fragment {
                         showPaymentInfo(paymentData);
                         getPrimeFromTapPay(paymentData);
                         changeOrderStatus();
-                        Common.showToast(activity,"交易成功");
+                        Common.showToast(activity, "交易成功");
                     }
                     break;
                 case Activity.RESULT_CANCELED:
 //                    btConfirm.setEnabled(false);
 //                    tvResult.setText(R.string.textCanceled);
-                    Common.showToast(activity,"交易失敗");
+                    Common.showToast(activity, "交易失敗");
                     break;
                 case AutoResolveHelper.RESULT_ERROR:
 //                    btConfirm.setEnabled(false);
@@ -494,6 +493,7 @@ public class OrderDetailFragment extends Fragment {
             mProgressDialog.dismiss();
         }
     }
+
     private void changeOrderStatus() {
         //待測試
 
@@ -502,14 +502,14 @@ public class OrderDetailFragment extends Fragment {
             String url = Common.URL_SERVER + "Orders_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "changeOrderStatus");
-            jsonObject.addProperty("OrderID",Integer.valueOf(orderFinalID));
-            chageOrder= new CommonTask(url, jsonObject.toString());
+            jsonObject.addProperty("OrderID", Integer.valueOf(orderFinalID));
+            chageOrder = new CommonTask(url, jsonObject.toString());
 
-            Log.i(TAG,chageOrder.toString());
+            Log.i(TAG, chageOrder.toString());
             try {
                 String jsonIn = chageOrder.execute().get();
 //                jsonObject = new Gson().fromJson(jsonIn,JsonObject.class);
-                Log.i(TAG,jsonObject.toString());
+                Log.i(TAG, jsonObject.toString());
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -519,9 +519,6 @@ public class OrderDetailFragment extends Fragment {
         } else {
             Common.showToast(activity, R.string.textNoNetwork);
         }
-
-
-
 
 
     }

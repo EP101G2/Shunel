@@ -32,19 +32,9 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnTakePicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/textTakePicture" />
 
-                <Button
-                    android:id="@+id/btnPickPicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="選擇照片" />
+
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -55,24 +45,32 @@
 
             <EditText
                 android:id="@+id/etMessage"
-                android:layout_width="213dp"
+                android:layout_width="300dp"
                 android:layout_height="53dp"
 
                 android:inputType="text" />
 
             <Button
-                android:id="@+id/btnPicture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
+                android:id="@+id/btnPickPicture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/pickpicture"
+                 />
+            <Button
+                android:id="@+id/btnTakePicture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/camera_pink" />
 
-                />
 
             <Button
                 android:id="@+id/btSend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/textSend" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_send" />
         </LinearLayout>
 
     </LinearLayout>

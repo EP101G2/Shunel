@@ -171,11 +171,19 @@ public class Status0Fragment extends Fragment {
             final Order_Main orderMain = orderMainList.get(position);
             holder.tvOrderId.setText(String.valueOf(orderMain.getOrder_ID()));
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f806609472bd6e4a787075a7c7a987d2d21aaefb
             if(orderMain.getOrder_Main_Order_Status() == 0) {
                 holder.tvOrderStatus.setText(R.string.textNotYetPayed);
             }else {
                 holder.tvOrderStatus.setText("未出貨");
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f806609472bd6e4a787075a7c7a987d2d21aaefb
             holder.tvOrderDate.setText(orderMain.getOrder_Main_Order_Date().toString());
 
             Log.e(TAG,"--onBindViewHolder-->"+orderMain.getOrder_ID());
