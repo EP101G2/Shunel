@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.drm.DrmStore;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
@@ -68,7 +69,7 @@ import static com.ed.shunel.CommonTwo.loadUserName;
 
 public class MemberFragment extends Fragment {
 
-    private CardView cvLike, cvChat, cvOrderlist, cvHistory, cvSetting, cvMap;
+    private CardView cvLike, cvChat, cvOrderlist, cvHictory, cvSetting, cvMap;
     private Activity activity;
     private View view;
     private Button btn_Logout;
@@ -142,7 +143,7 @@ public class MemberFragment extends Fragment {
         cvLike = view.findViewById(R.id.cvLike);
         cvChat = view.findViewById(R.id.cvChat);
         cvOrderlist = view.findViewById(R.id.cvOrderlist);
-        cvHistory = view.findViewById(R.id.cvHistory);
+        cvHictory = view.findViewById(R.id.cvHictory);
         cvSetting = view.findViewById(R.id.cvSetting);
         btn_Logout = view.findViewById(R.id.btn_Logout);
         tvId = view.findViewById(R.id.tvId);
@@ -160,6 +161,15 @@ public class MemberFragment extends Fragment {
             startActivity(intent);
             activity.finish();//把自己關掉
         }
+
+        //=======歷史紀錄==========
+        cvHictory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_memberFragment_to_hisctoryFragment);
+            }
+        });
+
 
 
         //google地圖 導航到店家
