@@ -368,9 +368,13 @@ public class ShoppingcartFragment extends Fragment {
                     int count =shoppingCart.getAmount();
                         if (count<=10){
                             count++;
+                            if (count==10)
+                            {
+                                count=10;
+                            }
                             shoppingCart.setAmount(count);
                             holder.tv_Count.setText(String.valueOf(count));
-
+//                            Log.e(TAG,"+++++++++++++shoppingCart="+shoppingCart.getAmount());
                             int price= count*shoppingCart.getPrice();
 
                             holder.tv_Price.setText("價格：" +String.valueOf(price));
@@ -389,11 +393,14 @@ public class ShoppingcartFragment extends Fragment {
                 public void onClick(View v) {
 
                     int count =shoppingCart.getAmount();
-                    if (count>0){
+                    if (count >= 1 ){
                         count--;
+                        if (count ==0){
+                            count =1;
+                        }
                         Log.e(TAG,"count="+count);
-
-                        Log.e(TAG,"shoppingCart="+shoppingCart.getAmount());
+                        shoppingCart.setAmount(count);
+//                        Log.e(TAG,"----------------shoppingCart="+shoppingCart.getAmount());
                         holder.tv_Count.setText(String.valueOf(count));
                         int price= count*shoppingCart.getPrice();
                         holder.tv_Price.setText("價格：" +String.valueOf(price));
