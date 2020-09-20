@@ -38,11 +38,12 @@ public class CommonTwo {
             Log.e(TAG, e.toString());
         }
         if (chatWebSocketClient == null) {
-            Log.e(TAG, "2                 connectServer"+userName);
+
             chatWebSocketClient = new ChatWebSocketClient(uri, context);
             chatWebSocketClient.connect();
         }else {
-            Log.e(TAG, "3                 connectServer"+userName);
+            chatWebSocketClient = new ChatWebSocketClient(uri, context);
+            chatWebSocketClient.connect();
 
         }
     }

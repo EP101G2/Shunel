@@ -64,7 +64,9 @@
         <action
             android:id="@+id/action_memberFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
-
+        <action
+            android:id="@+id/action_memberFragment_to_hisctoryFragment"
+            app:destination="@id/hisctoryFragment" />
 
 
     </fragment>
@@ -266,5 +268,10 @@
         android:name="com.ed.shunel.PromotionFragment"
         android:label="fragment_promotion"
         tools:layout="@layout/fragment_promotion" />
+    <fragment
+        android:id="@+id/hisctoryFragment"
+        android:name="com.ed.shunel.HisctoryFragment"
+        android:label="fragment_hisctory"
+        tools:layout="@layout/fragment_hisctory" />
 
 </navigation>

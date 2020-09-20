@@ -93,6 +93,50 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvHictory"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center|left"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/history" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:gravity="center|left"
+                android:text="我看過的商品"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvMap"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center|left"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/map_coustom" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:gravity="center|left"
+                android:text="實體門市"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/cvChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -162,27 +206,7 @@
         </androidx.cardview.widget.CardView>
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvMap"
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center|left"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/map_coustom" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginLeft="60dp"
-                android:gravity="center|left"
-                android:text="實體門市"
-                android:textSize="20sp" />
-        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/btn_Logout"

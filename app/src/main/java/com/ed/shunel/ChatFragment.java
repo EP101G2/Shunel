@@ -152,10 +152,10 @@ public class ChatFragment extends Fragment {
         etMessage = view.findViewById(R.id.etMessage);
 
         /*拍照元件*/
-        cv_Picture = view.findViewById(R.id.cv_Picture);
+
         btnTakePicture = view.findViewById(R.id.btnTakePicture);
         btnPickPicture = view.findViewById(R.id.btnPickPicture);
-        cv_Picture.setVisibility(View.GONE);
+
 
     }
 
@@ -215,6 +215,7 @@ public class ChatFragment extends Fragment {
 
         rv.setLayoutManager(new LinearLayoutManager(activity));
         rv.setAdapter(new messageFragment(activity, chatMessageList));
+//        rv.setLayoutManager();
 
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -324,7 +325,7 @@ public class ChatFragment extends Fragment {
         super.onDestroy();
         // Fragment頁面切換時解除註冊，但不需要關閉WebSocket，
         // 否則回到前頁好友列表，會因為斷線而無法顯示好友
-        broadcastManager.unregisterReceiver(chatReceiver);
+//        broadcastManager.unregisterReceiver(chatReceiver);
     }
 
 
@@ -409,7 +410,7 @@ public class ChatFragment extends Fragment {
             final ChatMessage CM = message.get(position);
 
             Calendar mCal = Calendar.getInstance();
-            CharSequence s = DateFormat.format("hh:mm:ss", mCal.getTime());
+            CharSequence s = DateFormat.format("hh:mm", mCal.getTime());
 
 
 //

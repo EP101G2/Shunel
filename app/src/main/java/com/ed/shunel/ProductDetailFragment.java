@@ -136,6 +136,7 @@ public class ProductDetailFragment extends Fragment {
         sp_Amount = view.findViewById(R.id.sp_Amount);
 
 
+
         final NavController navController = Navigation.findNavController(view);
         Bundle bundle = getArguments();
         if (bundle == null && bundle.getSerializable("product") == null && bundle.getSerializable("promotion") == null) {
@@ -173,15 +174,7 @@ public class ProductDetailFragment extends Fragment {
 //                    }
             }
 
-            //=============歷史紀錄
 
-            if( Common.getPreherences(activity) != null){
-
-
-            }
-
-
-            //=============
 
             String account_id = Common.getPreherences(activity).getString("id", "");
             String url = Common.URL_SERVER + "Prouct_Servlet";
@@ -244,6 +237,21 @@ public class ProductDetailFragment extends Fragment {
         } else {
             iv_Prouduct.setImageResource(R.drawable.no_image);
         }
+
+
+        //=============歷史紀錄
+        //若偏好設定有拿到id表示有登入會員
+        if( !Common.getPreherences(activity).getString("id","113id").equals("113id")){
+            String userid = Common.getPreherences(activity).getString("id","");
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "InsertHistory");
+            jsonObject.addProperty("userid", userid);
+            jsonObject.addProperty("productID", id);
+            String jsonOutSystem = jsonObject.toString();
+            addTask = new CommonTask(url, jsonOutSystem);
+            addTask.execute();
+        }
+        //=============
 
 
 //        if (product.getProduct_Name() != null && product.getProduct_Color() != null && product.getProduct_Ditail() != null) {
@@ -428,16 +436,20 @@ public class ProductDetailFragment extends Fragment {
                             String result = addTask.execute().get();
                             Log.i(TAG, result);
                             count = Integer.parseInt(result);
-                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
+
+                            if (count==1){
+                                Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(activity, "購物車已有", Toast.LENGTH_SHORT).show();
+                            }
+
 
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
-                        if (count == 0) {
-                            Toast.makeText(activity, R.string.Fail, Toast.LENGTH_SHORT).show();
-                        }
+                        
                     }
 
 
