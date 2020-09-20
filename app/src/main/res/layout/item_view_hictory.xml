@@ -9,21 +9,21 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     app:cardCornerRadius="10dp">
-<!--
-    cardCornerRadius 修改四角圓弧
--->
+    <!--
+        cardCornerRadius 修改四角圓弧
+    -->
     <androidx.constraintlayout.widget.ConstraintLayout
 
 
         android:id="@+id/cardView"
-        android:layout_width="wrap_content"
+        android:layout_width="400dp"
         android:layout_height="wrap_content">
 
 
         <ImageView
             android:id="@+id/ivcardIMG"
-            android:layout_width="200dp"
-            android:layout_height="170dp"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,35 +33,24 @@
             android:id="@+id/tvname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="36dp"
             android:text="TextView"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivcardIMG" />
+            app:layout_constraintEnd_toStartOf="@+id/tvprice"
+            app:layout_constraintHorizontal_bias="0.942"
+            app:layout_constraintStart_toEndOf="@+id/ivcardIMG"
+            app:layout_constraintTop_toTopOf="@+id/ivcardIMG" />
 
         <TextView
             android:id="@+id/tvprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="40dp"
             android:text="TextView"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivcardIMG" />
-
-        <ImageView
-            android:id="@+id/ivTop"
-            android:layout_width="88dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/ivcardIMG"
-            app:srcCompat="@drawable/no_image" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvname" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
