@@ -365,14 +365,19 @@ public class ShoppingcartFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    if (shoppingCart.getAmount()!=0){
+                    int count =shoppingCart.getAmount();
+                        if (count<=10){
+                            count++;
+                            shoppingCart.setAmount(count);
+                            holder.tv_Count.setText(String.valueOf(count));
 
-                        add++;
-                        Log.e(TAG,"+++++++++++++++++++++++"+add);
-                        holder.tv_Count.setText(String.valueOf(shoppingCart.getAmount() + add));
+                            int price= count*shoppingCart.getPrice();
 
-                        Log.e(TAG, "=====================" + String.valueOf(shoppingCart.getAmount()));
-                    }
+                            holder.tv_Price.setText("價格：" +String.valueOf(price));
+                        }
+
+
+
 
 
 
@@ -382,10 +387,18 @@ public class ShoppingcartFragment extends Fragment {
             holder.bt_Less.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int less = 0;
-                    less--;
-                    Log.e(TAG,"----------------------"+less);
-                    holder.tv_Count.setText(String.valueOf(shoppingCart.getAmount() + less));
+
+                    int count =shoppingCart.getAmount();
+                    if (count>0){
+                        count--;
+                        Log.e(TAG,"count="+count);
+
+                        Log.e(TAG,"shoppingCart="+shoppingCart.getAmount());
+                        holder.tv_Count.setText(String.valueOf(count));
+                        int price= count*shoppingCart.getPrice();
+                        holder.tv_Price.setText("價格：" +String.valueOf(price));
+                    }
+
                 }
             });
 
@@ -466,12 +479,7 @@ public class ShoppingcartFragment extends Fragment {
         }
     }
 
-    private void pickUpAnimation(View view) {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationZ", 1f, 10f);
-        animator.setInterpolator(new DecelerateInterpolator());
-        animator.setDuration(300);
-        animator.start();
-    }
+//
 
 
     ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {

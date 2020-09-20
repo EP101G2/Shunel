@@ -428,16 +428,20 @@ public class ProductDetailFragment extends Fragment {
                             String result = addTask.execute().get();
                             Log.i(TAG, result);
                             count = Integer.parseInt(result);
-                            Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
+
+                            if (count==1){
+                                Toast.makeText(activity, "添加購物車成功", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(activity, "購物車已有", Toast.LENGTH_SHORT).show();
+                            }
+
 
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
-                        if (count == 0) {
-                            Toast.makeText(activity, R.string.Fail, Toast.LENGTH_SHORT).show();
-                        }
+                        
                     }
 
 
