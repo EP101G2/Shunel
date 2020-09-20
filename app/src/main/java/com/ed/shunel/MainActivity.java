@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 String saleDetail = Common.getPreherences(this).getString("noticeDetail", "saleDetail");
                 int product_ID = Common.getPreherences(this).getInt("product_ID",0);
                 Bundle bundle = new Bundle();
+                Log.e("product_ID",product_ID+" ===========" );
                 bundle.putString("noticeTitle", saleTitle);
                 bundle.putString("noticeDetail", saleDetail);
                 bundle.putInt("product_ID",product_ID);
