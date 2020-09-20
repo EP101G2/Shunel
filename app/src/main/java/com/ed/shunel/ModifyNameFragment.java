@@ -232,8 +232,8 @@ public class ModifyNameFragment extends Fragment {
         file = new File(file, "picture_cropped.jpg");
         Uri destinationUri = Uri.fromFile(file);
         UCrop.of(contentUri, destinationUri)
-                .withAspectRatio(16, 9) // 設定裁減比例
-               .withMaxResultSize(500, 500) // 設定結果尺寸不可超過指定寬高
+//                .withAspectRatio(16, 9) // 設定裁減比例
+//               .withMaxResultSize(500, 500) // 設定結果尺寸不可超過指定寬高
                 .start(activity, this, REQ_CROP_PICTURE);
     }
 

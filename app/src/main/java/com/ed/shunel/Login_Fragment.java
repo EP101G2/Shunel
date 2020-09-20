@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,6 +87,7 @@ public class Login_Fragment extends Fragment {
     private CommonTask loginTask;
     private String id, name, password, fbName, fbId, fbMail,iphone,address;
     private User_Account user_account;
+    private ImageView magicbutton1;
 
     //google
     private GoogleSignInClient client;
@@ -144,6 +146,18 @@ public class Login_Fragment extends Fragment {
         tvRegisterNow = view.findViewById(R.id.tvRegisterNow);
         tvForgetPassword = view.findViewById(R.id.tvForgetPassword);
         tvMessage = view.findViewById(R.id.tvMessage);
+
+//===========神奇小按鈕
+        magicbutton1=view.findViewById(R.id.magicbutton1);
+
+        magicbutton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etTypeId.setText("George");
+                etTypePassword.setText("12345");
+            }
+        });
+
 
         btGoogle.setOnClickListener(new View.OnClickListener() {
             @Override

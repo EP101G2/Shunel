@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.ed.shunel.Task.Common;
@@ -41,7 +42,7 @@ public class SearchFragment extends Fragment {
     private List<Product> product;
     private CommonTask productGetAllTask;
     Activity activity;
-
+    private ImageView magicbutton2;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -63,7 +64,16 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //========神奇小按鈕
+
         searchView = view.findViewById(R.id.searchview);
+        magicbutton2 = view.findViewById(R.id.magicbutton2);
+        magicbutton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setQuery("金",false);
+            }
+        });
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         product = getProduct();
