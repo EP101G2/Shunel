@@ -35,12 +35,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationChannel channel = new NotificationChannel("msg", "消息", NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
+
+
+        Log.e("remoteMessage",remoteMessage.getData().get("title"));
+
         //點擊通知後跳轉頁面
         Intent intent = new Intent(this, NotificationClickReceiver.class);//過中轉站到廣播器
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("Preferenced", MODE_PRIVATE);//用廣播去攔截點擊事件
         preferences.edit().putString("noticeTitle", remoteMessage.getData().get("title")).apply(); //從偏好設定
         preferences.edit().putString("noticeDetail", remoteMessage.getData().get("msg")).apply();
-//        preferences.edit().putInt("product_ID", Integer.parseInt(remoteMessage.getData().get("product_ID"))).apply();
+        preferences.edit().putInt("product_ID", Integer.parseInt(remoteMessage.getData().get("product_ID"))).apply();
         preferences.edit().putString("pageFlag", remoteMessage.getData().get("flag")).apply();
         final Notification.BigTextStyle bigTextStyle = new Notification.BigTextStyle(); // 建立BigTextStyle
         bigTextStyle.setBigContentTitle(remoteMessage.getData().get("title")); // 當BigTextStyle顯示時，用BigTextStyle的setBigContentTitle覆蓋setContentTitle的設定
