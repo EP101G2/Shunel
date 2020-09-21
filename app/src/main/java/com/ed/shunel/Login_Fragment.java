@@ -153,7 +153,7 @@ public class Login_Fragment extends Fragment {
         magicbutton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etTypeId.setText("George");
+                etTypeId.setText("George001");
                 etTypePassword.setText("12345");
             }
         });

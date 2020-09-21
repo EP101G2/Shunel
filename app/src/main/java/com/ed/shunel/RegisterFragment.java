@@ -74,8 +74,8 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 etTypeName.setText("George");
-                etTypeAccountId.setText("George");
-                etTypePhonenumber.setText("0911222333");
+                etTypeAccountId.setText("George001");
+                etTypePhonenumber.setText("0906123456");
                 etTypePassword.setText("12345");
                 etReTypePassword.setText("12345");
                 etTypeAddress.setText("桃園市中壢區中大路300號");

@@ -60,7 +60,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="411dp"
-        android:layout_height="484dp"
+        android:layout_height="437dp"
         android:layout_marginTop="252dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -182,7 +182,6 @@
         </androidx.cardview.widget.CardView>
 
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cvSetting"
             android:layout_width="match_parent"
@@ -204,8 +203,6 @@
                 android:text="@string/setting"
                 android:textSize="20sp" />
         </androidx.cardview.widget.CardView>
-
-
 
 
         <Button
