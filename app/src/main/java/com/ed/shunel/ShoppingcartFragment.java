@@ -35,6 +35,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -237,7 +239,6 @@ public class ShoppingcartFragment extends Fragment {
 
         List<Shopping_Cart> shoppingCarts = null;
         if (Common.networkConnected(activity)) {
-
             String url = Common.URL_SERVER + "Prouct_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAllShop");

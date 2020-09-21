@@ -2,6 +2,7 @@ package com.ed.shunel;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,10 @@ import android.widget.TextView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
+import com.ed.shunel.Task.ImageTask;
 import com.ed.shunel.bean.Notice;
+import com.ed.shunel.bean.Order_Detail;
+import com.ed.shunel.bean.Order_Main;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -42,8 +46,10 @@ public class noticeDetailFragment extends Fragment {
     private TextView tvNoticeDetailT;
     private CommonTask noticeGetAllTask;
     private List<Notice> noticeDetail;
+
     private RecyclerView rvNoticeDetail;
     private NoticeDetailAdapter noticeDetailAdapter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -163,13 +169,16 @@ public class noticeDetailFragment extends Fragment {
         return notices;
     }
 
+
     private class NoticeDetailAdapter extends RecyclerView.Adapter<NoticeDetailAdapter.MyViewHolder> {
         Context context;
         List<Notice> noticeDetail;
+        private int imageSize;
 
         public NoticeDetailAdapter(Context context, List<Notice> noticeDetail) {
             this.context = context;
             this.noticeDetail = noticeDetail;
+            imageSize = context.getResources().getDisplayMetrics().widthPixels / 4;
         }
 
         @NonNull
@@ -180,13 +189,54 @@ public class noticeDetailFragment extends Fragment {
         }
 
 
+        private Product getOrder_detail(int orderID) {
+            Product product = new Product();
+            if (Common.networkConnected(activity)) {
+                String url = Common.URL_SERVER + "Notice_Servlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "getOrder_detail");
+                jsonObject.addProperty("orderID", orderID);
+                String jsonOut = jsonObject.toString();
+                noticeGetAllTask = new CommonTask(url, jsonOut);
+                try {
+                    String jsonIn = noticeGetAllTask.execute().get();
+                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                    product = gson.fromJson(jsonIn, Product.class);
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            } else {
+                Common.showToast(activity, R.string.textNoNetwork);
+            }
+            return product;
+        }
+
+
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             final Notice notice = noticeDetail.get(position);
+            Product product = getOrder_detail(notice.getCATEGORY_MESSAGE_ID());
+
+
             int notice_ID = notice.getNotice_ID();
             switch (MainActivity.flag) {
                 case 0:
-                    holder.ivProductMini.setImageResource(R.drawable.ic_action_tags);
+                    int productID = notice.getCATEGORY_MESSAGE_ID();
+                    if (productID != 0) {
+                        int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+                        Bitmap bitmap = null;
+
+                        String url = Common.URL_SERVER + "Prouct_Servlet";
+
+                        try {
+                            bitmap = new ImageTask(url, productID, imageSize, holder.ivProductMini).execute().get();
+                        } catch (Exception e) {
+                            Log.e(TAG, e.toString());
+                        }
+                        holder.ivProductMini.setImageBitmap(bitmap);
+                    } else {
+                        holder.ivProductMini.setImageResource(R.drawable.ic_action_tags);
+                    }
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -199,16 +249,28 @@ public class noticeDetailFragment extends Fragment {
                             }
                             bundle.putString("noticeTitle", saleTitle);//title
                             bundle.putString("noticeDetail", saleDetail);
-                            bundle.putInt("product_ID",product_ID);
+                            bundle.putInt("product_ID", product_ID);
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_noticeDetailFragment_to_saleDetailFragment, bundle);
 
                         }
                     });
+                    holder.tvNoticeT.setText(notice.getNotice_Title());
                     break;
 
                 case 1:
-                    holder.ivProductMini.setImageResource(R.drawable.ic_action_box);
+                    int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+                    Bitmap bitmap = null;
+
+                    String url = Common.URL_SERVER + "Prouct_Servlet";
+
+                    try {
+                        bitmap = new ImageTask(url, product.getProduct_ID(), imageSize, holder.ivProductMini).execute().get();
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    holder.ivProductMini.setImageBitmap(bitmap);
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -217,7 +279,7 @@ public class noticeDetailFragment extends Fragment {
 
                         }
                     });
-
+                    holder.tvNoticeT.setText(notice.getNotice_Title() +"(訂單編號："+notice.getCATEGORY_MESSAGE_ID() + ")");
                     break;
 
                 case 2:
@@ -238,11 +300,13 @@ public class noticeDetailFragment extends Fragment {
                         }
 
                     });
+                    holder.tvNoticeT.setText(notice.getNotice_Title());
                     break;
             }
-            holder.tvNoticeT.setText(notice.getNotice_Title());
+//            String msg = String.valueOf(notice.getCATEGORY_MESSAGE_ID()).equals("") ? "" : product.getProduct_Name()+;
+
             String dateStr = notice.getNotice_time().toString();
-            holder.tvNoticeD.setText(dateStr.substring(0,dateStr.length()-5));
+            holder.tvNoticeD.setText(dateStr.substring(0, dateStr.length() - 5));
 
 
         }
