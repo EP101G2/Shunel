@@ -25,6 +25,9 @@ public class Order_Detail {
     //建構子
 
 
+    public Order_Detail() {
+    }
+
     public int getOrder_ID() {
         return order_ID;
     }
