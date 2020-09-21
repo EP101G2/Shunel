@@ -71,7 +71,7 @@ public class SearchFragment extends Fragment {
         magicbutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchView.setQuery("金",false);
+                searchView.setQuery("貓",false);
             }
         });
         recyclerView = view.findViewById(R.id.recyclerView);
