@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.ed.shunel.Task.Common;
 import com.ed.shunel.Task.CommonTask;
@@ -35,6 +36,7 @@ public class RegisterFragment extends Fragment {
     private EditText etTypeName, etTypeAccountId, etTypePhonenumber, etTypePassword, etTypeAddress, etReTypePassword;
     private Button btRegister;
     private String token;
+    private ImageView magicbutton;
 
 
     @Override
@@ -64,6 +66,25 @@ public class RegisterFragment extends Fragment {
         etTypeAddress = view.findViewById(R.id.etTypeAddress);
         etReTypePassword = view.findViewById(R.id.etReTypePassword);
         btRegister = view.findViewById(R.id.btRegister);
+
+
+        //=========神奇小按鈕
+        magicbutton = view.findViewById(R.id.magicbutton);
+        magicbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etTypeName.setText("George");
+                etTypeAccountId.setText("George001");
+                etTypePhonenumber.setText("0906123456");
+                etTypePassword.setText("12345");
+                etReTypePassword.setText("12345");
+                etTypeAddress.setText("桃園市中壢區中大路300號");
+            }
+        });
+
+
+
+
 
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override

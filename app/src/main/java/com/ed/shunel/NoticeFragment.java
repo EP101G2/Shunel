@@ -216,6 +216,7 @@ public class NoticeFragment<layoutInflater> extends Fragment {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getLastGoodN");
             jsonObject.addProperty("account_ID", Common.getPreherences(activity).getString("id", ""));
+            Log.e("account_ID for goodNotice", Common.getPreherences(activity).getString("id", ""));
             String jsonOutGoods = jsonObject.toString();
             noticeGetAllTask = new CommonTask(url, jsonOutGoods);
             try {

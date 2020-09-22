@@ -172,6 +172,7 @@ public class ProductDetailFragment extends Fragment {
 //                    } else {
 //                        product_id = product.getProduct_ID();
 //                    }
+                    break;
             }
 
 
@@ -216,6 +217,7 @@ public class ProductDetailFragment extends Fragment {
         String url = Common.URL_SERVER + "Prouct_Servlet";
         if (promotionProduct != null) {
             id = promotionProduct.getProduct_ID();
+
         } else if (product != null) {
             id = product.getProduct_ID();
         } else if (productNotice != null) {
@@ -404,11 +406,12 @@ public class ProductDetailFragment extends Fragment {
             public void onClick(View v) {
 
                 if (Common.networkConnected(activity)) {
-
-                    if (Common.getPreherences(activity).getString("id", "").equals("")) {
-
+                   String userId = Common.getPreherences(activity).getString("id", "");
+                    Log.e("","userId:"+userId);
+                    if (userId.equals("")) {
                         Intent intent = new Intent();
                         intent.setClass(activity, LoginActivity.class);
+                        Log.e("","userId2:"+userId);
                         startActivity(intent);
                     } else {
 
@@ -419,9 +422,17 @@ public class ProductDetailFragment extends Fragment {
                         String url = Common.URL_SERVER + "Prouct_Servlet";
                         JsonObject jsonObject = new JsonObject();
                         if (promotionProduct != null) {
+                            Log.e("",promotionProduct.getProduct_ID()+"promotionProduct");
                             shopping_cart = new Shopping_Cart(account, promotionProduct.getProuct_ID(), promotionProduct.getPromotion_Name(), select_Amount, promotionProduct.getColor(), promotionProduct.getPromotion_Price(), null);
-                        } else {
+                        } else if(product != null) {
+                            Log.e("",product.getProduct_ID()+"product");
                             shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
+                        }else if(productNotice != null ){
+                            Log.e("",productNotice.getProduct_ID()+"productNotice");
+                            shopping_cart = new Shopping_Cart(account, id , productSale.getProduct_Name(), select_Amount, productSale.getProduct_Color(), productNotice.getProduct_Price(), productSale.getProduct_MODIFY_DATE());
+                        }else {
+                            Log.e("", productSale.getProduct_ID()+" productSale");
+                            shopping_cart = new Shopping_Cart(account, id , productSale.getProduct_Name(), select_Amount, productSale.getProduct_Color(), productSale.getProduct_Price(), productSale.getProduct_MODIFY_DATE());
                         }
 
 
@@ -559,8 +570,10 @@ public class ProductDetailFragment extends Fragment {
                         JsonObject jsonObject = new JsonObject();
                         if (promotionProduct != null) {
                             shopping_cart = new Shopping_Cart(account, promotionProduct.getProduct_ID(), promotionProduct.getProduct_Name(), select_Amount, product.getProduct_Color(), promotionProduct.getPromotion_Price(), product.getProduct_MODIFY_DATE());
-                        } else {
-                            shopping_cart = new Shopping_Cart(account, product.getProduct_ID(), product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
+                        } else if(product != null) {
+                            shopping_cart = new Shopping_Cart(account, id, product.getProduct_Name(), select_Amount, product.getProduct_Color(), product.getProduct_Price(), product.getProduct_MODIFY_DATE());
+                        }else if (productNotice != null){
+                            shopping_cart = new Shopping_Cart(account, id, productSale.getProduct_Name(), select_Amount, productSale.getProduct_Color(), productSale.getProduct_Price(), productSale.getProduct_MODIFY_DATE());
                         }
 
 

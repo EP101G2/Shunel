@@ -57,7 +57,6 @@ public class ProductAdapter_Sam extends RecyclerView.Adapter<ProductAdapter_Sam.
                         break;
                     case 1:
                         myviewholder.ivTop.setImageResource(R.drawable.top2);
-
                         break;
                     case 2:
                         myviewholder.ivTop.setImageResource(R.drawable.top3);
