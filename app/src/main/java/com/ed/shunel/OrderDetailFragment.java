@@ -149,7 +149,6 @@ public class OrderDetailFragment extends Fragment {
         }
         orderMain = (Order_Main) bundle.getSerializable("Order");
 
-        Log.e(TAG, "bundleGet" + orderMain.getOrder_ID() + "," + orderMain.getOrder_Main_Order_Status() + "," + orderMain.getOrder_Main_Total_Price() + "," + orderMain.getOrder_Main_Receiver());
 
         showOrderDetails(orderMain);
 

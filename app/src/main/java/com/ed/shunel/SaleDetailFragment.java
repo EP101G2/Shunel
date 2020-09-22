@@ -127,14 +127,10 @@ public class SaleDetailFragment extends Fragment {
             }
 
 
-
-
-
             cvProduct.setVisibility(View.VISIBLE);
             rvSaleDetail.setVisibility(View.GONE);
             tvNoticeT.setText(product.getProduct_Name());
             tvNoticeD.setText(product.getProduct_Color());
-
 
 
         }
@@ -165,12 +161,12 @@ public class SaleDetailFragment extends Fragment {
         cvProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("product.getProduct_Status()",""+product.getProduct_Status());
+                Log.e("product.getProduct_Status()", "" + product.getProduct_Status());
 
 
                 if (product.getProduct_Status() == 2) {
                     product.setProduct_Price(getPromotionPrice());
-                    Log.e("getPromotionPrice","getPromotionPrice"+getPromotionPrice());
+                    Log.e("getPromotionPrice", "getPromotionPrice" + getPromotionPrice());
                 }
 
                 Bundle bundle = new Bundle();
@@ -310,18 +306,13 @@ public class SaleDetailFragment extends Fragment {
             holder.tvNoticeT.setText(promotion.getPromotion_Name());
             holder.tvNoticeD.setText(String.valueOf(promotion.getPromotion_Price()));
 
-
             final Product product = new Product(promotion.getProuct_ID(), promotion.getPromotion_Price());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-//                    int product_id = promotion.getProuct_ID();
-//                    int promotionPrice = promotion.getPromotion_Price();
                     bundle.putSerializable("product", product);
                     bundle.putInt("number", 4);
-//                    bundle.putInt("product_id", product_id);
-//                    bundle.putInt("promotionPrice", promotionPrice);
                     Navigation.findNavController(v).navigate(R.id.action_saleDetailFragment_to_productDetailFragment, bundle);
                 }
             });
