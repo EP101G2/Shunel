@@ -8,6 +8,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
@@ -51,6 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         bigTextStyle.bigText(remoteMessage.getData().get("msg")); // 設定BigTextStyle的文字內容
 
 
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new Notification.Builder(this, "msg")
@@ -58,8 +62,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(remoteMessage.getData().get("msg"))//Data收到
                 .setWhen(System.currentTimeMillis())
                 .setNumber(5)
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-//                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.))
+                .setSmallIcon(R.drawable.apploge)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.apploge))
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)

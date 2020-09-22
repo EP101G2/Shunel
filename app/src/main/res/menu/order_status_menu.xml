@@ -5,35 +5,35 @@
 <!--        android:id="@+id/status0Fragment"/>-->
     <item
         android:id="@+id/status1Fragment"
-        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:icon="@drawable/havntdeliver"
         android:iconTint="@color/colorPrimary"
         android:title="@string/textNotYetDelivered"
         android:visible="true"
         app:itemTextColor="@color/colorPrimary" />
     <item
         android:id="@+id/status2Fragment"
-        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:icon="@drawable/shipped"
         android:iconTint="@color/colorPrimary"
         android:title="@string/textDelivered"
         android:visible="true"
         app:itemTextColor="@color/colorPrimary" />
     <item
         android:id="@+id/status3Fragment"
-        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:icon="@drawable/receivedpackage"
         android:iconTint="@color/colorPrimary"
         android:title="@string/textReceived"
         android:visible="true"
         app:itemTextColor="@color/colorPrimary" />
     <item
         android:id="@+id/status4Fragment"
-        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:icon="@drawable/cancelorder"
         android:iconTint="@color/colorPrimary"
         android:title="@string/textCanceled"
         android:visible="true"
         app:itemTextColor="@color/colorPrimary" />
     <item
         android:id="@+id/status5Fragment"
-        android:icon="?android:attr/listChoiceIndicatorSingle"
+        android:icon="@drawable/packagereturn"
         android:iconTint="@color/colorPrimary"
         android:title="@string/textRefunds"
         android:visible="true"

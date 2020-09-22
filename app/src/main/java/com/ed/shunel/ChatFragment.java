@@ -563,7 +563,7 @@ public class ChatFragment extends Fragment {
     /*時間轉換字串*/
     public static String DateToStr(Date date) {
 
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         String str = format.format(date);
         return str;
     }
