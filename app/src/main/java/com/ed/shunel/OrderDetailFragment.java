@@ -393,13 +393,13 @@ public class OrderDetailFragment extends Fragment {
         if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-//                    btConfirm.setEnabled(true);
+
                     // 取得支付資訊
                     paymentData = PaymentData.getFromIntent(data);
                     if (paymentData != null) {
                         showPaymentInfo(paymentData);
                         getPrimeFromTapPay(paymentData);
-                        changeOrderStatus();
+                        changeOrderStatus(orderMain);
                         Common.showToast(activity, "交易成功");
                     }
                     break;
@@ -494,7 +494,7 @@ public class OrderDetailFragment extends Fragment {
         }
     }
 
-    private void changeOrderStatus() {
+    private void changeOrderStatus(Order_Main oM) {
         //待測試
 
         if (Common.networkConnected(activity)) {
@@ -502,7 +502,8 @@ public class OrderDetailFragment extends Fragment {
             String url = Common.URL_SERVER + "Orders_Servlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "changeOrderStatus");
-            jsonObject.addProperty("OrderID", Integer.valueOf(orderFinalID));
+            jsonObject.addProperty("OrderID", Integer.valueOf(oM.getOrder_ID()));
+            jsonObject.addProperty("oM",new Gson().toJson(oM));
             chageOrder = new CommonTask(url, jsonObject.toString());
 
             Log.i(TAG, chageOrder.toString());

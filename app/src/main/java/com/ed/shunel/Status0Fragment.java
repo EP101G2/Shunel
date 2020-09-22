@@ -180,7 +180,7 @@ public class Status0Fragment extends Fragment {
 
             holder.tvOrderDate.setText(orderMain.getOrder_Main_Order_Date().toString());
 
-            Log.e(TAG,"--onBindViewHolder-->"+orderMain.getOrder_ID());
+//            Log.e(TAG,"--onBindViewHolder-->"+orderMain.getOrder_ID());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
