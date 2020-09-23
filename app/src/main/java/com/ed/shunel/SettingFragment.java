@@ -28,9 +28,12 @@ public class SettingFragment extends Fragment {
 
     Activity activity;
     private LinearLayout btMInformation;
+    private final static String TAG = "TAG_setting";
     private Button btSignOut;
     private Switch swPush;
     private int noticeStatus;
+    private String account_id;
+    private CommonTask noticeTask;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,33 +64,34 @@ public class SettingFragment extends Fragment {
         btSignOut = view.findViewById(R.id.btSignOut);
 
         swPush = view.findViewById(R.id.swPush);
+        account_id = Common.getPreherences(activity).getString("id","");
 
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "Notice_Servlet";
+            Gson gson = new Gson();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getNoticeStatus");
+            jsonObject.addProperty("account_id",account_id);
+            String jsonOut = jsonObject.toString();
+            noticeTask = new CommonTask(url, jsonOut);
+            try {
+                String jsonIn = noticeTask.execute().get();
+                noticeStatus = Integer.parseInt(jsonIn);
+                Log.e(TAG, "-----------------------------------" + jsonIn);
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
 
+        if(noticeStatus == 0) {
 
-//        if (Common.networkConnected(activity)) {
-//            String url1 = Common.URL_SERVER + "Prouct_Servlet";
-//            Gson gson = new Gson();
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("action", "findById");
-//            if (product != null) {
-//                jsonObject.addProperty("PRODUCT_Id", product.getProduct_ID());
-//            } else {
-//                jsonObject.addProperty("PRODUCT_Id", product_id);
-//
-//            }
-//            String jsonOutSystem = jsonObject.toString();
-//            addTask = new CommonTask(url1, jsonOutSystem);
-//            try {
-//                String jsonIn = addTask.execute().get();
-//                productSale = gson.fromJson(jsonIn, Product.class);
-//                Log.e(TAG, "-----------------------------------" + jsonIn);
-//            } catch (Exception e) {
-//                Log.e(TAG, e.toString());
-//            }
-//        } else {
-//            Common.showToast(activity, R.string.textNoNetwork);
-//
-//        }
+            swPush.setChecked(false);
+
+        }else {
+            swPush.setChecked(true);
+        }
 
 
         swPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -95,13 +99,36 @@ public class SettingFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
-
                     noticeStatus = 1;
                 } else {
                     noticeStatus = 0;
                 }
 
 
+                if (Common.networkConnected(activity)) {
+                    String url = Common.URL_SERVER + "Notice_Servlet";
+                    Gson gson = new Gson();
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "changeNoticeStatus");
+                    jsonObject.addProperty("account_id",account_id);
+                    jsonObject.addProperty("status",noticeStatus);
+                    String jsonOut = jsonObject.toString();
+                    noticeTask = new CommonTask(url, jsonOut);
+                    int count = 0;
+                    try {
+                        String jsonIn = noticeTask.execute().get();
+                        count = Integer.parseInt(jsonIn);
+                        Log.e(TAG, "-----------------------------------" + jsonIn);
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+                    if (count == 0) {
+                        Common.showToast(activity, R.string.NoticeFail);} else {
+                        Common.showToast(activity, R.string.success);
+                    }
+                } else {
+                    Common.showToast(activity, R.string.textNoNetwork);
+                }
             }
         });
 
