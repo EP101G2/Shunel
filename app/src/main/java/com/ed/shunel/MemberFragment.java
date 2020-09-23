@@ -152,8 +152,11 @@ public class MemberFragment extends Fragment {
 
 
         tvId.setText(Common.getPreherences(activity).getString("id", "deVal"));
-        tv_Name.setText(Common.getPreherences(activity).getString("name", "無名稱"));
-
+        if(Common.getPreherences(activity).getString("googlename","").equals("")) {
+            tv_Name.setText(Common.getPreherences(activity).getString("name", "無名稱"));
+        }else {
+            tv_Name.setText(Common.getPreherences(activity).getString("googlename", "無名稱"));
+        }
         if (sharedPreferences.getString("id", "").equals("")) {
 
             Intent intent = new Intent();
