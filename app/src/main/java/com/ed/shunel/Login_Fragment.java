@@ -154,7 +154,7 @@ public class Login_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 etTypeId.setText("George001");
-                etTypePassword.setText("12345");
+                etTypePassword.setText("1234");
             }
         });
 
