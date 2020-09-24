@@ -154,7 +154,7 @@ public class Login_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 etTypeId.setText("George001");
-                etTypePassword.setText("12345");
+                etTypePassword.setText("1234");
             }
         });
 
@@ -493,8 +493,11 @@ public class Login_Fragment extends Fragment {
                             Common.showToast(activity, "恭喜登入成功");
                             User_Account user = new User_Account();
                             gson = new Gson();
+
                             String email = account.getEmail();
-                            String name = account.getGivenName() + account.getFamilyName();
+                            String name =  account.getFamilyName()+account.getGivenName() ;
+                            //======第三方的名稱存在偏好設定
+                            Common.getPreherences(activity).edit().putString("googlename",name).apply();
                             String token = FirebaseInstanceId.getInstance().getToken();
                             user.setAccount_ID(email);
                             user.setAccount_User_Name(name);
