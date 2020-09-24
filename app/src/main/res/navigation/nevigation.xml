@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_homeFragment_to_orderListFragment2"
             app:destination="@id/orderListFragment2" />
+        <action
+            android:id="@+id/action_homeFragment_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
     </fragment>
     <fragment
         android:id="@+id/noticeFragment"

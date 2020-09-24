@@ -16,10 +16,15 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -138,9 +143,11 @@ public class MainActivity extends AppCompatActivity {
                 Navigation.findNavController(this, R.id.fragment3)
                         .navigate(R.id.action_homeFragment_to_systemDetailFragment, bundle);
                 Common.getPreherences(this).edit().remove("pageFlag").apply();
-            }else if(pageFlag.equals(3)){
+            }else if(pageFlag.equals("3")){
                 String likeTitle = Common.getPreherences(this).getString("noticeTitle", "likeTitle");
                 String likeDetail = Common.getPreherences(this).getString("noticeDetail", "likeDetail");
+                Navigation.findNavController(this, R.id.fragment3)
+                        .navigate(R.id.action_homeFragment_to_noticeFragment);
             }
 
         }
@@ -236,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 
 

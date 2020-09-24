@@ -6,4 +6,5 @@
     <color name="colorTitleWord">#FFFFFF</color>
     <color name="colorGray">#707070</color>
     <color name="light_background">#FFF7FF</color>
+    <color name="topBarColor">#FFFFFF</color>
 </resources>
