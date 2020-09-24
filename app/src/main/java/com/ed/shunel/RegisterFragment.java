@@ -73,8 +73,8 @@ public class RegisterFragment extends Fragment {
         magicbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etTypeName.setText("George");
-                etTypeAccountId.setText("George001");
+                etTypeName.setText("PeterPan");
+                etTypeAccountId.setText("Peter");
                 etTypePhonenumber.setText("0906123456");
                 etTypePassword.setText("12345");
                 etReTypePassword.setText("12345");
